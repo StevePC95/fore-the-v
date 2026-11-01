@@ -855,7 +855,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="head"><span class="eyebrow">As proposed by Guy</span><h2>Formats &amp; rules</h2></div>
   <div class="note">
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
-    <p><b>Locked in: Wolf on Friday, Cha Cha Cha on Saturday.</b> The rest of the planning is on the Planning tab. Scoring is on <b>handicap points, full handicap</b>, and every point goes straight into the team's tour total.</p>
+    <p><b>Locked in: Wolf on Friday, Cha Cha Cha on Saturday.</b> The weekend plan is on the Schedule tab. Scoring is on <b>handicap points, full handicap</b>, and every point goes straight into the team's tour total.</p>
   </div>
 
   <div class="card">
@@ -961,7 +961,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="card">
     <span class="eyebrow">The fine print</span>
     <p>Paper scorecards are the official record and get confirmed after each round. Guy reckons both teams will finish on 100+ points. <b>Level after Saturday? We split the tour and both teams win.</b></p>
-    <p>Reminders and the full itinerary are on the <a href="#questions">Planning</a> tab.</p>
+    <p>The full weekend plan is on the <a href="#schedule">Schedule</a> tab.</p>
   </div>
 </section>
 
@@ -1201,80 +1201,27 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
 <!-- QUESTIONS -->
 <section data-view="questions" hidden>
-  <div class="head"><span class="eyebrow">Exec call · 1 Nov · all questions answered</span><h2>Reminders</h2></div>
-  <p class="lede">Tick them off as they're done. Ticks only save on this phone.</p>
-  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 5 done</span></div>
+  <div class="head"><span class="eyebrow">Exec call · 1 Nov · all questions answered</span><h2>Planning</h2></div>
+  <p class="lede">What's left before the weekend. The full plan is on the <a href="#schedule">Schedule</a> tab. Ticks only save on this phone.</p>
+  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 12 done</span></div>
   <ul class="qlist" id="qlist">
+    <li class="qgroup">Reminders</li>
     <li><label><input type="checkbox" id="r1"><span><span class="qn">Reminder</span><b>Captains: pick the fourballs</b><small>Brandon and Guy, on the Courses tab, for both days.</small></span></label></li>
     <li><label><input type="checkbox" id="r2"><span><span class="qn">Reminder</span><b>Guy: message Steve about “the neutraliser”</b><small>The last open Wolf question.</small></span></label></li>
     <li><label><input type="checkbox" id="r3"><span><span class="qn">Reminder</span><b>Steve: finalise fines, awards and side bets</b><small>The Fines tab is hidden until it’s done.</small></span></label></li>
     <li><label><input type="checkbox" id="r4"><span><span class="qn">Reminder</span><b>Book Hennie’s for 8 (Saturday rugby)</b><small>Cancel on Saturday morning if we stay at the Jackal Creek clubhouse.</small></span></label></li>
     <li><label><input type="checkbox" id="r5"><span><span class="qn">Reminder</span><b>Book the transport</b><small>Uber or other for every trip. Brandon drives on Saturday only.</small></span></label></li>
+    <li class="qgroup">Still to sort</li>
+    <li><label><input type="checkbox" id="s1"><span><span class="qn">To sort</span><b>Who stays with Steve and who stays with Nic</b><small>3 each at Abbotsbury.</small></span></label></li>
+    <li><label><input type="checkbox" id="s2"><span><span class="qn">To sort</span><b>Sunday departure times</b><small>Flights and lifts to the airport.</small></span></label></li>
+    <li><label><input type="checkbox" id="s3"><span><span class="qn">To sort</span><b>Final tally and the cup</b><small>When and where the winners get crowned on Saturday.</small></span></label></li>
+    <li><label><input type="checkbox" id="s4"><span><span class="qn">To sort</span><b>Kitty</b><small>How much each, what it covers and who holds it.</small></span></label></li>
+    <li><label><input type="checkbox" id="s5"><span><span class="qn">To sort</span><b>House food and booze</b><small>Saturday breakie (toast, cereal) and pizzas.</small></span></label></li>
+    <li><label><input type="checkbox" id="s6"><span><span class="qn">To sort</span><b>Losing team forfeit</b><small>What the losers have to do.</small></span></label></li>
+    <li><label><input type="checkbox" id="s7"><span><span class="qn">To sort</span><b>Live scoring on the app</b><small>Score entry for Wolf and Cha Cha Cha, before Friday. Social committee is on it.</small></span></label></li>
   </ul>
 
-  <div class="head it-top"><span class="eyebrow">What’s locked and what’s left</span><h2>Itinerary</h2></div>
-  <p class="lede">Everything for the weekend in one list. Items move from To sort to Locked as the execs confirm them.</p>
-  <div class="progress"><div class="bar"><i id="it-bar"></i></div><span id="it-count"></span></div>
-  <div class="tl" id="itinerary">
-    <div class="tl-day">
-      <header><h3>Fri 6 Nov</h3><span class="eyebrow">Day 1 · Randpark</span><span class="it-left"></span></header>
-      <ul class="tl-list">
-        <li class="key"><span class="t">08:30</span><div class="w"><div class="it-h"><b>Coastal boys leave the airport</b><span class="chip ok">Locked</span></div><small>Guy, Mitch, Jay and Rich.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>Airport to Abbotsbury for the Coastal boys and their bags. Uber or other.</small></div></li>
-        <li class="key"><span class="t">10:15</span><div class="w"><div class="it-h"><b>NB: latest arrival at Abbotsbury</b><span class="chip ok">Locked</span></div><small>Everyone arrives Friday morning. 15 minutes to drop your stuff, then we leave for the course.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Who stays where</b><span class="chip wait">To sort</span></div><small>Steve and Nic both live at Abbotsbury and host 3 each.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>Abbotsbury to Randpark: 8 people + 8 bags, probably 2 cars. Uber or other.</small></div></li>
-        <li class="key"><span class="t">11:15</span><div class="w"><div class="it-h"><b>At Randpark, latest</b><span class="chip ok">Locked</span></div><small>Nothing else planned before golf.</small></div></li>
-        <li class="key"><span class="t">12:02</span><div class="w"><div class="it-h"><b>Fourball 1 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
-        <li class="key"><span class="t">12:10</span><div class="w"><div class="it-h"><b>Fourball 2 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
-        <li class="todo" id="it-pairs"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Fourball pairings</b><span class="chip wait">To sort</span></div><small>2 Inland + 2 Coastal in each. Captains Brandon and Guy pick.</small></div></li>
-        <li class="key"><span class="t">Fri</span><div class="w"><div class="it-h"><b>Format: Wolf</b><span class="chip ok">Locked</span></div><small>Played within each fourball.</small></div></li>
-        <li class="key"><span class="t">PM</span><div class="w"><div class="it-h"><b>Fines and beers at the clubhouse</b><span class="chip ok">Locked</span></div><small>Straight after golf, Randpark clubhouse.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>Randpark back to Abbotsbury: 8 people + 8 bags, probably 2 cars. Uber or other.</small></div></li>
-        <li class="key"><span class="t">Eve</span><div class="w"><div class="it-h"><b>Home to shower</b><span class="chip ok">Locked</span></div><small>Abbotsbury.</small></div></li>
-        <li class="key"><span class="t">Eve</span><div class="w"><div class="it-h"><b>Dinner: Hogshead or Hennie’s</b><span class="chip ok">Locked</span></div><small>Two options for now.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>To dinner and back. Uber or other.</small></div></li>
-      </ul>
-    </div>
-    <div class="tl-day">
-      <header><h3>Sat 7 Nov</h3><span class="eyebrow">Day 2 · Jackal Creek</span><span class="it-left"></span></header>
-      <ul class="tl-list">
-        <li class="key"><span class="t">AM</span><div class="w"><div class="it-h"><b>Quick breakie at home</b><span class="chip ok">Locked</span></div><small>Toast or cereal. No planned breakfast.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>Abbotsbury to Jackal Creek: Brandon drives 4 + bags; Uber or other for the other 4 + bags.</small></div></li>
-        <li class="key"><span class="t">07:30</span><div class="w"><div class="it-h"><b>Fourball 1 tees off</b><span class="chip ok">Locked</span></div><small>Jackal Creek Golf Estate.</small></div></li>
-        <li class="key"><span class="t">07:45</span><div class="w"><div class="it-h"><b>Fourball 2 tees off</b><span class="chip ok">Locked</span></div><small>Jackal Creek Golf Estate.</small></div></li>
-        <li class="key"><span class="t">Sat</span><div class="w"><div class="it-h"><b>Format: Cha Cha Cha</b><span class="chip ok">Locked</span></div><small>All 4 vs all 4, across both fourballs.</small></div></li>
-        <li class="key"><span class="t">Sat</span><div class="w"><div class="it-h"><b>Cha Cha Cha scoring</b><span class="chip ok">Locked</span></div><small>Scored on the app as we play, then double-checked against the paper cards afterwards.</small></div></li>
-        <li class="key"><span class="t">13:40</span><div class="w"><div class="it-h"><b>Springboks vs Italy</b><span class="chip ok">Locked</span></div><small>Watch at Hennie’s, or stay at the Jackal Creek clubhouse if it’s nice and cancel Hennie’s in the morning.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Book Hennie’s for 8</b><span class="chip wait">To sort</span></div><small>For the rugby. Cancel on Saturday morning if we stay at the clubhouse.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>Jackal Creek to Hennie’s, only if we leave the clubhouse. Uber or other.</small></div></li>
-        <li class="key"><span class="t">After</span><div class="w"><div class="it-h"><b>Brandon heads home</b><span class="chip ok">Locked</span></div><small>Leaves after the rugby. Everyone else stays Saturday night.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>The other 7 back to Sandton after the rugby. Uber or other.</small></div></li>
-        <li class="key"><span class="t">Eve</span><div class="w"><div class="it-h"><b>Home: shower, pizzas and fines</b><span class="chip ok">Locked</span></div><small>Abbotsbury.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Final tally and the cup</b><span class="chip wait">To sort</span></div><small>When and where the winners get crowned.</small></div></li>
-        <li class="key"><span class="t">Night</span><div class="w"><div class="it-h"><b>Parkhurst: Station and Jollies</b><span class="chip ok">Locked</span></div><small>The last night out.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Transport</b><span class="chip wait">To sort</span></div><small>To Parkhurst and back. Uber or other.</small></div></li>
-      </ul>
-    </div>
-    <div class="tl-day">
-      <header><h3>Sun 8 Nov</h3><span class="eyebrow">Home time</span><span class="it-left"></span></header>
-      <ul class="tl-list">
-        <li class="key"><span class="t">Sun</span><div class="w"><div class="it-h"><b>7 head home from Abbotsbury</b><span class="chip ok">Locked</span></div><small>Everyone except Brandon. No check-out, Steve and Nic live here.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Departure times</b><span class="chip wait">To sort</span></div><small>Flights and lifts to the airport.</small></div></li>
-      </ul>
-    </div>
-    <div class="tl-day">
-      <header><h3>All weekend</h3><span class="eyebrow">Money, food and the fun stuff</span><span class="it-left"></span></header>
-      <ul class="tl-list">
-        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Kitty</b><span class="chip wait">To sort</span></div><small>How much each, what it covers and who holds it.</small></div></li>
-        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Meals and booze plan</b><span class="chip wait">To sort</span></div><small>What we buy for the house (Saturday breakie and pizzas).</small></div></li>
-        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Live scoring on the app</b><span class="chip wait">To sort</span></div><small>Score entry for Wolf and Cha Cha Cha, ready before Friday. Social committee is on it.</small></div></li>
-        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Fines, awards and side bets</b><span class="chip wait">To sort</span></div><small>Steve finalising. Hidden from the site until then.</small></div></li>
-        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Losing team forfeit</b><span class="chip wait">To sort</span></div><small>What the losers have to do.</small></div></li>
-      </ul>
-    </div>
-  </div>
-</section>
+  </section>
 
 </div>
 </main>
