@@ -530,6 +530,8 @@ dialog.sheet::backdrop{background:rgba(5,12,8,.72);backdrop-filter:blur(3px)}
 .side li .pn .hc{margin-left:8px;vertical-align:0}
 .side .tsum{font:500 .66rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
 
+.capt{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--flag);color:#1a1405;font:800 .62rem/1 var(--f-body);margin-left:6px;vertical-align:2px}
+.side li .pn .capt{vertical-align:0}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -606,19 +608,19 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="head"><span class="eyebrow">4 vs 4 · handicap points</span><h2>The teams</h2></div>
   <div class="matchup">
     <div class="side in">
-      <span class="tn">Inland</span><span class="tsum">Combined handicap 69</span>
+      <span class="tn">Inland</span><span class="tsum">Combined handicap 69 · Captain Brandon</span>
       <ul>
         <li><span class="pn">Steve<i class="hc" title="Playing handicap">26</i></span><span>Sandton, GP</span></li>
         <li><span class="pn">Nic<i class="hc" title="Playing handicap">13</i></span><span>Sandton, GP</span></li>
         <li><span class="pn">Luke<i class="hc" title="Playing handicap">20</i></span><span>Centurion, GP</span></li>
-        <li><span class="pn">Brandon<i class="hc" title="Playing handicap">10</i></span><span>Pretoria, GP</span></li>
+        <li><span class="pn">Brandon<b class="capt" title="Captain">C</b><i class="hc" title="Playing handicap">10</i></span><span>Pretoria, GP</span></li>
       </ul>
     </div>
     <div class="vsbar" aria-hidden="true">vs</div>
     <div class="side co">
-      <span class="tn">Coastal</span><span class="tsum">Combined handicap 84</span>
+      <span class="tn">Coastal</span><span class="tsum">Combined handicap 84 · Captain Guy</span>
       <ul>
-        <li><span class="pn">Guy<i class="hc" title="Playing handicap">14</i></span><span>Durbanville, WC</span></li>
+        <li><span class="pn">Guy<b class="capt" title="Captain">C</b><i class="hc" title="Playing handicap">14</i></span><span>Durbanville, WC</span></li>
         <li><span class="pn">Mitch<i class="hc" title="Playing handicap">30</i></span><span>Hillcrest, KZN</span></li>
         <li><span class="pn">Jay<i class="hc" title="Playing handicap">26</i></span><span>Umdloti, KZN</span></li>
         <li><span class="pn">Rich<i class="hc" title="Playing handicap">14</i></span><span>Richmond, KZN</span></li>
@@ -668,7 +670,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <!-- SCHEDULE -->
 <section data-view="schedule" hidden>
   <div class="head"><span class="eyebrow">All times SAST</span><h2>Schedule</h2></div>
-  <p class="lede">Fourballs are picked by the team captains this week, so the groups below are placeholders.</p>
+  <p class="lede">Fourballs are picked by the captains, Brandon (Inland) and Guy (Coastal), this week, so the groups below are placeholders.</p>
   <div class="tl">
     <div class="tl-day">
       <header><h3>Thu 5 Nov</h3><span class="eyebrow">Maybe</span></header>
@@ -1010,8 +1012,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <article class="pl in"><span class="mono-badge">SC</span><span class="nick">“Wooden Spoon”</span><h3>Stephen Coombe <i class="hc" title="Playing handicap">HCP 26</i></h3><span class="from">Inland · Sandton, GP<span class="champ">★ Ashes champ</span></span><p>To keep ball costs down, you won't see his driver. Runs on brandy and may smell suspicious on the back nine.</p></article>
     <article class="pl in"><span class="mono-badge">NF</span><span class="nick">“0 Tour Wins”</span><h3>Nicolas Finn <i class="hc" title="Playing handicap">HCP 13</i></h3><span class="from">Inland · Sandton, GP</span><p>Plans the whole bloody tour, still waiting to win one. Hopefully no spelling mistakes on the tour shirts this year.</p></article>
     <article class="pl in"><span class="mono-badge">LG</span><span class="nick">“Young Skywalker”</span><h3>Luke Gibbon <i class="hc" title="Playing handicap">HCP 20</i></h3><span class="from">Inland · Centurion, GP</span><p>First tour, and worried the "ballies" won't be able to keep up. Says he loves a beer, but may fall asleep in a bathroom stall afterwards.</p></article>
-    <article class="pl in"><span class="mono-badge">BW</span><span class="nick">“Whistle Blower”</span><h3>Brandon Wiesner <i class="hc" title="Playing handicap">HCP 10</i></h3><span class="from">Inland · Pretoria, GP</span><p>Mr. Discovery during the week, Bryce Lawrence on the weekend. Has conveniently made plans to disappear before fines.</p></article>
-    <article class="pl co"><span class="mono-badge">GM</span><span class="nick">“9pm Bedtime”</span><h3>Guy Moody <i class="hc" title="Playing handicap">HCP 14</i></h3><span class="from">Coastal · Durbanville, WC<span class="champ">★ Ashes champ</span></span><p>Big fan of an afternoon nap. Get him past 10pm and watch the tequilas start coming out.</p></article>
+    <article class="pl in"><span class="mono-badge">BW</span><span class="nick">“Whistle Blower”</span><h3>Brandon Wiesner <b class="capt" title="Captain">C</b> <i class="hc" title="Playing handicap">HCP 10</i></h3><span class="from">Inland · Pretoria, GP</span><p>Mr. Discovery during the week, Bryce Lawrence on the weekend. Has conveniently made plans to disappear before fines.</p></article>
+    <article class="pl co"><span class="mono-badge">GM</span><span class="nick">“9pm Bedtime”</span><h3>Guy Moody <b class="capt" title="Captain">C</b> <i class="hc" title="Playing handicap">HCP 14</i></h3><span class="from">Coastal · Durbanville, WC<span class="champ">★ Ashes champ</span></span><p>Big fan of an afternoon nap. Get him past 10pm and watch the tequilas start coming out.</p></article>
     <article class="pl co"><span class="mono-badge">MC</span><span class="nick">“Hansa Draught Please”</span><h3>Mitch Cason <i class="hc" title="Playing handicap">HCP 30</i></h3><span class="from">Coastal · Hillcrest, KZN</span><p>Golf frustrates him. The bar does not. Don't walk slowly in front of his car…</p></article>
     <article class="pl co"><span class="mono-badge">JD</span><span class="nick">“Pro Golfer”</span><h3>Jason de Klerk <i class="hc" title="Playing handicap">HCP 26</i></h3><span class="from">Coastal · Umdloti, KZN<span class="champ">★ Ashes champ</span></span><p>Would marry Rassie Erasmus if he could.</p></article>
     <article class="pl co"><span class="mono-badge">RL</span><span class="nick">“Massive Calves”</span><h3>Richard Le Roux <i class="hc" title="Playing handicap">HCP 14</i></h3><span class="from">Coastal · Richmond, KZN</span><p>Guaranteed to wear shorts to show off his legs. Mr Consistent on the golf course and at the bar, but swears he never has time for either.</p></article>
@@ -1146,7 +1148,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 9 sorted</span></div>
   <ul class="qlist" id="qlist">
     <li class="qgroup">Big picture</li>
-    <li><label><input type="checkbox" id="q4"><span><span class="qn">Q4</span><b>Team captains, and the 2v2 fourball pairings for each day</b></span></label></li>
+    <li><label><input type="checkbox" id="q4"><span><span class="qn">Q4</span><b>Fourball pairings for each day</b><small>Captains confirmed: Brandon (Inland) and Guy (Coastal). They pick the 2v2 fourballs.</small></span></label></li>
     <li class="qgroup">Wolf</li>
     <li><label><input type="checkbox" id="q6"><span><span class="qn">Q6</span><b>Blind / Lone Wolf: beat both opponents, or just one?</b><small>Guy wrote "better than either", which reads both ways.</small></span></label></li>
     <li><label><input type="checkbox" id="q8"><span><span class="qn">Q8</span><b>Wolf order: who's Wolf on which hole? And what's "the neutraliser"?</b></span></label></li>
@@ -1180,7 +1182,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Getting to Randpark</b><span class="chip wait">To sort</span></div><small>Uber XL, driver service in our own cars, or a minibus. 8 golf bags is the real constraint.</small></div></li>
         <li class="key"><span class="t">12:02</span><div class="w"><div class="it-h"><b>Fourball 1 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
         <li class="key"><span class="t">12:10</span><div class="w"><div class="it-h"><b>Fourball 2 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Fourball pairings</b><span class="chip wait">To sort</span></div><small>2 Inland + 2 Coastal in each. Team captains pick this week.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Fourball pairings</b><span class="chip wait">To sort</span></div><small>2 Inland + 2 Coastal in each. Captains Brandon and Guy pick.</small></div></li>
         <li class="key"><span class="t">Fri</span><div class="w"><div class="it-h"><b>Format: Wolf</b><span class="chip ok">Locked</span></div><small>Played within each fourball.</small></div></li>
         <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Friday night</b><span class="chip wait">To sort</span></div><small>Dinner and where we drink. Idea: Randpark Barstro has live entertainment on Fridays (to verify).</small></div></li>
       </ul>
