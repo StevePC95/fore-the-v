@@ -24,6 +24,16 @@ On a phone, open the link and use **Share → Add to Home Screen** for an app ic
    ```
 4. **Project Settings → API**: copy the **Project URL** and the **anon / publishable key** into `config.js`.
 
+## 1b. Sign-in and photos (~5 min)
+
+1. **Authentication → Sign In / Providers**: turn on **Allow anonymous sign-ins**.
+2. **SQL Editor → New query**: paste all of `supabase/002_signin_photos.sql` and click **Run**.
+3. Set the group code everyone uses to get in:
+   ```sql
+   update public.tour_secret set group_code = 'your-group-code' where id = 1;
+   ```
+   The Tour V code is the dop PIN from step 1; the 8 on tour enter it once when they sign in.
+
 ## 2. Website (GitHub Pages, free, ~5 min)
 
 From this folder in Claude Code (or a terminal):

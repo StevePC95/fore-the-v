@@ -5,7 +5,10 @@ The old Claude artifact link is retired and only shows a "We've moved" banner. M
 
 ## How it's built
 - `index.html` holds the whole site (HTML, CSS and JS). Tabs are `section[data-view]`, routed by `#hash`.
-- Dop log: Supabase (`config.js` holds the public URL and anon key). Writes only go through the PIN functions in `supabase/setup.sql`; the PIN lives in Supabase, never in this repo.
+- Supabase backs the dop log, sign-in and photos (`config.js` holds the public URL and anon key). Schema: `supabase/setup.sql` then `supabase/002_signin_photos.sql`.
+- Sign-in: pick Fore the Boys, enter the group code, pick your name. The 8 on Tour V also enter the Tour V code, which unlocks dop logging. Sessions are remembered on the phone (anonymous Supabase auth + `members` table).
+- Dops are logged by the witness (the signed-in player) for the other team only, via `ftv_log_dop`. Photos live in the private `photos` bucket, General album, members only.
+- Codes live in Supabase (`tour_secret`), never in this repo.
 - Installable via Add to Home Screen (`manifest.webmanifest`, `icons/`).
 - Push to `main` and the site updates in about a minute.
 

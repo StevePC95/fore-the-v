@@ -294,6 +294,8 @@ tbody th{font:500 .7rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:up
 .champ{display:inline-flex;align-items:center;gap:5px;margin-left:8px;padding:2px 7px;border-radius:999px;background:var(--tbc-bg);color:var(--tbc);font:600 .6rem/1.4 var(--f-mono);letter-spacing:.1em;white-space:nowrap}
 .ttile p{font:500 .66rem/1.5 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
 dialog.lb{border:0;padding:0;background:transparent;max-width:min(94vw,900px);max-height:92vh;overflow:visible}
+dialog.lb:not([open]),dialog.sheet:not([open]){display:none}
+dialog.lb[open]{display:block}
 dialog.lb::backdrop{background:rgba(5,10,7,.88)}
 dialog.lb img{display:block;max-width:100%;max-height:82vh;border-radius:10px;margin:0 auto}
 dialog.lb p{color:#fff;text-align:center;font:500 .72rem/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;margin-top:10px}
@@ -417,6 +419,100 @@ dialog.lb .x{position:absolute;top:-14px;right:-6px;width:40px;height:40px;borde
 .pin-row input{font:600 1.1rem/1 var(--f-mono);letter-spacing:.25em;padding:12px 14px;border:1.5px solid var(--line-strong);border-radius:10px;background:var(--card);color:var(--ink);width:11ch;min-height:46px}
 .rules{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:.94rem}
 
+
+/* ---------- Account button ---------- */
+.acct{margin-left:auto;flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;font:700 .82rem/1 var(--f-body);color:var(--green-ink);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px 6px 6px;min-height:40px;cursor:pointer}
+.acct:not(:has(.acct-i)){padding:6px 14px}
+.acct:hover{background:rgba(255,255,255,.2)}
+.acct-i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:900 .82rem/1 var(--f-display);letter-spacing:.02em;color:#fff;background:#40584a}
+.acct-i.in{background:#5b3e96}
+.acct-i.co{background:#08716c}
+
+/* ---------- Sign-in sheet ---------- */
+dialog.sheet{border:0;padding:0;margin:auto;width:min(100vw,520px);max-width:100vw;max-height:100dvh;height:auto;background:transparent;color:var(--ink);overflow:visible}
+dialog.sheet::backdrop{background:rgba(5,12,8,.72);backdrop-filter:blur(3px)}
+.sheet-in{background:var(--paper);border-radius:18px;max-height:calc(100dvh - 24px);overflow:auto;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.sheet-top{background:var(--green);background-image:repeating-linear-gradient(100deg,rgba(255,255,255,.045) 0 30px,rgba(0,0,0,0) 30px 60px);color:var(--green-ink);display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px 18px 0 0}
+.sheet-top .badge{width:34px}
+.sheet-top b{font:900 1.5rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.sheet-top .x{margin-left:auto;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--green-ink);font:600 1.3rem/1 var(--f-body);cursor:pointer}
+.si-step{padding:20px 18px 6px;display:flex;flex-direction:column;gap:14px}
+.si-step h2{font-size:clamp(1.8rem,7vw,2.2rem)}
+.si-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.si-btns .btn.big{width:auto;flex:1}
+.group-card{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--card);border:1.5px solid var(--line-strong);border-radius:14px;padding:14px}
+.group-card:hover{border-color:var(--ink)}
+.group-card:focus-visible{outline:3px solid var(--flag);outline-offset:2px}
+.group-card .badge{width:40px;filter:none}
+.group-card b{display:block;font:900 1.5rem/1 var(--f-display);text-transform:uppercase}
+.group-card small{font:500 .7rem/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.group-card .arr{font:700 1.3rem/1 var(--f-body);color:var(--muted)}
+.code-in{font:600 1.25rem/1 var(--f-mono);letter-spacing:.2em;padding:14px 16px;border:1.5px solid var(--line-strong);border-radius:12px;background:var(--card);color:var(--ink);width:100%;min-height:52px}
+.code-in:focus{outline:3px solid var(--flag);outline-offset:1px;border-color:var(--ink)}
+.si-people{display:flex;flex-direction:column;gap:14px}
+.si-sub{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.si-sub label{font-weight:700}
+.si-skip{all:unset;cursor:pointer;align-self:center;margin:6px 0 18px;font:600 .8rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px}
+.si-skip:hover{color:var(--ink)}
+.si-skip:focus-visible{outline:3px solid var(--flag)}
+.si-busy{align-items:center;text-align:center;padding-bottom:22px}
+.si-busy p{font:600 .78rem/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);min-height:1.4em}
+.si-done{padding-bottom:20px}
+.si-done .chip{align-self:flex-start}
+.btn.arm{background:var(--bad);color:#fff;border-color:var(--bad)}
+
+/* the loader: pour, ball in, splash, full 360, everything out, repeat */
+.loader{width:min(170px,46vw);height:auto;overflow:visible}
+.ld-line{stroke:var(--ink)}
+.ld-ballline{stroke:var(--ink);stroke-width:1.2}
+.ld-bar{fill:var(--line-strong)}
+.ld-glassfill{fill:var(--card);opacity:.55}
+.ld-shine{stroke:var(--card)}
+.loader *{transform-box:view-box}
+@media (prefers-reduced-motion: no-preference){
+  .ld-spin{transform-origin:110px 170px;animation:ld-spin 5.2s linear infinite}
+  .ld-beer{animation:ld-beer 5.2s linear infinite}
+  .ld-foam{animation:ld-foam 5.2s linear infinite}
+  .ld-handle{transform-origin:110px 10px;animation:ld-handle 5.2s ease-in-out infinite}
+  .ld-stream{transform-origin:110px 54px;animation:ld-stream 5.2s linear infinite}
+  .ld-drop{animation:ld-drop 5.2s infinite}
+  .ld-ballin{animation:ld-ballin 5.2s infinite}
+  .ld-splash{opacity:0;animation:ld-splash 5.2s ease-out infinite}
+  .ld-spill{opacity:0;animation:ld-spill 5.2s ease-in infinite}
+}
+@media (prefers-reduced-motion: reduce){.ld-stream,.ld-drop,.ld-splash,.ld-spill{display:none}}
+@keyframes ld-spin{0%,42%{transform:rotate(0deg)}80%,100%{transform:rotate(360deg)}}
+@keyframes ld-beer{0%,7%{transform:translateY(130px)}30%,52%{transform:translateY(0)}64%{transform:translateY(-190px)}99.9%{transform:translateY(-190px)}100%{transform:translateY(130px)}}
+@keyframes ld-foam{0%,16%{opacity:0}24%,100%{opacity:1}}
+@keyframes ld-handle{0%,6%{transform:rotate(0deg)}10%,27%{transform:rotate(-30deg)}31%,100%{transform:rotate(0deg)}}
+@keyframes ld-stream{0%,7%{opacity:0;transform:scaleY(0)}9%{opacity:1;transform:scaleY(1)}29%{opacity:1;transform:scaleY(1)}31%,100%{opacity:0;transform:scaleY(1)}}
+@keyframes ld-drop{0%,29%{opacity:0;transform:translateY(-44px)}30%{opacity:1;transform:translateY(-44px);animation-timing-function:cubic-bezier(.55,0,1,.6)}35.5%{opacity:1;transform:translateY(0)}36%,100%{opacity:0;transform:translateY(0)}}
+@keyframes ld-ballin{0%,35.5%{opacity:0;transform:translateY(0)}36%{opacity:1;transform:translateY(0)}39%{transform:translateY(6px)}42%,55%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.5,0,1,1)}63%{opacity:1;transform:translateY(-120px)}67%{opacity:0;transform:translateY(-210px)}100%{opacity:0;transform:translateY(-210px)}}
+@keyframes ld-splash{0%,35.5%{opacity:0;transform:translate(0,0)}36%{opacity:1;transform:translate(0,0)}43%,100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+@keyframes ld-spill{0%,55%{opacity:0;transform:translate(0,0)}57%{opacity:1;transform:translate(0,0)}67%,100%{opacity:0;transform:translate(var(--dx),58px)}}
+
+/* ---------- Gates (sign in to use) ---------- */
+.gate{align-items:flex-start}
+.gate h3{font:800 1.45rem/1.05 var(--f-display);text-transform:uppercase}
+.gate p{color:var(--muted);max-width:52ch}
+.witness-me{font:800 1.3rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+
+/* ---------- Photos ---------- */
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ph-add{display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.ph-add svg{width:22px;height:22px}
+#ph-file:focus-visible + .ph-add{outline:3px solid var(--flag);outline-offset:2px}
+.ph-queue{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.ph-q{display:flex;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.88rem}
+.ph-q span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.ph-q b{font:600 .72rem/1.6 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.ph-q.ok b{color:var(--good)}
+.ph-q.bad b{color:var(--bad)}
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:4px}
+.ph-cell{all:unset;cursor:zoom-in;display:block;aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--line)}
+.ph-cell img{display:block;width:100%;height:100%;object-fit:cover}
+.ph-cell:focus-visible{outline:3px solid var(--flag);outline-offset:-3px}
+
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -453,6 +549,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <h1>Fore the V</h1>
       <span class="sub">Fore the Boys V · Fri 6 &amp; Sat 7 Nov · Sandton</span>
     </div>
+    <button type="button" class="acct" id="acct-btn">Sign in</button>
   </div>
 </header>
 
@@ -464,6 +561,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <a href="#formats">Formats</a>
     <a href="#scores">Leaderboard</a>
     <a href="#dops">Log a Dop</a>
+    <a href="#photos">Photos</a>
     <a href="#players">Players</a>
     <a href="#honours">Honours</a>
     <a href="#fines">Fines &amp; Bets</a>
@@ -738,10 +836,17 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     </div>
   </div>
 
-  <div class="card" id="dop-form">
+  <div class="card gate" id="dop-gate" hidden>
+    <span class="eyebrow">Members only</span>
+    <h3 id="dop-gate-h">Sign in to log dops</h3>
+    <p id="dop-gate-p">Only the 8 on tour can log, and you can only log dops you witnessed for the other team.</p>
+    <button type="button" class="btn" id="dop-gate-btn">Sign in</button>
+  </div>
+
+  <div class="card" id="dop-form" hidden>
     <div class="form-step">
       <div class="step-h"><span class="n">1</span><b>Who drank?</b></div>
-      <div class="grid2" id="drinkers"></div>
+      <div id="drinkers"></div>
     </div>
 
     <div class="form-step">
@@ -764,9 +869,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     </div>
 
     <div class="form-step">
-      <div class="step-h"><span class="n">3</span><b>Who's the witness?</b></div>
-      <p class="fine" id="witness-hint">Pick the drinker first. Only the other team can witness.</p>
-      <div class="picks" id="witnesses"></div>
+      <div class="step-h"><span class="n">3</span><b>Witness</b></div>
+      <span class="witness-me" id="witness-me">You</span>
+      <p class="fine">You can only log dops you saw, for the other team.</p>
     </div>
 
     <div class="form-step" id="dd-step" hidden>
@@ -816,7 +921,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       </div>
     </div>
 
-    <div class="pin-row" id="pin-row" hidden><label for="pin">Tour PIN</label><input id="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="Ask Steve"></div>
     <div class="verdict" id="verdict" role="status" aria-live="polite"></div>
     <button type="button" class="btn big" id="log-btn">Log it</button>
   </div>
@@ -835,6 +939,26 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <li><b>No witness from the other team, no point.</b> The witness logs it.</li>
       <li>Drivers are just unlucky. Proposed rules, pending exec sign-off.</li>
     </ul>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<section data-view="photos" hidden>
+  <div class="head"><span class="eyebrow">For the boys only</span><h2>Photos</h2></div>
+  <div class="card gate" id="ph-gate">
+    <span class="eyebrow">Members only</span>
+    <h3>Sign in to see the photos</h3>
+    <p>Tour photos stay between the boys. Sign in with the group code to see them and add your own.</p>
+    <button type="button" class="btn" id="ph-gate-btn">Sign in</button>
+  </div>
+  <div id="ph-app" hidden style="display:flex;flex-direction:column;gap:14px">
+    <input id="ph-file" class="vh" type="file" accept="image/*" multiple>
+    <label for="ph-file" class="btn big ph-add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Add photos</label>
+    <p class="fine">Everything goes into the General album. We'll sort them into albums after the tour.</p>
+    <ul class="ph-queue" id="ph-queue"></ul>
+    <span class="eyebrow" id="ph-count">General</span>
+    <div class="ph-grid" id="ph-grid"></div>
+    <p class="empty" id="ph-empty">No photos yet. Get snapping.</p>
   </div>
 </section>
 
@@ -1011,6 +1135,111 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
 </div>
 </main>
+<dialog class="lb" id="ph-lb" aria-label="Photo"><button type="button" class="x" id="ph-lb-x" aria-label="Close">×</button><img id="ph-lb-img" alt="Tour photo"><p id="ph-lb-cap"></p></dialog>
+
+<dialog class="sheet" id="signin" aria-labelledby="si-title">
+  <div class="sheet-in">
+    <div class="sheet-top">
+      <svg class="badge" viewBox="0 0 60 86" aria-hidden="true"><use href="#ftb-badge"/></svg>
+      <b id="si-title">Sign in</b>
+      <button type="button" class="x" id="si-close" aria-label="Close">×</button>
+    </div>
+
+    <div class="si-step" data-step="group">
+      <span class="eyebrow">Step 1 of 3</span>
+      <h2>Pick your tour</h2>
+      <button type="button" class="group-card" id="si-ftb">
+        <svg class="badge" viewBox="0 0 60 86" aria-hidden="true"><use href="#ftb-badge"/></svg>
+        <span><b>Fore the Boys</b><small>Tours I–V</small></span>
+        <span class="arr" aria-hidden="true">→</span>
+      </button>
+      <p class="fine">Signing in lets you see and add tour photos. The 8 on Tour V can also log dops.</p>
+    </div>
+
+    <div class="si-step" data-step="code" hidden>
+      <span class="eyebrow">Step 2 of 3 · Fore the Boys</span>
+      <h2>Group code</h2>
+      <p class="fine">It's in the WhatsApp group. Ask Steve if you can't find it.</p>
+      <label class="vh" for="si-code">Group code</label>
+      <input id="si-code" class="code-in" type="password" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <div class="verdict" id="si-msg-code" role="status" aria-live="polite"></div>
+      <div class="si-btns"><button type="button" class="btn ghost" data-back="group">Back</button><button type="button" class="btn big" id="si-code-go">Continue</button></div>
+    </div>
+
+    <div class="si-step" data-step="who" hidden>
+      <span class="eyebrow">Step 3 of 3</span>
+      <h2>Who are you?</h2>
+      <div class="si-people" id="si-people"></div>
+      <div class="si-sub" id="si-other" hidden>
+        <label for="si-name">Your name</label>
+        <input id="si-name" class="code-in" style="letter-spacing:0;font-family:var(--f-body)" autocomplete="name">
+      </div>
+      <div class="si-sub" id="si-tour" hidden>
+        <label for="si-tourcode">Tour V code</label>
+        <p class="fine">You're on Tour V, <span id="si-tour-name"></span>. Enter the Tour V code once and this phone can log dops.</p>
+        <input id="si-tourcode" class="code-in" type="password" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="verdict" id="si-msg-who" role="status" aria-live="polite"></div>
+      <div class="si-btns"><button type="button" class="btn ghost" data-back="code">Back</button><button type="button" class="btn big" id="si-join">Sign in</button></div>
+    </div>
+
+    <div class="si-step si-busy" data-step="busy" hidden>
+      <svg class="loader" viewBox="0 -34 220 334" role="img" aria-label="A pint being poured, a golf ball dropped in, and the whole lot tipped out">
+          <defs>
+            <clipPath id="ld-clip"><path d="M 75 94 L 145 94 L 147 116 Q 149 122 145 128 L 138 232 Q 137 236 133 236 L 87 236 Q 83 236 82 232 L 75 128 Q 71 122 73 116 Z"/></clipPath>
+            <linearGradient id="ld-beer-g" x1="0" x2="1"><stop offset="0" stop-color="#c98a12"/><stop offset=".45" stop-color="#f2b83a"/><stop offset="1" stop-color="#b8760c"/></linearGradient>
+            <linearGradient id="ld-chrome" x1="0" x2="1"><stop offset="0" stop-color="#8d969e"/><stop offset=".45" stop-color="#eef1f3"/><stop offset="1" stop-color="#7d868e"/></linearGradient>
+          </defs>
+          <!-- the tap -->
+          <rect x="40" y="-6" width="140" height="10" rx="3" class="ld-bar"/>
+          <g class="ld-handle"><rect x="103" y="-30" width="14" height="40" rx="5" fill="#d42a2f"/><rect x="106" y="-26" width="8" height="5" rx="1.5" fill="#ffffff" opacity=".85"/></g>
+          <rect x="97" y="6" width="26" height="30" rx="7" fill="url(#ld-chrome)" class="ld-line"/>
+          <path d="M104 34 L116 34 L114 52 Q110 58 106 52 Z" fill="url(#ld-chrome)" class="ld-line"/>
+          <rect x="107.5" y="54" width="5" height="182" rx="2.5" fill="url(#ld-beer-g)" class="ld-stream"/>
+          <!-- the ball on its way in -->
+          <g class="ld-drop"><circle cx="110" cy="102" r="8" fill="#ffffff" class="ld-ballline"/><circle cx="107" cy="99" r="1" fill="#c7cdd2"/><circle cx="112" cy="101" r="1" fill="#c7cdd2"/><circle cx="109" cy="105" r="1" fill="#c7cdd2"/></g>
+          <!-- the glass, which does the 360 -->
+          <g class="ld-spin">
+            <g clip-path="url(#ld-clip)">
+              <rect x="70" y="90" width="80" height="150" class="ld-glassfill"/>
+              <g class="ld-beer">
+                <rect x="40" y="106" width="140" height="170" fill="url(#ld-beer-g)"/>
+                <rect x="40" y="96" width="140" height="11" fill="#fbf4e3" class="ld-foam"/>
+                <g fill="#ffe7a8" opacity=".7"><circle cx="96" cy="200" r="1.6"/><circle cx="104" cy="170" r="1.2"/><circle cx="122" cy="210" r="1.4"/><circle cx="128" cy="150" r="1.1"/><circle cx="114" cy="135" r="1.3"/></g>
+              </g>
+            </g>
+            <g class="ld-ballin"><circle cx="110" cy="102" r="8" fill="#ffffff" class="ld-ballline"/><circle cx="107" cy="99" r="1" fill="#c7cdd2"/><circle cx="112" cy="101" r="1" fill="#c7cdd2"/><circle cx="109" cy="105" r="1" fill="#c7cdd2"/></g>
+            <path d="M 75 94 L 145 94 L 147 116 Q 149 122 145 128 L 138 232 Q 137 236 133 236 L 87 236 Q 83 236 82 232 L 75 128 Q 71 122 73 116 Z" fill="none" class="ld-line" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M83 132 L89 226" class="ld-shine" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+          </g>
+          <!-- the splash, and the spill on the way out -->
+          <g fill="#fbf4e3">
+            <circle cx="110" cy="98" r="2.6" class="ld-splash" style="--dx:-15px;--dy:-16px"/>
+            <circle cx="110" cy="98" r="2" class="ld-splash" style="--dx:13px;--dy:-21px"/>
+            <circle cx="110" cy="98" r="1.8" class="ld-splash" style="--dx:-5px;--dy:-26px"/>
+            <circle cx="110" cy="98" r="2.2" class="ld-splash" style="--dx:19px;--dy:-9px"/>
+          </g>
+          <g fill="#f2b83a">
+            <circle cx="132" cy="244" r="3.4" class="ld-spill" style="--dx:4px"/>
+            <circle cx="116" cy="250" r="2.8" class="ld-spill" style="--dx:-3px"/>
+            <circle cx="100" cy="246" r="3" class="ld-spill" style="--dx:-6px"/>
+          </g>
+        </svg>
+      <p id="si-busy-msg" aria-live="polite">Pouring a fresh one…</p>
+    </div>
+
+    <div class="si-step si-done" data-step="done" hidden>
+      <span class="eyebrow">Signed in</span>
+      <h2 id="si-done-h">Welcome</h2>
+      <span class="chip" id="si-done-team"></span>
+      <p id="si-done-what"></p>
+      <div class="si-btns"><button type="button" class="btn ghost" id="si-out">Sign out</button><button type="button" class="btn big" id="si-done-close">Let's go</button></div>
+    </div>
+
+    <button type="button" class="si-skip" id="si-skip">Just browsing</button>
+  </div>
+</dialog>
+
 <footer><div class="wrap"><span>Fore the V · Tour 2026</span><span>Paper scorecards rule · Fines are final</span></div></footer>
 
 <script>
@@ -1096,7 +1325,166 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-/* ---------- Log a Dop (shared via the artifact db) ---------- */
+/* ---------- Sign-in (shared by Log a Dop and Photos) ---------- */
+(function(){
+  function $(id){return document.getElementById(id)}
+  var CFG=window.FTV_CONFIG||{};
+  var FTV=window.FTV={db:null,me:null,uid:null,ready:false,subs:[],
+    on:function(f){this.subs.push(f);if(this.ready)f(this.me)},
+    open:function(){openSheet()}};
+  if(window.supabase&&CFG.supabaseUrl&&!/YOUR-/.test(CFG.supabaseUrl+CFG.supabaseKey)){
+    FTV.db=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'ftv-auth'}});
+  }
+  function emit(){FTV.ready=true;renderAcct();FTV.subs.forEach(function(f){try{f(FTV.me)}catch(e){}})}
+  function loadMe(){
+    if(!FTV.db){emit();return Promise.resolve()}
+    return FTV.db.auth.getSession().then(function(r){
+      var s=r&&r.data&&r.data.session;FTV.uid=s?s.user.id:null;
+      if(!s){FTV.me=null;return}
+      return FTV.db.rpc('ftv_me').then(function(x){FTV.me=x.error?null:(x.data||null)});
+    }).catch(function(){FTV.me=null}).then(emit);
+  }
+
+  /* masthead account button */
+  var acct=$('acct-btn');
+  function initials(n){return String(n||'?').split(/\s+/).map(function(w){return w[0]}).join('').slice(0,2).toUpperCase()}
+  function renderAcct(){
+    var m=FTV.me;acct.textContent='';
+    if(m){
+      var i=document.createElement('span');i.className='acct-i '+(m.team||'past');i.textContent=initials(m.name);
+      var t=document.createElement('span');t.textContent=m.short||m.name;
+      acct.appendChild(i);acct.appendChild(t);acct.setAttribute('aria-label','Signed in as '+(m.short||m.name)+'. Account');
+    }else{acct.textContent='Sign in';acct.removeAttribute('aria-label')}
+  }
+  acct.addEventListener('click',openSheet);
+
+  /* the sheet */
+  var sheet=$('signin'), people=[], pick=null, code='';
+  var steps=[].slice.call(sheet.querySelectorAll('.si-step'));
+  function show(name){steps.forEach(function(s){s.hidden=s.dataset.step!==name});$('si-skip').hidden=!(name==='group'||name==='code'||name==='who')||!!FTV.me;
+    var f=sheet.querySelector('.si-step[data-step="'+name+'"] input:not([type=hidden])');if(f&&name!=='who')setTimeout(function(){try{f.focus()}catch(e){}},60)}
+  function msg(id,t){var v=$(id);v.className=t?'verdict show no':'verdict';v.textContent=t||''}
+  function openSheet(){
+    if(FTV.me){fillDone();show('done')}else{show('group')}
+    try{sheet.showModal()}catch(e){sheet.setAttribute('open','')}
+  }
+  function closeSheet(){try{localStorage.setItem('ftv-seen-signin','1')}catch(e){}try{sheet.close()}catch(e){sheet.removeAttribute('open')}}
+  $('si-close').addEventListener('click',closeSheet);
+  $('si-skip').addEventListener('click',closeSheet);
+  $('si-done-close').addEventListener('click',closeSheet);
+  [].slice.call(sheet.querySelectorAll('[data-back]')).forEach(function(b){b.addEventListener('click',function(){show(b.dataset.back)})});
+
+  /* waiting: the spinning pint, kept up long enough to enjoy */
+  var LINES=['Pouring a fresh one…','Fishing the ball out of the pint…','Checking the scorecard…','Asking the 19th hole…'];
+  function busy(promise,lines){
+    show('busy');var i=0,el=$('si-busy-msg');el.textContent=(lines||LINES)[0];
+    var t=setInterval(function(){i=(i+1)%(lines||LINES).length;el.textContent=(lines||LINES)[i]},1400);
+    var min=new Promise(function(r){setTimeout(r,1600)});
+    return Promise.all([promise,min]).then(function(a){clearInterval(t);return a[0]},function(e){clearInterval(t);throw e});
+  }
+  function errText(e){return String((e&&(e.message||e.error_description))||e||'')}
+
+  /* step 1: tour */
+  $('si-ftb').addEventListener('click',function(){msg('si-msg-code','');show('code')});
+
+  /* step 2: group code */
+  function checkCode(){
+    code=($('si-code').value||'').trim();
+    if(!code){msg('si-msg-code','Enter the group code.');return}
+    if(!FTV.db){msg('si-msg-code','Sign-in isn’t switched on yet.');return}
+    busy(FTV.db.rpc('ftv_check_group',{p_code:code}).then(function(r){if(r.error)throw r.error;return r.data}),['Checking the code…','Pouring a fresh one…'])
+      .then(function(ok){
+        if(!ok){show('code');msg('si-msg-code','That’s not the code. Check the WhatsApp group or ask Steve.');return}
+        return loadPeople().then(function(){pick=null;renderPeople();msg('si-msg-who','');show('who')});
+      }).catch(function(){show('code');msg('si-msg-code','Couldn’t check the code. Check your signal and try again.')});
+  }
+  $('si-code-go').addEventListener('click',checkCode);
+  $('si-code').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();checkCode()}});
+
+  /* step 3: who are you */
+  function loadPeople(){
+    if(people.length)return Promise.resolve();
+    return FTV.db.from('players').select('id,name,short,team,sort').order('sort').then(function(r){if(r.error)throw r.error;people=r.data||[]});
+  }
+  function renderPeople(){
+    var wrap=$('si-people');wrap.textContent='';
+    var groups=[['Tour V · Inland',function(p){return p.team==='in'},'in'],['Tour V · Coastal',function(p){return p.team==='co'},'co'],['Past tourists',function(p){return !p.team},'neutral']];
+    groups.forEach(function(g){
+      var list=people.filter(g[1]);if(!list.length)return;
+      var col=document.createElement('div');col.className='pick-team';
+      var lab=document.createElement('span');lab.className='eyebrow';lab.textContent=g[0];col.appendChild(lab);
+      var row=document.createElement('div');row.className='picks';
+      list.forEach(function(p){
+        var b=document.createElement('button');b.type='button';b.className='pick '+g[2];b.textContent=p.name;
+        b.setAttribute('aria-pressed',pick&&pick.id===p.id?'true':'false');
+        b.addEventListener('click',function(){pick=p;msg('si-msg-who','');renderPeople()});row.appendChild(b);
+      });
+      col.appendChild(row);wrap.appendChild(col);
+    });
+    var col2=document.createElement('div');col2.className='pick-team';
+    var b2=document.createElement('button');b2.type='button';b2.className='pick neutral';b2.textContent='I’m not on the list';
+    b2.setAttribute('aria-pressed',pick&&pick.id===null?'true':'false');
+    b2.addEventListener('click',function(){pick={id:null};msg('si-msg-who','');renderPeople()});
+    col2.appendChild(b2);wrap.appendChild(col2);
+    $('si-other').hidden=!(pick&&pick.id===null);
+    $('si-tour').hidden=!(pick&&pick.team);
+    if(pick&&pick.team)$('si-tour-name').textContent=pick.short;
+  }
+  $('si-join').addEventListener('click',function(){
+    if(!pick)return msg('si-msg-who','Pick your name.');
+    var name=($('si-name').value||'').trim(), tc=($('si-tourcode').value||'').trim();
+    if(pick.id===null&&!name)return msg('si-msg-who','Type your name.');
+    if(pick.team&&!tc)return msg('si-msg-who','Enter the Tour V code. It’s the same code as the dop PIN.');
+    var db=FTV.db;
+    var go=db.auth.getSession().then(function(r){
+      if(r.data&&r.data.session)return r.data.session;
+      return db.auth.signInAnonymously().then(function(x){if(x.error)throw x.error;return x.data.session});
+    }).then(function(s){
+      FTV.uid=s.user.id;
+      return db.rpc('ftv_join',{p_code:code,p_player:pick.id,p_name:pick.id?null:name,p_tour_code:pick.team?tc:null});
+    }).then(function(r){if(r.error)throw r.error;return r.data});
+    busy(go).then(function(me){
+      FTV.me=me;$('si-tourcode').value='';$('si-code').value='';
+      try{localStorage.setItem('ftv-seen-signin','1')}catch(e){}
+      emit();fillDone(true);show('done');
+    }).catch(function(e){
+      var t=errText(e);show('who');
+      if(/bad_tour_code/.test(t))msg('si-msg-who','Wrong Tour V code. Try again, or ask Steve.');
+      else if(/bad_code/.test(t)){show('code');msg('si-msg-code','That code has changed. Enter the new one.')}
+      else if(/anonymous/i.test(t))msg('si-msg-who','Sign-in isn’t switched on yet. Tell Steve to turn on anonymous sign-ins in Supabase.');
+      else msg('si-msg-who','Couldn’t sign you in. Check your signal and try again.');
+    });
+  });
+
+  /* signed in */
+  function fillDone(fresh){
+    var m=FTV.me||{};
+    $('si-done-h').textContent=fresh?('Welcome, '+(m.short||m.name)+'.'):(m.name||'Signed in');
+    var team=m.team==='in'?'Inland':m.team==='co'?'Coastal':'';
+    $('si-done-team').textContent=m.tour_access?('Tour V · '+team):'Fore the Boys · past tourist';
+    $('si-done-team').className='chip '+(m.team||'wait');
+    $('si-done-what').textContent=m.tour_access
+      ?'You can log dops for the other team and add photos. This phone will remember you.'
+      :'You can see and add tour photos. Dop logging is for the 8 on Tour V. This phone will remember you.';
+  }
+  $('si-out').addEventListener('click',function(){
+    var b=$('si-out');
+    if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Tap again to sign out';setTimeout(function(){b.classList.remove('arm');b.textContent='Sign out'},4000);return}
+    b.disabled=true;
+    (FTV.db?FTV.db.auth.signOut():Promise.resolve()).catch(function(){}).then(function(){
+      FTV.me=null;FTV.uid=null;b.disabled=false;b.classList.remove('arm');b.textContent='Sign out';emit();show('group');
+    });
+  });
+
+  loadMe().then(function(){
+    var seen=false;try{seen=!!localStorage.getItem('ftv-seen-signin')}catch(e){}
+    if(!FTV.me&&!seen&&FTV.db)setTimeout(openSheet,600);
+  });
+})();
+</script>
+
+<script>
+/* ---------- Log a Dop (Supabase; only the 8 on Tour V can log, and the logger is the witness) ---------- */
 (function(){
   var PLAYERS=[
     {id:'steve',n:'Steve',t:'in'},{id:'nic',n:'Nic',t:'in'},{id:'luke',n:'Luke',t:'in'},{id:'brandon',n:'Brandon',t:'in'},
@@ -1109,28 +1497,34 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   var FRI_CAP=10, MAX_MS=20000;
   function practiceNow(){return Date.now()<TOUR_START}
   function $(id){return document.getElementById(id)}
+  var FTV=window.FTV, db=FTV.db;
 
-  var st={drinker:null,kind:null,day:null,hole:null,witness:null,gulps:null,ms:0,running:false,t0:0,timer:null};
-  var docs=[]; var db=null; var canWrite=true; var busy=false;
+  var st={drinker:null,kind:null,day:null,hole:null,gulps:null,ms:0,running:false,t0:0,timer:null};
+  var docs=[]; var busy=false;
+  function me(){return FTV.me}
+  function canLog(){var m=me();return !!(m&&m.tour_access&&BY[m.player_id])}
 
-  /* ----- build pickers ----- */
-  var drWrap=$('drinkers');
-  ['in','co'].forEach(function(t){
-    var col=document.createElement('div');col.className='pick-team';
-    var lab=document.createElement('span');lab.className='eyebrow';lab.textContent=t==='in'?'Inland':'Coastal';col.appendChild(lab);
-    var row=document.createElement('div');row.className='picks';
-    PLAYERS.filter(function(p){return p.t===t}).forEach(function(p){
-      var b=document.createElement('button');b.type='button';b.className='pick '+p.t;b.textContent=p.n;b.dataset.id=p.id;b.setAttribute('aria-pressed','false');
-      b.addEventListener('click',function(){st.drinker=p.id;if(st.witness&&BY[st.witness].t===p.t)st.witness=null;clearVerdict();render()});
-      row.appendChild(b);
-    });
-    col.appendChild(row);drWrap.appendChild(col);
-  });
+  /* ----- pickers ----- */
   var hWrap=$('holes');
   for(var h=1;h<=9;h++){(function(h){
     var b=document.createElement('button');b.type='button';b.className='pick neutral';b.textContent=h;b.dataset.h=h;b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Hole '+h);
     b.addEventListener('click',function(){st.hole=h;clearVerdict();render()});hWrap.appendChild(b);
   })(h)}
+  function buildDrinkers(){
+    var wrap=$('drinkers');wrap.textContent='';
+    var m=me();if(!canLog())return;
+    var other=BY[m.player_id].t==='in'?'co':'in';
+    var col=document.createElement('div');col.className='pick-team';
+    var lab=document.createElement('span');lab.className='eyebrow';lab.textContent=(other==='in'?'Inland':'Coastal')+' · the other lot';col.appendChild(lab);
+    var row=document.createElement('div');row.className='picks';
+    PLAYERS.filter(function(p){return p.t===other}).forEach(function(p){
+      var b=document.createElement('button');b.type='button';b.className='pick '+p.t;b.textContent=p.n;b.dataset.id=p.id;b.setAttribute('aria-pressed','false');
+      b.addEventListener('click',function(){st.drinker=p.id;clearVerdict();render()});
+      row.appendChild(b);
+    });
+    col.appendChild(row);wrap.appendChild(col);
+    $('witness-me').textContent='You, '+BY[m.player_id].n;
+  }
   [].slice.call(document.querySelectorAll('.kind')).forEach(function(b){
     b.addEventListener('click',function(){st.kind=b.dataset.kind;clearVerdict();render()});
   });
@@ -1145,8 +1539,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
   /* ----- stopwatch ----- */
   function drawPint(ms){
-    var p=Math.min(1,ms/MAX_MS), f=1-p;              // 25% gone every 5 s, empty at 20 s
-    var tilt=-72*p;                                     // glass tips back as you drink
+    var p=Math.min(1,ms/MAX_MS), f=1-p;
+    var tilt=-72*p;
     $('pint-glass').setAttribute('transform','rotate('+tilt.toFixed(2)+' 80 90)');
     $('pint-liquid').setAttribute('transform','rotate('+(-tilt).toFixed(2)+' 80 90)');
     var top=26+(156-26)*(1-f);
@@ -1180,6 +1574,16 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
   /* ----- render ----- */
   function setPressed(sel,fn){[].slice.call(document.querySelectorAll(sel)).forEach(function(b){b.setAttribute('aria-pressed',fn(b)?'true':'false')})}
+  function renderGate(){
+    var m=me(), ok=canLog();
+    $('dop-form').hidden=!ok;
+    $('dop-gate').hidden=ok;
+    if(!ok){
+      $('dop-gate-h').textContent=m?'Dop logging is for the 8 on Tour V':'Sign in to log dops';
+      $('dop-gate-p').textContent=m?'You can still watch the scores and the log. Get your round in at the bar instead.':'Only the 8 on tour can log, and you can only log dops you witnessed for the other team.';
+      $('dop-gate-btn').hidden=!!m;
+    }
+  }
   function render(){
     setPressed('#drinkers .pick',function(b){return b.dataset.id===st.drinker});
     setPressed('.kind',function(b){return b.dataset.kind===st.kind});
@@ -1192,21 +1596,11 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       var taken=!!(st.drinker&&st.day&&teeTaken(st.drinker,st.day,+b.dataset.h));
       b.classList.toggle('taken',taken);b.disabled=taken;
     });
-    // witnesses
-    var w=$('witnesses');w.textContent='';
-    if(st.drinker){
-      var other=BY[st.drinker].t==='in'?'co':'in';
-      $('witness-hint').textContent='Only '+(other==='in'?'Inland':'Coastal')+' can witness a '+(other==='in'?'Coastal':'Inland')+' dop.';
-      PLAYERS.filter(function(p){return p.t===other}).forEach(function(p){
-        var b=document.createElement('button');b.type='button';b.className='pick '+p.t;b.textContent=p.n;b.setAttribute('aria-pressed',st.witness===p.id?'true':'false');
-        b.addEventListener('click',function(){st.witness=p.id;clearVerdict();render()});w.appendChild(b);
-      });
-    }else{$('witness-hint').textContent='Pick the drinker first. Only the other team can witness.'}
-    $('log-btn').disabled=!db||!canWrite||busy;
+    $('log-btn').disabled=!db||!canLog()||busy;
   }
 
   function renderData(){
-    var c=counted(), p=practiceNow();
+    var c=counted(), p=practiceNow(), m=me();
     var tot={in:{fri:0,tee:0},co:{fri:0,tee:0}};
     c.forEach(function(d){var t=BY[d.drinker]&&BY[d.drinker].t;if(!t)return;if(d.kind==='tee')tot[t].tee+=d.pts||0;else tot[t].fri+=d.pts||0});
     ['in','co'].forEach(function(t){$('t-'+t+'-fri').textContent=tot[t].fri;$('t-'+t+'-tee').textContent=tot[t].tee;$('t-'+t+'-tot').textContent=tot[t].fri+tot[t].tee});
@@ -1214,7 +1608,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     $('lb-dop-prac').textContent=p?'· practice':'';
     var nPrac=docs.filter(function(d){return d.practice}).length;
     $('prac-note').hidden=!p&&nPrac===0;
-    $('clear-prac').hidden=nPrac===0;
+    $('clear-prac').hidden=nPrac===0||!canLog();
     $('clear-prac').textContent='Clear practice dops ('+nPrac+')';
     var list=$('dlog');list.textContent='';
     $('log-count').textContent=docs.length+' logged';
@@ -1233,12 +1627,19 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       bits.push(fmtTime(d.atMs));
       sm.textContent=bits.join(' · ');
       what.appendChild(b);what.appendChild(sm);
-      var del=document.createElement('button');del.type='button';del.className='del';del.textContent='Remove';del.disabled=!canWrite;
-      del.addEventListener('click',function(){
-        if(!del.classList.contains('arm')){del.classList.add('arm');del.textContent='Sure?';setTimeout(function(){del.classList.remove('arm');del.textContent='Remove'},4000);return}
-        var pin=getPin();if(!pin){askPin('Enter the tour PIN to remove dops.');return}del.disabled=true;db.rpc('delete_dop',{p_pin:pin,p_id:d._id}).then(function(r){if(r.error)throw r.error;refresh()}).catch(function(e){del.disabled=false;if(isBadPin(e)){forgetPin();askPin('Wrong PIN. Try again.')}else say('no','Couldn’t remove that one. Try again.')});
-      });
-      li.appendChild(pts);li.appendChild(what);li.appendChild(del);list.appendChild(li);
+      li.appendChild(pts);li.appendChild(what);
+      var mine=canLog()&&((d.loggedBy&&d.loggedBy===FTV.uid)||(m&&m.is_admin));
+      if(mine){
+        var del=document.createElement('button');del.type='button';del.className='del';del.textContent='Remove';
+        del.addEventListener('click',function(){
+          if(!del.classList.contains('arm')){del.classList.add('arm');del.textContent='Sure?';setTimeout(function(){del.classList.remove('arm');del.textContent='Remove'},4000);return}
+          del.disabled=true;
+          db.rpc('ftv_delete_dop',{p_id:d._id}).then(function(r){if(r.error)throw r.error;refresh()})
+            .catch(function(){del.disabled=false;say('no','Couldn’t remove that one. Try again.')});
+        });
+        li.appendChild(del);
+      }
+      list.appendChild(li);
     });
     render();
   }
@@ -1249,12 +1650,12 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   /* ----- log it ----- */
   $('log-btn').addEventListener('click',function(){
     if(!db||busy)return;
-    var p=practiceNow(), now=Date.now();
+    if(!canLog())return say('no','Sign in as one of the 8 on Tour V to log dops.');
+    var p=practiceNow(), now=Date.now(), w=BY[me().player_id];
     if(!st.drinker)return say('no','Who drank? Pick the drinker.');
     if(!st.kind)return say('no','What was it? Pick the type of dop.');
-    if(!st.witness)return say('no','No witness, no point. Someone from the other team has to log it.');
-    if(BY[st.witness].t===BY[st.drinker].t)return say('no','The witness has to be from the other team.');
     var k=KINDS[st.kind], dr=BY[st.drinker];
+    if(dr.t===w.t)return say('no','You can only witness the other team.');
     if(st.kind!=='tee'&&!p&&now>FRI_END)return say('no','Friday night closed at 02:00. That one’s just for fun.');
     if(st.kind==='tee'){
       if(!st.day)return say('no','Which day? Pick Friday or Saturday.');
@@ -1277,22 +1678,21 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       if(cur>=FRI_CAP)return say('no',dr.n+' has hit the Friday cap of '+FRI_CAP+'. Drinking now is for love, not points.');
       if(cur+k.pts>FRI_CAP)return say('no',dr.n+' is on '+cur+'/'+FRI_CAP+'. A down-down takes him over the cap, so log a 1-pointer.');
     }
-    var body={drinker:st.drinker,team:dr.t,kind:st.kind,pts:k.pts,witness:st.witness,practice:p,atMs:now};
+    var body={drinker:st.drinker,kind:st.kind};
     if(st.kind==='tee'){body.day=st.day;body.hole=st.hole}
     if(secs!=null)body.secs=secs;
     if(st.gulps&&st.kind!=='fri1')body.gulps=st.gulps;
-    var pin=getPin();
-    if(!pin)return askPin('Enter the tour PIN to log dops. Ask Steve.');
     busy=true;render();
-    db.rpc('log_dop',{p_pin:pin,p:body}).then(function(r){
+    db.rpc('ftv_log_dop',{p:body}).then(function(r){
       if(r.error)throw r.error;
-      savePin(pin);
-      say('ok','Logged: +'+k.pts+' '+(dr.t==='in'?'Inland':'Coastal')+'. '+dr.n+', witnessed by '+BY[st.witness].n+'.'+(p?' (Practice)':''));
-      st.kind=null;st.witness=null;st.gulps=null;st.hole=null;st.ms=0;$('first-shot').checked=false;$('no-watch').checked=false;$('watch-go').textContent='Start';drawWatch();
+      say('ok','Logged: +'+k.pts+' '+(dr.t==='in'?'Inland':'Coastal')+'. '+dr.n+', witnessed by you.'+(p?' (Practice)':''));
+      st.drinker=null;st.kind=null;st.gulps=null;st.hole=null;st.ms=0;$('first-shot').checked=false;$('no-watch').checked=false;$('watch-go').textContent='Start';drawWatch();
       refresh();
     }).catch(function(e){
-      if(isBadPin(e)){forgetPin();askPin('Wrong PIN. Check with Steve and try again.')}
-      else if(e&&e.code==='23505')say('no',dr.n+' already has that hole logged.');
+      var t=String((e&&e.message)||'');
+      if(e&&e.code==='23505')say('no',dr.n+' already has that hole logged.');
+      else if(/not_on_tour/.test(t))say('no','Only the 8 on Tour V can log dops.');
+      else if(/bad_witness/.test(t))say('no','You can only witness the other team.');
       else say('no','Couldn’t save that one. Check your signal and try again.');
     }).then(function(){busy=false;render()});
   });
@@ -1301,50 +1701,151 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   var clr=$('clear-prac'), armT=null;
   clr.addEventListener('click',function(){
     var prac=docs.filter(function(d){return d.practice});
-    if(!prac.length||!db)return;
+    if(!prac.length||!db||!canLog())return;
     if(!clr.classList.contains('danger')){clr.classList.add('danger');clr.classList.remove('ghost');clr.textContent='Tap again to delete '+prac.length;armT=setTimeout(function(){clr.classList.remove('danger');clr.classList.add('ghost');renderData()},4000);return}
-    clearTimeout(armT);
-    var pin=getPin();
-    if(!pin){clr.classList.remove('danger');clr.classList.add('ghost');renderData();askPin('Enter the tour PIN to clear practice dops.');return}
-    clr.disabled=true;
-    db.rpc('clear_practice',{p_pin:pin}).then(function(r){if(r.error)throw r.error})
-      .catch(function(e){if(isBadPin(e)){forgetPin();askPin('Wrong PIN. Try again.')}else say('no','Couldn’t clear them. Try again.')})
+    clearTimeout(armT);clr.disabled=true;
+    db.rpc('ftv_clear_practice').then(function(r){if(r.error)throw r.error})
+      .catch(function(){say('no','Couldn’t clear them. Try again.')})
       .then(function(){clr.disabled=false;clr.classList.remove('danger');clr.classList.add('ghost');refresh()});
   });
+  $('dop-gate-btn').addEventListener('click',function(){FTV.open()});
 
-  render();drawWatch();
+  render();drawWatch();renderGate();
 
-  /* ----- tour PIN (saved on this phone after the first good log) ----- */
-  var PIN_KEY='ftv-pin';
-  function getPin(){var v=($('pin').value||'').trim();if(v)return v;try{return localStorage.getItem(PIN_KEY)||''}catch(e){return ''}}
-  function savePin(v){try{localStorage.setItem(PIN_KEY,v)}catch(e){}$('pin').value='';$('pin-row').hidden=true}
-  function forgetPin(){try{localStorage.removeItem(PIN_KEY)}catch(e){}$('pin').value=''}
-  function askPin(msg){$('pin-row').hidden=false;try{$('pin').focus()}catch(e){}say('no',msg)}
-  function isBadPin(e){return !!(e&&(String(e.message||'').indexOf('bad_pin')>-1||e.code==='28P01'))}
-  try{if(!localStorage.getItem(PIN_KEY))$('pin-row').hidden=false}catch(e){$('pin-row').hidden=false}
-
-  /* ----- connect to the shared dop log (Supabase) ----- */
+  /* ----- connect ----- */
   var status=$('dop-status');
   function setStatus(t){status.textContent=t}
-  var CFG=window.FTV_CONFIG||{};
-  if(!window.supabase||!CFG.supabaseUrl||/YOUR-/.test(CFG.supabaseUrl+CFG.supabaseKey)){setStatus('Offline');say('no','Dop logging isn’t switched on yet.');return}
-  db=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey,{auth:{persistSession:false}});
+  FTV.on(function(){buildDrinkers();st.drinker=null;renderGate();renderData()});
+  if(!db){setStatus('Offline');return}
   var loading=false;
   function refresh(){
-    if(!db||loading)return;loading=true;
+    if(loading)return;loading=true;
     db.from('dops').select('*').order('at_ms',{ascending:false}).limit(500).then(function(r){
       loading=false;
       if(r.error){setStatus('No signal');return}
-      docs=(r.data||[]).map(function(x){return{_id:x.id,drinker:x.drinker,team:x.team,kind:x.kind,pts:x.pts,witness:x.witness,practice:x.practice,atMs:Number(x.at_ms),day:x.day,hole:x.hole,secs:x.secs==null?null:Number(x.secs),gulps:x.gulps}});
+      docs=(r.data||[]).map(function(x){return{_id:x.id,drinker:x.drinker,team:x.team,kind:x.kind,pts:x.pts,witness:x.witness,practice:x.practice,atMs:Number(x.at_ms),day:x.day,hole:x.hole,secs:x.secs==null?null:Number(x.secs),gulps:x.gulps,loggedBy:x.logged_by}});
       setStatus(practiceNow()?'Practice':'Live');
       renderData();
     },function(){loading=false;setStatus('No signal')});
   }
-  render();refresh();
+  refresh();
   try{db.channel('dops-live').on('postgres_changes',{event:'*',schema:'public',table:'dops'},function(){refresh()}).subscribe()}catch(e){}
   setInterval(refresh,15000);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh()});
 })();
+</script>
+
+<script>
+/* ---------- Photos (private to signed-in members; everything lands in the General album) ---------- */
+(function(){
+  function $(id){return document.getElementById(id)}
+  var FTV=window.FTV, db=FTV.db;
+  var rows=[], urls={}, loading=false, sub=null;
+
+  function fmtTime(s){try{return new Date(s).toLocaleString('en-ZA',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Africa/Johannesburg'})}catch(e){return ''}}
+  function gate(){
+    var m=FTV.me;
+    $('ph-gate').hidden=!!m;$('ph-app').hidden=!m;
+    if(m){load();listen()}else{rows=[];$('ph-grid').textContent=''}
+  }
+  $('ph-gate-btn').addEventListener('click',function(){FTV.open()});
+
+  function load(){
+    if(!db||loading)return;loading=true;
+    db.from('photos').select('*').order('created_at',{ascending:false}).limit(300).then(function(r){
+      if(r.error)throw r.error;rows=r.data||[];
+      var need=rows.filter(function(x){return !urls[x.thumb_path]}).map(function(x){return x.thumb_path});
+      if(!need.length)return;
+      return db.storage.from('photos').createSignedUrls(need,60*60*6).then(function(s){
+        (s.data||[]).forEach(function(u){if(u.signedUrl)urls[u.path]=u.signedUrl});
+      });
+    }).catch(function(){$('ph-count').textContent='Couldn’t load photos. Check your signal.'}).then(function(){loading=false;renderGrid()});
+  }
+  function listen(){
+    if(sub||!db)return;
+    try{sub=db.channel('photos-live').on('postgres_changes',{event:'*',schema:'public',table:'photos'},function(){load()}).subscribe()}catch(e){}
+    document.addEventListener('visibilitychange',function(){if(!document.hidden&&FTV.me)load()});
+  }
+  function renderGrid(){
+    var g=$('ph-grid');g.textContent='';
+    $('ph-empty').hidden=rows.length>0;
+    $('ph-count').textContent='General · '+rows.length+(rows.length===1?' photo':' photos');
+    rows.forEach(function(x){
+      var b=document.createElement('button');b.type='button';b.className='ph-cell';
+      b.setAttribute('aria-label','Open photo added by '+(x.added_by||'someone'));
+      var img=document.createElement('img');img.loading='lazy';img.alt='Tour photo added by '+(x.added_by||'someone');
+      if(urls[x.thumb_path])img.src=urls[x.thumb_path];
+      b.appendChild(img);
+      b.addEventListener('click',function(){openPhoto(x)});
+      g.appendChild(b);
+    });
+  }
+
+  /* lightbox */
+  var lb=$('ph-lb');
+  function openPhoto(x){
+    $('ph-lb-img').src=urls[x.thumb_path]||'';
+    $('ph-lb-cap').textContent='Added by '+(x.added_by||'someone')+' · '+fmtTime(x.created_at);
+    try{lb.showModal()}catch(e){lb.setAttribute('open','')}
+    db.storage.from('photos').createSignedUrl(x.path,60*60).then(function(r){if(r.data&&r.data.signedUrl)$('ph-lb-img').src=r.data.signedUrl});
+  }
+  function closeLb(){try{lb.close()}catch(e){lb.removeAttribute('open')}}
+  $('ph-lb-x').addEventListener('click',closeLb);
+  lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
+
+  /* uploads: shrink on the phone first so they go up quickly on bad signal */
+  function loadImg(file){
+    return new Promise(function(res,rej){var u=URL.createObjectURL(file);var i=new Image();i.onload=function(){res(i)};i.onerror=function(){rej(new Error('not_image'))};i.src=u});
+  }
+  function toJpeg(src,max,q){
+    var w=src.naturalWidth||src.width,h=src.naturalHeight||src.height,s=Math.min(1,max/Math.max(w,h));
+    var c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*s));c.height=Math.max(1,Math.round(h*s));
+    c.getContext('2d').drawImage(src,0,0,c.width,c.height);
+    return new Promise(function(res,rej){c.toBlob(function(b){b?res({blob:b,w:c.width,h:c.height}):rej(new Error('encode'))},'image/jpeg',q)});
+  }
+  var queue=[], running=false;
+  $('ph-file').addEventListener('change',function(e){
+    var files=[].slice.call(e.target.files||[]);e.target.value='';
+    files.forEach(function(f){
+      var li=document.createElement('li');li.className='ph-q';
+      var n=document.createElement('span');n.textContent=f.name||'Photo';
+      var s=document.createElement('b');s.textContent='Waiting';
+      li.appendChild(n);li.appendChild(s);$('ph-queue').appendChild(li);
+      queue.push({file:f,li:li,st:s});
+    });
+    next();
+  });
+  function next(){
+    if(running)return;var job=queue.shift();if(!job)return;running=true;
+    var m=FTV.me||{};
+    var id=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
+    var path='general/'+id+'.jpg', tpath='general/thumbs/'+id+'.jpg';
+    job.st.textContent='Shrinking…';
+    var full,thumb;
+    loadImg(job.file).then(function(img){
+      return Promise.all([toJpeg(img,2000,.85),toJpeg(img,480,.78)]);
+    }).then(function(a){
+      full=a[0];thumb=a[1];job.st.textContent='Uploading…';
+      return db.storage.from('photos').upload(path,full.blob,{contentType:'image/jpeg',upsert:false});
+    }).then(function(r){
+      if(r.error)throw r.error;
+      return db.storage.from('photos').upload(tpath,thumb.blob,{contentType:'image/jpeg',upsert:false});
+    }).then(function(r){
+      if(r.error)throw r.error;
+      return db.from('photos').insert({path:path,thumb_path:tpath,album:'general',player_id:m.player_id||null,added_by:m.short||m.name||null,width:full.w,height:full.h});
+    }).then(function(r){
+      if(r.error)throw r.error;
+      job.li.classList.add('ok');job.st.textContent='Added';
+      setTimeout(function(){job.li.remove()},2500);load();
+    }).catch(function(e){
+      job.li.classList.add('bad');
+      job.st.textContent=/not_image/.test(String(e&&e.message))?'Not a photo':'Failed, try again';
+    }).then(function(){running=false;next()});
+  }
+
+  FTV.on(gate);
+})();
+
 </script>
 </body>
 </html>
