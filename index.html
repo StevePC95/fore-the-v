@@ -532,6 +532,20 @@ dialog.sheet::backdrop{background:rgba(5,12,8,.72);backdrop-filter:blur(3px)}
 
 .capt{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--flag);color:#1a1405;font:800 .62rem/1 var(--f-body);margin-left:6px;vertical-align:2px}
 .side li .pn .capt{vertical-align:0}
+
+/* ---------- Captains' fourball picker ---------- */
+.pick-card{border-color:var(--flag);box-shadow:inset 0 3px 0 var(--flag)}
+.pick-ctl{display:flex;flex-wrap:wrap;gap:8px}
+.pick-rows{display:flex;flex-direction:column}
+.pick-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.pick-row:last-child{border-bottom:0}
+.pick-row b{font-weight:700;min-width:0}
+.pick-row .hc{margin-left:6px}
+.pick-row .filter button{min-width:76px;font-family:var(--f-mono);font-size:.78rem}
+.pick-row .filter button small{display:block;font-size:.62rem;opacity:.75;margin-top:2px}
+td[data-slot] .in,td[data-slot] .co{font-weight:700}
+td[data-slot] .in{color:var(--inland)}
+td[data-slot] .co{color:var(--coastal)}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -708,6 +722,25 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <!-- COURSES -->
 <section data-view="courses" hidden>
   <div class="head"><span class="eyebrow">Two clubs · two days</span><h2>Courses</h2></div>
+  <div class="card pick-card" id="pick-card" hidden>
+    <span class="eyebrow">Captains only</span>
+    <h3 class="sub-h">Pick the fourballs</h3>
+    <p class="fine">Split your 4 into two pairs for each day. Your fourball 1 pair plays the other team's fourball 1 pair. Saves live for everyone.</p>
+    <div class="pick-ctl">
+      <div class="filter" role="group" aria-label="Day" id="pick-day">
+        <button type="button" data-v="fri" aria-pressed="true">Fri · Randpark</button>
+        <button type="button" data-v="sat" aria-pressed="false">Sat · Jackal Creek</button>
+      </div>
+      <div class="filter" role="group" aria-label="Team" id="pick-team" hidden>
+        <button type="button" data-v="in" aria-pressed="true">Inland</button>
+        <button type="button" data-v="co" aria-pressed="false">Coastal</button>
+      </div>
+    </div>
+    <div class="pick-rows" id="pick-rows"></div>
+    <div class="verdict" id="pick-msg" role="status" aria-live="polite"></div>
+    <button type="button" class="btn big" id="pick-save">Save pairs</button>
+    <p class="fine" id="pick-last"></p>
+  </div>
   <div class="card">
     <span class="eyebrow">Day 1 · Fri 6 Nov</span>
     <h3>Randpark Golf Club, Bushwillow course</h3>
@@ -716,8 +749,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <table>
         <thead><tr><th>Tee</th><th class="in">Inland</th><th class="in">Inland</th><th class="co">Coastal</th><th class="co">Coastal</th></tr></thead>
         <tbody>
-          <tr><td class="num">12:02</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
-          <tr><td class="num">12:10</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+          <tr data-day="fri" data-fb="1"><td class="num">12:02</td><td data-slot="in0"><span class="tbc">TBC</span></td><td data-slot="in1"><span class="tbc">TBC</span></td><td data-slot="co0"><span class="tbc">TBC</span></td><td data-slot="co1"><span class="tbc">TBC</span></td></tr>
+          <tr data-day="fri" data-fb="2"><td class="num">12:10</td><td data-slot="in0"><span class="tbc">TBC</span></td><td data-slot="in1"><span class="tbc">TBC</span></td><td data-slot="co0"><span class="tbc">TBC</span></td><td data-slot="co1"><span class="tbc">TBC</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -732,8 +765,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <table>
         <thead><tr><th>Tee</th><th class="in">Inland</th><th class="in">Inland</th><th class="co">Coastal</th><th class="co">Coastal</th></tr></thead>
         <tbody>
-          <tr><td class="num">07:30</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
-          <tr><td class="num">07:45</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+          <tr data-day="sat" data-fb="1"><td class="num">07:30</td><td data-slot="in0"><span class="tbc">TBC</span></td><td data-slot="in1"><span class="tbc">TBC</span></td><td data-slot="co0"><span class="tbc">TBC</span></td><td data-slot="co1"><span class="tbc">TBC</span></td></tr>
+          <tr data-day="sat" data-fb="2"><td class="num">07:45</td><td data-slot="in0"><span class="tbc">TBC</span></td><td data-slot="in1"><span class="tbc">TBC</span></td><td data-slot="co0"><span class="tbc">TBC</span></td><td data-slot="co1"><span class="tbc">TBC</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -1182,7 +1215,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Getting to Randpark</b><span class="chip wait">To sort</span></div><small>Uber XL, driver service in our own cars, or a minibus. 8 golf bags is the real constraint.</small></div></li>
         <li class="key"><span class="t">12:02</span><div class="w"><div class="it-h"><b>Fourball 1 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
         <li class="key"><span class="t">12:10</span><div class="w"><div class="it-h"><b>Fourball 2 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
-        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Fourball pairings</b><span class="chip wait">To sort</span></div><small>2 Inland + 2 Coastal in each. Captains Brandon and Guy pick.</small></div></li>
+        <li class="todo" id="it-pairs"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Fourball pairings</b><span class="chip wait">To sort</span></div><small>2 Inland + 2 Coastal in each. Captains Brandon and Guy pick.</small></div></li>
         <li class="key"><span class="t">Fri</span><div class="w"><div class="it-h"><b>Format: Wolf</b><span class="chip ok">Locked</span></div><small>Played within each fourball.</small></div></li>
         <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Friday night</b><span class="chip wait">To sort</span></div><small>Dinner and where we drink. Idea: Randpark Barstro has live entertainment on Fridays (to verify).</small></div></li>
       </ul>
@@ -1388,8 +1421,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   })});
 
 
-  // Itinerary counts
-  (function(){
+  // Itinerary counts (re-run when live data locks an item)
+  (window.ftvItCount=function(){
     var all=[].slice.call(document.querySelectorAll('#itinerary .tl-list li'));
     var done=all.filter(function(li){return li.classList.contains('key')}).length;
     var bar=document.getElementById('it-bar'),cnt=document.getElementById('it-count');
@@ -1949,6 +1982,99 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   FTV.on(gate);
 })();
 
+</script>
+
+<script>
+/* ---------- Fourball pairings: live for everyone, editable by captains (and Steve) ---------- */
+(function(){
+  function $(id){return document.getElementById(id)}
+  var FTV=window.FTV, db=FTV&&FTV.db;
+  var PL=[{id:'steve',n:'Steve',t:'in',h:26},{id:'nic',n:'Nic',t:'in',h:13},{id:'luke',n:'Luke',t:'in',h:20},{id:'brandon',n:'Brandon',t:'in',h:10},
+          {id:'guy',n:'Guy',t:'co',h:14},{id:'mitch',n:'Mitch',t:'co',h:30},{id:'jay',n:'Jay',t:'co',h:26},{id:'rich',n:'Rich',t:'co',h:14}];
+  var BY={};PL.forEach(function(p){BY[p.id]=p});
+  var TEE={fri:['12:02','12:10'],sat:['07:30','07:45']};
+  var rows=[], day='fri', team='in', draft={}, saving=false;
+
+  function cur(d,pid){var r=rows.filter(function(x){return x.day===d&&x.player_id===pid})[0];return r?r.fourball:null}
+  function renderTables(){
+    ['fri','sat'].forEach(function(d){[1,2].forEach(function(fb){
+      var tr=document.querySelector('tr[data-day="'+d+'"][data-fb="'+fb+'"]');if(!tr)return;
+      ['in','co'].forEach(function(t){
+        var who=PL.filter(function(p){return p.t===t&&cur(d,p.id)===fb});
+        [0,1].forEach(function(i){
+          var td=tr.querySelector('td[data-slot="'+t+i+'"]');td.textContent='';
+          if(who[i]){var b=document.createElement('span');b.className=t;b.textContent=who[i].n;td.appendChild(b)}
+          else{var x=document.createElement('span');x.className='tbc';x.textContent='TBC';td.appendChild(x)}
+        });
+      });
+    })});
+    var li=$('it-pairs');
+    if(li){
+      var done=PL.every(function(p){return cur('fri',p.id)&&cur('sat',p.id)});
+      li.classList.toggle('key',done);li.classList.toggle('todo',!done);
+      var chip=li.querySelector('.chip');chip.className='chip '+(done?'ok':'wait');chip.textContent=done?'Locked':'To sort';
+      li.querySelector('small').textContent=done?'Set by the captains. See the Courses tab.':'2 Inland + 2 Coastal in each. Captains Brandon and Guy pick.';
+      if(window.ftvItCount)window.ftvItCount();
+    }
+  }
+
+  /* editor */
+  function canEdit(){var m=FTV.me;return !!(m&&m.tour_access&&(m.is_admin||m.is_captain))}
+  function seg(wrap,val,cb){[].slice.call(wrap.querySelectorAll('button')).forEach(function(b){
+    b.setAttribute('aria-pressed',b.dataset.v===val?'true':'false');b.onclick=function(){cb(b.dataset.v)}})}
+  function loadDraft(){draft={};PL.filter(function(p){return p.t===team}).forEach(function(p){var f=cur(day,p.id);if(f)draft[p.id]=f})}
+  function renderEditor(){
+    var card=$('pick-card');card.hidden=!canEdit();if(!canEdit())return;
+    var m=FTV.me;
+    $('pick-team').hidden=!m.is_admin;
+    if(!m.is_admin)team=m.team;
+    seg($('pick-day'),day,function(v){day=v;loadDraft();msg('');renderEditor()});
+    seg($('pick-team'),team,function(v){team=v;loadDraft();msg('');renderEditor()});
+    var wrap=$('pick-rows');wrap.textContent='';
+    PL.filter(function(p){return p.t===team}).forEach(function(p){
+      var r=document.createElement('div');r.className='pick-row';
+      var n=document.createElement('b');n.textContent=p.n;var hc=document.createElement('i');hc.className='hc';hc.textContent='HCP '+p.h;n.appendChild(hc);
+      var f=document.createElement('div');f.className='filter';f.setAttribute('role','group');f.setAttribute('aria-label',p.n+' fourball');
+      [1,2].forEach(function(fb){
+        var b=document.createElement('button');b.type='button';b.dataset.v=String(fb);
+        b.textContent='FB'+fb;var sm=document.createElement('small');sm.textContent=TEE[day][fb-1];b.appendChild(sm);
+        b.setAttribute('aria-pressed',draft[p.id]===fb?'true':'false');
+        b.onclick=function(){draft[p.id]=fb;msg('');renderEditor()};f.appendChild(b);
+      });
+      r.appendChild(n);r.appendChild(f);wrap.appendChild(r);
+    });
+    $('pick-save').textContent='Save '+(day==='fri'?'Friday':'Saturday')+' pairs';
+    $('pick-save').disabled=saving;
+    var last=rows.filter(function(x){return x.day===day&&BY[x.player_id]&&BY[x.player_id].t===team}).sort(function(a,b){return a.updated_at<b.updated_at?1:-1})[0];
+    $('pick-last').textContent=last?('Last saved by '+(last.updated_by||'a captain')+' · '+fmt(last.updated_at)):'Not picked yet.';
+  }
+  function fmt(t){try{return new Date(t).toLocaleString('en-ZA',{weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Africa/Johannesburg'})}catch(e){return ''}}
+  function msg(t,ok){var v=$('pick-msg');v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||''}
+  $('pick-save').addEventListener('click',function(){
+    var ids=PL.filter(function(p){return p.t===team}).map(function(p){return p.id});
+    var c1=ids.filter(function(id){return draft[id]===1}).length,c2=ids.filter(function(id){return draft[id]===2}).length;
+    if(c1+c2<4)return msg('Put all 4 players in a fourball.');
+    if(c1!==2)return msg('Two players in each fourball. You have '+c1+' in FB1 and '+c2+' in FB2.');
+    var p={};ids.forEach(function(id){p[id]=draft[id]});
+    saving=true;renderEditor();
+    db.rpc('ftv_set_pairings',{p_day:day,p_team:team,p:p}).then(function(r){
+      if(r.error)throw r.error;msg('Saved. '+(day==='fri'?'Friday':'Saturday')+' pairs are live.',true);return load();
+    }).catch(function(e){
+      var t=String((e&&e.message)||'');
+      msg(/not_allowed/.test(t)?'Only the captains (and Steve) can pick fourballs.':/two_each/.test(t)?'Two players in each fourball.':'Couldn’t save. Check your signal and try again.');
+    }).then(function(){saving=false;renderEditor()});
+  });
+
+  function load(){
+    if(!db)return Promise.resolve();
+    return db.from('pairings').select('*').then(function(r){if(!r.error){rows=r.data||[];renderTables();if(canEdit()&&!saving){loadDraft();renderEditor()}}});
+  }
+  if(!db)return;
+  FTV.on(function(){loadDraft();renderEditor()});
+  load();
+  try{db.channel('pairings-live').on('postgres_changes',{event:'*',schema:'public',table:'pairings'},function(){load()}).subscribe()}catch(e){}
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
+})();
 </script>
 </body>
 </html>
