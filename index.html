@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#123f28">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fore the V">
+<meta name="description" content="Fore the Boys V: Inland vs Coastal, 6 and 7 November 2026.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Fore the V 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Permanent+Marker&family=Libre+Baskerville:wght@700&display=swap">
+<style>
+/* Layout: a members' tour programme in your pocket. Mown-stripe club-green masthead with a crest,
+   sticky tab rail, one calm column. Jacaranda (Inland, it's November in Pretoria) vs Indian Ocean teal (Coastal).
+   Numbers live on Masters-style manual scoreboard tiles; nicknames are scrawled in marker like a scorecard. */
+:root{
+  --paper:#f3f6f1; --card:#ffffff; --ink:#14201a; --muted:#596b60; --line:#dbe3d8; --line-strong:#c4d0c0;
+  --green:#123f28; --green-2:#1a5536; --green-ink:#eef4ea;
+  --inland:#5b3e96; --inland-soft:#efe9f8;
+  --coastal:#08716c; --coastal-soft:#dff2ef;
+  --on-team:#ffffff;
+  --flag:#e2b23a; --tbc:#7f6110; --tbc-bg:#faf0d2;
+  --tile:#ffffff; --tile-ink:#123f28;
+  --bad:#b3261e; --bad-bg:#fbe4e1; --good:#1d6b3a; --good-bg:#e1f2e6;
+  --f-display:"Big Shoulders Display","Arial Narrow","Helvetica Neue",Impact,sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --f-hand:"Permanent Marker","Comic Sans MS","Bradley Hand",cursive;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0b130f; --card:#131d17; --ink:#e5ede6; --muted:#97aa9d; --line:#223128; --line-strong:#2f4236;
+  --green:#0d2f1e; --green-2:#14432b; --green-ink:#eaf2e6;
+  --inland:#b9a0f2; --inland-soft:#221a35;
+  --coastal:#56d2c6; --coastal-soft:#0f2c2a;
+  --on-team:#0b130f;
+  --flag:#f0c75a; --tbc:#f0c75a; --tbc-bg:#30270e;
+  --tile:#eef3ea; --tile-ink:#0d2f1e;
+  --bad:#ff8f84; --bad-bg:#3a1714; --good:#7fd69c; --good-bg:#12301d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0b130f; --card:#131d17; --ink:#e5ede6; --muted:#97aa9d; --line:#223128; --line-strong:#2f4236;
+  --green:#0d2f1e; --green-2:#14432b; --green-ink:#eaf2e6;
+  --inland:#b9a0f2; --inland-soft:#221a35;
+  --coastal:#56d2c6; --coastal-soft:#0f2c2a;
+  --on-team:#0b130f;
+  --flag:#f0c75a; --tbc:#f0c75a; --tbc-bg:#30270e;
+  --tile:#eef3ea; --tile-ink:#0d2f1e;
+  --bad:#ff8f84; --bad-bg:#3a1714; --good:#7fd69c; --good-bg:#12301d; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--green)}
+.wrap{max-width:780px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit;text-underline-offset:3px;text-decoration-thickness:1px}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{margin:0}
+b,strong{font-weight:700}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+:focus-visible{outline:3px solid var(--flag);outline-offset:2px;border-radius:6px}
+
+/* ---------- Masthead ---------- */
+.mast{background:
+  repeating-linear-gradient(100deg,rgba(255,255,255,.045) 0 46px,rgba(0,0,0,0) 46px 92px),
+  linear-gradient(180deg,var(--green-2),var(--green));color:var(--green-ink);position:relative;overflow:hidden}
+.mast .wrap{padding-block:22px 22px;display:flex;align-items:center;gap:16px}
+.badge{flex:0 0 auto;width:58px;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.28))}
+.mast-t{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mast h1{font:900 clamp(2.4rem,9vw,3.6rem)/.86 var(--f-display);letter-spacing:.005em;text-transform:uppercase}
+.mast .sub{font:500 .74rem/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.82}
+
+/* ---------- Tabs ---------- */
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+nav.tabs .wrap::-webkit-scrollbar{display:none}
+nav.tabs a{flex:0 0 auto;scroll-snap-align:start;text-decoration:none;font:600 .9rem/1 var(--f-body);padding:16px 11px 14px;color:var(--muted);white-space:nowrap;border-bottom:3px solid transparent;display:flex;align-items:center;gap:6px}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--green-2)}
+:root[data-theme="dark"] nav.tabs a[aria-current="page"]{border-bottom-color:var(--flag)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) nav.tabs a[aria-current="page"]{border-bottom-color:var(--flag)}}
+nav.tabs a.q::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--flag)}
+
+/* ---------- Page scaffolding ---------- */
+main .wrap{padding-block:26px 56px}
+section[data-view]{display:flex;flex-direction:column;gap:20px}
+.head{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font:500 .72rem/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h2{font:800 clamp(2rem,7vw,2.6rem)/.95 var(--f-display);text-transform:uppercase;letter-spacing:.005em}
+h3{font:700 1.08rem/1.3 var(--f-body)}
+.lede{color:var(--muted);max-width:60ch}
+.sub-h{font:800 1.45rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.01em;margin-top:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.tbc{display:inline-block;background:var(--tbc-bg);color:var(--tbc);padding:1px 7px;border-radius:5px;font:500 .78em/1.5 var(--f-mono);letter-spacing:.04em;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font:600 .68rem/1.2 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.chip.in{background:var(--inland);color:var(--on-team)}
+.chip.co{background:var(--coastal);color:var(--on-team)}
+.chip.wait{background:var(--tbc-bg);color:var(--tbc)}
+.chip.wait::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.note{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px 16px;background:var(--tbc-bg);border-radius:var(--r);font-size:.95rem}
+.note svg{width:18px;height:18px;margin-top:3px;color:var(--tbc)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin:0}
+.kv dt{font:500 .72rem/1.9 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.kv dd{margin:0}
+.maplink{display:inline-flex;align-items:center;gap:6px;font-weight:600;text-decoration:none;color:var(--ink);border:1px solid var(--line-strong);border-radius:999px;padding:8px 14px;align-self:flex-start;font-size:.9rem}
+.maplink:hover{border-color:var(--ink)}
+
+/* ---------- Home: matchup ---------- */
+.matchup{display:grid;grid-template-columns:1fr auto 1fr;border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.side{padding:18px 16px 16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.side.in{background:var(--inland-soft)}
+.side.co{background:var(--coastal-soft)}
+.side .tn{font:900 2.3rem/.9 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
+.side.in .tn{color:var(--inland)}
+.side.co .tn{color:var(--coastal)}
+.side ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.side li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-top:1px solid color-mix(in srgb,var(--ink) 10%,transparent);font-weight:600}
+.side li span{font:400 .74rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:right}
+.vsbar{background:var(--green);color:var(--green-ink);display:flex;align-items:center;justify-content:center;padding:0 10px;font:900 1.15rem/1 var(--f-display);text-transform:uppercase;writing-mode:vertical-rl;letter-spacing:.2em}
+@media (max-width:540px){
+  .matchup{grid-template-columns:1fr}
+  .vsbar{writing-mode:horizontal-tb;padding:8px;letter-spacing:.3em}
+}
+
+/* Countdown on scoreboard tiles */
+.board-frame{background:var(--green);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px;color:var(--green-ink)}
+.board-frame .eyebrow{color:var(--green-ink);opacity:.8}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tile{background:var(--tile);color:var(--tile-ink);border-radius:6px;padding:10px 4px 8px;text-align:center;box-shadow:inset 0 -3px 0 rgba(0,0,0,.08)}
+.tile b{display:block;font:900 clamp(2.1rem,10vw,3rem)/1 var(--f-display);font-variant-numeric:tabular-nums}
+.tile span{font:500 .62rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.board-frame p{font-size:.92rem;opacity:.85}
+
+/* Day cards */
+.dayc{position:relative}
+.dayc .dnum{font:900 3.4rem/.8 var(--f-display);color:var(--line-strong);position:absolute;right:16px;top:14px}
+.tees{display:flex;gap:8px;flex-wrap:wrap}
+.tee{font:600 .95rem/1 var(--f-mono);font-variant-numeric:tabular-nums;border:1px solid var(--line-strong);border-radius:8px;padding:8px 10px}
+.fmt{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fmt b{font:800 1.3rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+
+/* ---------- Schedule timeline ---------- */
+.tl{display:flex;flex-direction:column;gap:22px}
+.tl-day{display:flex;flex-direction:column;gap:10px}
+.tl-day header{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.tl-day header h3{font:800 1.5rem/1 var(--f-display);text-transform:uppercase}
+.tl-list{list-style:none;margin:0;padding:0;border-left:2px solid var(--line-strong);margin-left:6px;display:flex;flex-direction:column}
+.tl-list li{position:relative;display:grid;grid-template-columns:64px 1fr;gap:12px;padding:10px 0 10px 18px}
+.tl-list li::before{content:"";position:absolute;left:-7px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--line-strong)}
+.tl-list li.key::before{background:var(--green-2);border-color:var(--green-2)}
+:root[data-theme="dark"] .tl-list li.key::before{background:var(--flag);border-color:var(--flag)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tl-list li.key::before{background:var(--flag);border-color:var(--flag)}}
+.tl-list .t{font:600 .95rem/1.5 var(--f-mono);font-variant-numeric:tabular-nums}
+.tl-list .w{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tl-list .w small{color:var(--muted);font-size:.9rem}
+
+/* ---------- Tables (fourballs, logistics) ---------- */
+.tbl{overflow-x:auto;margin:0 -2px}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+thead th{font:500 .66rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-bottom-color:var(--line-strong)}
+thead th.in{color:var(--inland)}
+thead th.co{color:var(--coastal)}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+td.num{font:600 .95rem var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody th{font:500 .7rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);width:38%}
+
+/* ---------- Formats ---------- */
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.opt{border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--paper)}
+.opt .pts{font:900 3rem/.85 var(--f-display);font-variant-numeric:tabular-nums;color:var(--green-2)}
+:root[data-theme="dark"] .opt .pts{color:var(--flag)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .opt .pts{color:var(--flag)}}
+.opt .pts small{font:500 .7rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.risk{display:flex;gap:3px}
+.risk i{width:16px;height:5px;border-radius:2px;background:var(--line-strong)}
+.risk i.on{background:var(--ink)}
+.opt .when{font:500 .7rem/1.4 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.opt p{font-size:.93rem}
+.fine{color:var(--muted);font-size:.93rem}
+
+/* Cha Cha Cha scorecard strip */
+.card9{display:grid;grid-template-columns:52px repeat(9,1fr);border:1px solid var(--line-strong);border-radius:10px;overflow:hidden;font-variant-numeric:tabular-nums}
+.card9 > div{text-align:center;padding:7px 0;border-left:1px solid var(--line);font:600 .82rem/1 var(--f-mono)}
+.card9 > div:nth-child(10n+1){border-left:0;text-align:left;padding-left:8px;font:500 .6rem/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center}
+.card9 .hrow{background:var(--paper);color:var(--muted);border-bottom:1px solid var(--line-strong)}
+.card9 .c1,.card9 .c2,.card9 .c3{font:900 1.35rem/1 var(--f-display);padding:8px 0}
+.card9 .c1{background:var(--card);color:var(--muted)}
+.card9 .c2{background:color-mix(in srgb,var(--green-2) 12%,var(--card))}
+.card9 .c3{background:var(--green-2);color:var(--green-ink)}
+:root[data-theme="dark"] .card9 .c3{background:var(--flag);color:#1a1405}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .card9 .c3{background:var(--flag);color:#1a1405}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.86rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:3px;border:1px solid var(--line-strong)}
+.example{border-left:3px solid var(--green-2);padding:2px 0 2px 14px}
+:root[data-theme="dark"] .example{border-left-color:var(--flag)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .example{border-left-color:var(--flag)}}
+
+/* ---------- Leaderboard (manual board) ---------- */
+.lb{background:var(--green);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px;color:var(--green-ink)}
+.lb-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lb-top .eyebrow{color:var(--green-ink);opacity:.85}
+.lb-title{font:900 1.6rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.08em}
+.lb-rows{display:flex;flex-direction:column;gap:6px}
+.lb-row{display:grid;grid-template-columns:1fr repeat(3,minmax(54px,72px));gap:6px}
+.lb-row > *{background:var(--tile);color:var(--tile-ink);border-radius:5px;padding:10px 8px;display:flex;align-items:center;justify-content:center;font:900 1.7rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.lb-row .nm{justify-content:flex-start;font-size:1.35rem;letter-spacing:.06em;text-transform:uppercase;gap:10px}
+.lb-row .nm i{width:10px;height:22px;border-radius:2px}
+.lb-row.in .nm i{background:#5b3e96}
+.lb-row.co .nm i{background:#08716c}
+.lb-row .tot{background:var(--flag);color:#1a1405}
+.lb-row.hd > *{background:transparent;color:var(--green-ink);opacity:.75;font:500 .62rem/1.2 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;padding:0 4px 2px}
+.lb-row.hd .nm{justify-content:flex-start}
+.lb-row.hd > :not(.nm){text-align:center;line-height:1.25}
+
+/* ---------- Players ---------- */
+.players{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.pl{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:52px 1fr;gap:4px 14px;align-content:start}
+.mono-badge{grid-row:span 3;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:900 1.25rem/1 var(--f-display);letter-spacing:.02em;color:var(--on-team)}
+.pl.in .mono-badge{background:var(--inland)}
+.pl.co .mono-badge{background:var(--coastal)}
+.pl .nick{font:400 1.32rem/1.15 var(--f-hand);transform:rotate(-1.2deg);transform-origin:left center;align-self:end}
+.pl.in .nick{color:var(--inland)}
+.pl.co .nick{color:var(--coastal)}
+.pl h3{font:700 1rem/1.25 var(--f-body)}
+.pl .from{font:500 .68rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.pl p{grid-column:1 / -1;font-size:.94rem;margin-top:10px;padding-top:12px;border-top:1px dashed var(--line-strong)}
+.filter{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;padding:3px;gap:2px;align-self:flex-start}
+.filter button{font:600 .82rem/1 var(--f-body);border:0;background:transparent;color:var(--muted);padding:9px 14px;border-radius:999px;cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* ---------- Fines: the bar tab ---------- */
+.tab{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 8px;display:flex;flex-direction:column;gap:4px;position:relative}
+.tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:10px;background:radial-gradient(circle at 7px 10px,var(--paper) 6px,transparent 6.5px) 0 0/14px 10px repeat-x}
+.tab .tab-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-bottom:10px;border-bottom:1px dashed var(--line-strong)}
+.tab .tab-h h3{font:800 1.45rem/1 var(--f-display);text-transform:uppercase}
+.lines{list-style:none;margin:0;padding:0 0 14px}
+.lines li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.lines li:last-child{border-bottom:0}
+.lines b{display:block}
+.lines small{color:var(--muted);font-size:.88rem}
+.lines .pen{font:600 .82rem/1.4 var(--f-mono);text-align:right;white-space:nowrap;align-self:start;padding-top:2px}
+
+/* ---------- Exec Qs ---------- */
+.progress{display:flex;align-items:center;gap:12px}
+.progress .bar{flex:1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.progress .bar i{display:block;height:100%;width:0;background:var(--green-2);border-radius:99px;transition:width .25s ease}
+:root[data-theme="dark"] .progress .bar i{background:var(--flag)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .progress .bar i{background:var(--flag)}}
+.progress span{font:600 .82rem var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.qlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.qlist li.qgroup{font:800 1.3rem/1 var(--f-display);text-transform:uppercase;margin-top:12px;padding:0 2px}
+.qlist li.qgroup:first-child{margin-top:0}
+.qlist li:not(.qgroup){background:var(--card);border:1px solid var(--line);border-radius:12px;transition:opacity .2s}
+.qlist label{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:14px;cursor:pointer;align-items:start}
+.qlist input{appearance:none;-webkit-appearance:none;width:24px;height:24px;margin:0;border:2px solid var(--line-strong);border-radius:7px;display:grid;place-items:center;cursor:pointer;background:var(--card)}
+.qlist input::after{content:"";width:6px;height:11px;border:solid var(--green-ink);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px);opacity:0}
+.qlist input:checked{background:var(--green-2);border-color:var(--green-2)}
+.qlist input:checked::after{opacity:1}
+.qlist .qn{font:500 .66rem/1 var(--f-mono);letter-spacing:.12em;color:var(--muted)}
+.qlist b{display:block;margin-top:4px;line-height:1.35}
+.qlist small{display:block;color:var(--muted);margin-top:4px;font-size:.88rem}
+.qlist li.done{opacity:.5}
+.qlist li.done b{text-decoration:line-through;text-decoration-thickness:1.5px}
+
+/* ---------- Archive gallery ---------- */
+.archive{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ph{margin:0;position:relative;border-radius:12px;overflow:hidden;background:var(--line);min-width:0}
+.ph button{all:unset;display:block;width:100%;cursor:zoom-in}
+.ph button:focus-visible{outline:3px solid var(--flag);outline-offset:-3px}
+.ph img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .4s ease}
+.ph.wide{grid-column:1 / -1}
+.ph.wide img{aspect-ratio:16/10}
+.ph figcaption{position:absolute;left:0;right:0;bottom:0;padding:28px 12px 10px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));color:#fff;display:flex;flex-direction:column;gap:2px;pointer-events:none}
+.ph figcaption b{font:800 1.15rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.ph figcaption span{font:500 .62rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+@media (hover:hover) and (prefers-reduced-motion: no-preference){.ph button:hover img{transform:scale(1.03)}}
+.ttile{border-radius:12px;background:var(--green);color:var(--green-ink);padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-width:0;background-image:repeating-linear-gradient(100deg,rgba(255,255,255,.045) 0 30px,rgba(0,0,0,0) 30px 60px)}
+.ttile .badge{width:42px}
+.ttile b{display:block;font:900 clamp(1.5rem,6vw,2rem)/.92 var(--f-display);text-transform:uppercase}
+.champs{display:flex;flex-direction:column;gap:4px;border-top:1px solid rgba(255,255,255,.22);padding-top:12px}
+.champs span{font:500 .62rem/1.3 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--flag)}
+.champs b{font-size:clamp(1.15rem,4.6vw,1.45rem)}
+.champ{display:inline-flex;align-items:center;gap:5px;margin-left:8px;padding:2px 7px;border-radius:999px;background:var(--tbc-bg);color:var(--tbc);font:600 .6rem/1.4 var(--f-mono);letter-spacing:.1em;white-space:nowrap}
+.ttile p{font:500 .66rem/1.5 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(94vw,900px);max-height:92vh;overflow:visible}
+dialog.lb::backdrop{background:rgba(5,10,7,.88)}
+dialog.lb img{display:block;max-width:100%;max-height:82vh;border-radius:10px;margin:0 auto}
+dialog.lb p{color:#fff;text-align:center;font:500 .72rem/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;margin-top:10px}
+dialog.lb .x{position:absolute;top:-14px;right:-6px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#111;font:600 1.3rem/1 var(--f-body);cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+
+/* ---------- Honours board (deliberately one look: varnished wood + gold leaf, in both themes) ---------- */
+.tlink{font:600 .78rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--flag);text-decoration:none}
+.tlink:hover{text-decoration:underline}
+.hboard{--gold:#e0bd62;--gold-dim:#b8964a;--wood:#3b2414;
+  border-radius:10px;padding:22px 18px 18px;color:var(--gold);
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 2px,rgba(0,0,0,0) 2px 7px),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.08) 0 1px,rgba(0,0,0,0) 1px 13px),
+    linear-gradient(170deg,#5a3720 0%,#43291a 45%,#33200f 100%);
+  border:7px solid #24150a;box-shadow:inset 0 0 0 1px rgba(224,189,98,.35),inset 0 2px 18px rgba(0,0,0,.5),0 10px 28px rgba(0,0,0,.18);
+  display:flex;flex-direction:column;gap:14px}
+.hboard header{text-align:center;display:flex;flex-direction:column;gap:6px;padding-bottom:14px;border-bottom:1px solid rgba(224,189,98,.35)}
+.hboard header b{font:700 clamp(1.25rem,5.4vw,1.7rem)/1.1 "Libre Baskerville",Georgia,serif;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 0 rgba(0,0,0,.6)}
+.hboard header span{font:500 .62rem/1.3 var(--f-mono);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-dim)}
+.hrows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.hrows li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:4px 12px;align-items:baseline;padding:11px 0;border-bottom:1px dotted rgba(224,189,98,.3)}
+.hrows li:last-child{border-bottom:0}
+.hrows .n{font:700 1.15rem/1 "Libre Baskerville",Georgia,serif;text-shadow:0 1px 0 rgba(0,0,0,.6)}
+.hrows .th{font:700 .98rem/1.3 "Libre Baskerville",Georgia,serif;text-shadow:0 1px 0 rgba(0,0,0,.6);min-width:0}
+.hrows .th small{display:block;font:500 .6rem/1.5 var(--f-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dim);text-shadow:none;margin-top:2px}
+.hrows .w{font:700 .9rem/1.3 "Libre Baskerville",Georgia,serif;font-style:italic;text-align:right;text-shadow:0 1px 0 rgba(0,0,0,.6)}
+.hrows li.open .th,.hrows li.open .n{color:var(--gold-dim)}
+.hrows li.open .w{font:500 .7rem/1.3 var(--f-mono);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);border:1px dashed rgba(224,189,98,.45);border-radius:4px;padding:4px 8px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.stat .rec{font:900 2.3rem/.9 var(--f-display);font-variant-numeric:tabular-nums}
+.stat .rec small{font:500 .66rem var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.stat b{font-weight:700}
+.stat p{font-size:.88rem;color:var(--muted)}
+
+.tours{display:flex;flex-direction:column;gap:12px}
+.tour{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
+.tour-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.tour-h h3{font:800 1.45rem/1 var(--f-display);text-transform:uppercase}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rost{border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.rost.won{border-color:var(--flag);background:var(--tbc-bg)}
+.rost-h{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.rost-h b{font:800 1.1rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.rost.won .rost-h b{color:var(--tbc)}
+.trophy{font:600 .58rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;background:var(--flag);color:#1a1405;padding:4px 7px;border-radius:999px}
+.rost ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.rost li{font-size:.86rem;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--paper);border:1px solid var(--line)}
+.rost li.now{border-color:var(--ink)}
+.rost li.unk{font:500 .74rem/1.6 var(--f-mono);color:var(--tbc);background:var(--tbc-bg);border-color:transparent}
+.legend-now{font-size:.84rem;color:var(--muted)}
+.legend-now i{display:inline-block;width:12px;height:12px;border-radius:999px;border:1px solid var(--ink);vertical-align:-1px;margin-right:4px}
+
+/* ---------- Log a Dop ---------- */
+.form-step{display:flex;flex-direction:column;gap:10px;padding-top:14px;border-top:1px dashed var(--line-strong)}
+.form-step:first-of-type{border-top:0;padding-top:0}
+.step-h{display:flex;align-items:center;gap:10px}
+.step-h .n{flex:0 0 auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:900 1.05rem/1 var(--f-display);font-variant-numeric:tabular-nums;background:var(--green-2);color:var(--green-ink)}
+.step-h b{font:800 1.2rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.picks{display:flex;flex-wrap:wrap;gap:8px}
+.pick-team{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pick-team .eyebrow{font-size:.64rem}
+.pick{font:600 .95rem/1 var(--f-body);border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink);padding:11px 14px;border-radius:999px;cursor:pointer;min-height:44px}
+.pick.in[aria-pressed="true"]{background:var(--inland);border-color:var(--inland);color:var(--on-team)}
+.pick.co[aria-pressed="true"]{background:var(--coastal);border-color:var(--coastal);color:var(--on-team)}
+.pick.neutral[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.pick:disabled{opacity:.35;cursor:not-allowed}
+.kinds{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:8px}
+.kind{all:unset;box-sizing:border-box;cursor:pointer;border:1.5px solid var(--line-strong);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;background:var(--card)}
+.kind b{font-weight:700}
+.kind small{grid-column:1;color:var(--muted);font-size:.84rem}
+.kind .p{grid-row:1 / span 2;grid-column:2;font:900 2rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.kind[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);background:color-mix(in srgb,var(--flag) 16%,var(--card))}
+.kind:hover{border-color:var(--ink)}
+.kind:focus-visible{outline:3px solid var(--flag);outline-offset:2px}
+.holes{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:5px}
+.holes .pick{padding:10px 0;border-radius:8px;text-align:center;font-family:var(--f-mono);min-height:42px}
+.holes .pick.taken{text-decoration:line-through}
+.watch{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.watch-side{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pint-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;width:120px}
+.pint{width:120px;height:auto;overflow:visible}
+.pint-left{font:600 .7rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
+.pint-left.over{color:var(--bad)}
+.watch-face{background:var(--green);color:var(--green-ink);border-radius:10px;padding:10px 14px;min-width:132px;text-align:center}
+.watch-face b{display:block;font:900 2.6rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.watch-face span{font:500 .6rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.watch-face.over{background:var(--bad)}
+.watch-btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{font:700 .92rem/1 var(--f-body);border:0;border-radius:999px;padding:12px 18px;cursor:pointer;min-height:44px;background:var(--ink);color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line-strong)}
+.btn.big{width:100%;padding:16px;font:900 1.35rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.06em;background:var(--flag);color:#1a1405}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.danger{background:var(--bad);color:#fff}
+.btn.ghost:hover{border-color:var(--ink)}
+.check{display:grid;grid-template-columns:24px 1fr;gap:10px;align-items:start;cursor:pointer;font-size:.95rem}
+.check input{appearance:none;-webkit-appearance:none;width:24px;height:24px;margin:0;border:2px solid var(--line-strong);border-radius:7px;display:grid;place-items:center;cursor:pointer;background:var(--card)}
+.check input::after{content:"";width:6px;height:11px;border:solid var(--green-ink);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px);opacity:0}
+.check input:checked{background:var(--green-2);border-color:var(--green-2)}
+.check input:checked::after{opacity:1}
+.verdict{border-radius:10px;padding:12px 14px;font-size:.95rem;display:none}
+.verdict.show{display:block}
+.verdict.ok{background:var(--good-bg);color:var(--good)}
+.verdict.no{background:var(--bad-bg);color:var(--bad)}
+.dlog{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.dlog li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:11px 0;border-bottom:1px dashed var(--line)}
+.dlog li:last-child{border-bottom:0}
+.dlog .pts{font:900 1.6rem/1 var(--f-display);font-variant-numeric:tabular-nums;width:38px;height:38px;border-radius:8px;display:grid;place-items:center;color:var(--on-team)}
+.dlog li.in .pts{background:var(--inland)}
+.dlog li.co .pts{background:var(--coastal)}
+.dlog .what{min-width:0}
+.dlog .what b{display:block}
+.dlog .what small{color:var(--muted);font-size:.84rem}
+.dlog .del{font:600 .74rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;border:1px solid var(--line-strong);color:var(--muted);border-radius:999px;padding:8px 10px;cursor:pointer;min-height:36px}
+.dlog .del.arm{background:var(--bad);border-color:var(--bad);color:#fff}
+.prac{font:600 .6rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;background:var(--tbc-bg);color:var(--tbc);padding:3px 6px;border-radius:4px;margin-left:6px;vertical-align:1px}
+.empty{color:var(--muted);font-size:.95rem;padding:6px 0}
+.pin-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px dashed var(--line-strong)}
+.pin-row label{font:800 1.2rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.pin-row input{font:600 1.1rem/1 var(--f-mono);letter-spacing:.25em;padding:12px 14px;border:1.5px solid var(--line-strong);border-radius:10px;background:var(--card);color:var(--ink);width:11ch;min-height:46px}
+.rules{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:.94rem}
+
+/* ---------- Footer ---------- */
+footer{border-top:1px solid var(--line)}
+footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
+
+@media (prefers-reduced-motion: no-preference){
+  section[data-view]:not([hidden]){animation:rise .22s ease-out}
+  @keyframes rise{from{opacity:.5;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<header class="mast">
+  <div class="wrap">
+    <svg class="badge" viewBox="0 0 60 86" role="img" aria-label="FTB Tour badge"><g id="ftb-badge">
+      <rect x="1.5" y="1.5" width="57" height="83" rx="8" fill="#d42a2f" stroke="#ffffff" stroke-width="2"/>
+      <g fill="#ffffff" font-family="'Libre Baskerville',Georgia,'Times New Roman',serif" font-weight="700" text-anchor="middle">
+        <text x="17" y="17" font-size="11.5" letter-spacing=".5">FTB</text>
+        <text x="13" y="33" font-size="14">T</text>
+        <text x="13" y="48" font-size="14">O</text>
+        <text x="13" y="63" font-size="14">U</text>
+        <text x="13" y="78" font-size="14">R</text>
+      </g>
+      <path d="M52 18.6 L31 20.6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+      <g fill="#ffffff" stroke="#ffffff" stroke-width="1.3" stroke-linejoin="round">
+        <circle cx="43.8" cy="22.4" r="4.5" stroke="none"/>
+        <path d="M38.6 28.6 Q43 26.8 47.4 29 L44.2 48.4 L36.2 48 Z"/>
+        <path d="M44.2 31.4 L47.8 28.8 L53.6 19.4 L50.8 17.6 Z"/>
+        <path d="M39.6 47.2 L44.6 47.6 L47 76.6 L43 77 Z"/>
+        <path d="M42.6 76 L50.4 76.6 L50.4 79 L42.6 79 Z"/>
+        <path d="M36 47.2 L41.2 48.2 L36.4 63.2 L31.2 76.6 L28 77 L32 62.4 Z"/>
+      </g></g>
+    </svg>
+    <div class="mast-t">
+      <h1>Fore the V</h1>
+      <span class="sub">Fore the Boys V · Fri 6 &amp; Sat 7 Nov · Sandton</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap">
+    <a href="#home">Home</a>
+    <a href="#schedule">Schedule</a>
+    <a href="#courses">Courses</a>
+    <a href="#formats">Formats</a>
+    <a href="#scores">Leaderboard</a>
+    <a href="#dops">Log a Dop</a>
+    <a href="#players">Players</a>
+    <a href="#honours">Honours</a>
+    <a href="#fines">Fines &amp; Bets</a>
+    <a href="#logistics">Logistics</a>
+    <a href="#questions" class="q">Exec Qs</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+<!-- HOME -->
+<section data-view="home">
+  <div class="board-frame">
+    <span class="eyebrow">First tee · Randpark Bushwillow · Fri 12:02</span>
+    <div class="countdown" id="countdown" aria-live="polite">
+      <div class="tile"><b id="cd-d">–</b><span>Days</span></div>
+      <div class="tile"><b id="cd-h">–</b><span>Hrs</span></div>
+      <div class="tile"><b id="cd-m">–</b><span>Mins</span></div>
+      <div class="tile"><b id="cd-s">–</b><span>Secs</span></div>
+    </div>
+    <p id="cd-msg">Time left to find your golf shoes and lower your expectations.</p>
+  </div>
+
+  <div class="head"><span class="eyebrow">4 vs 4 · handicap points</span><h2>The teams</h2></div>
+  <div class="matchup">
+    <div class="side in">
+      <span class="tn">Inland</span>
+      <ul>
+        <li>Steve<span>Sandton, GP</span></li>
+        <li>Nic<span>Sandton, GP</span></li>
+        <li>Luke<span>Centurion, GP</span></li>
+        <li>Brandon<span>Pretoria, GP</span></li>
+      </ul>
+    </div>
+    <div class="vsbar" aria-hidden="true">vs</div>
+    <div class="side co">
+      <span class="tn">Coastal</span>
+      <ul>
+        <li>Guy<span>Durbanville, WC</span></li>
+        <li>Mitch<span>Hillcrest, KZN</span></li>
+        <li>Jay<span>Umdloti, KZN</span></li>
+        <li>Rich<span>Richmond, KZN</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="head"><span class="eyebrow">Two rounds · all 8 play both</span><h2>The weekend</h2></div>
+  <div class="grid2">
+    <div class="card dayc">
+      <span class="dnum" aria-hidden="true">01</span>
+      <span class="eyebrow">Day 1 · Fri 6 Nov</span>
+      <h3>Randpark, Bushwillow</h3>
+      <div class="tees"><span class="tee">12:02</span><span class="tee">12:10</span></div>
+      <div class="fmt"><b>Wolf</b><span class="chip wait">To confirm</span></div>
+    </div>
+    <div class="card dayc">
+      <span class="dnum" aria-hidden="true">02</span>
+      <span class="eyebrow">Day 2 · Sat 7 Nov</span>
+      <h3>Jackal Creek</h3>
+      <div class="tees"><span class="tee">07:30</span><span class="tee">07:45</span></div>
+      <div class="fmt"><b>Cha Cha Cha</b><span class="chip wait">To confirm</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <span class="eyebrow">Base camp</span>
+    <h3>Abbotsbury · 8 Lower Rd, Morningside, Sandton</h3>
+    <p class="lede">Every fourball is 2 Inland vs 2 Coastal. Every point counts towards the cup. Every drink counts towards nothing, which has never stopped anyone.</p>
+  </div>
+
+  <div class="head"><span class="eyebrow">From the archive · Tour IV · Pretoria 2025</span><h2>Last tour</h2></div>
+  <div class="archive" id="archive">
+    <figure class="ph wide"><button type="button" aria-label="Enlarge photo: Boks on the big screen"><img src="img/tour-boks.jpg" alt="Seven of the boys at a long bar table, most in Springbok jerseys, one wearing a tiara and one a championship belt" loading="lazy" width="1100" height="825"></button><figcaption><b>Boks on the big screen</b><span>Tiara and belt mandatory</span></figcaption></figure>
+    <figure class="ph"><button type="button" aria-label="Enlarge photo: The Ashes"><img src="img/tour-ashes.jpg" alt="Two teams in matching tour shirts, orange and red-on-white, posing at the bar" loading="lazy" width="825" height="1100" style="object-position:center 35%"></button><figcaption><b>The Ashes</b><span>Team Australia took the belt</span></figcaption></figure>
+    <figure class="ph"><button type="button" aria-label="Enlarge photo: The silverware"><img src="img/tour-cup.jpg" alt="Three of the boys holding a silver trophy cup together" loading="lazy" width="825" height="1100" style="object-position:center 30%"></button><figcaption><b>The silverware</b><span>Hands off, it's shared</span></figcaption></figure>
+    <figure class="ph"><button type="button" aria-label="Enlarge photo: Tour fuel"><img src="img/tour-fuel.jpg" alt="A bottle of Richelieu brandy and glasses of Coke on the bar, with the championship belt behind" loading="lazy" width="825" height="1100"></button><figcaption><b>Tour fuel</b><span>Richelieu &amp; Coke, R59 happy hour</span></figcaption></figure>
+    <div class="ttile">
+      <svg class="badge" viewBox="0 0 60 86" aria-hidden="true"><use href="#ftb-badge"/></svg>
+      <div><b>Fore the Boys IV</b><p>Pretoria Tour · The Ashes · 2025</p></div>
+      <div class="champs"><span>Won by Team Australia</span><b>Steve · Guy · Jay</b><p>Now split across both teams. Awkward.</p></div>
+      <a class="tlink" href="#honours">Full honours board →</a>
+    </div>
+  </div>
+  <dialog class="lb" id="lb" aria-label="Photo"><button type="button" class="x" id="lb-x" aria-label="Close">×</button><img id="lb-img" alt=""><p id="lb-cap"></p></dialog>
+</section>
+
+<!-- SCHEDULE -->
+<section data-view="schedule" hidden>
+  <div class="head"><span class="eyebrow">All times SAST</span><h2>Schedule</h2></div>
+  <p class="lede">Fourballs are picked by the team captains this week, so the groups below are placeholders.</p>
+  <div class="tl">
+    <div class="tl-day">
+      <header><h3>Thu 5 Nov</h3><span class="eyebrow">Maybe</span></header>
+      <ul class="tl-list">
+        <li><span class="t">TBC</span><div class="w"><b>Arrivals?</b><small>Thursday night or Friday morning still <span class="tbc">TBC</span></small></div></li>
+      </ul>
+    </div>
+    <div class="tl-day">
+      <header><h3>Fri 6 Nov</h3><span class="eyebrow">Day 1 · Randpark</span></header>
+      <ul class="tl-list">
+        <li><span class="t">TBC</span><div class="w"><b>Leave Abbotsbury for Randpark</b><small>Drivers <span class="tbc">TBC</span></small></div></li>
+        <li class="key"><span class="t">12:02</span><div class="w"><b>Fourball 1 tees off</b><small>Randpark Bushwillow · 2 Inland + 2 Coastal <span class="tbc">TBC</span></small></div></li>
+        <li class="key"><span class="t">12:10</span><div class="w"><b>Fourball 2 tees off</b><small>Randpark Bushwillow · 2 Inland + 2 Coastal <span class="tbc">TBC</span></small></div></li>
+        <li><span class="t">TBC</span><div class="w"><b>Friday night</b><small>Plans <span class="tbc">TBC</span>. Reminder: Saturday tee-off is 07:30.</small></div></li>
+      </ul>
+    </div>
+    <div class="tl-day">
+      <header><h3>Sat 7 Nov</h3><span class="eyebrow">Day 2 · Jackal Creek</span></header>
+      <ul class="tl-list">
+        <li><span class="t">TBC</span><div class="w"><b>Leave Abbotsbury for Jackal Creek</b><small>Probably around 06:30. Bring Panado.</small></div></li>
+        <li class="key"><span class="t">07:30</span><div class="w"><b>Fourball 1 tees off</b><small>Jackal Creek · 2 Inland + 2 Coastal <span class="tbc">TBC</span></small></div></li>
+        <li class="key"><span class="t">07:45</span><div class="w"><b>Fourball 2 tees off</b><small>Jackal Creek · 2 Inland + 2 Coastal <span class="tbc">TBC</span></small></div></li>
+        <li><span class="t">TBC</span><div class="w"><b>Final tally &amp; the cup</b><small>Plus Saturday night <span class="tbc">TBC</span></small></div></li>
+      </ul>
+    </div>
+    <div class="tl-day">
+      <header><h3>Sun 8 Nov</h3><span class="eyebrow">Home time</span></header>
+      <ul class="tl-list">
+        <li><span class="t">TBC</span><div class="w"><b>Departures?</b><small><span class="tbc">TBC</span></small></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section data-view="courses" hidden>
+  <div class="head"><span class="eyebrow">Two clubs · two days</span><h2>Courses</h2></div>
+  <div class="card">
+    <span class="eyebrow">Day 1 · Fri 6 Nov</span>
+    <h3>Randpark Golf Club, Bushwillow course</h3>
+    <div class="fmt"><b>Wolf</b><span class="chip wait">To confirm</span></div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Tee</th><th class="in">Inland</th><th class="in">Inland</th><th class="co">Coastal</th><th class="co">Coastal</th></tr></thead>
+        <tbody>
+          <tr><td class="num">12:02</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+          <tr><td class="num">12:10</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">Green fees, carts &amp; caddies <span class="tbc">TBC</span></p>
+    <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Randpark+Golf+Club+Bushwillow" target="_blank" rel="noopener">Open in Maps ↗</a>
+  </div>
+  <div class="card">
+    <span class="eyebrow">Day 2 · Sat 7 Nov</span>
+    <h3>Jackal Creek Golf Estate</h3>
+    <div class="fmt"><b>Cha Cha Cha</b><span class="chip wait">To confirm</span></div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Tee</th><th class="in">Inland</th><th class="in">Inland</th><th class="co">Coastal</th><th class="co">Coastal</th></tr></thead>
+        <tbody>
+          <tr><td class="num">07:30</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+          <tr><td class="num">07:45</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">Green fees, carts &amp; caddies <span class="tbc">TBC</span></p>
+    <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Jackal+Creek+Golf+Estate" target="_blank" rel="noopener">Open in Maps ↗</a>
+  </div>
+</section>
+
+<!-- FORMATS -->
+<section data-view="formats" hidden>
+  <div class="head"><span class="eyebrow">As proposed by Guy</span><h2>Formats &amp; rules</h2></div>
+  <div class="note">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
+    <p>The execs are finalising the details, so anything here can still change. Scoring is on <b>handicap points</b> and every point goes straight into the team's tour total.</p>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">Day 1 (likely) · within each fourball</span>
+    <h3 class="sub-h">Wolf</h3>
+    <p>One player per hole is the Wolf. He tees off first and decides how brave (or stupid) he's feeling. Holes 1 and 10 are looseners with no Wolf, so over the other 16 holes everyone gets to be Wolf 4 times.</p>
+    <div class="opts">
+      <div class="opt">
+        <span class="pts">6<small>pts</small></span>
+        <h3>Blind Wolf</h3>
+        <div class="risk" aria-label="Risk: maximum"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        <span class="when">Call before tee shot</span>
+        <p>Wolf alone vs the 2 opponents. His teammate is neutral. Win: 6 to his team. Lose: 6 to theirs.</p>
+      </div>
+      <div class="opt">
+        <span class="pts">4<small>pts</small></span>
+        <h3>Lone Wolf</h3>
+        <div class="risk" aria-label="Risk: high"><i class="on"></i><i class="on"></i><i></i></div>
+        <span class="when">Call after tee shot</span>
+        <p>Same as Blind, but he's seen where his drive went first. Win: 4. Lose: 4 to the other lot.</p>
+      </div>
+      <div class="opt">
+        <span class="pts">2+2<small>pts</small></span>
+        <h3>Partner Wolf</h3>
+        <div class="risk" aria-label="Risk: low"><i class="on"></i><i></i><i></i></div>
+        <span class="when">Pick after 2nd or 3rd tee shot</span>
+        <p>Picks a partner. Don't pick and you get the 4th player. Combined scores decide it. Win or lose: 2 points each.</p>
+      </div>
+    </div>
+    <p class="fine">Ties: nobody scores. Partner from the other team = "damage control", both teams get 2 and it's all square.</p>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">Day 2 (likely) · all 4 vs all 4, across both fourballs</span>
+    <h3 class="sub-h">Cha Cha Cha</h3>
+    <p>Everyone plays their own ball for handicap points. On each hole, only the team's best scores count, and how many count rotates 1, 2, 3:</p>
+    <div class="tbl">
+      <div class="card9">
+        <div class="hrow">Hole</div><div class="hrow">1</div><div class="hrow">2</div><div class="hrow">3</div><div class="hrow">4</div><div class="hrow">5</div><div class="hrow">6</div><div class="hrow">7</div><div class="hrow">8</div><div class="hrow">9</div>
+        <div>Count</div><div class="c1">1</div><div class="c2">2</div><div class="c3">3</div><div class="c1">1</div><div class="c2">2</div><div class="c3">3</div><div class="c1">1</div><div class="c2">2</div><div class="c3">3</div>
+      </div>
+    </div>
+    <div class="tbl">
+      <div class="card9">
+        <div class="hrow">Hole</div><div class="hrow">10</div><div class="hrow">11</div><div class="hrow">12</div><div class="hrow">13</div><div class="hrow">14</div><div class="hrow">15</div><div class="hrow">16</div><div class="hrow">17</div><div class="hrow">18</div>
+        <div>Count</div><div class="c1">1</div><div class="c2">2</div><div class="c3">3</div><div class="c1">1</div><div class="c2">2</div><div class="c3">3</div><div class="c1">1</div><div class="c2">2</div><div class="c3">3</div>
+      </div>
+    </div>
+    <div class="legend"><span>Number = how many of the team's best scores count on that hole</span></div>
+    <p class="example"><b>Guy's example, hole 3:</b> Inland scores 3 and 1 in fourball 1, 2 and 0 in fourball 2. Best three count: 3 + 2 + 1 = <b>6 to Inland</b>.</p>
+    <p class="fine">Nobody knows the team score until the tally, so fire on the three-count holes or prepare to be roasted.</p>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">The fine print</span>
+    <p>Paper scorecards are the official record and get confirmed after each round. Guy reckons both teams will finish on 100+ points.</p>
+    <p>Open questions are on the <a href="#questions">Exec Qs</a> tab.</p>
+  </div>
+</section>
+
+<!-- LEADERBOARD -->
+<section data-view="scores" hidden>
+  <div class="head"><span class="eyebrow">Inland vs Coastal · running total</span><h2>Leaderboard</h2></div>
+  <div class="lb" role="table" aria-label="Team leaderboard">
+    <div class="lb-top"><span class="lb-title">Leaders</span><span class="chip wait">Not started</span></div>
+    <div class="lb-rows">
+      <div class="lb-row hd" role="row"><span class="nm" role="columnheader">Team</span><span role="columnheader">Fri</span><span role="columnheader">Sat</span><span role="columnheader">Tot</span></div>
+      <div class="lb-row in" role="row"><span class="nm" role="cell"><i></i>Inland</span><span role="cell">0</span><span role="cell">0</span><span class="tot" role="cell">0</span></div>
+      <div class="lb-row co" role="row"><span class="nm" role="cell"><i></i>Coastal</span><span role="cell">0</span><span role="cell">0</span><span class="tot" role="cell">0</span></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card"><span class="eyebrow">Day 1 · Wolf</span><p>Inland <b class="mono">0</b> · Coastal <b class="mono">0</b></p><span class="chip wait" style="align-self:flex-start">Not started</span></div>
+    <div class="card"><span class="eyebrow">Day 2 · Cha Cha Cha</span><p>Inland <b class="mono">0</b> · Coastal <b class="mono">0</b></p><span class="chip wait" style="align-self:flex-start">Not started</span></div>
+  </div>
+  <div class="card">
+    <span class="eyebrow">Dop points · live <span id="lb-dop-prac"></span></span>
+    <p>Inland <b class="mono" id="lb-dop-in">0</b> · Coastal <b class="mono" id="lb-dop-co">0</b></p>
+    <a class="maplink" href="#dops">Log a Dop →</a>
+  </div>
+  <div class="note">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
+    <p>Live scoring arrives in V2 once the formats are locked. Plan: enter scores hole by hole on your phone, watch the total move, then lock it in against the paper card at the 19th.</p>
+  </div>
+</section>
+
+<!-- LOG A DOP -->
+<section data-view="dops" hidden>
+  <div class="head"><span class="eyebrow">Drinking points · witnessed by the enemy</span><h2>Log a Dop</h2></div>
+
+  <div class="lb" role="table" aria-label="Dop points">
+    <div class="lb-top"><span class="lb-title">Dop points</span><span class="chip wait" id="dop-status">Loading</span></div>
+    <div class="lb-rows">
+      <div class="lb-row hd" role="row"><span class="nm" role="columnheader">Team</span><span role="columnheader">Fri night</span><span role="columnheader">Front 9</span><span role="columnheader">Tot</span></div>
+      <div class="lb-row in" role="row"><span class="nm" role="cell"><i></i>Inland</span><span role="cell" id="t-in-fri">0</span><span role="cell" id="t-in-tee">0</span><span class="tot" role="cell" id="t-in-tot">0</span></div>
+      <div class="lb-row co" role="row"><span class="nm" role="cell"><i></i>Coastal</span><span role="cell" id="t-co-fri">0</span><span role="cell" id="t-co-tee">0</span><span class="tot" role="cell" id="t-co-tot">0</span></div>
+    </div>
+  </div>
+
+  <div class="note" id="prac-note">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <p><b>Practice mode until Friday.</b> Anything logged before the tour is tagged practice and won't count once the tour starts. Go on, test it.</p>
+      <div class="watch-btns"><button type="button" class="btn ghost" id="clear-prac">Clear practice dops</button></div>
+    </div>
+  </div>
+
+  <div class="card" id="dop-form">
+    <div class="form-step">
+      <div class="step-h"><span class="n">1</span><b>Who drank?</b></div>
+      <div class="grid2" id="drinkers"></div>
+    </div>
+
+    <div class="form-step">
+      <div class="step-h"><span class="n">2</span><b>What was it?</b></div>
+      <div class="kinds">
+        <button type="button" class="kind" data-kind="fri1" aria-pressed="false"><b>Friday night drink</b><small>Double spirit or 500ml beer</small><span class="p">1</span></button>
+        <button type="button" class="kind" data-kind="fri2" aria-pressed="false"><b>Friday night down-down</b><small>Beer or double, downed</small><span class="p">2</span></button>
+        <button type="button" class="kind" data-kind="tee" aria-pressed="false"><b>Tee-box down-down</b><small>Front 9, before your first tee shot</small><span class="p">1</span></button>
+      </div>
+      <div id="tee-extra" hidden style="display:flex;flex-direction:column;gap:10px">
+        <span class="eyebrow">Which day</span>
+        <div class="picks" id="days">
+          <button type="button" class="pick neutral" data-day="fri" aria-pressed="false">Fri · Randpark</button>
+          <button type="button" class="pick neutral" data-day="sat" aria-pressed="false">Sat · Jackal Creek</button>
+        </div>
+        <span class="eyebrow">Which hole</span>
+        <div class="holes" id="holes"></div>
+        <label class="check"><input type="checkbox" id="first-shot"><span>It was <b>before his first tee shot</b> on this hole. A reload doesn't count.</span></label>
+      </div>
+    </div>
+
+    <div class="form-step">
+      <div class="step-h"><span class="n">3</span><b>Who's the witness?</b></div>
+      <p class="fine" id="witness-hint">Pick the drinker first. Only the other team can witness.</p>
+      <div class="picks" id="witnesses"></div>
+    </div>
+
+    <div class="form-step" id="dd-step" hidden>
+      <div class="step-h"><span class="n">4</span><b>Was it a real down-down?</b></div>
+      <p class="fine">3 gulps or fewer, 20 seconds or less. The witness runs the clock.</p>
+      <div class="watch">
+        <div class="pint-wrap">
+          <svg class="pint" viewBox="0 0 160 170" role="img" aria-label="Pint draining as the clock runs">
+            <defs>
+              <clipPath id="pint-clip"><path d="M45 14 L115 14 L117 36 Q119 42 115 48 L108 152 Q107 156 103 156 L57 156 Q53 156 52 152 L45 48 Q41 42 43 36 Z"/></clipPath>
+              <linearGradient id="beer-g" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0" stop-color="#c98a12"/><stop offset=".45" stop-color="#f2b83a"/><stop offset="1" stop-color="#b8760c"/>
+              </linearGradient>
+            </defs>
+            <g id="pint-glass" transform="rotate(0 80 90)">
+              <g clip-path="url(#pint-clip)">
+                <rect x="40" y="10" width="80" height="150" style="fill:var(--card);opacity:.6"/>
+                <g id="pint-liquid" transform="rotate(0 80 90)">
+                  <rect id="pint-beer" x="-60" y="26" width="280" height="300" fill="url(#beer-g)"/>
+                  <rect id="pint-foam" x="-60" y="16" width="280" height="11" fill="#fbf4e3"/>
+                  <g id="pint-bubbles" fill="#ffe7a8" opacity=".7">
+                    <circle cx="66" cy="120" r="1.6"/><circle cx="74" cy="95" r="1.2"/><circle cx="90" cy="130" r="1.4"/><circle cx="98" cy="78" r="1.1"/><circle cx="84" cy="60" r="1.3"/><circle cx="70" cy="140" r="1"/>
+                  </g>
+                </g>
+              </g>
+              <path d="M45 14 L115 14 L117 36 Q119 42 115 48 L108 152 Q107 156 103 156 L57 156 Q53 156 52 152 L45 48 Q41 42 43 36 Z" style="fill:none;stroke:var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M53 52 L59 146" style="stroke:var(--card)" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+            </g>
+          </svg>
+          <span class="pint-left" id="pint-left">Full</span>
+        </div>
+        <div class="watch-side">
+          <div class="watch-face" id="watch-face"><b id="watch-t">0.0</b><span>seconds</span></div>
+          <div class="watch-btns">
+            <button type="button" class="btn" id="watch-go">Start</button>
+            <button type="button" class="btn ghost" id="watch-reset">Reset</button>
+          </div>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" id="no-watch"><span>Timed it another way, and it was <b>20 seconds or less</b></span></label>
+      <span class="eyebrow">Gulps</span>
+      <div class="picks" id="gulps">
+        <button type="button" class="pick neutral" data-g="1" aria-pressed="false">1</button>
+        <button type="button" class="pick neutral" data-g="2" aria-pressed="false">2</button>
+        <button type="button" class="pick neutral" data-g="3" aria-pressed="false">3</button>
+        <button type="button" class="pick neutral" data-g="4" aria-pressed="false">4 or more</button>
+      </div>
+    </div>
+
+    <div class="pin-row" id="pin-row" hidden><label for="pin">Tour PIN</label><input id="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="Ask Steve"></div>
+    <div class="verdict" id="verdict" role="status" aria-live="polite"></div>
+    <button type="button" class="btn big" id="log-btn">Log it</button>
+  </div>
+
+  <div class="tab">
+    <div class="tab-h"><h3>The dop log</h3><span class="eyebrow" id="log-count">0 logged</span></div>
+    <ul class="dlog" id="dlog"><li class="empty" style="display:block">No dops yet. Somebody's slacking.</li></ul>
+  </div>
+
+  <div class="card">
+    <span class="eyebrow">The rules</span>
+    <ul class="rules">
+      <li><b>Friday night</b> runs from walking off the 18th until <b>02:00</b>. Double spirit or 500ml beer = 1. Down-down = 2. <b>Cap: 10 points a man.</b></li>
+      <li><b>Front 9, both days:</b> only a tee-box down-down before your first tee shot scores, 1 point per hole. No cap.</li>
+      <li><b>Down-down</b> = 3 gulps or fewer, 20 seconds or less.</li>
+      <li><b>No witness from the other team, no point.</b> The witness logs it.</li>
+      <li>Drivers are just unlucky. Proposed rules, pending exec sign-off.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PLAYERS -->
+<section data-view="players" hidden>
+  <div class="head"><span class="eyebrow">Nicknames locked · bios final</span><h2>Players</h2></div>
+  <p class="lede">Complaints to the social committee, who will ignore them.</p>
+  <div class="filter" role="group" aria-label="Show team">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">All 8</button>
+    <button type="button" id="f-in" data-f="in" aria-pressed="false">Inland</button>
+    <button type="button" id="f-co" data-f="co" aria-pressed="false">Coastal</button>
+  </div>
+  <div class="players" id="players">
+    <article class="pl in"><span class="mono-badge">SC</span><span class="nick">“Wooden Spoon”</span><h3>Stephen Coombe</h3><span class="from">Inland · Sandton, GP<span class="champ">★ Ashes champ</span></span><p>To keep ball costs down, you won't see his driver. Runs on brandy and may smell suspicious on the back nine.</p></article>
+    <article class="pl in"><span class="mono-badge">NF</span><span class="nick">“0 Tour Wins”</span><h3>Nicolas Finn</h3><span class="from">Inland · Sandton, GP</span><p>Plans the whole bloody tour, still waiting to win one. Hopefully no spelling mistakes on the tour shirts this year.</p></article>
+    <article class="pl in"><span class="mono-badge">LG</span><span class="nick">“Young Skywalker”</span><h3>Luke Gibbon</h3><span class="from">Inland · Centurion, GP</span><p>First tour, and worried the "ballies" won't be able to keep up. Says he loves a beer, but may fall asleep in a bathroom stall afterwards.</p></article>
+    <article class="pl in"><span class="mono-badge">BW</span><span class="nick">“Whistle Blower”</span><h3>Brandon Wiesner</h3><span class="from">Inland · Pretoria, GP</span><p>Mr. Discovery during the week, Bryce Lawrence on the weekend. Has conveniently made plans to disappear before fines.</p></article>
+    <article class="pl co"><span class="mono-badge">GM</span><span class="nick">“9pm Bedtime”</span><h3>Guy Moody</h3><span class="from">Coastal · Durbanville, WC<span class="champ">★ Ashes champ</span></span><p>Big fan of an afternoon nap. Get him past 10pm and watch the tequilas start coming out.</p></article>
+    <article class="pl co"><span class="mono-badge">MC</span><span class="nick">“Hansa Draught Please”</span><h3>Mitch Cason</h3><span class="from">Coastal · Hillcrest, KZN</span><p>Golf frustrates him. The bar does not. Don't walk slowly in front of his car…</p></article>
+    <article class="pl co"><span class="mono-badge">JD</span><span class="nick">“Pro Golfer”</span><h3>Jason de Klerk</h3><span class="from">Coastal · Umdloti, KZN<span class="champ">★ Ashes champ</span></span><p>Would marry Rassie Erasmus if he could.</p></article>
+    <article class="pl co"><span class="mono-badge">RL</span><span class="nick">“Massive Calves”</span><h3>Richard Le Roux</h3><span class="from">Coastal · Richmond, KZN</span><p>Guaranteed to wear shorts to show off his legs. Mr Consistent on the golf course and at the bar, but swears he never has time for either.</p></article>
+  </div>
+</section>
+
+<!-- HONOURS -->
+<section data-view="honours" hidden>
+  <div class="head"><span class="eyebrow">Five tours · one clubhouse wall</span><h2>Honours</h2></div>
+
+  <div class="hboard" role="region" aria-label="Honours board">
+    <header><span>Fore the Boys</span><b>Honours Board</b><span>Tour winners</span></header>
+    <ol class="hrows">
+      <li><span class="n">I</span><span class="th">Tour I<small>2 vs 2</small></span><span class="w">Dylan &amp; Guy</span></li>
+      <li><span class="n">II</span><span class="th">LIV vs PGA<small>6 vs 6</small></span><span class="w">LIV</span></li>
+      <li><span class="n">III</span><span class="th">The Ryder Cup<small>USA vs Europe · 6 vs 6</small></span><span class="w">USA</span></li>
+      <li><span class="n">IV</span><span class="th">The Ashes<small>Pretoria · 2025</small></span><span class="w">Australia</span></li>
+      <li class="open"><span class="n">V</span><span class="th">Inland vs Coastal<small>Sandton · 2026</small></span><span class="w">To be engraved</span></li>
+    </ol>
+  </div>
+
+  <div class="head"><span class="eyebrow">Career records · current squad</span><h2>By the numbers</h2></div>
+  <div class="stats">
+    <div class="stat"><span class="rec">0–4<small>W–L</small></span><b>Nic</b><p>Four tours, four losses. The nickname isn't banter, it's a stat.</p></div>
+    <div class="stat"><span class="rec">0–3<small>W–L</small></span><b>Mitch</b><p>PGA, Europe, England. Picks the wrong side every time.</p></div>
+    <div class="stat"><span class="rec">2–2<small>W–L</small></span><b>Steve</b><p>Every tour so far. Won as LIV and Australia, lost the rest.</p></div>
+    <div class="stat"><span class="rec">2–0<small>W–L</small></span><b>Jay</b><p>USA and Australia. Unbeaten in the tours we have teams for.</p></div>
+  </div>
+  <p class="fine">Records count only tours where we know the player's team. Tour II teams are still being filled in.</p>
+
+  <div class="head"><span class="eyebrow">Who played for who</span><h2>The tours</h2></div>
+  <p class="legend-now"><i></i>Outlined = on tour this year</p>
+  <div class="tours">
+    <article class="tour">
+      <div class="tour-h"><h3>Tour IV · The Ashes</h3><span class="eyebrow">Pretoria · 2025</span></div>
+      <div class="sides"><div class="rost won"><div class="rost-h"><b>Australia</b><span class="trophy">★ Winners</span></div><ul><li class="now">Stephen Coombe</li><li class="now">Guy Moody</li><li class="now">Jason de Klerk</li></ul></div><div class="rost"><div class="rost-h"><b>England</b></div><ul><li class="now">Mitch Cason</li><li class="now">Brandon Wiesner</li><li class="now">Nicolas Finn</li></ul></div></div>
+    </article>
+    <article class="tour">
+      <div class="tour-h"><h3>Tour III · Ryder Cup</h3><span class="eyebrow">USA vs Europe</span></div>
+      <div class="sides"><div class="rost won"><div class="rost-h"><b>USA</b><span class="trophy">★ Winners</span></div><ul><li>Sheldon Bruin</li><li class="now">Jason de Klerk</li><li class="now">Richard Le Roux</li><li>George van Vuuren</li><li>Guy Kirby</li><li>Murray Gibbon</li></ul></div><div class="rost"><div class="rost-h"><b>Europe</b></div><ul><li class="now">Stephen Coombe</li><li class="now">Mitch Cason</li><li>Joshua Campbell</li><li class="now">Brandon Wiesner</li><li class="now">Nicolas Finn</li><li>Ricky Hughes</li></ul></div></div>
+    </article>
+    <article class="tour">
+      <div class="tour-h"><h3>Tour II · LIV vs PGA</h3><span class="eyebrow">6 vs 6</span></div>
+      <div class="sides"><div class="rost won"><div class="rost-h"><b>LIV</b><span class="trophy">★ Winners</span></div><ul><li class="now">Stephen Coombe</li><li>Joel Shepherd</li><li>Sheldon Bruin</li><li class="unk">+3 TBC</li></ul></div><div class="rost"><div class="rost-h"><b>PGA</b></div><ul><li class="now">Mitch Cason</li><li class="now">Nicolas Finn</li><li class="unk">+4 TBC</li></ul></div></div>
+    </article>
+    <article class="tour">
+      <div class="tour-h"><h3>Tour I · Where it started</h3><span class="eyebrow">2 vs 2</span></div>
+      <div class="sides"><div class="rost won"><div class="rost-h"><b>Dylan &amp; Guy</b><span class="trophy">★ Winners</span></div><ul><li>Dylan de Charmoy</li><li class="now">Guy Moody</li></ul></div><div class="rost"><div class="rost-h"><b>Nic &amp; Steve</b></div><ul><li class="now">Nicolas Finn</li><li class="now">Stephen Coombe</li></ul></div></div>
+    </article>
+  </div>
+</section>
+
+<!-- FINES -->
+<section data-view="fines" hidden>
+  <div class="head"><span class="eyebrow">Social committee draft</span><h2>Fines, bets &amp; awards</h2></div>
+  <div class="note">
+    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
+    <p><b>Nothing here is agreed yet.</b> Penalties and Rand amounts to be voted on.</p>
+  </div>
+  <div class="tab">
+    <div class="tab-h"><h3>The fines tab</h3><span class="eyebrow">Proposed</span></div>
+    <ul class="lines">
+      <li><div><b>Air shot</b><small>Swing, miss, pretend it was a practice swing</small></div><span class="pen">1 dop</span></li>
+      <li><div><b>Putt left short</b><small>Never up, never in</small></div><span class="pen">Finish your drink</span></li>
+      <li><div><b>Ball in the water</b><small>Per ball. Yes, per ball.</small></div><span class="pen">1 dop</span></li>
+      <li><div><b>Blind Wolf, lost</b><small>Greed has a price</small></div><span class="pen">1 dop</span></li>
+      <li><div><b>Moaning about your handicap</b><small>Applies on and off the course</small></div><span class="pen"><span class="tbc">R TBC</span></span></li>
+      <li><div><b>Late to the car or tee</b><small>Saturday 07:30 is not a suggestion</small></div><span class="pen"><span class="tbc">R TBC</span></span></li>
+      <li><div><b>Talking about work</b><small>Nobody cares about your Q4</small></div><span class="pen">1 dop</span></li>
+    </ul>
+  </div>
+  <div class="tab">
+    <div class="tab-h"><h3>The awards</h3><span class="eyebrow">Proposed</span></div>
+    <ul class="lines">
+      <li><div><b>The Wolf of Wall Street</b><small>Most points won as Blind or Lone Wolf</small></div><span class="pen">Glory</span></li>
+      <li><div><b>Golden Shank</b><small>Single worst shot of the weekend, by vote</small></div><span class="pen">Shame</span></li>
+      <li><div><b>Last Man Standing</b><small>Still upright when the bar closes</small></div><span class="pen">Respect</span></li>
+      <li><div><b>Wooden Spoon</b><small>Lowest individual points</small></div><span class="pen">Buys a round</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <span class="eyebrow">Side bets &amp; losing team forfeit</span>
+    <p><span class="tbc">TBC</span> Ideas welcome on the call.</p>
+  </div>
+</section>
+
+<!-- LOGISTICS -->
+<section data-view="logistics" hidden>
+  <div class="head"><span class="eyebrow">Where, when, who's driving</span><h2>Logistics</h2></div>
+  <div class="card">
+    <span class="eyebrow">Base camp</span>
+    <h3 class="sub-h">Abbotsbury</h3>
+    <p>8 Lower Rd, Morningside, Sandton</p>
+    <div class="tbl"><table><tbody>
+      <tr><th>Check-in</th><td><span class="tbc">TBC</span></td></tr>
+      <tr><th>Check-out</th><td><span class="tbc">TBC</span></td></tr>
+      <tr><th>Rooms</th><td><span class="tbc">TBC</span></td></tr>
+      <tr><th>Included</th><td><span class="tbc">TBC</span></td></tr>
+    </tbody></table></div>
+    <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=8+Lower+Rd+Morningside+Sandton" target="_blank" rel="noopener">Open in Maps ↗</a>
+  </div>
+  <div class="card">
+    <span class="eyebrow">Who's coming from where</span>
+    <div class="tbl"><table>
+      <thead><tr><th>Player</th><th>From</th><th>Arrival</th><th>Lift</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip in">In</span> Steve</td><td>Sandton, GP</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        <tr><td><span class="chip in">In</span> Nic</td><td>Sandton, GP</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        <tr><td><span class="chip in">In</span> Luke</td><td>Centurion, GP</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        <tr><td><span class="chip in">In</span> Brandon</td><td>Pretoria, GP</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        <tr><td><span class="chip co">Co</span> Guy</td><td>Durbanville, WC</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        <tr><td><span class="chip co">Co</span> Mitch</td><td>Hillcrest, KZN</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        <tr><td><span class="chip co">Co</span> Jay</td><td>Umdloti, KZN</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+        <tr><td><span class="chip co">Co</span> Rich</td><td>Richmond, KZN</td><td><span class="tbc">TBC</span></td><td><span class="tbc">TBC</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><span class="eyebrow">Food</span><p>Meals both days <span class="tbc">TBC</span></p></div>
+    <div class="card"><span class="eyebrow">Kitty</span><p>Amount, what it covers, who holds it <span class="tbc">TBC</span></p></div>
+  </div>
+</section>
+
+<!-- QUESTIONS -->
+<section data-view="questions" hidden>
+  <div class="head"><span class="eyebrow">For the exec call</span><h2>Questions for the execs</h2></div>
+  <p class="lede">Tick them off as you sort them on the call. Ticks only save on this phone.</p>
+  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 19 sorted</span></div>
+  <ul class="qlist" id="qlist">
+    <li class="qgroup">Big picture</li>
+    <li><label><input type="checkbox" id="q1"><span><span class="qn">Q1</span><b>Wolf on Friday, Cha Cha Cha on Saturday?</b><small>Locks in which format goes where.</small></span></label></li>
+    <li><label><input type="checkbox" id="q2"><span><span class="qn">Q2</span><b>Handicap points: standard Stableford (net par = 2 points)? Full handicap or a percentage?</b></span></label></li>
+    <li><label><input type="checkbox" id="q3"><span><span class="qn">Q3</span><b>Everyone's handicap</b><small>Needed before any scoring can work.</small></span></label></li>
+    <li><label><input type="checkbox" id="q4"><span><span class="qn">Q4</span><b>Team captains, and the 2v2 fourball pairings for each day</b></span></label></li>
+    <li class="qgroup">Wolf</li>
+    <li><label><input type="checkbox" id="q5"><span><span class="qn">Q5</span><b>Partner Wolf: can you pick someone from the other team?</b><small>Brandon says own teammate only. Guy says valid point.</small></span></label></li>
+    <li><label><input type="checkbox" id="q6"><span><span class="qn">Q6</span><b>Blind / Lone Wolf: beat both opponents, or just one?</b><small>Guy wrote "better than either", which reads both ways.</small></span></label></li>
+    <li><label><input type="checkbox" id="q7"><span><span class="qn">Q7</span><b>Holes 1 &amp; 10: anything at stake, or pure warm-up?</b></span></label></li>
+    <li><label><input type="checkbox" id="q8"><span><span class="qn">Q8</span><b>Wolf order: who's Wolf on which hole? And what's "the neutraliser"?</b></span></label></li>
+    <li class="qgroup">Cha Cha Cha</li>
+    <li><label><input type="checkbox" id="q9"><span><span class="qn">Q9</span><b>Tally at halfway and the 19th, or only the 19th?</b><small>Decides whether the site hides the score until then.</small></span></label></li>
+    <li class="qgroup">The rest</li>
+    <li><label><input type="checkbox" id="q10"><span><span class="qn">Q10</span><b>Tie-break, and what is "the cup"?</b></span></label></li>
+    <li><label><input type="checkbox" id="q11"><span><span class="qn">Q11</span><b>Arrival and departure days</b><small>Thursday night? Sunday morning?</small></span></label></li>
+    <li><label><input type="checkbox" id="q12"><span><span class="qn">Q12</span><b>Abbotsbury check-in, check-out and rooms</b></span></label></li>
+    <li><label><input type="checkbox" id="q13"><span><span class="qn">Q13</span><b>Who's driving to the courses?</b></span></label></li>
+    <li><label><input type="checkbox" id="q14"><span><span class="qn">Q14</span><b>Fines, awards and side bets: approve the social committee's draft?</b></span></label></li>
+    <li class="qgroup">Tour history</li>
+    <li><label><input type="checkbox" id="q15"><span><span class="qn">Q15</span><b>Tour II (LIV vs PGA): who were the other 7?</b><small>Known: LIV Steve, Joel Shepherd, Sheldon Bruin (3 missing). PGA Mitch, Nic (4 missing).</small></span></label></li>
+    <li><label><input type="checkbox" id="q16"><span><span class="qn">Q16</span><b>Tour I: is the Guy who won with Dylan Guy Moody?</b><small>Guy Kirby played Tour III, so worth checking.</small></span></label></li>
+    <li><label><input type="checkbox" id="q17"><span><span class="qn">Q17</span><b>Sheldon Bruin in both Tour II (LIV) and Tour III (USA)?</b><small>Assumed the same Sheldon.</small></span></label></li>
+    <li><label><input type="checkbox" id="q18"><span><span class="qn">Q18</span><b>Years and venues for Tours I, II and III</b><small>Only Tour IV is known: Pretoria, 2025.</small></span></label></li>
+    <li><label><input type="checkbox" id="q19"><span><span class="qn">Q19</span><b>Spelling: Dylan de Charmoy or De Charmoy?</b></span></label></li>
+  </ul>
+</section>
+
+</div>
+</main>
+<footer><div class="wrap"><span>Fore the V · Tour 2026</span><span>Paper scorecards rule · Fines are final</span></div></footer>
+
+<script>
+(function(){
+  var views=[].slice.call(document.querySelectorAll('section[data-view]'));
+  var links=[].slice.call(document.querySelectorAll('nav.tabs a'));
+  function show(){
+    var h=(location.hash||'#home').slice(1);
+    if(!views.some(function(v){return v.dataset.view===h})) h='home';
+    views.forEach(function(v){v.hidden=v.dataset.view!==h});
+    links.forEach(function(a){
+      var on=a.getAttribute('href')==='#'+h;
+      if(on){a.setAttribute('aria-current','page');try{a.scrollIntoView({block:'nearest',inline:'center'})}catch(e){}}
+      else a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('hashchange',function(){show();window.scrollTo(0,0)});
+  show();
+
+  // Countdown to Fri 6 Nov 2026 12:02 SAST
+  var target=new Date('2026-11-06T12:02:00+02:00').getTime();
+  var el={d:document.getElementById('cd-d'),h:document.getElementById('cd-h'),m:document.getElementById('cd-m'),s:document.getElementById('cd-s')};
+  var msg=document.getElementById('cd-msg');
+  function pad(n){return n<10?'0'+n:''+n}
+  function tick(){
+    var diff=target-Date.now();
+    if(diff<=0){el.d.textContent=el.h.textContent=el.m.textContent=el.s.textContent='0';msg.textContent='We’re on. Fore!';return}
+    var s=Math.floor(diff/1000);
+    el.d.textContent=Math.floor(s/86400);
+    el.h.textContent=pad(Math.floor(s%86400/3600));
+    el.m.textContent=pad(Math.floor(s%3600/60));
+    el.s.textContent=pad(s%60);
+  }
+  tick();setInterval(tick,1000);
+
+  // Photo lightbox
+  var lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap');
+  function closeLb(){try{lb.close()}catch(e){lb.removeAttribute('open')}}
+  [].slice.call(document.querySelectorAll('#archive .ph button')).forEach(function(b){
+    b.addEventListener('click',function(){
+      var img=b.querySelector('img'),fc=b.parentNode.querySelector('figcaption b');
+      lbImg.src=img.src;lbImg.alt=img.alt;lbCap.textContent=fc?fc.textContent:'';
+      try{lb.showModal()}catch(e){lb.setAttribute('open','')}
+    });
+  });
+  document.getElementById('lb-x').addEventListener('click',closeLb);
+  lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
+
+  // Player filter
+  var btns=[].slice.call(document.querySelectorAll('.filter button'));
+  var cards=[].slice.call(document.querySelectorAll('#players .pl'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    var f=b.dataset.f;
+    btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    cards.forEach(function(c){c.hidden=!(f==='all'||c.classList.contains(f))});
+  })});
+
+  // Question ticks (this device only)
+  var KEY='ftv-qs';
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){saved={}}
+  var boxes=[].slice.call(document.querySelectorAll('#qlist input'));
+  var bar=document.getElementById('qbar'),cnt=document.getElementById('qcount');
+  function prog(){
+    var n=boxes.filter(function(b){return b.checked}).length;
+    bar.style.width=(n/boxes.length*100)+'%';
+    cnt.textContent=n+' / '+boxes.length+' sorted';
+  }
+  boxes.forEach(function(cb){
+    var li=cb.closest('li');
+    if(saved[cb.id]){cb.checked=true;li.classList.add('done')}
+    cb.addEventListener('change',function(){
+      li.classList.toggle('done',cb.checked);
+      saved[cb.id]=cb.checked;
+      try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}
+      prog();
+    });
+  });
+  prog();
+})();
+</script>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* ---------- Log a Dop (shared via the artifact db) ---------- */
+(function(){
+  var PLAYERS=[
+    {id:'steve',n:'Steve',t:'in'},{id:'nic',n:'Nic',t:'in'},{id:'luke',n:'Luke',t:'in'},{id:'brandon',n:'Brandon',t:'in'},
+    {id:'guy',n:'Guy',t:'co'},{id:'mitch',n:'Mitch',t:'co'},{id:'jay',n:'Jay',t:'co'},{id:'rich',n:'Rich',t:'co'}
+  ];
+  var BY={};PLAYERS.forEach(function(p){BY[p.id]=p});
+  var KINDS={fri1:{pts:1,label:'Friday night drink'},fri2:{pts:2,label:'Friday night down-down'},tee:{pts:1,label:'Tee-box down-down'}};
+  var TOUR_START=new Date('2026-11-06T12:00:00+02:00').getTime();
+  var FRI_END=new Date('2026-11-07T02:00:00+02:00').getTime();
+  var FRI_CAP=10, MAX_MS=20000;
+  function practiceNow(){return Date.now()<TOUR_START}
+  function $(id){return document.getElementById(id)}
+
+  var st={drinker:null,kind:null,day:null,hole:null,witness:null,gulps:null,ms:0,running:false,t0:0,timer:null};
+  var docs=[]; var db=null; var canWrite=true; var busy=false;
+
+  /* ----- build pickers ----- */
+  var drWrap=$('drinkers');
+  ['in','co'].forEach(function(t){
+    var col=document.createElement('div');col.className='pick-team';
+    var lab=document.createElement('span');lab.className='eyebrow';lab.textContent=t==='in'?'Inland':'Coastal';col.appendChild(lab);
+    var row=document.createElement('div');row.className='picks';
+    PLAYERS.filter(function(p){return p.t===t}).forEach(function(p){
+      var b=document.createElement('button');b.type='button';b.className='pick '+p.t;b.textContent=p.n;b.dataset.id=p.id;b.setAttribute('aria-pressed','false');
+      b.addEventListener('click',function(){st.drinker=p.id;if(st.witness&&BY[st.witness].t===p.t)st.witness=null;clearVerdict();render()});
+      row.appendChild(b);
+    });
+    col.appendChild(row);drWrap.appendChild(col);
+  });
+  var hWrap=$('holes');
+  for(var h=1;h<=9;h++){(function(h){
+    var b=document.createElement('button');b.type='button';b.className='pick neutral';b.textContent=h;b.dataset.h=h;b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Hole '+h);
+    b.addEventListener('click',function(){st.hole=h;clearVerdict();render()});hWrap.appendChild(b);
+  })(h)}
+  [].slice.call(document.querySelectorAll('.kind')).forEach(function(b){
+    b.addEventListener('click',function(){st.kind=b.dataset.kind;clearVerdict();render()});
+  });
+  [].slice.call(document.querySelectorAll('#days .pick')).forEach(function(b){
+    b.addEventListener('click',function(){st.day=b.dataset.day;st.hole=null;clearVerdict();render()});
+  });
+  [].slice.call(document.querySelectorAll('#gulps .pick')).forEach(function(b){
+    b.addEventListener('click',function(){st.gulps=+b.dataset.g;clearVerdict();render()});
+  });
+  $('first-shot').addEventListener('change',clearVerdict);
+  $('no-watch').addEventListener('change',clearVerdict);
+
+  /* ----- stopwatch ----- */
+  function drawPint(ms){
+    var p=Math.min(1,ms/MAX_MS), f=1-p;              // 25% gone every 5 s, empty at 20 s
+    var tilt=-72*p;                                     // glass tips back as you drink
+    $('pint-glass').setAttribute('transform','rotate('+tilt.toFixed(2)+' 80 90)');
+    $('pint-liquid').setAttribute('transform','rotate('+(-tilt).toFixed(2)+' 80 90)');
+    var top=26+(156-26)*(1-f);
+    if(f<=0.001)top=400;
+    $('pint-beer').setAttribute('y',top.toFixed(1));
+    $('pint-foam').setAttribute('y',(top-10).toFixed(1));
+    $('pint-foam').setAttribute('height',f>0.05?'11':(f>0?'5':'0'));
+    $('pint-bubbles').style.opacity=f>0.1?'.7':'0';
+    var lab=$('pint-left'), over=ms>MAX_MS;
+    lab.classList.toggle('over',over);
+    lab.textContent=over?'Too slow':(ms<=0?'Full':(f<=0.001?'Empty':Math.ceil(f*100)+'% left'));
+  }
+  function drawWatch(){
+    var ms=st.running?(performance.now()-st.t0):st.ms;
+    $('watch-t').textContent=(Math.floor(ms/100)/10).toFixed(1);
+    $('watch-face').classList.toggle('over',ms>MAX_MS);
+    drawPint(ms);
+  }
+  $('watch-go').addEventListener('click',function(){
+    if(st.running){st.ms=performance.now()-st.t0;st.running=false;clearInterval(st.timer);$('watch-go').textContent='Start';}
+    else{st.ms=0;st.t0=performance.now();st.running=true;st.timer=setInterval(drawWatch,50);$('watch-go').textContent='Stop';}
+    clearVerdict();drawWatch();
+  });
+  $('watch-reset').addEventListener('click',function(){clearInterval(st.timer);st.running=false;st.ms=0;$('watch-go').textContent='Start';drawWatch();clearVerdict()});
+
+  /* ----- data helpers ----- */
+  function counted(){var p=practiceNow();return docs.filter(function(d){return p?true:!d.practice})}
+  function friPts(pid){return counted().filter(function(d){return d.drinker===pid&&(d.kind==='fri1'||d.kind==='fri2')}).reduce(function(a,d){return a+(d.pts||0)},0)}
+  function teeTaken(pid,day,hole){return counted().some(function(d){return d.kind==='tee'&&d.drinker===pid&&d.day===day&&d.hole===hole})}
+  function fmtTime(ms){try{return new Date(ms).toLocaleString('en-ZA',{weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Africa/Johannesburg'})}catch(e){return ''}}
+
+  /* ----- render ----- */
+  function setPressed(sel,fn){[].slice.call(document.querySelectorAll(sel)).forEach(function(b){b.setAttribute('aria-pressed',fn(b)?'true':'false')})}
+  function render(){
+    setPressed('#drinkers .pick',function(b){return b.dataset.id===st.drinker});
+    setPressed('.kind',function(b){return b.dataset.kind===st.kind});
+    setPressed('#days .pick',function(b){return b.dataset.day===st.day});
+    setPressed('#holes .pick',function(b){return +b.dataset.h===st.hole});
+    setPressed('#gulps .pick',function(b){return +b.dataset.g===st.gulps});
+    $('tee-extra').hidden=st.kind!=='tee';
+    $('dd-step').hidden=!(st.kind==='fri2'||st.kind==='tee');
+    [].slice.call(document.querySelectorAll('#holes .pick')).forEach(function(b){
+      var taken=!!(st.drinker&&st.day&&teeTaken(st.drinker,st.day,+b.dataset.h));
+      b.classList.toggle('taken',taken);b.disabled=taken;
+    });
+    // witnesses
+    var w=$('witnesses');w.textContent='';
+    if(st.drinker){
+      var other=BY[st.drinker].t==='in'?'co':'in';
+      $('witness-hint').textContent='Only '+(other==='in'?'Inland':'Coastal')+' can witness a '+(other==='in'?'Coastal':'Inland')+' dop.';
+      PLAYERS.filter(function(p){return p.t===other}).forEach(function(p){
+        var b=document.createElement('button');b.type='button';b.className='pick '+p.t;b.textContent=p.n;b.setAttribute('aria-pressed',st.witness===p.id?'true':'false');
+        b.addEventListener('click',function(){st.witness=p.id;clearVerdict();render()});w.appendChild(b);
+      });
+    }else{$('witness-hint').textContent='Pick the drinker first. Only the other team can witness.'}
+    $('log-btn').disabled=!db||!canWrite||busy;
+  }
+
+  function renderData(){
+    var c=counted(), p=practiceNow();
+    var tot={in:{fri:0,tee:0},co:{fri:0,tee:0}};
+    c.forEach(function(d){var t=BY[d.drinker]&&BY[d.drinker].t;if(!t)return;if(d.kind==='tee')tot[t].tee+=d.pts||0;else tot[t].fri+=d.pts||0});
+    ['in','co'].forEach(function(t){$('t-'+t+'-fri').textContent=tot[t].fri;$('t-'+t+'-tee').textContent=tot[t].tee;$('t-'+t+'-tot').textContent=tot[t].fri+tot[t].tee});
+    $('lb-dop-in').textContent=tot.in.fri+tot.in.tee;$('lb-dop-co').textContent=tot.co.fri+tot.co.tee;
+    $('lb-dop-prac').textContent=p?'· practice':'';
+    var nPrac=docs.filter(function(d){return d.practice}).length;
+    $('prac-note').hidden=!p&&nPrac===0;
+    $('clear-prac').hidden=nPrac===0;
+    $('clear-prac').textContent='Clear practice dops ('+nPrac+')';
+    var list=$('dlog');list.textContent='';
+    $('log-count').textContent=docs.length+' logged';
+    if(!docs.length){var e=document.createElement('li');e.className='empty';e.style.display='block';e.textContent='No dops yet. Somebody’s slacking.';list.appendChild(e)}
+    docs.forEach(function(d){
+      var pl=BY[d.drinker]||{n:d.drinker,t:'in'},wt=BY[d.witness]||{n:d.witness};
+      var li=document.createElement('li');li.className=pl.t;
+      var pts=document.createElement('span');pts.className='pts';pts.textContent='+'+(d.pts||0);
+      var what=document.createElement('div');what.className='what';
+      var b=document.createElement('b');b.textContent=pl.n+' · '+((KINDS[d.kind]||{}).label||d.kind)+(d.kind==='tee'?' (hole '+d.hole+', '+(d.day==='sat'?'Sat':'Fri')+')':'');
+      if(d.practice){var pr=document.createElement('span');pr.className='prac';pr.textContent='Practice';b.appendChild(pr)}
+      var sm=document.createElement('small');
+      var bits=['Witness: '+wt.n];
+      if(d.secs!=null)bits.push(d.secs.toFixed(1)+' s');
+      if(d.gulps)bits.push(d.gulps+(d.gulps===1?' gulp':' gulps'));
+      bits.push(fmtTime(d.atMs));
+      sm.textContent=bits.join(' · ');
+      what.appendChild(b);what.appendChild(sm);
+      var del=document.createElement('button');del.type='button';del.className='del';del.textContent='Remove';del.disabled=!canWrite;
+      del.addEventListener('click',function(){
+        if(!del.classList.contains('arm')){del.classList.add('arm');del.textContent='Sure?';setTimeout(function(){del.classList.remove('arm');del.textContent='Remove'},4000);return}
+        var pin=getPin();if(!pin){askPin('Enter the tour PIN to remove dops.');return}del.disabled=true;db.rpc('delete_dop',{p_pin:pin,p_id:d._id}).then(function(r){if(r.error)throw r.error;refresh()}).catch(function(e){del.disabled=false;if(isBadPin(e)){forgetPin();askPin('Wrong PIN. Try again.')}else say('no','Couldn’t remove that one. Try again.')});
+      });
+      li.appendChild(pts);li.appendChild(what);li.appendChild(del);list.appendChild(li);
+    });
+    render();
+  }
+
+  function say(kind,msg){var v=$('verdict');v.className='verdict show '+kind;v.textContent=msg}
+  function clearVerdict(){var v=$('verdict');v.className='verdict';v.textContent=''}
+
+  /* ----- log it ----- */
+  $('log-btn').addEventListener('click',function(){
+    if(!db||busy)return;
+    var p=practiceNow(), now=Date.now();
+    if(!st.drinker)return say('no','Who drank? Pick the drinker.');
+    if(!st.kind)return say('no','What was it? Pick the type of dop.');
+    if(!st.witness)return say('no','No witness, no point. Someone from the other team has to log it.');
+    if(BY[st.witness].t===BY[st.drinker].t)return say('no','The witness has to be from the other team.');
+    var k=KINDS[st.kind], dr=BY[st.drinker];
+    if(st.kind!=='tee'&&!p&&now>FRI_END)return say('no','Friday night closed at 02:00. That one’s just for fun.');
+    if(st.kind==='tee'){
+      if(!st.day)return say('no','Which day? Pick Friday or Saturday.');
+      if(!st.hole)return say('no','Which hole? Front 9 only.');
+      if(!$('first-shot').checked)return say('no','It has to be before his first tee shot on the hole. Tick the box if it was.');
+      if(teeTaken(st.drinker,st.day,st.hole))return say('no',dr.n+' already has hole '+st.hole+' logged for that day.');
+    }
+    var secs=null;
+    if(st.kind==='fri2'||st.kind==='tee'){
+      if(st.running)return say('no','Stop the clock first.');
+      var timed=st.ms>0;
+      if(!timed&&!$('no-watch').checked)return say('no','Time it: hit Start, then Stop when the glass is empty.');
+      if(timed&&st.ms>MAX_MS)return say('no',(st.ms/1000).toFixed(1)+' seconds. Too slow, that’s not a down-down.'+(st.kind==='fri2'?' Log it as a Friday night drink (1) instead.':' No point.'));
+      if(!st.gulps)return say('no','How many gulps?');
+      if(st.gulps>3)return say('no','4 or more gulps is a drink, not a down-down.'+(st.kind==='fri2'?' Log it as a Friday night drink (1) instead.':' No point.'));
+      if(timed)secs=Math.round(st.ms/100)/10;
+    }
+    if(st.kind!=='tee'){
+      var cur=friPts(st.drinker);
+      if(cur>=FRI_CAP)return say('no',dr.n+' has hit the Friday cap of '+FRI_CAP+'. Drinking now is for love, not points.');
+      if(cur+k.pts>FRI_CAP)return say('no',dr.n+' is on '+cur+'/'+FRI_CAP+'. A down-down takes him over the cap, so log a 1-pointer.');
+    }
+    var body={drinker:st.drinker,team:dr.t,kind:st.kind,pts:k.pts,witness:st.witness,practice:p,atMs:now};
+    if(st.kind==='tee'){body.day=st.day;body.hole=st.hole}
+    if(secs!=null)body.secs=secs;
+    if(st.gulps&&st.kind!=='fri1')body.gulps=st.gulps;
+    var pin=getPin();
+    if(!pin)return askPin('Enter the tour PIN to log dops. Ask Steve.');
+    busy=true;render();
+    db.rpc('log_dop',{p_pin:pin,p:body}).then(function(r){
+      if(r.error)throw r.error;
+      savePin(pin);
+      say('ok','Logged: +'+k.pts+' '+(dr.t==='in'?'Inland':'Coastal')+'. '+dr.n+', witnessed by '+BY[st.witness].n+'.'+(p?' (Practice)':''));
+      st.kind=null;st.witness=null;st.gulps=null;st.hole=null;st.ms=0;$('first-shot').checked=false;$('no-watch').checked=false;$('watch-go').textContent='Start';drawWatch();
+      refresh();
+    }).catch(function(e){
+      if(isBadPin(e)){forgetPin();askPin('Wrong PIN. Check with Steve and try again.')}
+      else if(e&&e.code==='23505')say('no',dr.n+' already has that hole logged.');
+      else say('no','Couldn’t save that one. Check your signal and try again.');
+    }).then(function(){busy=false;render()});
+  });
+
+  /* ----- clear practice ----- */
+  var clr=$('clear-prac'), armT=null;
+  clr.addEventListener('click',function(){
+    var prac=docs.filter(function(d){return d.practice});
+    if(!prac.length||!db)return;
+    if(!clr.classList.contains('danger')){clr.classList.add('danger');clr.classList.remove('ghost');clr.textContent='Tap again to delete '+prac.length;armT=setTimeout(function(){clr.classList.remove('danger');clr.classList.add('ghost');renderData()},4000);return}
+    clearTimeout(armT);
+    var pin=getPin();
+    if(!pin){clr.classList.remove('danger');clr.classList.add('ghost');renderData();askPin('Enter the tour PIN to clear practice dops.');return}
+    clr.disabled=true;
+    db.rpc('clear_practice',{p_pin:pin}).then(function(r){if(r.error)throw r.error})
+      .catch(function(e){if(isBadPin(e)){forgetPin();askPin('Wrong PIN. Try again.')}else say('no','Couldn’t clear them. Try again.')})
+      .then(function(){clr.disabled=false;clr.classList.remove('danger');clr.classList.add('ghost');refresh()});
+  });
+
+  render();drawWatch();
+
+  /* ----- tour PIN (saved on this phone after the first good log) ----- */
+  var PIN_KEY='ftv-pin';
+  function getPin(){var v=($('pin').value||'').trim();if(v)return v;try{return localStorage.getItem(PIN_KEY)||''}catch(e){return ''}}
+  function savePin(v){try{localStorage.setItem(PIN_KEY,v)}catch(e){}$('pin').value='';$('pin-row').hidden=true}
+  function forgetPin(){try{localStorage.removeItem(PIN_KEY)}catch(e){}$('pin').value=''}
+  function askPin(msg){$('pin-row').hidden=false;try{$('pin').focus()}catch(e){}say('no',msg)}
+  function isBadPin(e){return !!(e&&(String(e.message||'').indexOf('bad_pin')>-1||e.code==='28P01'))}
+  try{if(!localStorage.getItem(PIN_KEY))$('pin-row').hidden=false}catch(e){$('pin-row').hidden=false}
+
+  /* ----- connect to the shared dop log (Supabase) ----- */
+  var status=$('dop-status');
+  function setStatus(t){status.textContent=t}
+  var CFG=window.FTV_CONFIG||{};
+  if(!window.supabase||!CFG.supabaseUrl||/YOUR-/.test(CFG.supabaseUrl+CFG.supabaseKey)){setStatus('Offline');say('no','Dop logging isn’t switched on yet.');return}
+  db=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey,{auth:{persistSession:false}});
+  var loading=false;
+  function refresh(){
+    if(!db||loading)return;loading=true;
+    db.from('dops').select('*').order('at_ms',{ascending:false}).limit(500).then(function(r){
+      loading=false;
+      if(r.error){setStatus('No signal');return}
+      docs=(r.data||[]).map(function(x){return{_id:x.id,drinker:x.drinker,team:x.team,kind:x.kind,pts:x.pts,witness:x.witness,practice:x.practice,atMs:Number(x.at_ms),day:x.day,hole:x.hole,secs:x.secs==null?null:Number(x.secs),gulps:x.gulps}});
+      setStatus(practiceNow()?'Practice':'Live');
+      renderData();
+    },function(){loading=false;setStatus('No signal')});
+  }
+  render();refresh();
+  try{db.channel('dops-live').on('postgres_changes',{event:'*',schema:'public',table:'dops'},function(){refresh()}).subscribe()}catch(e){}
+  setInterval(refresh,15000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh()});
+})();
+</script>
+</body>
+</html>
