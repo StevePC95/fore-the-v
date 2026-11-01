@@ -685,6 +685,13 @@ dialog.cam::backdrop{background:#000}
 .sc-table .wcell{background:var(--tbc-bg);font-weight:700}
 .sc-table .tot{font-weight:800}
 .sc-table .teamrow td{font-weight:700;border-top:1px solid var(--line-strong)}
+
+/* ---------- Planning (execs) ---------- */
+.qlist li:not(.qgroup){display:flex;flex-direction:column}
+.qlist li:not(.qgroup) label{flex:1}
+.pl-go{align-self:flex-start;margin:-4px 14px 14px 52px;font:600 .72rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);border:1px solid var(--line-strong);border-radius:999px;padding:8px 12px}
+.pl-go:hover{border-color:var(--ink)}
+.qlist .qn{display:inline-block;background:var(--tbc-bg);color:var(--tbc);padding:3px 6px;border-radius:4px;text-transform:uppercase}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -738,7 +745,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <a href="#players">Players</a>
     <a href="#honours">Honours</a>
     <a href="#logistics">Logistics</a>
-    <a href="#questions" class="q">Planning</a>
+    <a href="#questions" class="q" id="nav-planning" hidden>Planning</a>
   </div>
 </nav>
 
@@ -1324,23 +1331,31 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
 <!-- QUESTIONS -->
 <section data-view="questions" hidden>
-  <div class="head"><span class="eyebrow">Exec call · 1 Nov · all questions answered</span><h2>Planning</h2></div>
+  <div class="head"><span class="eyebrow">Execs only · Steve, Nic, Brandon, Guy</span><h2>Planning</h2></div>
+  <div class="card gate" id="pl-gate" hidden>
+    <span class="eyebrow">Execs only</span>
+    <h3>This one's for the four originals</h3>
+    <p>Sign in as Steve, Nic, Brandon or Guy to see the planning list.</p>
+    <button type="button" class="btn" id="pl-gate-btn">Sign in</button>
+  </div>
+  <div id="pl-body" style="display:flex;flex-direction:column;gap:20px">
   <p class="lede">What's left before the weekend. The full plan is on the <a href="#schedule">Schedule</a> tab. Ticks only save on this phone.</p>
   <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 8 done</span></div>
   <ul class="qlist" id="qlist">
     <li class="qgroup">Reminders</li>
-    <li><label><input type="checkbox" id="r1"><span><span class="qn">Reminder</span><b>Captains: pick the fourballs</b><small>Brandon and Guy, on the Courses tab, for both days.</small></span></label></li>
-    <li><label><input type="checkbox" id="r2"><span><span class="qn">Reminder</span><b>Guy: message Steve about “the neutraliser”</b><small>The last open Wolf question.</small></span></label></li>
-    <li><label><input type="checkbox" id="r3"><span><span class="qn">Reminder</span><b>Steve: finalise fines, awards and side bets</b><small>The Fines tab is hidden until it’s done.</small></span></label></li>
-    <li><label><input type="checkbox" id="r4"><span><span class="qn">Reminder</span><b>Book Hennie’s for 8 (Saturday rugby)</b><small>Cancel on Saturday morning if we stay at the Jackal Creek clubhouse.</small></span></label></li>
-    <li><label><input type="checkbox" id="r5"><span><span class="qn">Reminder</span><b>Book the transport</b><small>Uber or other for every trip. Brandon drives on Saturday only.</small></span></label></li>
+    <li><label><input type="checkbox" id="r1"><span><span class="qn">Captains</span><b>Captains: pick the fourballs</b><small>Brandon and Guy, both days.</small></span></label><a class="pl-go" href="#courses">Open Courses →</a></li>
+    <li><label><input type="checkbox" id="r2"><span><span class="qn">Guy</span><b>Guy: message Steve about “the neutraliser”</b><small>The last open Wolf question.</small></span></label><a class="pl-go" href="#formats">Open Wolf rules →</a></li>
+    <li><label><input type="checkbox" id="r3"><span><span class="qn">Steve</span><b>Steve: finalise fines, awards and side bets</b><small>The Fines tab is hidden until it’s done.</small></span></label><a class="pl-go" href="#fines">Open Fines draft →</a></li>
+    <li><label><input type="checkbox" id="r4"><span><span class="qn">Execs</span><b>Book Hennie’s for 8 (Saturday rugby)</b><small>Cancel on Saturday morning if we stay at the Jackal Creek clubhouse.</small></span></label><a class="pl-go" href="https://www.google.com/maps/search/?api=1&query=Hennie%27s+Randburg" target="_blank" rel="noopener">Find Hennie’s ↗</a></li>
+    <li><label><input type="checkbox" id="r5"><span><span class="qn">Execs</span><b>Book the transport</b><small>Uber or other for every trip. Brandon drives on Saturday only.</small></span></label><a class="pl-go" href="#schedule">See the trips →</a></li>
     <li class="qgroup">Still to sort</li>
-    <li><label><input type="checkbox" id="s4"><span><span class="qn">To sort</span><b>Kitty</b><small>How much each, what it covers and who holds it.</small></span></label></li>
-    <li><label><input type="checkbox" id="s5"><span><span class="qn">To sort</span><b>House food and booze</b><small>Saturday breakie (toast, cereal) and pizzas.</small></span></label></li>
-    <li><label><input type="checkbox" id="s6"><span><span class="qn">To sort</span><b>Losing team forfeit</b><small>What the losers have to do.</small></span></label></li>
+    <li><label><input type="checkbox" id="s4"><span><span class="qn">Execs</span><b>Kitty</b><small>How much each, what it covers and who holds it.</small></span></label><a class="pl-go" href="#logistics">Open Logistics →</a></li>
+    <li><label><input type="checkbox" id="s5"><span><span class="qn">Execs</span><b>House food and booze</b><small>Saturday breakie (toast, cereal) and pizzas.</small></span></label><a class="pl-go" href="#logistics">Open Logistics →</a></li>
+    <li><label><input type="checkbox" id="s6"><span><span class="qn">Steve</span><b>Losing team forfeit</b><small>What the losers have to do.</small></span></label><a class="pl-go" href="#fines">Open Fines draft →</a></li>
   </ul>
 
-  </section>
+    </div>
+</section>
 
 </div>
 </main>
@@ -2592,6 +2607,21 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
 })();
 
+</script>
+
+<script>
+/* ---------- Planning tab: execs only (Steve, Nic, Brandon, Guy) ---------- */
+(function(){
+  var EXEC=['steve','nic','brandon','guy'];
+  function $(id){return document.getElementById(id)}
+  function apply(m){
+    var ok=!!(m&&EXEC.indexOf(m.player_id)>-1);
+    $('nav-planning').hidden=!ok;$('pl-gate').hidden=ok;$('pl-body').hidden=!ok;
+  }
+  $('pl-gate-btn').addEventListener('click',function(){window.FTV.open()});
+  apply(null);
+  if(window.FTV)window.FTV.on(apply);
+})();
 </script>
 </body>
 </html>
