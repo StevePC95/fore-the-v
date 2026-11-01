@@ -139,6 +139,14 @@ h3{font:700 1.08rem/1.3 var(--f-body)}
 .tile b{display:block;font:900 clamp(2.1rem,10vw,3rem)/1 var(--f-display);font-variant-numeric:tabular-nums}
 .tile span{font:500 .62rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.7}
 .board-frame p{font-size:.92rem;opacity:.85}
+.cd-row{display:grid;grid-template-columns:clamp(104px,31vw,132px) minmax(0,1fr);gap:12px;align-items:center}
+.cd-row .countdown{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:560px){.cd-row .countdown{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.cd-cup{position:relative;display:grid;place-items:center;border-radius:10px;padding:4px 0 10px;
+  background:radial-gradient(closest-side,rgba(240,199,90,.32),transparent)}
+.cd-cup::after{content:"";position:absolute;left:50%;bottom:4px;width:62%;height:10px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent)}
+.cd-cup img{position:relative;z-index:1;width:100%;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.cd-cup:focus-visible{outline:3px solid var(--flag);outline-offset:2px}
 
 /* Day cards */
 .dayc{position:relative}
@@ -771,11 +779,14 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <section data-view="home">
   <div class="board-frame">
     <span class="eyebrow">First tee · Randpark Bushwillow · Fri 12:02</span>
+    <div class="cd-row">
+    <a class="cd-cup" href="#scores" aria-label="The cup: see the leaderboard"><img src="img/the-cup.webp" alt="" width="520" height="566"></a>
     <div class="countdown" id="countdown" aria-live="polite">
       <div class="tile"><b id="cd-d">–</b><span>Days</span></div>
       <div class="tile"><b id="cd-h">–</b><span>Hrs</span></div>
       <div class="tile"><b id="cd-m">–</b><span>Mins</span></div>
       <div class="tile"><b id="cd-s">–</b><span>Secs</span></div>
+    </div>
     </div>
     <p id="cd-msg">Time left to find your golf shoes and lower your expectations.</p>
   </div>
