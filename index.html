@@ -692,6 +692,14 @@ dialog.cam::backdrop{background:#000}
 .pl-go{align-self:flex-start;margin:-4px 14px 14px 52px;font:600 .72rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;color:var(--ink);border:1px solid var(--line-strong);border-radius:999px;padding:8px 12px}
 .pl-go:hover{border-color:var(--ink)}
 .qlist .qn{display:inline-block;background:var(--tbc-bg);color:var(--tbc);padding:3px 6px;border-radius:4px;text-transform:uppercase}
+
+/* ---------- Exec-only tabs ---------- */
+.exec-flag{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);border-radius:var(--r);padding:12px 14px;font-size:.9rem}
+.exec-flag svg{width:20px;height:20px;flex:0 0 auto}
+.exec-flag b{font:800 1rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.04em}
+section.exec-locked > :not(.exec-gate){display:none!important}
+section:not(.exec-locked) > .exec-gate{display:none!important}
+nav.tabs a.exec-nav::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--ink);opacity:.55}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -745,7 +753,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <a href="#players">Players</a>
     <a href="#honours">Honours</a>
     <a href="#logistics">Logistics</a>
-    <a href="#questions" class="q" id="nav-planning" hidden>Planning</a>
+    <a href="#fines" class="exec-nav" hidden>Fines &amp; Bets</a>
+    <a href="#questions" class="q exec-nav" hidden>Planning</a>
   </div>
 </nav>
 
@@ -1258,7 +1267,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </section>
 
 <!-- FINES -->
-<section data-view="fines" hidden>
+<section data-view="fines" data-exec hidden>
   <div class="head"><span class="eyebrow">Social committee draft</span><h2>Fines, bets &amp; awards</h2></div>
   <div class="note">
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
@@ -1330,15 +1339,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </section>
 
 <!-- QUESTIONS -->
-<section data-view="questions" hidden>
+<section data-view="questions" data-exec hidden>
   <div class="head"><span class="eyebrow">Execs only · Steve, Nic, Brandon, Guy</span><h2>Planning</h2></div>
-  <div class="card gate" id="pl-gate" hidden>
-    <span class="eyebrow">Execs only</span>
-    <h3>This one's for the four originals</h3>
-    <p>Sign in as Steve, Nic, Brandon or Guy to see the planning list.</p>
-    <button type="button" class="btn" id="pl-gate-btn">Sign in</button>
-  </div>
-  <div id="pl-body" style="display:flex;flex-direction:column;gap:20px">
+
   <p class="lede">What's left before the weekend. The full plan is on the <a href="#schedule">Schedule</a> tab. Ticks only save on this phone.</p>
   <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 8 done</span></div>
   <ul class="qlist" id="qlist">
@@ -1353,8 +1356,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <li><label><input type="checkbox" id="s5"><span><span class="qn">Execs</span><b>House food and booze</b><small>Saturday breakie (toast, cereal) and pizzas.</small></span></label><a class="pl-go" href="#logistics">Open Logistics →</a></li>
     <li><label><input type="checkbox" id="s6"><span><span class="qn">Steve</span><b>Losing team forfeit</b><small>What the losers have to do.</small></span></label><a class="pl-go" href="#fines">Open Fines draft →</a></li>
   </ul>
-
-    </div>
 </section>
 
 </div>
@@ -2609,16 +2610,28 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
 </script>
 
+
+
 <script>
-/* ---------- Planning tab: execs only (Steve, Nic, Brandon, Guy) ---------- */
+/* ---------- Exec-only tabs (Planning, Fines): visible to Steve, Nic, Brandon and Guy, flagged as hidden ---------- */
 (function(){
   var EXEC=['steve','nic','brandon','guy'];
-  function $(id){return document.getElementById(id)}
+  var EYE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3.2 4M6.3 6.3C3.6 8.1 2 12 2 12s4 7 10 7c1.6 0 3-.4 4.3-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>';
+  var secs=[].slice.call(document.querySelectorAll('section[data-exec]'));
+  secs.forEach(function(sec){
+    var flag=document.createElement('div');flag.className='exec-flag';flag.setAttribute('role','note');
+    flag.innerHTML=EYE+'<span><b>Hidden tab</b><br>Only the execs (Steve, Nic, Brandon, Guy) can see this. The rest of the group can’t.</span>';
+    var head=sec.querySelector('.head');head.parentNode.insertBefore(flag,head.nextSibling);
+    var gate=document.createElement('div');gate.className='card gate exec-gate';
+    gate.innerHTML='<span class="eyebrow">Execs only</span><h3>This one’s for the four originals</h3><p>Sign in as Steve, Nic, Brandon or Guy to see it.</p>';
+    var b=document.createElement('button');b.type='button';b.className='btn';b.textContent='Sign in';b.onclick=function(){window.FTV&&window.FTV.open()};
+    gate.appendChild(b);sec.insertBefore(gate,sec.firstChild);
+  });
   function apply(m){
     var ok=!!(m&&EXEC.indexOf(m.player_id)>-1);
-    $('nav-planning').hidden=!ok;$('pl-gate').hidden=ok;$('pl-body').hidden=!ok;
+    [].slice.call(document.querySelectorAll('nav.tabs a.exec-nav')).forEach(function(a){a.hidden=!ok});
+    secs.forEach(function(sec){sec.classList.toggle('exec-locked',!ok)});
   }
-  $('pl-gate-btn').addEventListener('click',function(){window.FTV.open()});
   apply(null);
   if(window.FTV)window.FTV.on(apply);
 })();
