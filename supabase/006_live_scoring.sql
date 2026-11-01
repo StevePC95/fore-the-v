@@ -1,18 +1,24 @@
 -- Fore the V: live scoring.
 -- Run once in Supabase: SQL Editor > New query > paste all > Run. (Needs 003 and 004 first.)
 --  * Anyone can watch the scores and the leaderboard.
---  * Only phones signed in with the Tour V code can enter or correct scores and Wolf calls.
+--  * Only phones signed in with the Tour V code can enter or correct shots and Wolf calls.
+--  * Shots are stored; Stableford points are worked out in the app from par, stroke index and full handicap.
 --  * A captain or Steve locks a day once it matches the paper cards; after that only Steve can change it.
 
 create table if not exists public.scores (
   day        text not null check (day in ('fri','sat')),
   hole       int  not null check (hole between 1 and 18),
   player_id  text not null references public.players (id),
-  points     int  not null check (points between 0 and 9),   -- Stableford points, full handicap
+  strokes    int  check (strokes between 0 and 15),   -- shots on the hole; 0 = picked up. The app works out the points.
   updated_by text,
   updated_at timestamptz not null default now(),
   primary key (day, hole, player_id)
 );
+-- (if an earlier draft of this script created a points column, keep it harmless)
+alter table public.scores add column if not exists strokes int check (strokes between 0 and 15);
+do $$ begin
+  alter table public.scores alter column points drop not null;
+exception when undefined_column then null; end $$;
 
 create table if not exists public.wolf_calls (
   day        text not null check (day in ('fri','sat')),
@@ -57,19 +63,20 @@ begin
 end $$;
 revoke all on function public.ftv_scorer(text) from public, anon, authenticated;
 
-create or replace function public.ftv_set_score(p_day text, p_hole int, p_player text, p_points int) returns void
+drop function if exists public.ftv_set_score(text, int, text, int);
+create or replace function public.ftv_set_score(p_day text, p_hole int, p_player text, p_strokes int) returns void
 language plpgsql security definer set search_path = public as $$
 declare me players;
 begin
   me := ftv_scorer(p_day);
   if not exists (select 1 from players where id = p_player and team is not null) then raise exception 'bad_player'; end if;
-  if p_points is null then
+  if p_strokes is null then
     delete from scores where day = p_day and hole = p_hole and player_id = p_player;
   else
-    insert into scores (day, hole, player_id, points, updated_by, updated_at)
-    values (p_day, p_hole, p_player, p_points, me.short, now())
+    insert into scores (day, hole, player_id, strokes, updated_by, updated_at)
+    values (p_day, p_hole, p_player, p_strokes, me.short, now())
     on conflict (day, hole, player_id) do update
-      set points = excluded.points, updated_by = excluded.updated_by, updated_at = excluded.updated_at;
+      set strokes = excluded.strokes, updated_by = excluded.updated_by, updated_at = excluded.updated_at;
   end if;
 end $$;
 

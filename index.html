@@ -212,10 +212,10 @@ tbody th{font:500 .7rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:up
 .lb-top .eyebrow{color:var(--green-ink);opacity:.85}
 .lb-title{font:900 1.6rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.08em}
 .lb-rows{display:flex;flex-direction:column;gap:6px}
-.lb-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(46px,72px));gap:6px}
+.lb-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,clamp(44px,14vw,68px));gap:6px}
 .lb-row .nm{min-width:0;overflow:hidden;white-space:nowrap}
 .lb-row > *{background:var(--tile);color:var(--tile-ink);border-radius:5px;padding:10px 8px;display:flex;align-items:center;justify-content:center;font:900 1.7rem/1 var(--f-display);font-variant-numeric:tabular-nums}
-.lb-row .nm{justify-content:flex-start;font-size:1.35rem;letter-spacing:.06em;text-transform:uppercase;gap:10px}
+.lb-row .nm{justify-content:flex-start;font-size:clamp(1.05rem,4.6vw,1.35rem);letter-spacing:.04em;text-transform:uppercase;gap:8px}
 .lb-row .nm i{width:10px;height:22px;border-radius:2px}
 .lb-row.in .nm i{background:#5b3e96}
 .lb-row.co .nm i{background:#08716c}
@@ -619,7 +619,6 @@ dialog.cam::backdrop{background:#000}
 .cup-txt .sub-h{margin-top:0}
 
 /* ---------- Live scores ---------- */
-.sc-board .lb-row{grid-template-columns:minmax(0,1fr) minmax(64px,84px)}
 .chip.in-live{background:var(--bad);color:#fff}
 .chip.in-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1.4s infinite}
 @keyframes blink{50%{opacity:.25}}
@@ -642,8 +641,39 @@ dialog.cam::backdrop{background:#000}
 .sc-name.in{color:var(--inland)}
 .sc-name.co{color:var(--coastal)}
 .wolf-tag{font:600 .6rem/1 var(--f-mono);font-style:normal;letter-spacing:.1em;text-transform:uppercase;background:var(--flag);color:#1a1405;padding:4px 6px;border-radius:4px}
-.sc-pts{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
-.sc-pts .pick{padding:0;min-height:46px;font:800 1.25rem/1 var(--f-display);border-radius:10px}
+.sc-views{align-self:stretch;display:grid;grid-template-columns:repeat(4,1fr)}
+.sc-views button{padding:11px 4px}
+.sc-vbody{display:flex;flex-direction:column;gap:14px}
+.sc-vbody[hidden]{display:none!important}
+.sc-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sc-name .hc{margin-left:0}
+.sc-pts-now{font:900 1.3rem/1 var(--f-display);font-variant-numeric:tabular-nums;color:var(--tbc);background:var(--tbc-bg);border-radius:8px;padding:5px 8px;white-space:nowrap}
+.sc-pts-now.none{background:transparent;color:var(--muted)}
+.sc-shots{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.sc-shots .pick{padding:0;min-height:44px;font:800 1.2rem/1 var(--f-display);border-radius:10px}
+.hchip{display:flex;flex-direction:column;align-items:center;gap:2px}
+.hchip small{font:500 .52rem/1 var(--f-mono);letter-spacing:.04em;opacity:.7}
+.pcard,.tcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.tcard{border-top:5px solid var(--line-strong)}
+.tcard.in{border-top-color:var(--inland)}
+.tcard.co{border-top-color:var(--coastal)}
+.tcard-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.tcard-h b{font:900 1.8rem/1 var(--f-display);text-transform:uppercase}
+.tcard.in .tcard-h b{color:var(--inland)}
+.tcard.co .tcard-h b{color:var(--coastal)}
+.tcard-tot{font:900 2.4rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.sc-table.vert,.sc-table.rank{min-width:0}
+.sc-table.vert td,.sc-table.vert th{text-align:center}
+.sc-table.vert td:first-child{font-weight:700;text-align:left}
+.sc-table tr.used td{background:var(--good-bg)}
+.sc-table tr.wcell td{background:var(--tbc-bg)}
+.sc-table tr.subt td{font-weight:700;border-top:1px solid var(--line-strong);background:var(--paper)}
+.sc-table tr.subt.tot td{font-weight:900}
+.sc-table .parrow td{color:var(--muted);font-family:var(--f-mono)}
+.sc-table .ptsrow td{color:var(--muted);border-bottom-color:var(--line-strong)}
+.sc-table th small{display:block;font-size:.55rem;opacity:.6}
+.sc-table td small{font-weight:400;color:var(--muted)}
+.stat .rec.hl{font-size:1.7rem}
 .verdict.neutral{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
 .sc-key{font-size:.82rem}
 .linkbtn{all:unset;cursor:pointer;text-decoration:underline;font-weight:700;color:var(--ink)}
@@ -1007,43 +1037,56 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
 <!-- LIVE SCORES -->
 <section data-view="live" hidden>
-  <div class="head"><span class="eyebrow">Stableford points · full handicap</span><h2>Scores</h2></div>
-  <div class="lb sc-board">
-    <div class="lb-top"><span class="lb-title" id="sc-b-lab">Friday · Wolf</span></div>
+  <div class="head"><span class="eyebrow">Shots in · Stableford points worked out · full handicap</span><h2>Scores</h2></div>
+  <div class="lb sc-board" role="table" aria-label="Team totals">
     <div class="lb-rows">
-      <div class="lb-row in"><span class="nm"><i></i>Inland</span><span class="tot" id="sc-b-in">0</span></div>
-      <div class="lb-row co"><span class="nm"><i></i>Coastal</span><span class="tot" id="sc-b-co">0</span></div>
+      <div class="lb-row hd" role="row"><span class="nm" role="columnheader">Team</span><span role="columnheader">Fri</span><span role="columnheader">Sat</span><span role="columnheader">Tot</span></div>
+      <div class="lb-row in" role="row"><span class="nm" role="cell"><i></i>Inland</span><span role="cell" id="sc-b-in-fri">0</span><span role="cell" id="sc-b-in-sat">0</span><span class="tot" role="cell" id="sc-b-in">0</span></div>
+      <div class="lb-row co" role="row"><span class="nm" role="cell"><i></i>Coastal</span><span role="cell" id="sc-b-co-fri">0</span><span role="cell" id="sc-b-co-sat">0</span><span class="tot" role="cell" id="sc-b-co">0</span></div>
     </div>
   </div>
-  <div class="card sc-card">
-    <div class="pick-ctl">
-      <div class="filter" role="group" aria-label="Day" id="sc-day"><button type="button" data-v="fri">Fri · Wolf</button><button type="button" data-v="sat">Sat · Cha Cha Cha</button></div>
-      <div class="filter" role="group" aria-label="Fourball" id="sc-fb"><button type="button" data-v="1">Fourball 1</button><button type="button" data-v="2">Fourball 2</button></div>
+  <div class="filter sc-views" role="group" aria-label="View" id="sc-view">
+    <button type="button" data-v="enter">Enter</button><button type="button" data-v="player">Player</button><button type="button" data-v="teams">Teams</button><button type="button" data-v="overall">Overall</button>
+  </div>
+
+  <div id="sc-v-enter" class="sc-vbody">
+    <div class="card sc-card">
+      <div class="pick-ctl">
+        <div class="filter" role="group" aria-label="Day" id="sc-day"><button type="button" data-v="fri">Fri · Wolf</button><button type="button" data-v="sat">Sat · Cha Cha Cha</button></div>
+        <div class="filter" role="group" aria-label="Fourball" id="sc-fb"><button type="button" data-v="1">Fourball 1</button><button type="button" data-v="2">Fourball 2</button></div>
+      </div>
+      <div class="hstrip" id="sc-holes" role="group" aria-label="Holes"></div>
+      <div class="sc-hole-h">
+        <button type="button" class="navb" id="sc-prev" aria-label="Previous hole">‹</button>
+        <div><b id="sc-hole-t">Hole 1</b><span id="sc-hole-sub"></span></div>
+        <button type="button" class="navb" id="sc-next" aria-label="Next hole">›</button>
+      </div>
+      <div class="sc-wolf" id="sc-wolf"></div>
+      <div class="sc-rows" id="sc-rows"></div>
+      <div class="verdict" id="sc-result" role="status" aria-live="polite"></div>
+      <p class="fine" id="sc-gate"></p>
+      <p class="fine sc-key">Points are worked out from par, stroke index and full handicap: net double bogey or worse 0 · bogey 1 · par 2 · birdie 3 · eagle 4. Tap a selected number again to clear it.</p>
     </div>
-    <div class="hstrip" id="sc-holes" role="group" aria-label="Holes"></div>
-    <div class="sc-hole-h">
-      <button type="button" class="navb" id="sc-prev" aria-label="Previous hole">‹</button>
-      <div><b id="sc-hole-t">Hole 1</b><span id="sc-hole-sub"></span></div>
-      <button type="button" class="navb" id="sc-next" aria-label="Next hole">›</button>
+    <div class="card">
+      <span class="eyebrow">Fourball scorecard</span>
+      <h3 class="sub-h">Check it against the paper</h3>
+      <div class="tbl"><table class="sc-table" id="sc-card"></table></div>
+      <p class="fine" id="sc-card-note"></p>
     </div>
-    <div class="sc-wolf" id="sc-wolf"></div>
-    <div class="sc-rows" id="sc-rows"></div>
-    <div class="verdict" id="sc-result" role="status" aria-live="polite"></div>
-    <p class="fine" id="sc-gate"></p>
-    <p class="fine sc-key">Points: 0 double bogey or worse · 1 bogey · 2 par · 3 birdie · 4 eagle · 5 albatross (all after handicap). Tap a selected number again to clear it.</p>
+    <div class="card" id="sc-lock-card" hidden>
+      <span class="eyebrow">Captains and Steve</span>
+      <h3 class="sub-h">Lock the round</h3>
+      <p id="sc-lock-state"></p>
+      <button type="button" class="btn" id="sc-lock-btn">Lock</button>
+    </div>
   </div>
-  <div class="card">
-    <span class="eyebrow">Scorecard</span>
-    <h3 class="sub-h">Check it against the paper</h3>
-    <div class="tbl"><table class="sc-table" id="sc-card"></table></div>
-    <p class="fine" id="sc-card-note"></p>
+
+  <div id="sc-v-player" class="sc-vbody" hidden>
+    <div class="card"><span class="eyebrow">Whose card?</span><div class="si-people" id="sc-p-pick"></div></div>
+    <div id="sc-p-body" class="sc-vbody"></div>
   </div>
-  <div class="card" id="sc-lock-card" hidden>
-    <span class="eyebrow">Captains and Steve</span>
-    <h3 class="sub-h">Lock the round</h3>
-    <p id="sc-lock-state"></p>
-    <button type="button" class="btn" id="sc-lock-btn">Lock</button>
-  </div>
+  <div id="sc-v-teams" class="sc-vbody" hidden><div id="sc-t-body" class="sc-vbody"></div></div>
+  <div id="sc-v-overall" class="sc-vbody" hidden><div id="sc-o-body" class="sc-vbody"></div></div>
 </section>
 
 <!-- LEADERBOARD -->
@@ -2184,49 +2227,56 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 })();
 </script>
 <script>
-/* ---------- Live scoring + leaderboard ---------- */
+/* ---------- Live scoring: shots in, Stableford points worked out, Wolf + Cha Cha Cha, four views ---------- */
 (function(){
   function $(id){return document.getElementById(id)}
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
   var FTV=window.FTV, db=FTV&&FTV.db;
-  var PL={steve:['Steve','in'],nic:['Nic','in'],luke:['Luke','in'],brandon:['Brandon','in'],guy:['Guy','co'],mitch:['Mitch','co'],jay:['Jay','co'],rich:['Rich','co']};
+  var PL={steve:['Steve','in',26],nic:['Nic','in',13],luke:['Luke','in',20],brandon:['Brandon','in',10],guy:['Guy','co',14],mitch:['Mitch','co',30],jay:['Jay','co',26],rich:['Rich','co',14]};
   var ALL=Object.keys(PL);
   function T(id){return PL[id]?PL[id][1]:null}
   function N(id){return PL[id]?PL[id][0]:id}
+  function H(id){return PL[id]?PL[id][2]:0}
   var TEAM={in:'Inland',co:'Coastal'};
+  // Course cards (men's par and stroke index), from GolfPass. Check against the club cards on the day.
+  var COURSE={
+    fri:{name:'Randpark · Bushwillow',par:[5,4,5,4,4,3,4,3,4, 4,4,5,3,4,3,4,5,4],si:[16,2,18,4,14,8,10,6,12, 1,13,15,7,11,9,3,17,5]},
+    sat:{name:'Jackal Creek',par:[5,4,3,4,4,5,3,4,5, 4,4,3,4,4,3,4,4,5],si:[2,6,10,4,8,16,12,14,18, 17,15,7,13,1,5,11,9,3]}
+  };
   var CALL={blind:['Blind Wolf',6],lone:['Lone Wolf',4],partner:['Partner Wolf',2]};
-  var D={pairs:[],wolf:{},scores:{},calls:{},locks:{}};
-  var st={day:Date.now()>=new Date('2026-11-07T00:00:00+02:00').getTime()?'sat':'fri',fb:null,hole:null};
-  var pending={};
+  var D={pairs:[],wolf:{},shots:{},calls:{},locks:{}};
+  var st={view:'enter',day:Date.now()>=new Date('2026-11-07T00:00:00+02:00').getTime()?'sat':'fri',fb:null,hole:null,player:null};
 
-  /* ----- data access ----- */
+  /* ----- maths ----- */
+  function par(d,h){return COURSE[d].par[h-1]}
+  function si(d,h){return COURSE[d].si[h-1]}
+  function recv(id,d,h){var hc=H(id);return Math.floor(hc/18)+((hc%18)>=si(d,h)?1:0)}   // full handicap strokes on this hole
   function key(d,h,p){return d+'|'+h+'|'+p}
-  function pts(d,h,p){var v=D.scores[key(d,h,p)];return v==null?null:v.points}
+  function shots(d,h,p){var v=D.shots[key(d,h,p)];return v==null?null:v}
+  function pts(d,h,p){var s=shots(d,h,p);if(s==null)return null;if(s===0)return 0;return Math.max(0,2+par(d,h)-(s-recv(p,d,h)))}
   function fbPlayers(d,f){
     var ids=D.pairs.filter(function(x){return x.day===d&&x.fourball===f}).map(function(x){return x.player_id});
-    var ins=ids.filter(function(i){return T(i)==='in'}).sort(),cos=ids.filter(function(i){return T(i)==='co'}).sort();
-    return ins.concat(cos);
+    return ids.filter(function(i){return T(i)==='in'}).sort().concat(ids.filter(function(i){return T(i)==='co'}).sort());
   }
   function wolfOf(f,h){var o=D.wolf[f];if(!o||h===1||h===10)return null;return o[(h<10?h-2:h-11)%4]}
   function callOf(f,h){return D.calls['fri|'+f+'|'+h]||null}
   function chaCount(h){return [1,2,3][(h-1)%3]}
 
-  /* ----- scoring rules (exactly as the execs set them) ----- */
-  // Wolf: within a fourball. Blind 6 / Lone 4: Wolf must beat both opponents (beat the better of the two). Partner: pair totals, 2 each.
+  // Wolf, within a fourball. Blind 6 / Lone 4: the Wolf must beat both opponents. Partner: pair totals, 2 each to the winners.
   function wolfHole(f,h){
-    var r={in:0,co:0,state:'loose',text:''};
+    var r={in:0,co:0,state:'loose',text:'',wolf:null,call:null};
     if(h===1||h===10){r.text='Loosener: no Wolf, no points.';return r}
-    var w=wolfOf(f,h);if(!w){r.state='nowolf';r.text='Spin the Wolf wheel first (Formats tab).';return r}
-    var c=callOf(f,h);var four=fbPlayers('fri',f);
+    var w=wolfOf(f,h);r.wolf=w;if(!w){r.state='nowolf';r.text='Spin the Wolf wheel first (Formats tab).';return r}
+    var c=callOf(f,h);r.call=c;var four=fbPlayers('fri',f);
     if(!c){r.state='nocall';r.text='Wolf: '+N(w)+'. Waiting for his call.';return r}
     var p={};four.forEach(function(id){p[id]=pts('fri',h,id)});
-    if(c.call==='blind'||c.call==='lone'){
+    if(c.call!=='partner'){
       var val=CALL[c.call][1],opp=four.filter(function(id){return T(id)!==T(w)});
       if(p[w]==null||opp.some(function(id){return p[id]==null})){r.state='open';r.text=CALL[c.call][0]+': '+N(w)+'. Waiting for scores.';return r}
-      var best=Math.max.apply(null,opp.map(function(id){return p[id]}));
-      r.state='done';
-      if(p[w]>best){r[T(w)]+=val;r.text=N(w)+' ('+CALL[c.call][0]+') '+p[w]+' beats '+best+'. '+TEAM[T(w)]+' +'+val+'.'}
-      else if(p[w]<best){var ot=T(w)==='in'?'co':'in';r[ot]+=val;r.text=N(w)+' ('+CALL[c.call][0]+') '+p[w]+' loses to '+best+'. '+TEAM[ot]+' +'+val+'.'}
-      else r.text=N(w)+' ('+CALL[c.call][0]+') '+p[w]+' ties '+best+'. No points.';
+      var best=Math.max.apply(null,opp.map(function(id){return p[id]}));r.state='done';
+      if(p[w]>best){r[T(w)]+=val;r.text=N(w)+' ('+CALL[c.call][0]+') '+p[w]+' pts beats '+best+'. '+TEAM[T(w)]+' +'+val+'.'}
+      else if(p[w]<best){var ot=T(w)==='in'?'co':'in';r[ot]+=val;r.text=N(w)+' ('+CALL[c.call][0]+') '+p[w]+' pts loses to '+best+'. '+TEAM[ot]+' +'+val+'.'}
+      else r.text=N(w)+' ('+CALL[c.call][0]+') '+p[w]+' pts ties '+best+'. No points.';
       return r;
     }
     var mate=c.partner;if(!mate||four.indexOf(mate)<0){r.state='nocall';r.text='Partner Wolf: pick his partner.';return r}
@@ -2234,34 +2284,47 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     if(four.some(function(id){return p[id]==null})){r.state='open';r.text='Partner Wolf: '+N(w)+' + '+N(mate)+'. Waiting for scores.';return r}
     var a=p[w]+p[mate],b=rest.reduce(function(s,id){return s+p[id]},0);r.state='done';
     var win=a>b?pair:a<b?rest:null;
-    if(win){win.forEach(function(id){r[T(id)]+=2});r.text=N(win[0])+' + '+N(win[1])+' win '+Math.max(a,b)+'–'+Math.min(a,b)+'. '+(T(win[0])===T(win[1])?TEAM[T(win[0])]+' +4.':'Both teams +2, all square.')}
-    else r.text='Pairs tie '+a+'–'+b+'. No points.';
+    if(win){win.forEach(function(id){r[T(id)]+=2});r.text=N(win[0])+' + '+N(win[1])+' win '+Math.max(a,b)+'–'+Math.min(a,b)+' pts. '+(T(win[0])===T(win[1])?TEAM[T(win[0])]+' +4.':'Both teams +2, all square.')}
+    else r.text='Pairs tie '+a+'–'+b+' pts. No points.';
     return r;
   }
-  // Cha Cha Cha: all 4 vs all 4; the team's best 1, 2 or 3 points count on each hole.
+  // Cha Cha Cha: all 4 vs all 4; the team's best 1, 2 or 3 points count, staggered by hole.
   function chaHole(h){
-    var n=chaCount(h),r={in:0,co:0,state:'done',n:n};
+    var n=chaCount(h),r={in:0,co:0,state:'done',n:n,used:{}};
     ['in','co'].forEach(function(t){
-      var v=ALL.filter(function(id){return T(id)===t}).map(function(id){return pts('sat',h,id)});
-      if(v.some(function(x){return x==null}))r.state='open';
-      v=v.filter(function(x){return x!=null}).sort(function(a,b){return b-a}).slice(0,n);
-      r[t]=v.reduce(function(s,x){return s+x},0);
+      var v=ALL.filter(function(id){return T(id)===t}).map(function(id){return [id,pts('sat',h,id)]});
+      if(v.some(function(x){return x[1]==null}))r.state='open';
+      v=v.filter(function(x){return x[1]!=null}).sort(function(a,b){return b[1]-a[1]}).slice(0,n);
+      v.forEach(function(x){r.used[x[0]]=true});r[t]=v.reduce(function(s,x){return s+x[1]},0);
     });
-    if(!ALL.some(function(id){return pts('sat',h,id)!=null}))r.state='empty';
+    if(!ALL.some(function(id){return shots('sat',h,id)!=null}))r.state='empty';
     return r;
   }
-  function dayTotals(d){
-    var t={in:0,co:0,holes:0,any:false};
-    for(var h=1;h<=18;h++){
-      if(d==='fri'){[1,2].forEach(function(f){var r=wolfHole(f,h);if(r.state==='done'){t.in+=r.in;t.co+=r.co;t.any=true}})}
-      else{var r=chaHole(h);if(r.state!=='empty'){t.in+=r.in;t.co+=r.co;t.any=true}if(r.state==='done')t.holes++}
-    }
+  function dayTeam(d){
+    var t={in:0,co:0,any:false,byHole:[]};
+    for(var h=1;h<=18;h++){var hi={in:0,co:0,on:false};
+      if(d==='fri'){[1,2].forEach(function(f){var r=wolfHole(f,h);if(r.state==='done'){hi.in+=r.in;hi.co+=r.co;hi.on=true}})}
+      else{var r=chaHole(h);if(r.state!=='empty'){hi.in=r.in;hi.co=r.co;hi.on=true}}
+      if(hi.on){t.in+=hi.in;t.co+=hi.co;t.any=true}t.byHole.push(hi)}
     return t;
   }
+  function playerDay(id,d){
+    var o={shots:0,pts:0,holes:0,pickups:0,out:[0,0],inn:[0,0]};
+    for(var h=1;h<=18;h++){var s=shots(d,h,id);if(s==null)continue;var p=pts(d,h,id);o.holes++;o.pts+=p;
+      if(s===0)o.pickups++;else o.shots+=s;
+      if(h<=9){o.out[0]+=s;o.out[1]+=p}else{o.inn[0]+=s;o.inn[1]+=p}}
+    return o;
+  }
+  function wolfStats(id){
+    var o={holes:0,won:0,lost:0,forTeam:0};
+    [1,2].forEach(function(f){for(var h=2;h<=18;h++){if(h===10)continue;var r=wolfHole(f,h);if(r.wolf!==id||r.state!=='done')continue;
+      o.holes++;var mine=r[T(id)],theirs=r[T(id)==='in'?'co':'in'];o.forTeam+=mine;if(mine>theirs)o.won++;else if(theirs>mine)o.lost++}});
+    return o;
+  }
 
-  /* ----- leaderboard ----- */
+  /* ----- leaderboard tab + scoreboard ----- */
   function renderBoard(){
-    var f=dayTotals('fri'),s=dayTotals('sat');
+    var f=dayTeam('fri'),s=dayTeam('sat');
     function set(id,v){var e=$(id);if(e)e.textContent=v}
     set('lb-in-fri',f.in);set('lb-co-fri',f.co);set('lb-in-sat',s.in);set('lb-co-sat',s.co);
     set('lb-in-tot',f.in+s.in);set('lb-co-tot',f.co+s.co);
@@ -2271,26 +2334,37 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     chip('lb-d1-chip','fri',f);chip('lb-d2-chip','sat',s);
     var any=f.any||s.any,lk=D.locks.fri&&D.locks.fri.locked&&D.locks.sat&&D.locks.sat.locked;
     var c=$('lb-chip');if(c){c.className='chip '+(lk?'ok':any?'in-live':'wait');c.textContent=lk?'Final':any?'Live':'Not started'}
-    set('sc-b-in',st.day==='fri'?f.in:s.in);set('sc-b-co',st.day==='fri'?f.co:s.co);
-    set('sc-b-lab',st.day==='fri'?'Friday · Wolf':'Saturday · Cha Cha Cha');
+    set('sc-b-in-fri',f.in);set('sc-b-co-fri',f.co);set('sc-b-in-sat',s.in);set('sc-b-co-sat',s.co);
+    set('sc-b-in',f.in+s.in);set('sc-b-co',f.co+s.co);
   }
 
-  /* ----- entry screen ----- */
+  /* ----- shared helpers ----- */
   function me(){return FTV.me}
   function locked(){return !!(D.locks[st.day]&&D.locks[st.day].locked)}
   function canEnter(){var m=me();return !!(m&&m.tour_access&&(!locked()||m.is_admin))}
+  function seg(wrap,val,cb){[].slice.call(wrap.querySelectorAll('button')).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===String(val)?'true':'false');b.onclick=function(){cb(b.dataset.v)}})}
+  function btn(label,pressed,cls,onclick,dis){var b=el('button','pick '+(cls||'neutral'),label);b.type='button';b.setAttribute('aria-pressed',pressed?'true':'false');b.disabled=!!dis;b.onclick=onclick;return b}
   function holeDone(h){
     var ids=fbPlayers(st.day,st.fb);if(ids.length<4)return false;
-    if(!ids.every(function(id){return pts(st.day,h,id)!=null}))return false;
+    if(!ids.every(function(id){return shots(st.day,h,id)!=null}))return false;
     if(st.day==='fri'&&h!==1&&h!==10)return !!callOf(st.fb,h);
     return true;
   }
   function firstOpen(){for(var h=1;h<=18;h++)if(!holeDone(h))return h;return 18}
-  function seg(wrap,val,cb){[].slice.call(wrap.querySelectorAll('button')).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===String(val)?'true':'false');b.onclick=function(){cb(b.dataset.v)}})}
-  function btn(label,pressed,cls,onclick,dis){var b=document.createElement('button');b.type='button';b.className='pick '+(cls||'neutral');b.textContent=label;b.setAttribute('aria-pressed',pressed?'true':'false');b.disabled=!!dis;b.onclick=onclick;return b}
+  function fmtShots(s){return s==null?'·':s===0?'P':String(s)}
 
   function render(){
     renderBoard();
+    seg($('sc-view'),st.view,function(v){st.view=v;render()});
+    ['enter','player','teams','overall'].forEach(function(v){$('sc-v-'+v).hidden=st.view!==v});
+    if(st.view==='enter')renderEnter();
+    else if(st.view==='player')renderPlayer();
+    else if(st.view==='teams')renderTeams();
+    else renderOverall();
+  }
+
+  /* ----- view 1: enter shots ----- */
+  function renderEnter(){
     if(st.fb==null){var m=me(),mine=m&&D.pairs.filter(function(x){return x.day===st.day&&x.player_id===m.player_id})[0];st.fb=mine?mine.fourball:1}
     var ids=fbPlayers(st.day,st.fb);
     if(st.hole==null)st.hole=firstOpen();
@@ -2298,93 +2372,188 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     seg($('sc-fb'),st.fb,function(v){st.fb=+v;st.hole=null;render()});
     var tee={fri:['12:02','12:10'],sat:['07:30','07:45']}[st.day];
     [].slice.call($('sc-fb').querySelectorAll('button')).forEach(function(b,i){b.textContent='Fourball '+(i+1)+' · '+tee[i]});
-    // hole strip
     var hs=$('sc-holes');hs.textContent='';
     for(var h=1;h<=18;h++){(function(h){
-      var b=document.createElement('button');b.type='button';b.className='hchip'+(holeDone(h)?' done':'')+(h===st.hole?' on':'');b.textContent=h;
+      var b=el('button','hchip'+(holeDone(h)?' done':'')+(h===st.hole?' on':''));b.type='button';
+      b.appendChild(el('span','',String(h)));
+      if(st.day==='sat')b.appendChild(el('small','','best '+chaCount(h)));
       b.setAttribute('aria-label','Hole '+h+(holeDone(h)?', done':''));b.onclick=function(){st.hole=h;render()};hs.appendChild(b);
     })(h)}
     $('sc-prev').disabled=st.hole<=1;$('sc-next').disabled=st.hole>=18;
     $('sc-hole-t').textContent='Hole '+st.hole;
+    var info='Par '+par(st.day,st.hole)+' · SI '+si(st.day,st.hole);
     var gate=$('sc-gate');
-    if(!me())gate.innerHTML='Watching only. <button type="button" class="linkbtn" id="sc-signin">Sign in</button> with the Tour V code to enter scores.';
-    else if(!me().tour_access)gate.textContent='Watching only. Add the Tour V code (tap your name, top right) to enter scores.';
+    if(!me())gate.innerHTML='Watching only. <button type="button" class="linkbtn" id="sc-signin">Sign in</button> with the Tour V code to enter shots.';
+    else if(!me().tour_access)gate.textContent='Watching only. Add the Tour V code (tap your name, top right) to enter shots.';
     else if(locked()&&!me().is_admin)gate.textContent='This round is locked. Ask Steve to fix anything.';
-    else gate.textContent='Tap each player’s Stableford points for the hole. Saves straight away.';
-    var si=$('sc-signin');if(si)si.onclick=function(){FTV.open()};
-
-    var wolfBox=$('sc-wolf');wolfBox.textContent='';
-    var rows=$('sc-rows');rows.textContent='';
-    if(ids.length<4){$('sc-hole-sub').textContent='';rows.innerHTML='<p class="empty">The captains haven’t picked this fourball yet (Courses tab).</p>';$('sc-result').className='verdict';renderCard(ids);return}
+    else gate.textContent='Tap each player’s shots on the hole. P = picked up (0 points). Saves straight away.';
+    var si2=$('sc-signin');if(si2)si2.onclick=function(){FTV.open()};
+    var wolfBox=$('sc-wolf'),rows=$('sc-rows');wolfBox.textContent='';rows.textContent='';
+    if(ids.length<4){$('sc-hole-sub').textContent=info;rows.innerHTML='<p class="empty">The captains haven’t picked this fourball yet (Courses tab).</p>';$('sc-result').className='verdict';renderCard(ids);return}
     var ed=canEnter();
     if(st.day==='fri'){
       var w=wolfOf(st.fb,st.hole);
-      $('sc-hole-sub').textContent=(st.hole===1||st.hole===10)?'Loosener · no Wolf':w?('Wolf: '+N(w)):'Wolf: spin the wheel first';
+      $('sc-hole-sub').textContent=info+' · '+((st.hole===1||st.hole===10)?'Loosener':w?('Wolf: '+N(w)):'Wolf: spin the wheel');
       if(w){
         var c=callOf(st.fb,st.hole)||{};
-        var lab=document.createElement('span');lab.className='eyebrow';lab.textContent=N(w)+'’s call';wolfBox.appendChild(lab);
-        var row=document.createElement('div');row.className='picks';
-        ['blind','lone','partner'].forEach(function(k){row.appendChild(btn(CALL[k][0]+' · '+(k==='partner'?'2+2':CALL[k][1]),c.call===k,'neutral',function(){
-          saveCall(c.call===k?null:k,k==='partner'?(c.partner||null):null)},!ed))});
+        wolfBox.appendChild(el('span','eyebrow',N(w)+'’s call'));
+        var row=el('div','picks');
+        ['blind','lone','partner'].forEach(function(k){row.appendChild(btn(CALL[k][0]+' · '+(k==='partner'?'2+2':CALL[k][1]),c.call===k,'neutral',function(){saveCall(c.call===k?null:k,k==='partner'?(c.partner||null):null)},!ed))});
         wolfBox.appendChild(row);
         if(c.call==='partner'){
-          var l2=document.createElement('span');l2.className='eyebrow';l2.textContent='His partner';wolfBox.appendChild(l2);
-          var r2=document.createElement('div');r2.className='picks';
+          wolfBox.appendChild(el('span','eyebrow','His partner'));
+          var r2=el('div','picks');
           ids.filter(function(id){return id!==w}).forEach(function(id){r2.appendChild(btn(N(id),c.partner===id,T(id),function(){saveCall('partner',id)},!ed))});
           wolfBox.appendChild(r2);
         }
       }
-    }else{
-      $('sc-hole-sub').textContent='Best '+chaCount(st.hole)+' count for each team';
-    }
+    }else $('sc-hole-sub').textContent=info+' · best '+chaCount(st.hole)+' count';
     ids.forEach(function(id){
-      var r=document.createElement('div');r.className='sc-row';
-      var n=document.createElement('b');n.className='sc-name '+T(id);n.textContent=N(id);
-      if(st.day==='fri'&&wolfOf(st.fb,st.hole)===id){var wt=document.createElement('i');wt.className='wolf-tag';wt.textContent='Wolf';n.appendChild(wt)}
-      var bs=document.createElement('div');bs.className='sc-pts';
-      var cur=pts(st.day,st.hole,id);
-      for(var v=0;v<=5;v++){(function(v){bs.appendChild(btn(String(v),cur===v,T(id),function(){saveScore(id,cur===v?null:v)},!ed))})(v)}
-      r.appendChild(n);r.appendChild(bs);rows.appendChild(r);
+      var r=el('div','sc-row');
+      var top=el('div','sc-top');
+      var n=el('b','sc-name '+T(id),N(id));
+      if(st.day==='fri'&&wolfOf(st.fb,st.hole)===id)n.appendChild(el('i','wolf-tag','Wolf'));
+      var rv=recv(id,st.day,st.hole);
+      if(rv)n.appendChild(el('i','hc','+'+rv+(rv>1?' shots':' shot')));
+      top.appendChild(n);
+      var cur=shots(st.day,st.hole,id),p=pts(st.day,st.hole,id);
+      top.appendChild(el('span','sc-pts-now'+(p==null?' none':''),p==null?'–':p+(p===1?' pt':' pts')));
+      r.appendChild(top);
+      var bs=el('div','sc-shots');
+      for(var v=1;v<=10;v++){(function(v){bs.appendChild(btn(String(v),cur===v,T(id),function(){saveShots(id,cur===v?null:v)},!ed))})(v)}
+      bs.appendChild(btn('P',cur===0,T(id),function(){saveShots(id,cur===0?null:0)},!ed));
+      r.appendChild(bs);rows.appendChild(r);
     });
-    // result
     var out=$('sc-result');
     if(st.day==='fri'){var res=wolfHole(st.fb,st.hole);out.className='verdict show '+(res.state==='done'?'ok':'neutral');out.textContent=res.text}
     else{var cr=chaHole(st.hole);out.className='verdict show '+(cr.state==='done'?'ok':'neutral');
-      out.textContent='Hole '+st.hole+' (best '+cr.n+'): Inland '+cr.in+' · Coastal '+cr.co+(cr.state==='done'?'.':'. Waiting for the other fourball’s scores.')}
+      out.textContent='Hole '+st.hole+' (best '+cr.n+'): Inland '+cr.in+' · Coastal '+cr.co+(cr.state==='done'?'.':'. Waiting for the other fourball’s shots.')}
     renderCard(ids);
   }
   function renderCard(ids){
-    var t=$('sc-card');t.textContent='';
-    var head='<thead><tr><th>Player</th>';for(var h=1;h<=18;h++)head+='<th class="num">'+h+'</th>';head+='<th class="num">Pts</th></tr></thead>';
+    var t=$('sc-card'),d=st.day;
+    var head='<thead><tr><th>Hole</th>';for(var h=1;h<=18;h++)head+='<th class="num">'+h+'</th>';head+='<th class="num">Tot</th></tr>';
+    head+='<tr class="parrow"><td>Par</td>';var pt=0;for(h=1;h<=18;h++){pt+=par(d,h);head+='<td class="num">'+par(d,h)+'</td>'}head+='<td class="num">'+pt+'</td></tr></thead>';
     var body='<tbody>';
-    ids.forEach(function(id){var tot=0;body+='<tr><td class="'+T(id)+'"><b>'+N(id)+'</b></td>';
-      for(var h=1;h<=18;h++){var v=pts(st.day,h,id);if(v!=null)tot+=v;var wolf=st.day==='fri'&&wolfOf(st.fb,h)===id;
-        body+='<td class="num'+(wolf?' wcell':'')+'">'+(v==null?'·':v)+'</td>'}
-      body+='<td class="num tot">'+tot+'</td></tr>'});
+    ids.forEach(function(id){var o=playerDay(id,d);
+      body+='<tr><td class="'+T(id)+'"><b>'+N(id)+'</b> <small>shots</small></td>';
+      for(var h=1;h<=18;h++){var wolf=d==='fri'&&wolfOf(st.fb,h)===id;body+='<td class="num'+(wolf?' wcell':'')+'">'+fmtShots(shots(d,h,id))+'</td>'}
+      body+='<td class="num tot">'+(o.holes?o.shots:'·')+'</td></tr>';
+      body+='<tr class="ptsrow"><td><small>pts</small></td>';
+      for(h=1;h<=18;h++){var p=pts(d,h,id);body+='<td class="num">'+(p==null?'·':p)+'</td>'}
+      body+='<td class="num tot">'+(o.holes?o.pts:'·')+'</td></tr>'});
     if(ids.length===4){
-      ['in','co'].forEach(function(tm){var tot=0;body+='<tr class="teamrow"><td class="'+tm+'">'+TEAM[tm]+(st.day==='fri'?' (Wolf)':' (team)')+'</td>';
-        for(var h=1;h<=18;h++){var r=st.day==='fri'?wolfHole(st.fb,h):chaHole(h);var ok=st.day==='fri'?r.state==='done':r.state!=='empty';var v=ok?r[tm]:null;if(v)tot+=v;
-          body+='<td class="num">'+(v==null?'·':v)+'</td>'}
+      ['in','co'].forEach(function(tm){var tot=0;body+='<tr class="teamrow"><td class="'+tm+'">'+TEAM[tm]+(d==='fri'?' (Wolf)':' (team)')+'</td>';
+        for(var h=1;h<=18;h++){var r=d==='fri'?wolfHole(st.fb,h):chaHole(h);var ok=d==='fri'?r.state==='done':r.state!=='empty';var v=ok?r[tm]:null;if(v)tot+=v;body+='<td class="num">'+(v==null?'·':v)+'</td>'}
         body+='<td class="num tot">'+tot+'</td></tr>'});
     }
-    body+='</tbody>';t.innerHTML=head+body;
-    $('sc-card-note').textContent=st.day==='fri'?'Fourball '+st.fb+' · Wolf holes are shaded. Team rows show Wolf points.':'Fourball '+st.fb+' players · team rows use both fourballs (best 1, 2 or 3).';
-    // lock card
-    var m=me(),lk=D.locks[st.day]||{};
+    t.innerHTML=head+body+'</tbody>';
+    $('sc-card-note').textContent=COURSE[d].name+' · Fourball '+st.fb+'. P = picked up. '+(d==='fri'?'Shaded = that player was Wolf. Team rows are Wolf points.':'Team rows use both fourballs (best 1, 2 or 3).');
+    var m=me(),lk=D.locks[d]||{};
     $('sc-lock-card').hidden=!(m&&m.tour_access&&(m.is_admin||m.is_captain));
     $('sc-lock-state').textContent=lk.locked?('Locked by '+(lk.locked_by||'?')+'. Only Steve can change it now.'):'Open. Lock it once it matches the paper cards.';
-    var lb=$('sc-lock-btn');lb.textContent=lk.locked?(m&&m.is_admin?'Unlock '+(st.day==='fri'?'Friday':'Saturday'):'Locked'):'Lock '+(st.day==='fri'?'Friday':'Saturday');
+    var lb=$('sc-lock-btn');lb.textContent=lk.locked?(m&&m.is_admin?'Unlock '+(d==='fri'?'Friday':'Saturday'):'Locked'):'Lock '+(d==='fri'?'Friday':'Saturday');
     lb.disabled=!!(lk.locked&&!(m&&m.is_admin));
+  }
+
+  /* ----- view 2: one player's card ----- */
+  function renderPlayer(){
+    if(!st.player){var m=me();st.player=(m&&PL[m.player_id])?m.player_id:'steve'}
+    var pick=$('sc-p-pick');pick.textContent='';
+    ['in','co'].forEach(function(t){var row=el('div','picks');ALL.filter(function(id){return T(id)===t}).forEach(function(id){row.appendChild(btn(N(id),st.player===id,t,function(){st.player=id;render()}))});pick.appendChild(row)});
+    var id=st.player,wrap=$('sc-p-body');wrap.textContent='';
+    var f=playerDay(id,'fri'),s=playerDay(id,'sat');
+    var sum=el('div','stats');
+    [['Weekend',f.pts+s.pts,(f.shots+s.shots)+' shots'],['Friday',f.pts,f.holes?(f.shots+' shots'+(f.pickups?' + '+f.pickups+' P':'')):'Not started'],['Saturday',s.pts,s.holes?(s.shots+' shots'+(s.pickups?' + '+s.pickups+' P':'')):'Not started']].forEach(function(x){
+      var c=el('div','stat');var r=el('span','rec',String(x[1]));r.appendChild(el('small','','pts'));c.appendChild(r);c.appendChild(el('b','',x[0]));c.appendChild(el('p','',x[2]));sum.appendChild(c)});
+    wrap.appendChild(sum);
+    var ws=wolfStats(id);
+    wrap.appendChild(el('p','fine',N(id)+' plays off '+H(id)+'. '+(ws.holes?'As Wolf on Friday: '+ws.holes+' holes, won '+ws.won+', lost '+ws.lost+', '+(ws.forTeam>=0?'+':'')+ws.forTeam+' for '+TEAM[T(id)]+'.':'No Wolf holes scored yet.')));
+    ['fri','sat'].forEach(function(d){
+      var o=d==='fri'?f:s;
+      var card=el('div','pcard');card.appendChild(el('span','eyebrow',(d==='fri'?'Friday · ':'Saturday · ')+COURSE[d].name));
+      var tb=el('div','tbl');var t=el('table','sc-table vert');
+      var html='<thead><tr><th>Hole</th><th class="num">Par</th><th class="num">SI</th><th class="num">Gets</th><th class="num">Shots</th><th class="num">Pts</th></tr></thead><tbody>';
+      for(var h=1;h<=18;h++){
+        var rv=recv(id,d,h),sh=shots(d,h,id),p=pts(d,h,id),mark='';
+        if(d==='fri'&&D.pairs.some(function(x){return x.day==='fri'&&x.player_id===id})){var fbp=D.pairs.filter(function(x){return x.day==='fri'&&x.player_id===id})[0].fourball;if(wolfOf(fbp,h)===id)mark=' wcell'}
+        if(d==='sat'){var cr=chaHole(h);if(cr.used[id]&&p!=null)mark=' used'}
+        html+='<tr class="'+mark.trim()+'"><td>'+h+'</td><td class="num">'+par(d,h)+'</td><td class="num">'+si(d,h)+'</td><td class="num">'+(rv||'')+'</td><td class="num">'+fmtShots(sh)+'</td><td class="num"><b>'+(p==null?'·':p)+'</b></td></tr>';
+        if(h===9)html+='<tr class="subt"><td>Out</td><td class="num">'+COURSE[d].par.slice(0,9).reduce(function(a,b){return a+b},0)+'</td><td></td><td></td><td class="num">'+o.out[0]+'</td><td class="num">'+o.out[1]+'</td></tr>';
+      }
+      html+='<tr class="subt"><td>In</td><td class="num">'+COURSE[d].par.slice(9).reduce(function(a,b){return a+b},0)+'</td><td></td><td></td><td class="num">'+o.inn[0]+'</td><td class="num">'+o.inn[1]+'</td></tr>';
+      html+='<tr class="subt tot"><td>Total</td><td class="num">72</td><td></td><td class="num">'+H(id)+'</td><td class="num">'+o.shots+'</td><td class="num">'+o.pts+'</td></tr></tbody>';
+      t.innerHTML=html;tb.appendChild(t);card.appendChild(tb);
+      card.appendChild(el('p','fine',d==='fri'?'Shaded = Wolf holes.':'Highlighted = his points counted for the team.'));
+      wrap.appendChild(card);
+    });
+  }
+
+  /* ----- view 3: teams ----- */
+  function renderTeams(){
+    var wrap=$('sc-t-body');wrap.textContent='';
+    var f=dayTeam('fri'),s=dayTeam('sat');
+    ['in','co'].forEach(function(t){
+      var c=el('div','tcard '+t);
+      var hd=el('div','tcard-h');hd.appendChild(el('b','',TEAM[t]));hd.appendChild(el('span','tcard-tot',String(f[t]+s[t])));c.appendChild(hd);
+      c.appendChild(el('p','fine','Friday Wolf '+f[t]+' · Saturday Cha Cha Cha '+s[t]));
+      var tb=el('div','tbl'),tt=el('table','sc-table');
+      var html='<thead><tr><th>Player</th><th class="num">HCP</th><th class="num">Fri pts</th><th class="num">Sat pts</th><th class="num">Shots</th><th class="num">Wolf</th><th class="num">Counted</th></tr></thead><tbody>';
+      ALL.filter(function(id){return T(id)===t}).forEach(function(id){
+        var a=playerDay(id,'fri'),b=playerDay(id,'sat'),w=wolfStats(id),cnt=0;
+        for(var h=1;h<=18;h++){var cr=chaHole(h);if(cr.used[id]&&pts('sat',h,id)!=null)cnt++}
+        html+='<tr><td class="'+t+'"><b>'+N(id)+'</b></td><td class="num">'+H(id)+'</td><td class="num">'+(a.holes?a.pts:'·')+'</td><td class="num">'+(b.holes?b.pts:'·')+'</td><td class="num">'+((a.holes||b.holes)?a.shots+b.shots:'·')+'</td><td class="num">'+(w.holes?(w.forTeam>=0?'+':'')+w.forTeam:'·')+'</td><td class="num">'+(b.holes?cnt:'·')+'</td></tr>';
+      });
+      tt.innerHTML=html+'</tbody>';tb.appendChild(tt);c.appendChild(tb);
+      c.appendChild(el('p','fine','Wolf = team points from his own Wolf holes. Counted = Saturday holes where his score made the team’s best.'));
+      wrap.appendChild(c);
+    });
+    // hole by hole
+    ['fri','sat'].forEach(function(d){
+      var t=d==='fri'?f:s,card=el('div','pcard');
+      card.appendChild(el('span','eyebrow',(d==='fri'?'Friday · Wolf points':'Saturday · Cha Cha Cha points')+' by hole'));
+      var tb=el('div','tbl'),tt=el('table','sc-table');
+      var html='<thead><tr><th>Team</th>';for(var h=1;h<=18;h++)html+='<th class="num">'+h+(d==='sat'?'<small>'+chaCount(h)+'</small>':'')+'</th>';html+='<th class="num">Tot</th></tr></thead><tbody>';
+      ['in','co'].forEach(function(tm){html+='<tr><td class="'+tm+'"><b>'+TEAM[tm]+'</b></td>';t.byHole.forEach(function(x){html+='<td class="num">'+(x.on?x[tm]:'·')+'</td>'});html+='<td class="num tot">'+t[tm]+'</td></tr>'});
+      tt.innerHTML=html+'</tbody>';tb.appendChild(tt);card.appendChild(tb);wrap.appendChild(card);
+    });
+  }
+
+  /* ----- view 4: overall ----- */
+  function renderOverall(){
+    var wrap=$('sc-o-body');wrap.textContent='';
+    var rows=ALL.map(function(id){var a=playerDay(id,'fri'),b=playerDay(id,'sat');return {id:id,f:a,s:b,pts:a.pts+b.pts,shots:a.shots+b.shots,holes:a.holes+b.holes}});
+    rows.sort(function(x,y){return y.pts-x.pts||x.shots-y.shots});
+    var card=el('div','pcard');card.appendChild(el('span','eyebrow','Individual Stableford · both rounds'));
+    var tb=el('div','tbl'),tt=el('table','sc-table rank');
+    var html='<thead><tr><th class="num">#</th><th>Player</th><th class="num">HCP</th><th class="num">Fri</th><th class="num">Sat</th><th class="num">Pts</th><th class="num">Shots</th></tr></thead><tbody>';
+    var pos=0,last=null;
+    rows.forEach(function(r,i){if(r.pts!==last){pos=i+1;last=r.pts}
+      html+='<tr><td class="num">'+(r.holes?pos:'·')+'</td><td class="'+T(r.id)+'"><b>'+N(r.id)+'</b></td><td class="num">'+H(r.id)+'</td><td class="num">'+(r.f.holes?r.f.pts:'·')+'</td><td class="num">'+(r.s.holes?r.s.pts:'·')+'</td><td class="num tot">'+(r.holes?r.pts:'·')+'</td><td class="num">'+(r.holes?r.shots:'·')+'</td></tr>'});
+    tt.innerHTML=html+'</tbody>';tb.appendChild(tt);card.appendChild(tb);
+    card.appendChild(el('p','fine','For bragging only. The cup goes to the team with the most team points.'));
+    wrap.appendChild(card);
+    // highlights
+    var started=rows.filter(function(r){return r.holes});
+    if(started.length){
+      var hl=el('div','stats');
+      var top=started[0];
+      var wolves=ALL.map(function(id){return [id,wolfStats(id)]}).filter(function(x){return x[1].holes}).sort(function(a,b){return b[1].forTeam-a[1].forTeam});
+      var best=null;['fri','sat'].forEach(function(d){for(var h=1;h<=18;h++)ALL.forEach(function(id){var p=pts(d,h,id);if(p!=null&&(!best||p>best.p))best={p:p,id:id,d:d,h:h}})});
+      [['Top points',N(top.id),top.pts+' pts'],wolves.length?['Best Wolf',N(wolves[0][0]),(wolves[0][1].forTeam>=0?'+':'')+wolves[0][1].forTeam+' for '+TEAM[T(wolves[0][0])]]:null,best?['Best hole',N(best.id),best.p+' pts · '+(best.d==='fri'?'Fri':'Sat')+' hole '+best.h]:null].forEach(function(x){
+        if(!x)return;var c=el('div','stat');c.appendChild(el('span','rec hl',x[1]));c.appendChild(el('b','',x[0]));c.appendChild(el('p','',x[2]));hl.appendChild(c)});
+      wrap.appendChild(hl);
+    }
   }
 
   /* ----- saving ----- */
   function flash(t){var o=$('sc-result');o.className='verdict show no';o.textContent=t}
-  function errText(e){var t=String((e&&e.message)||'');return /day_locked/.test(t)?'This round is locked. Ask Steve.':/not_allowed/.test(t)?'Only phones with the Tour V code can enter scores.':'Didn’t save. Check your signal and tap again.'}
-  function saveScore(id,v){
-    var k=key(st.day,st.hole,id),old=D.scores[k];
-    if(v==null)delete D.scores[k];else D.scores[k]={points:v};render();
-    db.rpc('ftv_set_score',{p_day:st.day,p_hole:st.hole,p_player:id,p_points:v}).then(function(r){if(r.error)throw r.error})
-      .catch(function(e){if(old)D.scores[k]=old;else delete D.scores[k];render();flash(errText(e))});
+  function errText(e){var t=String((e&&e.message)||'');return /day_locked/.test(t)?'This round is locked. Ask Steve.':/not_allowed/.test(t)?'Only phones with the Tour V code can enter shots.':'Didn’t save. Check your signal and tap again.'}
+  function saveShots(id,v){
+    var k=key(st.day,st.hole,id),old=D.shots[k];
+    if(v==null)delete D.shots[k];else D.shots[k]=v;render();
+    db.rpc('ftv_set_score',{p_day:st.day,p_hole:st.hole,p_player:id,p_strokes:v}).then(function(r){if(r.error)throw r.error})
+      .catch(function(e){if(old!=null)D.shots[k]=old;else delete D.shots[k];render();flash(errText(e))});
   }
   function saveCall(call,partner){
     var k='fri|'+st.fb+'|'+st.hole,old=D.calls[k];
@@ -2395,8 +2564,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   $('sc-prev').onclick=function(){if(st.hole>1){st.hole--;render()}};
   $('sc-next').onclick=function(){if(st.hole<18){st.hole++;render()}};
   $('sc-lock-btn').onclick=function(){
-    var lk=D.locks[st.day]||{},to=!lk.locked;
-    db.rpc('ftv_lock_day',{p_day:st.day,p_locked:to}).then(function(r){if(r.error)throw r.error;load()}).catch(function(e){flash(errText(e))});
+    var lk=D.locks[st.day]||{};
+    db.rpc('ftv_lock_day',{p_day:st.day,p_locked:!lk.locked}).then(function(r){if(r.error)throw r.error;load()}).catch(function(e){flash(errText(e))});
   };
 
   /* ----- load ----- */
@@ -2405,11 +2574,11 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     if(!db)return;if(busy){again=true;return}busy=true;
     Promise.all([
       db.from('pairings').select('*'),db.from('wolf_order').select('*'),
-      db.from('scores').select('day,hole,player_id,points'),db.from('wolf_calls').select('*'),db.from('day_locks').select('*')
+      db.from('scores').select('day,hole,player_id,strokes'),db.from('wolf_calls').select('*'),db.from('day_locks').select('*')
     ]).then(function(a){
       if(!a[0].error)D.pairs=a[0].data||[];
       if(!a[1].error){D.wolf={};(a[1].data||[]).forEach(function(o){if(o.day==='fri')D.wolf[o.fourball]=o.players})}
-      if(!a[2].error){D.scores={};(a[2].data||[]).forEach(function(x){D.scores[key(x.day,x.hole,x.player_id)]={points:x.points}})}
+      if(!a[2].error){D.shots={};(a[2].data||[]).forEach(function(x){if(x.strokes!=null)D.shots[key(x.day,x.hole,x.player_id)]=x.strokes})}
       if(!a[3].error){D.calls={};(a[3].data||[]).forEach(function(x){D.calls[x.day+'|'+x.fourball+'|'+x.hole]={call:x.call,partner:x.partner}})}
       if(!a[4].error){D.locks={};(a[4].data||[]).forEach(function(x){D.locks[x.day]=x})}
       render();
