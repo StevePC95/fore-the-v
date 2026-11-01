@@ -610,6 +610,12 @@ dialog.cam::backdrop{background:#000}
 #cam-bar-done .btn.big{flex:1}
 .cam-ghost{color:#fff;border-color:rgba(255,255,255,.4)}
 .cam-err{padding:0 22px 22px;color:#ffb4ab;text-align:center}
+
+/* ---------- The cup (Leaderboard) ---------- */
+.cup-card{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start}
+.cup-card img{width:96px;aspect-ratio:3/4;object-fit:cover;object-position:center 30%;border-radius:10px}
+.cup-txt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cup-txt .sub-h{margin-top:0}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -733,7 +739,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="archive" id="archive">
     <figure class="ph wide"><button type="button" aria-label="Enlarge photo: Boks on the big screen"><img src="img/tour-boks.jpg" alt="Seven of the boys at a long bar table, most in Springbok jerseys, one wearing a tiara and one a championship belt" loading="lazy" width="1100" height="825"></button><figcaption><b>Boks on the big screen</b><span>Tiara and belt mandatory</span></figcaption></figure>
     <figure class="ph"><button type="button" aria-label="Enlarge photo: The Ashes"><img src="img/tour-ashes.jpg" alt="Two teams in matching tour shirts, orange and red-on-white, posing at the bar" loading="lazy" width="825" height="1100" style="object-position:center 35%"></button><figcaption><b>The Ashes</b><span>Team Australia took the belt</span></figcaption></figure>
-    <figure class="ph"><button type="button" aria-label="Enlarge photo: The silverware"><img src="img/tour-cup.jpg" alt="Three of the boys holding a silver trophy cup together" loading="lazy" width="825" height="1100" style="object-position:center 30%"></button><figcaption><b>The silverware</b><span>Hands off, it's shared</span></figcaption></figure>
+    <figure class="ph"><button type="button" aria-label="Enlarge photo: The cup"><img src="img/tour-cup.jpg" alt="Steve, Guy and Jay holding the cup after winning the Ashes in 2025" loading="lazy" width="825" height="1100" style="object-position:center 30%"></button><figcaption><b>The cup</b><span>Steve, Guy &amp; Jay · 2025 winners</span></figcaption></figure>
     <figure class="ph"><button type="button" aria-label="Enlarge photo: Tour fuel"><img src="img/tour-fuel.jpg" alt="A bottle of Richelieu brandy and glasses of Coke on the bar, with the championship belt behind" loading="lazy" width="825" height="1100"></button><figcaption><b>Tour fuel</b><span>Richelieu &amp; Coke, R59 happy hour</span></figcaption></figure>
     <div class="ttile">
       <svg class="badge" viewBox="0 0 60 86" aria-hidden="true"><use href="#ftb-badge"/></svg>
@@ -959,7 +965,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
   <div class="card">
     <span class="eyebrow">The fine print</span>
-    <p>Paper scorecards are the official record and get confirmed after each round. Guy reckons both teams will finish on 100+ points.</p>
+    <p>Paper scorecards are the official record and get confirmed after each round. Guy reckons both teams will finish on 100+ points. <b>Level after Saturday? We split the tour and both teams win.</b></p>
     <p>Open questions are on the <a href="#questions">Exec Qs</a> tab.</p>
   </div>
 </section>
@@ -973,6 +979,15 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <div class="lb-row hd" role="row"><span class="nm" role="columnheader">Team</span><span role="columnheader">Fri</span><span role="columnheader">Sat</span><span role="columnheader">Tot</span></div>
       <div class="lb-row in" role="row"><span class="nm" role="cell"><i></i>Inland</span><span role="cell">0</span><span role="cell">0</span><span class="tot" role="cell">0</span></div>
       <div class="lb-row co" role="row"><span class="nm" role="cell"><i></i>Coastal</span><span role="cell">0</span><span role="cell">0</span><span class="tot" role="cell">0</span></div>
+    </div>
+  </div>
+  <div class="card cup-card">
+    <img src="img/tour-cup.jpg" alt="Steve, Guy and Jay with the cup after winning the Ashes in 2025" loading="lazy" width="825" height="1100">
+    <div class="cup-txt">
+      <span class="eyebrow">Playing for</span>
+      <h3 class="sub-h">The cup</h3>
+      <p>Most team points over both days takes it. Last held by Steve, Guy and Jay (Team Australia, 2025), who are now split across both teams.</p>
+      <p class="fine"><b>Level after Saturday?</b> We split the tour and both teams win.</p>
     </div>
   </div>
   <div class="grid2">
@@ -1193,14 +1208,13 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <section data-view="questions" hidden>
   <div class="head"><span class="eyebrow">For the exec call</span><h2>Questions for the execs</h2></div>
   <p class="lede">Tick them off as you sort them on the call. Ticks only save on this phone.</p>
-  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 8 sorted</span></div>
+  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 7 sorted</span></div>
   <ul class="qlist" id="qlist">
     <li class="qgroup">Big picture</li>
     <li><label><input type="checkbox" id="q4"><span><span class="qn">Q4</span><b>Fourball pairings for each day</b><small>Captains confirmed: Brandon (Inland) and Guy (Coastal). They pick the 2v2 fourballs.</small></span></label></li>
     <li class="qgroup">Wolf</li>
     <li><label><input type="checkbox" id="q8"><span><span class="qn">Q8</span><b>What's "the neutraliser"?</b><small>Wolf order is sorted: spun on the Wolf wheel on Friday.</small></span></label></li>
     <li class="qgroup">The rest</li>
-    <li><label><input type="checkbox" id="q10"><span><span class="qn">Q10</span><b>Tie-break, and what is "the cup"?</b></span></label></li>
     <li><label><input type="checkbox" id="q11"><span><span class="qn">Q11</span><b>Arrival and departure days</b><small>Thursday night? Sunday morning?</small></span></label></li>
     <li><label><input type="checkbox" id="q12"><span><span class="qn">Q12</span><b>Abbotsbury check-in, check-out and rooms</b></span></label></li>
     <li><label><input type="checkbox" id="q13"><span><span class="qn">Q13</span><b>Who's driving to the courses?</b></span></label></li>
