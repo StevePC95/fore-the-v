@@ -546,6 +546,32 @@ dialog.sheet::backdrop{background:rgba(5,12,8,.72);backdrop-filter:blur(3px)}
 td[data-slot] .in,td[data-slot] .co{font-weight:700}
 td[data-slot] .in{color:var(--inland)}
 td[data-slot] .co{color:var(--coastal)}
+
+/* ---------- Wolf wheel ---------- */
+.wheel-card{gap:14px}
+.wheel-tabs{align-self:flex-start}
+.wheel-body{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.wheel-wrap{flex:0 0 auto;width:min(220px,60vw)}
+.wheel-svg{width:100%;height:auto;display:block;overflow:visible}
+.wheel-rot{transform-box:view-box;transform-origin:0 0;transition:transform 3.6s cubic-bezier(.12,.75,.12,1)}
+@media (prefers-reduced-motion: reduce){.wheel-rot{transition:none}}
+.wheel-seg.in{fill:var(--inland)}
+.wheel-seg.co{fill:var(--coastal)}
+.wheel-seg.dim{opacity:.28}
+.wheel-seg{stroke:var(--card);stroke-width:3;transition:opacity .4s}
+.wheel-lab{fill:var(--on-team);font:800 15px var(--f-display);letter-spacing:.04em;text-transform:uppercase}
+.wheel-empty{fill:var(--line);stroke:var(--card);stroke-width:3}
+.wheel-hub{fill:var(--card);stroke:var(--ink);stroke-width:2}
+.wheel-hub-t{fill:var(--ink);font:900 15px var(--f-display)}
+.wheel-ptr{fill:var(--flag);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.wheel-side{flex:1 1 180px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.wheel-status{font-size:.98rem}
+.wheel-status b{font:800 1.25rem/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.wheel-holes td,.wheel-holes th{padding:7px 8px}
+.wheel-holes td.num{width:44px}
+.wheel-holes .in{color:var(--inland);font-weight:700}
+.wheel-holes .co{color:var(--coastal);font-weight:700}
+.wheel-holes .loose{color:var(--muted);font-style:italic}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -804,7 +830,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="card">
     <span class="eyebrow">Day 1 · Fri, Randpark · within each fourball</span>
     <h3 class="sub-h">Wolf</h3>
-    <p>One player per hole is the Wolf. He tees off first and decides how brave (or stupid) he's feeling. Holes 1 and 10 are looseners with no Wolf and no points. They're for the gees, but fines still apply. Over the other 16 holes everyone gets to be Wolf 4 times.</p>
+    <p>One player per hole is the Wolf. He tees off first and decides how brave (or stupid) he's feeling. Holes 1 and 10 are looseners with no Wolf and no points. They're for the gees, but fines still apply. Over the other 16 holes everyone gets to be Wolf 4 times, in an order the Wolf wheel picks before we tee off.</p>
     <div class="opts">
       <div class="opt">
         <span class="pts">6<small>pts</small></span>
@@ -828,7 +854,38 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <p>Picks any one of the other 3, his teammate or one of the other team (confirmed). Don't pick and you get the 4th player. Combined scores decide it. Win or lose: 2 points each.</p>
       </div>
     </div>
-    <p class="fine">Ties: nobody scores. Partner from the other team = "damage control", both teams get 2 and it's all square.</p>
+    <p class="fine"><b>Blind and Lone Wolf must beat both opponents:</b> his score has to be better than each of the other team's two scores. Ties: nobody scores. Partner from the other team = "damage control", both teams get 2 and it's all square.</p>
+  </div>
+
+  <div class="card wheel-card" id="wheel">
+    <span class="eyebrow">Friday · spin before you tee off</span>
+    <h3 class="sub-h">The Wolf wheel</h3>
+    <p>Each fourball spins once. The wheel picks the first Wolf, then who leads for the other team. After that it alternates: Team A, Team B, Team A's other player, Team B's other player, and round again. Holes 2–9 and 11–18 follow that order.</p>
+    <div class="wheel-tabs filter" role="group" aria-label="Fourball" id="wheel-fb">
+      <button type="button" data-v="1" aria-pressed="true">Fourball 1 · 12:02</button>
+      <button type="button" data-v="2" aria-pressed="false">Fourball 2 · 12:10</button>
+    </div>
+    <div class="wheel-body">
+      <div class="wheel-wrap">
+        <svg class="wheel-svg" viewBox="-110 -118 220 230" role="img" aria-label="Wolf wheel">
+          <g id="wheel-rot" class="wheel-rot"></g>
+          <circle r="16" class="wheel-hub"/>
+          <text class="wheel-hub-t" y="5" text-anchor="middle">W</text>
+          <path d="M0 -92 L-10 -114 L10 -114 Z" class="wheel-ptr"/>
+        </svg>
+      </div>
+      <div class="wheel-side">
+        <p class="wheel-status" id="wheel-status" aria-live="polite">Loading…</p>
+        <button type="button" class="btn big" id="wheel-spin" hidden>Spin the wheel</button>
+        <button type="button" class="btn ghost" id="wheel-reset" hidden>Re-spin (Steve only)</button>
+      </div>
+    </div>
+    <div class="tbl" id="wheel-holes-wrap" hidden>
+      <table class="wheel-holes">
+        <thead><tr><th>Hole</th><th>Wolf</th><th>Hole</th><th>Wolf</th></tr></thead>
+        <tbody id="wheel-holes"></tbody>
+      </table>
+    </div>
   </div>
 
   <div class="card">
@@ -1178,13 +1235,12 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <section data-view="questions" hidden>
   <div class="head"><span class="eyebrow">For the exec call</span><h2>Questions for the execs</h2></div>
   <p class="lede">Tick them off as you sort them on the call. Ticks only save on this phone.</p>
-  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 9 sorted</span></div>
+  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 8 sorted</span></div>
   <ul class="qlist" id="qlist">
     <li class="qgroup">Big picture</li>
     <li><label><input type="checkbox" id="q4"><span><span class="qn">Q4</span><b>Fourball pairings for each day</b><small>Captains confirmed: Brandon (Inland) and Guy (Coastal). They pick the 2v2 fourballs.</small></span></label></li>
     <li class="qgroup">Wolf</li>
-    <li><label><input type="checkbox" id="q6"><span><span class="qn">Q6</span><b>Blind / Lone Wolf: beat both opponents, or just one?</b><small>Guy wrote "better than either", which reads both ways.</small></span></label></li>
-    <li><label><input type="checkbox" id="q8"><span><span class="qn">Q8</span><b>Wolf order: who's Wolf on which hole? And what's "the neutraliser"?</b></span></label></li>
+    <li><label><input type="checkbox" id="q8"><span><span class="qn">Q8</span><b>What's "the neutraliser"?</b><small>Wolf order is sorted: spun on the Wolf wheel on Friday.</small></span></label></li>
     <li class="qgroup">The rest</li>
     <li><label><input type="checkbox" id="q10"><span><span class="qn">Q10</span><b>Tie-break, and what is "the cup"?</b></span></label></li>
     <li><label><input type="checkbox" id="q11"><span><span class="qn">Q11</span><b>Arrival and departure days</b><small>Thursday night? Sunday morning?</small></span></label></li>
@@ -2074,6 +2130,111 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   load();
   try{db.channel('pairings-live').on('postgres_changes',{event:'*',schema:'public',table:'pairings'},function(){load()}).subscribe()}catch(e){}
   document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
+})();
+</script>
+
+<script>
+/* ---------- Wolf wheel (Friday): server draws the order, the wheel shows it ---------- */
+(function(){
+  function $(id){return document.getElementById(id)}
+  var FTV=window.FTV, db=FTV&&FTV.db;
+  var PL={steve:['Steve','in'],nic:['Nic','in'],luke:['Luke','in'],brandon:['Brandon','in'],guy:['Guy','co'],mitch:['Mitch','co'],jay:['Jay','co'],rich:['Rich','co']};
+  var NS='http://www.w3.org/2000/svg';
+  var fb=1, pairs=[], orders={}, rot=0, spinning=false;
+
+  function members(f){
+    var ins=pairs.filter(function(p){return p.day==='fri'&&p.fourball===f&&PL[p.player_id]&&PL[p.player_id][1]==='in'}).map(function(p){return p.player_id}).sort();
+    var cos=pairs.filter(function(p){return p.day==='fri'&&p.fourball===f&&PL[p.player_id]&&PL[p.player_id][1]==='co'}).map(function(p){return p.player_id}).sort();
+    return ins.length===2&&cos.length===2?[ins[0],cos[0],ins[1],cos[1]]:null;   // around the wheel: alternate teams
+  }
+  function arc(i){var a0=(i*90-90)*Math.PI/180,a1=((i+1)*90-90)*Math.PI/180,r=88;
+    return 'M0 0 L'+(r*Math.cos(a0)).toFixed(2)+' '+(r*Math.sin(a0)).toFixed(2)+' A'+r+' '+r+' 0 0 1 '+(r*Math.cos(a1)).toFixed(2)+' '+(r*Math.sin(a1)).toFixed(2)+' Z'}
+  function drawWheel(seg){
+    var g=$('wheel-rot');g.textContent='';
+    for(var i=0;i<4;i++){
+      var p=document.createElementNS(NS,'path');p.setAttribute('d',arc(i));
+      if(seg){p.setAttribute('class','wheel-seg '+PL[seg[i]][1]);p.dataset.pid=seg[i]}else p.setAttribute('class','wheel-empty');
+      g.appendChild(p);
+      if(seg){var a=(i*90-45)*Math.PI/180,t=document.createElementNS(NS,'text');
+        t.setAttribute('x',(56*Math.cos(a)).toFixed(1));t.setAttribute('y',(56*Math.sin(a)+5).toFixed(1));
+        t.setAttribute('text-anchor','middle');t.setAttribute('class','wheel-lab');
+        t.setAttribute('transform','rotate('+(i*90+45-90+90)+' '+(56*Math.cos(a)).toFixed(1)+' '+(56*Math.sin(a)+5).toFixed(1)+')');
+        t.textContent=PL[seg[i]][0];g.appendChild(t)}
+    }
+  }
+  function setRot(deg,animate){var g=$('wheel-rot');if(!animate){g.style.transition='none';g.getBoundingClientRect()}
+    g.style.transform='rotate('+deg+'deg)';if(!animate){g.getBoundingClientRect();g.style.transition=''}rot=deg}
+  function angleFor(seg,pid){var i=seg.indexOf(pid);return -(i*90+45)}        // brings that segment under the pointer
+  function spinTo(seg,pid){var target=angleFor(seg,pid),base=rot-(rot%360);var next=base+360*5+((target%360)+360)%360;
+    if(next-rot<360*4)next+=360;setRot(next,true)}
+  function dim(seg,keep){[].slice.call($('wheel-rot').querySelectorAll('.wheel-seg')).forEach(function(p){p.classList.toggle('dim',keep&&keep.indexOf(p.dataset.pid)<0)})}
+
+  function holes(order){
+    var tb=$('wheel-holes');tb.textContent='';
+    var list=[];for(var h=1;h<=18;h++){if(h===1||h===10)list.push([h,null]);else{var k=(h<10?h-2:h-11)%4;list.push([h,order[k]])}}
+    for(var r=0;r<9;r++){var tr=document.createElement('tr');[list[r],list[r+9]].forEach(function(x){
+      var a=document.createElement('td');a.className='num';a.textContent=x[0];
+      var b=document.createElement('td');if(x[1]){b.className=PL[x[1]][1];b.textContent=PL[x[1]][0]}else{b.className='loose';b.textContent='Loosener'}
+      tr.appendChild(a);tr.appendChild(b)});tb.appendChild(tr)}
+    $('wheel-holes-wrap').hidden=false;
+  }
+  function status(html){$('wheel-status').innerHTML=html}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function render(){
+    if(spinning)return;
+    var seg=members(fb), ord=orders[fb], m=FTV.me;
+    drawWheel(seg);dim(seg,null);
+    $('wheel-spin').hidden=true;$('wheel-reset').hidden=true;$('wheel-holes-wrap').hidden=true;
+    if(!seg){status('Waiting for the captains to pick Friday’s fourballs on the Courses tab.');return}
+    if(ord){setRot(angleFor(seg,ord[0]),false);
+      status('First Wolf: <b>'+esc(PL[ord[0]][0])+'</b><br>Order: '+ord.map(function(p){return esc(PL[p][0])}).join(' → ')+(orders['by'+fb]?'<br><small class="fine">Spun by '+esc(orders['by'+fb])+'</small>':''));
+      holes(ord);$('wheel-reset').hidden=!(m&&m.is_admin);return}
+    status('Ready to spin. '+seg.map(function(p){return esc(PL[p][0])}).join(', ')+'.');
+    $('wheel-spin').hidden=false;
+    $('wheel-spin').textContent=(m&&m.tour_access)?'Spin the wheel':'Sign in to spin';
+  }
+  $('wheel-spin').addEventListener('click',function(){
+    var m=FTV.me;if(!m||!m.tour_access){FTV.open();return}
+    var seg=members(fb);if(!seg||spinning)return;
+    spinning=true;$('wheel-spin').hidden=true;status('Spinning…');
+    var f=fb;
+    db.rpc('ftv_spin_wolf',{p_day:'fri',p_fb:f}).then(function(r){
+      if(r.error)throw r.error;var ord=r.data;
+      spinTo(seg,ord[0]);
+      setTimeout(function(){
+        status('First Wolf: <b>'+esc(PL[ord[0]][0])+'</b>. Now for the other team…');
+        dim(seg,[ord[1],ord[3]]);spinTo(seg,ord[1]);
+        setTimeout(function(){
+          orders[f]=ord;orders['by'+f]=m.short;spinning=false;render();
+        },3900);
+      },4200);
+    }).catch(function(e){
+      spinning=false;var t=String((e&&e.message)||'');
+      if(/already_spun/.test(t)){load();return}
+      render();status(/no_pairs/.test(t)?'The captains haven’t finished picking this fourball yet.':'Couldn’t spin. Check your signal and try again.');
+    });
+  });
+  $('wheel-reset').addEventListener('click',function(){
+    var b=$('wheel-reset');
+    if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Tap again to wipe this spin';setTimeout(function(){b.classList.remove('arm');b.textContent='Re-spin (Steve only)'},4000);return}
+    db.rpc('ftv_reset_wolf',{p_day:'fri',p_fb:fb}).then(function(){delete orders[fb];b.classList.remove('arm');b.textContent='Re-spin (Steve only)';load()});
+  });
+  [].slice.call($('wheel-fb').querySelectorAll('button')).forEach(function(b){b.addEventListener('click',function(){
+    if(spinning)return;fb=+b.dataset.v;[].slice.call($('wheel-fb').querySelectorAll('button')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});render()})});
+
+  function load(){
+    if(!db){render();return Promise.resolve()}
+    return Promise.all([db.from('pairings').select('*').eq('day','fri'),db.from('wolf_order').select('*').eq('day','fri')]).then(function(a){
+      if(!a[0].error)pairs=a[0].data||[];
+      if(!a[1].error){orders={};(a[1].data||[]).forEach(function(o){orders[o.fourball]=o.players;orders['by'+o.fourball]=o.spun_by})}
+      render();
+    });
+  }
+  drawWheel(null);
+  if(!db){status('Offline');return}
+  FTV.on(render);load();
+  try{db.channel('wolf-live').on('postgres_changes',{event:'*',schema:'public',table:'wolf_order'},function(){if(!spinning)load()}).on('postgres_changes',{event:'*',schema:'public',table:'pairings'},function(){if(!spinning)load()}).subscribe()}catch(e){}
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&!spinning)load()});
 })();
 </script>
 </body>
