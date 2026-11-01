@@ -513,6 +513,16 @@ dialog.sheet::backdrop{background:rgba(5,12,8,.72);backdrop-filter:blur(3px)}
 .ph-cell img{display:block;width:100%;height:100%;object-fit:cover}
 .ph-cell:focus-visible{outline:3px solid var(--flag);outline-offset:-3px}
 
+
+/* ---------- Itinerary (Exec Qs tab) ---------- */
+.it-top{margin-top:18px;padding-top:22px;border-top:1px solid var(--line-strong)}
+.it-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.it-h .chip{flex:0 0 auto;margin-top:1px}
+.chip.ok{background:var(--good-bg);color:var(--good)}
+.tl-list li.todo::before{border-color:var(--flag);background:var(--tbc-bg)}
+.tl-day header .it-left{margin-left:auto;font:600 .7rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tbc)}
+.tl-day header .it-left.done{color:var(--good)}
+
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -1129,6 +1139,63 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <li><label><input type="checkbox" id="q17"><span><span class="qn">Q17</span><b>Sheldon Bruin in both Tour II (LIV) and Tour III (USA)?</b><small>Assumed the same Sheldon.</small></span></label></li>
     <li><label><input type="checkbox" id="q18"><span><span class="qn">Q18</span><b>Years and venues for Tours I, II and III</b><small>Only Tour IV is known: Pretoria, 2025.</small></span></label></li>
   </ul>
+
+  <div class="head it-top"><span class="eyebrow">What’s locked and what’s left</span><h2>Itinerary</h2></div>
+  <p class="lede">Everything for the weekend in one list. Items move from To sort to Locked as the execs confirm them.</p>
+  <div class="progress"><div class="bar"><i id="it-bar"></i></div><span id="it-count"></span></div>
+  <div class="tl" id="itinerary">
+    <div class="tl-day">
+      <header><h3>Thu 5 Nov</h3><span class="eyebrow">Arrivals</span><span class="it-left"></span></header>
+      <ul class="tl-list">
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Who arrives Thursday night</b><span class="chip wait">To sort</span></div><small>Or Friday morning. Everyone’s arrival day and time.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Guy and the KZN boys’ travel</b><span class="chip wait">To sort</span></div><small>Guy from Durbanville (flying?), Mitch, Jay and Rich from KZN. Flights or driving, and landing times.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Abbotsbury check-in</b><span class="chip wait">To sort</span></div><small>Check-in time, rooms, bathrooms and who’s sharing. Contact person.</small></div></li>
+      </ul>
+    </div>
+    <div class="tl-day">
+      <header><h3>Fri 6 Nov</h3><span class="eyebrow">Day 1 · Randpark</span><span class="it-left"></span></header>
+      <ul class="tl-list">
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Breakfast and lunch before golf</b><span class="chip wait">To sort</span></div><small>Where and when, ahead of a 12:02 tee-off.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Getting to Randpark</b><span class="chip wait">To sort</span></div><small>Uber XL, driver service in our own cars, or a minibus. 8 golf bags is the real constraint.</small></div></li>
+        <li class="key"><span class="t">12:02</span><div class="w"><div class="it-h"><b>Fourball 1 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
+        <li class="key"><span class="t">12:10</span><div class="w"><div class="it-h"><b>Fourball 2 tees off</b><span class="chip ok">Locked</span></div><small>Randpark, Bushwillow course.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Fourball pairings</b><span class="chip wait">To sort</span></div><small>2 Inland + 2 Coastal in each. Team captains pick this week.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Format: Wolf</b><span class="chip wait">To sort</span></div><small>Likely, needs the execs’ final yes.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Friday night</b><span class="chip wait">To sort</span></div><small>Dinner and where we drink. Idea: Randpark Barstro has live entertainment on Fridays (to verify).</small></div></li>
+      </ul>
+    </div>
+    <div class="tl-day">
+      <header><h3>Sat 7 Nov</h3><span class="eyebrow">Day 2 · Jackal Creek</span><span class="it-left"></span></header>
+      <ul class="tl-list">
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Breakfast and getting to Jackal Creek</b><span class="chip wait">To sort</span></div><small>Early one. Leave time and transport after Friday night.</small></div></li>
+        <li class="key"><span class="t">07:30</span><div class="w"><div class="it-h"><b>Fourball 1 tees off</b><span class="chip ok">Locked</span></div><small>Jackal Creek Golf Estate.</small></div></li>
+        <li class="key"><span class="t">07:45</span><div class="w"><div class="it-h"><b>Fourball 2 tees off</b><span class="chip ok">Locked</span></div><small>Jackal Creek Golf Estate.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Format: Cha Cha Cha</b><span class="chip wait">To sort</span></div><small>Likely, needs the execs’ final yes. Tally at halfway and the 19th, or only the 19th?</small></div></li>
+        <li class="key"><span class="t">13:40</span><div class="w"><div class="it-h"><b>Springboks vs Italy</b><span class="chip ok">Locked</span></div><small>Kick-off, SAST.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Where we watch the Boks</b><span class="chip wait">To sort</span></div><small>Option 1: stay at Jackal Creek (check they show it, book a table for 8). Option 2: bags in Brandon’s car, everyone Ubers to Hennie’s Randburg.</small></div></li>
+        <li class="key"><span class="t">Sat</span><div class="w"><div class="it-h"><b>Brandon heads home</b><span class="chip ok">Locked</span></div><small>Leaves Saturday. Everyone else stays Saturday night.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Final tally and the cup</b><span class="chip wait">To sort</span></div><small>When and where the winners get crowned.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Saturday night</b><span class="chip wait">To sort</span></div><small>Dinner and the plan for the last night.</small></div></li>
+      </ul>
+    </div>
+    <div class="tl-day">
+      <header><h3>Sun 8 Nov</h3><span class="eyebrow">Home time</span><span class="it-left"></span></header>
+      <ul class="tl-list">
+        <li class="key"><span class="t">Sun</span><div class="w"><div class="it-h"><b>7 head home from Abbotsbury</b><span class="chip ok">Locked</span></div><small>Everyone except Brandon.</small></div></li>
+        <li class="todo"><span class="t">TBC</span><div class="w"><div class="it-h"><b>Check-out and departure times</b><span class="chip wait">To sort</span></div><small>Abbotsbury check-out, flights and lifts to the airport.</small></div></li>
+      </ul>
+    </div>
+    <div class="tl-day">
+      <header><h3>All weekend</h3><span class="eyebrow">Money, food and the fun stuff</span><span class="it-left"></span></header>
+      <ul class="tl-list">
+        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Kitty</b><span class="chip wait">To sort</span></div><small>How much each, what it covers and who holds it.</small></div></li>
+        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Meals and booze plan</b><span class="chip wait">To sort</span></div><small>What’s included at Abbotsbury (braai? bar?) and what we buy.</small></div></li>
+        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Transport booking</b><span class="chip wait">To sort</span></div><small>Book once the Friday night and Boks plans are set. Quotes: Uber XL, Steve’s driver contact, minibus.</small></div></li>
+        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Fines, awards, side bets and dop rules</b><span class="chip wait">To sort</span></div><small>Social committee drafts on the site. Need sign-off.</small></div></li>
+        <li class="todo"><span class="t">—</span><div class="w"><div class="it-h"><b>Losing team forfeit</b><span class="chip wait">To sort</span></div><small>What the losers have to do.</small></div></li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 </div>
@@ -1294,6 +1361,19 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     btns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
     cards.forEach(function(c){c.hidden=!(f==='all'||c.classList.contains(f))});
   })});
+
+
+  // Itinerary counts
+  (function(){
+    var all=[].slice.call(document.querySelectorAll('#itinerary .tl-list li'));
+    var done=all.filter(function(li){return li.classList.contains('key')}).length;
+    var bar=document.getElementById('it-bar'),cnt=document.getElementById('it-count');
+    if(bar){bar.style.width=(all.length?done/all.length*100:0)+'%';cnt.textContent=done+' / '+all.length+' locked'}
+    [].slice.call(document.querySelectorAll('#itinerary .tl-day')).forEach(function(d){
+      var left=d.querySelectorAll('li.todo').length,el=d.querySelector('.it-left');
+      el.textContent=left?left+' to sort':'All locked';el.classList.toggle('done',!left);
+    });
+  })();
 
   // Question ticks (this device only)
   var KEY='ftv-qs';
