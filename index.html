@@ -613,9 +613,15 @@ dialog.cam::backdrop{background:#000}
 .cam-err{padding:0 22px 22px;color:#ffb4ab;text-align:center}
 
 /* ---------- The cup (Leaderboard) ---------- */
-.cup-card{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start}
-.cup-card img{width:96px;aspect-ratio:3/4;object-fit:cover;object-position:center 30%;border-radius:10px}
-.cup-txt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cup-card{padding:0;overflow:hidden;gap:0}
+.cup-stage{position:relative;display:grid;place-items:end center;padding:38px 16px 18px;color:var(--green-ink);
+  background:radial-gradient(60% 55% at 50% 42%,rgba(240,199,90,.30),transparent 70%),linear-gradient(180deg,var(--green-2),var(--green))}
+.cup-stage::after{content:"";position:absolute;left:50%;bottom:14px;width:46%;height:16px;transform:translateX(-50%);
+  background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);z-index:0}
+.cup-stage img{position:relative;z-index:1;width:auto;height:clamp(190px,52vw,250px);filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
+.cup-stage .eyebrow{position:absolute;top:12px;left:14px;color:var(--green-ink);opacity:.85}
+.cup-stage .yr{position:absolute;top:10px;right:12px}
+.cup-txt{display:flex;flex-direction:column;gap:6px;min-width:0;padding:14px 16px 16px}
 .cup-txt .sub-h{margin-top:0}
 
 /* ---------- Live scores ---------- */
@@ -1117,9 +1123,11 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     </div>
   </div>
   <div class="card cup-card">
-    <img src="img/tour-cup.jpg" alt="Steve, Guy and Jay with the cup after winning the Ashes in 2025" loading="lazy" width="825" height="1100">
-    <div class="cup-txt">
+    <div class="cup-stage">
       <span class="eyebrow">Playing for</span>
+      <img src="img/the-cup.webp" alt="The Fore the V cup: a silver two-handled trophy on a marble base" loading="lazy" width="520" height="566">
+    </div>
+    <div class="cup-txt">
       <h3 class="sub-h">The cup</h3>
       <p>Most team points over both days takes it. Last held by Steve, Guy and Jay (Team Australia, 2025), who are now split across both teams.</p>
       <p class="fine"><b>Level after Saturday?</b> We split the tour and both teams win.</p>
