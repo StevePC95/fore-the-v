@@ -713,6 +713,34 @@ dialog.cam::backdrop{background:#000}
 .exec-flag b{font:800 1rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.04em}
 section.exec-locked > :not(.exec-gate){display:none!important}
 section:not(.exec-locked) > .exec-gate{display:none!important}
+/* Exec board: add forms + shared lists */
+.xb-open{display:flex;align-items:center;justify-content:center}
+.xb-open[aria-expanded="true"]{display:none}
+.xb-form{border-color:var(--flag);box-shadow:inset 0 3px 0 var(--flag)}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-weight:700;font-size:.92rem}
+.fld .opt{font:500 .62rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.txt-in{font:500 1rem/1.35 var(--f-body);padding:12px 14px;border:1.5px solid var(--line-strong);border-radius:12px;background:var(--card);color:var(--ink);width:100%;min-height:48px}
+textarea.txt-in{min-height:88px;resize:vertical}
+.txt-in:focus{outline:3px solid var(--flag);outline-offset:1px;border-color:var(--ink)}
+.txt-in::placeholder{color:var(--muted);opacity:.8}
+.xb-need{font:600 .78rem/1.4 var(--f-mono);letter-spacing:.04em;color:var(--tbc);background:var(--tbc-bg);border-radius:8px;padding:8px 10px}
+.xb-need.ok{color:var(--good);background:var(--good-bg)}
+.xb-btns{display:flex;gap:8px}
+.xb-btns .btn:last-child{flex:1}
+.xb-list li .xb-meta{grid-column:1 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:500 .66rem/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.xb-list li.dealt > div > b{text-decoration:line-through}
+.xb-list li.dealt{opacity:.55}
+.xb-who{display:inline-block;font:800 .95rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.03em;margin-right:6px}
+.mini{font:600 .66rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;border:1px solid var(--line-strong);color:var(--muted);border-radius:999px;padding:7px 10px;cursor:pointer;min-height:30px}
+.mini.arm{background:var(--bad);border-color:var(--bad);color:#fff}
+.mini.on{background:var(--green-2);border-color:var(--green-2);color:var(--green-ink)}
+.mini:disabled{opacity:.5}
+.xb-meta .mini:first-of-type{margin-left:auto}
+.xb-list .empty{display:block;border:0;padding:12px 0}
+.qlist .xb-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:-4px 14px 14px 52px}
+.qlist .xb-row .pl-go{margin:0}
+.qlist .xb-row small{font:500 .64rem/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
 nav.tabs a.exec-nav::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--ink);opacity:.55}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
@@ -1290,19 +1318,58 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="head"><span class="eyebrow">Social committee draft</span><h2>Fines, bets &amp; awards</h2></div>
   <div class="note">
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
-    <p><b>Nothing here is agreed yet.</b> Penalties and Rand amounts to be voted on.</p>
+    <p><b>Nothing here is agreed yet.</b> Add ideas as they come. Penalties and Rand amounts get voted on.</p>
+  </div>
+
+  <button type="button" class="btn big xb-open" id="xf-open" aria-expanded="false" aria-controls="xf-form">+ Add a fine</button>
+  <div class="card xb-form" id="xf-form" hidden>
+    <div class="form-step">
+      <div class="step-h"><span class="n">1</span><b>What kind of fine?</b></div>
+      <div class="picks" id="xf-kind">
+        <button type="button" class="pick neutral" data-k="golf" aria-pressed="false">Golf fine</button>
+        <button type="button" class="pick neutral" data-k="general" aria-pressed="false">General fine</button>
+        <button type="button" class="pick neutral" data-k="random" aria-pressed="false">Random</button>
+      </div>
+      <p class="fine" id="xf-kind-hint">Golf = on the course. General = a standing rule for the whole weekend. Random = something that just happened, saved for the fines session.</p>
+    </div>
+    <div class="form-step" data-for="rule" hidden>
+      <div class="step-h"><span class="n">2</span><b>Name the fine</b></div>
+      <div class="fld"><label for="xf-title">The fine</label><input id="xf-title" class="txt-in" maxlength="160" autocomplete="off"></div>
+      <div class="fld"><label for="xf-detail">The rule <span class="opt">optional</span></label><input id="xf-detail" class="txt-in" maxlength="400" autocomplete="off" placeholder="When does it apply?"></div>
+      <div class="fld"><label for="xf-pen">Penalty <span class="opt">optional</span></label>
+        <div class="picks" id="xf-pen-picks">
+          <button type="button" class="pick neutral" data-p="1 dop" aria-pressed="false">1 dop</button>
+          <button type="button" class="pick neutral" data-p="Finish your drink" aria-pressed="false">Finish your drink</button>
+          <button type="button" class="pick neutral" data-p="R TBC" aria-pressed="false">R TBC</button>
+        </div>
+        <input id="xf-pen" class="txt-in" maxlength="60" autocomplete="off" placeholder="Or type your own">
+      </div>
+    </div>
+    <div class="form-step" data-for="random" hidden>
+      <div class="step-h"><span class="n">2</span><b>Who did it?</b></div>
+      <div class="picks" id="xf-who"></div>
+      <div class="step-h"><span class="n">3</span><b>What happened?</b></div>
+      <div class="fld"><label class="vh" for="xf-what">What happened</label><textarea id="xf-what" class="txt-in" maxlength="400" placeholder="e.g. Called the Uber to the wrong Abbotsbury"></textarea></div>
+    </div>
+    <div class="form-step" data-for="save" hidden>
+      <p class="xb-need" id="xf-need" role="status" aria-live="polite"></p>
+      <div class="xb-btns"><button type="button" class="btn ghost" id="xf-cancel">Cancel</button><button type="button" class="btn" id="xf-save" disabled>Add it</button></div>
+    </div>
+  </div>
+  <div class="verdict" id="xf-msg" role="status" aria-live="polite"></div>
+
+  <div class="tab">
+    <div class="tab-h"><h3>Golf fines</h3><span class="eyebrow" id="xf-n-golf">On the course</span></div>
+    <ul class="lines xb-list" id="xf-golf"></ul>
   </div>
   <div class="tab">
-    <div class="tab-h"><h3>The fines tab</h3><span class="eyebrow">Proposed</span></div>
-    <ul class="lines">
-      <li><div><b>Air shot</b><small>Swing, miss, pretend it was a practice swing</small></div><span class="pen">1 dop</span></li>
-      <li><div><b>Putt left short</b><small>Never up, never in</small></div><span class="pen">Finish your drink</span></li>
-      <li><div><b>Ball in the water</b><small>Per ball. Yes, per ball.</small></div><span class="pen">1 dop</span></li>
-      <li><div><b>Blind Wolf, lost</b><small>Greed has a price</small></div><span class="pen">1 dop</span></li>
-      <li><div><b>Moaning about your handicap</b><small>Applies on and off the course</small></div><span class="pen"><span class="tbc">R TBC</span></span></li>
-      <li><div><b>Late to the car or tee</b><small>Saturday 07:30 is not a suggestion</small></div><span class="pen"><span class="tbc">R TBC</span></span></li>
-      <li><div><b>Talking about work</b><small>Nobody cares about your Q4</small></div><span class="pen">1 dop</span></li>
-    </ul>
+    <div class="tab-h"><h3>General fines</h3><span class="eyebrow" id="xf-n-general">All weekend</span></div>
+    <ul class="lines xb-list" id="xf-general"></ul>
+  </div>
+  <div class="tab">
+    <div class="tab-h"><h3>Random</h3><span class="eyebrow" id="xf-n-random">For the fines session</span></div>
+    <p class="fine">Spotted something fineable? Log it here so nobody “forgets” by Saturday night. Tick it off once it’s been dealt with.</p>
+    <ul class="lines xb-list" id="xf-random"></ul>
   </div>
   <div class="tab">
     <div class="tab-h"><h3>The awards</h3><span class="eyebrow">Proposed</span></div>
@@ -1361,7 +1428,38 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <section data-view="questions" data-exec hidden>
   <div class="head"><span class="eyebrow">Execs only · Steve, Nic, Brandon, Guy</span><h2>Planning</h2></div>
 
-  <p class="lede">What's left before the weekend. The full plan is on the <a href="#schedule">Schedule</a> tab. Ticks only save on this phone.</p>
+  <p class="lede">What's left before the weekend. The full plan is on the <a href="#schedule">Schedule</a> tab. <span id="xp-mode">Ticks only save on this phone.</span></p>
+
+  <button type="button" class="btn big xb-open" id="xp-open" aria-expanded="false" aria-controls="xp-form">+ Add to the plan</button>
+  <div class="card xb-form" id="xp-form" hidden>
+    <div class="form-step">
+      <div class="step-h"><span class="n">1</span><b>Still to do, or done?</b></div>
+      <div class="picks" id="xp-state">
+        <button type="button" class="pick neutral" data-s="todo" aria-pressed="false">Needs doing</button>
+        <button type="button" class="pick neutral" data-s="done" aria-pressed="false">Already done</button>
+      </div>
+      <p class="fine">Already sorted something that wasn’t on the list? Add it as done so the others know.</p>
+    </div>
+    <div class="form-step" data-for="what" hidden>
+      <div class="step-h"><span class="n">2</span><b>What is it?</b></div>
+      <div class="fld"><label for="xp-title">The job</label><input id="xp-title" class="txt-in" maxlength="160" autocomplete="off" placeholder="e.g. Buy ice for Friday night"></div>
+      <div class="fld"><label for="xp-detail">Notes <span class="opt">optional</span></label><input id="xp-detail" class="txt-in" maxlength="400" autocomplete="off" placeholder="Booking ref, cost, who to call…"></div>
+    </div>
+    <div class="form-step" data-for="who" hidden>
+      <div class="step-h"><span class="n">3</span><b>Who’s on it?</b></div>
+      <div class="picks" id="xp-who">
+        <button type="button" class="pick neutral" data-w="Steve" aria-pressed="false">Steve</button>
+        <button type="button" class="pick neutral" data-w="Nic" aria-pressed="false">Nic</button>
+        <button type="button" class="pick neutral" data-w="Brandon" aria-pressed="false">Brandon</button>
+        <button type="button" class="pick neutral" data-w="Guy" aria-pressed="false">Guy</button>
+        <button type="button" class="pick neutral" data-w="Captains" aria-pressed="false">Captains</button>
+        <button type="button" class="pick neutral" data-w="Execs" aria-pressed="false">All execs</button>
+      </div>
+      <p class="xb-need" id="xp-need" role="status" aria-live="polite"></p>
+      <div class="xb-btns"><button type="button" class="btn ghost" id="xp-cancel">Cancel</button><button type="button" class="btn" id="xp-save" disabled>Add it</button></div>
+    </div>
+  </div>
+  <div class="verdict" id="xp-msg" role="status" aria-live="polite"></div>
   <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 8 done</span></div>
   <ul class="qlist" id="qlist">
     <li class="qgroup">Reminders</li>
@@ -2653,6 +2751,220 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   }
   apply(null);
   if(window.FTV)window.FTV.on(apply);
+})();
+</script>
+<script>
+/* ---------- Exec board: fine ideas + planning, shared between the four execs (table exec_items, script 007) ---------- */
+(function(){
+  var EXEC=['steve','nic','brandon','guy'];
+  var PLAYERS=[['Steve','in'],['Nic','in'],['Luke','in'],['Brandon','in'],['Guy','co'],['Mitch','co'],['Jay','co'],['Rich','co']];
+  var LBL={golf:'Golf fines',general:'General fines',random:'Random'};
+  var $=function(id){return document.getElementById(id)};
+  var db=null,me=null,items=[],live=false,started=false;
+  // Fallback (before 007 is run): the draft fines
+  var DRAFT=[
+    {board:'golf',title:'Air shot',detail:'Swing, miss, pretend it was a practice swing',penalty:'1 dop'},
+    {board:'golf',title:'Putt left short',detail:'Never up, never in',penalty:'Finish your drink'},
+    {board:'golf',title:'Ball in the water',detail:'Per ball. Yes, per ball.',penalty:'1 dop'},
+    {board:'golf',title:'Blind Wolf, lost',detail:'Greed has a price',penalty:'1 dop'},
+    {board:'general',title:'Moaning about your handicap',detail:'Applies on and off the course',penalty:'R TBC'},
+    {board:'general',title:'Late to the car or tee',detail:'Saturday 07:30 is not a suggestion',penalty:'R TBC'},
+    {board:'general',title:'Talking about work',detail:'Nobody cares about your Q4',penalty:'1 dop'}
+  ];
+  function el(t,c,txt){var e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e}
+  function when(ts){try{var d=new Date(ts);return d.toLocaleDateString('en-ZA',{weekday:'short'})+' '+d.toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit',hour12:false})}catch(e){return''}}
+  function say(id,txt,ok){var v=$(id);v.textContent=txt;v.className='verdict show '+(ok?'ok':'no');clearTimeout(v._t);v._t=setTimeout(function(){v.className='verdict'},ok?3500:7000)}
+  function armBtn(b,label,go){
+    b.addEventListener('click',function(){
+      if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Sure?';setTimeout(function(){b.classList.remove('arm');b.textContent=label},4000);return}
+      b.disabled=true;go();
+    });
+  }
+  function pickGroup(box,attr,onPick){
+    [].slice.call(box.querySelectorAll('.pick')).forEach(function(p){
+      p.addEventListener('click',function(){
+        var on=p.getAttribute('aria-pressed')!=='true';
+        [].slice.call(box.querySelectorAll('.pick')).forEach(function(q){q.setAttribute('aria-pressed','false')});
+        if(on)p.setAttribute('aria-pressed','true');
+        onPick(on?p.getAttribute(attr):null);
+      });
+    });
+  }
+  function opener(btnId,formId,cancelId,reset){
+    var b=$(btnId),f=$(formId);
+    function close(){f.hidden=true;b.setAttribute('aria-expanded','false');reset()}
+    b.addEventListener('click',function(){f.hidden=false;b.setAttribute('aria-expanded','true');f.scrollIntoView({behavior:'smooth',block:'start'})});
+    $(cancelId).addEventListener('click',close);
+    return close;
+  }
+  function save(row,msgId,okTxt,done){
+    if(!live){say(msgId,'Adding isn’t switched on yet. Steve needs to run supabase/007_exec_board.sql.',false);return}
+    row.added_by=me&&me.short||null;
+    db.from('exec_items').insert(row).then(function(r){
+      if(r.error){say(msgId,'Didn’t save: '+(r.error.message||'try again'),false);return}
+      say(msgId,okTxt,true);done();load();
+    });
+  }
+  function update(id,patch){patch.updated_at=new Date().toISOString();return db.from('exec_items').update(patch).eq('id',id).then(function(){load()})}
+  function remove(id){return db.from('exec_items').delete().eq('id',id).then(function(){load()})}
+
+  /* ----- Fines form ----- */
+  var fk=null,fpen='',fwho=null;
+  var whoBox=$('xf-who');
+  PLAYERS.forEach(function(p){var b=el('button','pick '+p[1],p[0]);b.type='button';b.setAttribute('data-w',p[0]);b.setAttribute('aria-pressed','false');whoBox.appendChild(b)});
+  var ob=el('button','pick neutral','Someone else');ob.type='button';ob.setAttribute('data-w','?');ob.setAttribute('aria-pressed','false');whoBox.appendChild(ob);
+  var HINTS={
+    golf:['e.g. Three-putt from inside a metre','Golf fines get dished out on the course.'],
+    general:['e.g. Phone out at dinner','General fines apply all weekend, on and off the course.'],
+    random:['','Random: log it now, deal with it at the fines session.']
+  };
+  function fstep(){
+    var f=$('xf-form');
+    f.querySelector('[data-for="rule"]').hidden=!(fk==='golf'||fk==='general');
+    f.querySelector('[data-for="random"]').hidden=fk!=='random';
+    f.querySelector('[data-for="save"]').hidden=!fk;
+    $('xf-kind-hint').textContent=fk?HINTS[fk][1]:'Golf = on the course. General = a standing rule for the whole weekend. Random = something that just happened, saved for the fines session.';
+    if(fk&&fk!=='random')$('xf-title').placeholder=HINTS[fk][0];
+    var need='';
+    if(!fk)need='Pick a type to start';
+    else if(fk==='random'){
+      if(!fwho)need='Step 2: pick who did it';
+      else if(fwho==='?'&&!(whoName&&whoName.value.trim())){need='Step 2: type their name'}
+      else if(!$('xf-what').value.trim())need='Step 3: say what happened';
+    } else if(!$('xf-title').value.trim())need='Step 2: give the fine a name';
+    var n=$('xf-need');n.textContent=need||'Ready. Tap “Add to '+LBL[fk]+'”.';n.classList.toggle('ok',!need);
+    $('xf-save').disabled=!!need;
+    $('xf-save').textContent=fk?'Add to '+LBL[fk]:'Add it';
+  }
+  pickGroup($('xf-kind'),'data-k',function(k){fk=k;fstep();var t=k==='random'?null:$('xf-title');if(t)setTimeout(function(){t.focus()},50)});
+  pickGroup($('xf-pen-picks'),'data-p',function(p){fpen=p||'';if(p)$('xf-pen').value='';fstep()});
+  $('xf-pen').addEventListener('input',function(){if(this.value){fpen='';[].slice.call($('xf-pen-picks').querySelectorAll('.pick')).forEach(function(q){q.setAttribute('aria-pressed','false')})}});
+  var whoName=null;
+  pickGroup(whoBox,'data-w',function(w){
+    fwho=w;
+    if(w==='?'&&!whoName){whoName=el('input','txt-in');whoName.id='xf-whoname';whoName.maxLength=60;whoName.placeholder='Their name';whoName.setAttribute('aria-label','Their name');whoName.addEventListener('input',fstep);whoBox.parentNode.insertBefore(whoName,whoBox.nextSibling);setTimeout(function(){whoName.focus()},50)}
+    else if(w!=='?'&&whoName){whoName.remove();whoName=null}
+    fstep();
+  });
+  ['xf-title','xf-what'].forEach(function(id){$(id).addEventListener('input',fstep)});
+  function freset(){
+    fk=null;fpen='';fwho=null;if(whoName){whoName.remove();whoName=null}
+    ['xf-title','xf-detail','xf-pen','xf-what'].forEach(function(id){$(id).value=''});
+    [].slice.call($('xf-form').querySelectorAll('.pick')).forEach(function(q){q.setAttribute('aria-pressed','false')});
+    fstep();
+  }
+  var fclose=opener('xf-open','xf-form','xf-cancel',freset);
+  $('xf-save').addEventListener('click',function(){
+    if($('xf-save').disabled)return;
+    var row={board:fk};
+    if(fk==='random'){
+      row.who=fwho==='?'?(whoName&&whoName.value.trim()||'Someone'):fwho;
+      row.title=$('xf-what').value.trim();
+    } else {
+      row.title=$('xf-title').value.trim();
+      row.detail=$('xf-detail').value.trim()||null;
+      row.penalty=($('xf-pen').value.trim()||fpen)||null;
+    }
+    var k=fk;
+    save(row,'xf-msg',k==='random'?'Logged. '+row.who+' will be reminded at the fines session.':'Added to '+LBL[k]+'.',fclose);
+  });
+  fstep();
+
+  /* ----- Planning form ----- */
+  var ps=null,pw=null;
+  function pstep(){
+    var f=$('xp-form');
+    f.querySelector('[data-for="what"]').hidden=!ps;
+    var hasT=!!$('xp-title').value.trim();
+    f.querySelector('[data-for="who"]').hidden=!(ps&&hasT);
+    var need=!ps?'Pick one to start':!hasT?'Step 2: say what the job is':!pw?'Step 3: pick who’s on it':'';
+    var n=$('xp-need');n.textContent=need||(ps==='done'?'Ready. It goes in as done.':'Ready. It goes on the to-do list.');n.classList.toggle('ok',!need);
+    $('xp-save').disabled=!!need;
+  }
+  pickGroup($('xp-state'),'data-s',function(s){ps=s;pstep();if(s)setTimeout(function(){$('xp-title').focus()},50)});
+  pickGroup($('xp-who'),'data-w',function(w){pw=w;pstep()});
+  $('xp-title').addEventListener('input',pstep);
+  function preset(){ps=null;pw=null;$('xp-title').value='';$('xp-detail').value='';[].slice.call($('xp-form').querySelectorAll('.pick')).forEach(function(q){q.setAttribute('aria-pressed','false')});pstep()}
+  var pclose=opener('xp-open','xp-form','xp-cancel',preset);
+  $('xp-save').addEventListener('click',function(){
+    if($('xp-save').disabled)return;
+    var row={board:'plan',title:$('xp-title').value.trim(),detail:$('xp-detail').value.trim()||null,who:pw,done:ps==='done',sort:500};
+    save(row,'xp-msg',row.done?'Added as done.':'Added to the plan.',pclose);
+  });
+  pstep();
+
+  /* ----- Render ----- */
+  function renderFines(list){
+    ['golf','general','random'].forEach(function(b){
+      var ul=$('xf-'+b);ul.textContent='';
+      var rows=list.filter(function(x){return x.board===b});
+      if(b==='random')rows.sort(function(a,c){return (a.done-c.done)||(new Date(c.created_at)-new Date(a.created_at))});
+      if(!rows.length){ul.appendChild(el('li','empty',b==='random'?'Nothing logged yet. Suspiciously well behaved.':'None yet. Add one above.'))}
+      rows.forEach(function(x){
+        var li=el('li');if(x.done)li.classList.add('dealt');
+        var d=el('div');var t=el('b');
+        if(b==='random'){t.appendChild(el('span','xb-who',x.who||'Someone'));t.appendChild(document.createTextNode(x.title))}else t.textContent=x.title;
+        d.appendChild(t);if(x.detail)d.appendChild(el('small',null,x.detail));
+        li.appendChild(d);
+        li.appendChild(b==='random'?el('span','pen',x.done?'Dealt with':'Pending'):el('span','pen',x.penalty||'TBC'));
+        if(live&&x.id){
+          var m=el('div','xb-meta');m.appendChild(el('span',null,'Added by '+(x.added_by||'?')+(x.created_at?' · '+when(x.created_at):'')));
+          if(b==='random'){var tk=el('button','mini'+(x.done?' on':''),x.done?'✓ Dealt with':'Mark dealt with');tk.type='button';tk.addEventListener('click',function(){tk.disabled=true;update(x.id,{done:!x.done})});m.appendChild(tk)}
+          var rm=el('button','mini','Remove');rm.type='button';armBtn(rm,'Remove',function(){remove(x.id)});m.appendChild(rm);
+          li.appendChild(m);
+        }
+        ul.appendChild(li);
+      });
+      var cnt=$('xf-n-'+b);var base={golf:'On the course',general:'All weekend',random:'For the fines session'}[b];
+      var open=b==='random'?rows.filter(function(x){return !x.done}).length:rows.length;
+      cnt.textContent=!rows.length?base:(b==='random'?(open?open+' to deal with':'All dealt with'):rows.length+' so far');
+    });
+  }
+  function renderPlan(list){
+    var ul=$('qlist');ul.textContent='';
+    var rows=list.filter(function(x){return x.board==='plan'});
+    var todo=rows.filter(function(x){return !x.done}),done=rows.filter(function(x){return x.done});
+    function group(name,arr){
+      if(!arr.length)return;
+      ul.appendChild(el('li','qgroup',name));
+      arr.forEach(function(x){
+        var li=el('li');if(x.done)li.classList.add('done');
+        var lab=el('label');var cb=el('input');cb.type='checkbox';cb.checked=!!x.done;
+        cb.addEventListener('change',function(){li.classList.toggle('done',cb.checked);cb.disabled=true;update(x.id,{done:cb.checked})});
+        var sp=el('span');sp.appendChild(el('span','qn',x.who||'Execs'));sp.appendChild(el('b',null,x.title));if(x.detail)sp.appendChild(el('small',null,x.detail));
+        lab.appendChild(cb);lab.appendChild(sp);li.appendChild(lab);
+        var row=el('div','xb-row');
+        if(x.link){var a=el('a','pl-go',(x.link_label||'Open')+(/^https?:/.test(x.link)?'':' →'));a.href=x.link;if(/^https?:/.test(x.link)){a.target='_blank';a.rel='noopener'}row.appendChild(a)}
+        row.appendChild(el('small',null,'Added by '+(x.added_by||'?')));
+        var rm=el('button','mini','Remove');rm.type='button';armBtn(rm,'Remove',function(){remove(x.id)});row.appendChild(rm);
+        li.appendChild(row);ul.appendChild(li);
+      });
+    }
+    group('Still to do',todo);group('Done',done);
+    if(!rows.length)ul.appendChild(el('li','qgroup','Nothing on the list. Add something above.'));
+    var n=done.length,tot=rows.length;
+    $('qbar').style.width=(tot?n/tot*100:0)+'%';$('qcount').textContent=n+' / '+tot+' done';
+  }
+  function load(){
+    if(!db)return;
+    db.from('exec_items').select('*').order('sort').order('created_at').then(function(r){
+      if(r.error){live=false;renderFines(DRAFT);$('xp-mode').textContent='Ticks only save on this phone. (Shared planning switches on once Steve runs script 007.)';return}
+      live=true;items=r.data||[];
+      $('xp-mode').textContent='Ticks and new items are shared between the four of you and update live.';
+      renderFines(items);renderPlan(items);
+    });
+  }
+  function start(m){
+    me=m;db=window.FTV&&window.FTV.db;
+    if(!(m&&EXEC.indexOf(m.player_id)>-1)||!db){renderFines(DRAFT);return}
+    load();
+    if(!started){started=true;
+      try{db.channel('exec-live').on('postgres_changes',{event:'*',schema:'public',table:'exec_items'},function(){load()}).subscribe()}catch(e){}
+      document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
+    }
+  }
+  renderFines(DRAFT);
+  if(window.FTV)window.FTV.on(start);
 })();
 </script>
 </body>
