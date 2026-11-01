@@ -749,6 +749,24 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   </div>
 
   <div class="card">
+    <span class="eyebrow">How a hole is scored · standard Stableford, full handicap</span>
+    <h3 class="sub-h">Points per hole</h3>
+    <p>Take your handicap shots off your score on the hole, then:</p>
+    <div class="tbl"><table class="pts-tbl">
+      <thead><tr><th>Net score on the hole</th><th class="num">Points</th></tr></thead>
+      <tbody>
+        <tr><td>Double bogey or worse</td><td class="num">0</td></tr>
+        <tr><td>Bogey (1 over)</td><td class="num">1</td></tr>
+        <tr><td>Par</td><td class="num">2</td></tr>
+        <tr><td>Birdie (1 under)</td><td class="num">3</td></tr>
+        <tr><td>Eagle (2 under)</td><td class="num">4</td></tr>
+        <tr><td>Albatross (3 under)</td><td class="num">5</td></tr>
+      </tbody>
+    </table></div>
+    <p class="fine">Example: par 4, you get a shot on the hole and score 5. Net 4 = par = 2 points. A blow-up hole costs you nothing below 0, so pick it up and get to the next tee.</p>
+  </div>
+
+  <div class="card">
     <span class="eyebrow">Day 1 · Fri, Randpark · within each fourball</span>
     <h3 class="sub-h">Wolf</h3>
     <p>One player per hole is the Wolf. He tees off first and decides how brave (or stupid) he's feeling. Holes 1 and 10 are looseners with no Wolf and no points. They're for the gees, but fines still apply. Over the other 16 holes everyone gets to be Wolf 4 times.</p>
@@ -1125,10 +1143,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <section data-view="questions" hidden>
   <div class="head"><span class="eyebrow">For the exec call</span><h2>Questions for the execs</h2></div>
   <p class="lede">Tick them off as you sort them on the call. Ticks only save on this phone.</p>
-  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 11 sorted</span></div>
+  <div class="progress"><div class="bar"><i id="qbar"></i></div><span id="qcount">0 / 10 sorted</span></div>
   <ul class="qlist" id="qlist">
     <li class="qgroup">Big picture</li>
-    <li><label><input type="checkbox" id="q2"><span><span class="qn">Q2</span><b>Handicap points: standard Stableford (net par = 2 points)?</b><small>Full handicap is confirmed. Just need the points scale.</small></span></label></li>
     <li><label><input type="checkbox" id="q3"><span><span class="qn">Q3</span><b>Handicap index or course handicap?</b><small>We have everyone's index. Do we play off the index as is, or convert it to each course's handicap (usually a few shots more)?</small></span></label></li>
     <li><label><input type="checkbox" id="q4"><span><span class="qn">Q4</span><b>Team captains, and the 2v2 fourball pairings for each day</b></span></label></li>
     <li class="qgroup">Wolf</li>
