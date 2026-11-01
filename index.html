@@ -523,6 +523,13 @@ dialog.sheet::backdrop{background:rgba(5,12,8,.72);backdrop-filter:blur(3px)}
 .tl-day header .it-left{margin-left:auto;font:600 .7rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tbc)}
 .tl-day header .it-left.done{color:var(--good)}
 
+
+/* ---------- Handicap index chips ---------- */
+.hc{font:600 .66rem/1 var(--f-mono);font-style:normal;letter-spacing:.06em;color:var(--muted);border:1px solid var(--line-strong);border-radius:999px;padding:3px 6px;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.side li .pn{display:inline-flex;align-items:center;font:inherit;color:inherit;letter-spacing:0;text-transform:none;text-align:left}
+.side li .pn .hc{margin-left:8px;vertical-align:0}
+.side .tsum{font:500 .66rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:-4px}
+
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -599,22 +606,22 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="head"><span class="eyebrow">4 vs 4 · handicap points</span><h2>The teams</h2></div>
   <div class="matchup">
     <div class="side in">
-      <span class="tn">Inland</span>
+      <span class="tn">Inland</span><span class="tsum">Combined index 69</span>
       <ul>
-        <li>Steve<span>Sandton, GP</span></li>
-        <li>Nic<span>Sandton, GP</span></li>
-        <li>Luke<span>Centurion, GP</span></li>
-        <li>Brandon<span>Pretoria, GP</span></li>
+        <li><span class="pn">Steve<i class="hc" title="Handicap index">26</i></span><span>Sandton, GP</span></li>
+        <li><span class="pn">Nic<i class="hc" title="Handicap index">13</i></span><span>Sandton, GP</span></li>
+        <li><span class="pn">Luke<i class="hc" title="Handicap index">20</i></span><span>Centurion, GP</span></li>
+        <li><span class="pn">Brandon<i class="hc" title="Handicap index">10</i></span><span>Pretoria, GP</span></li>
       </ul>
     </div>
     <div class="vsbar" aria-hidden="true">vs</div>
     <div class="side co">
-      <span class="tn">Coastal</span>
+      <span class="tn">Coastal</span><span class="tsum">Combined index 84</span>
       <ul>
-        <li>Guy<span>Durbanville, WC</span></li>
-        <li>Mitch<span>Hillcrest, KZN</span></li>
-        <li>Jay<span>Umdloti, KZN</span></li>
-        <li>Rich<span>Richmond, KZN</span></li>
+        <li><span class="pn">Guy<i class="hc" title="Handicap index">14</i></span><span>Durbanville, WC</span></li>
+        <li><span class="pn">Mitch<i class="hc" title="Handicap index">30</i></span><span>Hillcrest, KZN</span></li>
+        <li><span class="pn">Jay<i class="hc" title="Handicap index">26</i></span><span>Umdloti, KZN</span></li>
+        <li><span class="pn">Rich<i class="hc" title="Handicap index">14</i></span><span>Richmond, KZN</span></li>
       </ul>
     </div>
   </div>
@@ -982,14 +989,14 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <button type="button" id="f-co" data-f="co" aria-pressed="false">Coastal</button>
   </div>
   <div class="players" id="players">
-    <article class="pl in"><span class="mono-badge">SC</span><span class="nick">“Wooden Spoon”</span><h3>Stephen Coombe</h3><span class="from">Inland · Sandton, GP<span class="champ">★ Ashes champ</span></span><p>To keep ball costs down, you won't see his driver. Runs on brandy and may smell suspicious on the back nine.</p></article>
-    <article class="pl in"><span class="mono-badge">NF</span><span class="nick">“0 Tour Wins”</span><h3>Nicolas Finn</h3><span class="from">Inland · Sandton, GP</span><p>Plans the whole bloody tour, still waiting to win one. Hopefully no spelling mistakes on the tour shirts this year.</p></article>
-    <article class="pl in"><span class="mono-badge">LG</span><span class="nick">“Young Skywalker”</span><h3>Luke Gibbon</h3><span class="from">Inland · Centurion, GP</span><p>First tour, and worried the "ballies" won't be able to keep up. Says he loves a beer, but may fall asleep in a bathroom stall afterwards.</p></article>
-    <article class="pl in"><span class="mono-badge">BW</span><span class="nick">“Whistle Blower”</span><h3>Brandon Wiesner</h3><span class="from">Inland · Pretoria, GP</span><p>Mr. Discovery during the week, Bryce Lawrence on the weekend. Has conveniently made plans to disappear before fines.</p></article>
-    <article class="pl co"><span class="mono-badge">GM</span><span class="nick">“9pm Bedtime”</span><h3>Guy Moody</h3><span class="from">Coastal · Durbanville, WC<span class="champ">★ Ashes champ</span></span><p>Big fan of an afternoon nap. Get him past 10pm and watch the tequilas start coming out.</p></article>
-    <article class="pl co"><span class="mono-badge">MC</span><span class="nick">“Hansa Draught Please”</span><h3>Mitch Cason</h3><span class="from">Coastal · Hillcrest, KZN</span><p>Golf frustrates him. The bar does not. Don't walk slowly in front of his car…</p></article>
-    <article class="pl co"><span class="mono-badge">JD</span><span class="nick">“Pro Golfer”</span><h3>Jason de Klerk</h3><span class="from">Coastal · Umdloti, KZN<span class="champ">★ Ashes champ</span></span><p>Would marry Rassie Erasmus if he could.</p></article>
-    <article class="pl co"><span class="mono-badge">RL</span><span class="nick">“Massive Calves”</span><h3>Richard Le Roux</h3><span class="from">Coastal · Richmond, KZN</span><p>Guaranteed to wear shorts to show off his legs. Mr Consistent on the golf course and at the bar, but swears he never has time for either.</p></article>
+    <article class="pl in"><span class="mono-badge">SC</span><span class="nick">“Wooden Spoon”</span><h3>Stephen Coombe <i class="hc" title="Handicap index">HI 26</i></h3><span class="from">Inland · Sandton, GP<span class="champ">★ Ashes champ</span></span><p>To keep ball costs down, you won't see his driver. Runs on brandy and may smell suspicious on the back nine.</p></article>
+    <article class="pl in"><span class="mono-badge">NF</span><span class="nick">“0 Tour Wins”</span><h3>Nicolas Finn <i class="hc" title="Handicap index">HI 13</i></h3><span class="from">Inland · Sandton, GP</span><p>Plans the whole bloody tour, still waiting to win one. Hopefully no spelling mistakes on the tour shirts this year.</p></article>
+    <article class="pl in"><span class="mono-badge">LG</span><span class="nick">“Young Skywalker”</span><h3>Luke Gibbon <i class="hc" title="Handicap index">HI 20</i></h3><span class="from">Inland · Centurion, GP</span><p>First tour, and worried the "ballies" won't be able to keep up. Says he loves a beer, but may fall asleep in a bathroom stall afterwards.</p></article>
+    <article class="pl in"><span class="mono-badge">BW</span><span class="nick">“Whistle Blower”</span><h3>Brandon Wiesner <i class="hc" title="Handicap index">HI 10</i></h3><span class="from">Inland · Pretoria, GP</span><p>Mr. Discovery during the week, Bryce Lawrence on the weekend. Has conveniently made plans to disappear before fines.</p></article>
+    <article class="pl co"><span class="mono-badge">GM</span><span class="nick">“9pm Bedtime”</span><h3>Guy Moody <i class="hc" title="Handicap index">HI 14</i></h3><span class="from">Coastal · Durbanville, WC<span class="champ">★ Ashes champ</span></span><p>Big fan of an afternoon nap. Get him past 10pm and watch the tequilas start coming out.</p></article>
+    <article class="pl co"><span class="mono-badge">MC</span><span class="nick">“Hansa Draught Please”</span><h3>Mitch Cason <i class="hc" title="Handicap index">HI 30</i></h3><span class="from">Coastal · Hillcrest, KZN</span><p>Golf frustrates him. The bar does not. Don't walk slowly in front of his car…</p></article>
+    <article class="pl co"><span class="mono-badge">JD</span><span class="nick">“Pro Golfer”</span><h3>Jason de Klerk <i class="hc" title="Handicap index">HI 26</i></h3><span class="from">Coastal · Umdloti, KZN<span class="champ">★ Ashes champ</span></span><p>Would marry Rassie Erasmus if he could.</p></article>
+    <article class="pl co"><span class="mono-badge">RL</span><span class="nick">“Massive Calves”</span><h3>Richard Le Roux <i class="hc" title="Handicap index">HI 14</i></h3><span class="from">Coastal · Richmond, KZN</span><p>Guaranteed to wear shorts to show off his legs. Mr Consistent on the golf course and at the bar, but swears he never has time for either.</p></article>
   </div>
 </section>
 
@@ -1118,7 +1125,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <ul class="qlist" id="qlist">
     <li class="qgroup">Big picture</li>
     <li><label><input type="checkbox" id="q2"><span><span class="qn">Q2</span><b>Handicap points: standard Stableford (net par = 2 points)?</b><small>Full handicap is confirmed. Just need the points scale.</small></span></label></li>
-    <li><label><input type="checkbox" id="q3"><span><span class="qn">Q3</span><b>Everyone's handicap</b><small>Needed before any scoring can work.</small></span></label></li>
+    <li><label><input type="checkbox" id="q3"><span><span class="qn">Q3</span><b>Handicap index or course handicap?</b><small>We have everyone's index. Do we play off the index as is, or convert it to each course's handicap (usually a few shots more)?</small></span></label></li>
     <li><label><input type="checkbox" id="q4"><span><span class="qn">Q4</span><b>Team captains, and the 2v2 fourball pairings for each day</b></span></label></li>
     <li class="qgroup">Wolf</li>
     <li><label><input type="checkbox" id="q5"><span><span class="qn">Q5</span><b>Partner Wolf: can you pick someone from the other team?</b><small>Brandon says own teammate only. Guy says valid point.</small></span></label></li>
