@@ -572,6 +572,44 @@ td[data-slot] .co{color:var(--coastal)}
 .wheel-holes .in{color:var(--inland);font-weight:700}
 .wheel-holes .co{color:var(--coastal);font-weight:700}
 .wheel-holes .loose{color:var(--muted);font-style:italic}
+
+/* ---------- Dop videos ---------- */
+.dv-open{display:flex;align-items:center;justify-content:center;gap:10px}
+.dv-open svg{width:24px;height:24px}
+.dv-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px}
+.dv-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.dv-card video{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:#0b130f}
+.dv-meta{padding:10px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center}
+.dv-meta b{font:800 1.15rem/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.dv-meta small{grid-column:1;color:var(--muted);font-size:.8rem}
+.dv-meta .secs{grid-row:1 / span 2;grid-column:2;font:900 1.5rem/1 var(--f-display);font-variant-numeric:tabular-nums;color:var(--tbc);background:var(--tbc-bg);border-radius:8px;padding:6px 8px}
+.dv-meta .del{grid-column:1 / -1;justify-self:start;margin-top:6px;font:600 .7rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;border:1px solid var(--line-strong);color:var(--muted);border-radius:999px;padding:7px 10px;cursor:pointer}
+.dv-meta .del.arm{background:var(--bad);border-color:var(--bad);color:#fff}
+
+dialog.cam{border:0;padding:0;margin:0;width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;background:#000;color:#fff}
+dialog.cam:not([open]){display:none}
+dialog.cam::backdrop{background:#000}
+.cam-in{position:relative;height:100%;display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.cam-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:10px}
+.cam-who{font:900 1.4rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.03em}
+.cam-top .x{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;font:600 1.4rem/1 var(--f-body);cursor:pointer}
+.cam-stage{position:relative;flex:1;min-height:0;display:grid;place-items:center;overflow:hidden}
+.cam-stage video{width:100%;height:100%;object-fit:cover;background:#000}
+.cam-stage video.mirror{transform:scaleX(-1)}
+.cam-clock{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(18,63,40,.88);border-radius:10px;padding:8px 14px;text-align:center;min-width:110px}
+.cam-clock b{display:block;font:900 2.2rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.cam-clock span{font:500 .58rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.cam-clock.rec{background:rgba(179,38,30,.9)}
+.cam-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 22px 22px}
+.cam-rec{width:78px;height:78px;border-radius:50%;border:4px solid #fff;background:transparent;display:grid;place-items:center;cursor:pointer}
+.cam-rec i{width:58px;height:58px;border-radius:50%;background:#e2342b;transition:all .2s}
+.cam-rec.on i{width:30px;height:30px;border-radius:7px}
+.cam-flip,.cam-spacer{width:52px;height:52px}
+.cam-flip{border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center;cursor:pointer}
+.cam-flip svg{width:26px;height:26px}
+#cam-bar-done .btn.big{flex:1}
+.cam-ghost{color:#fff;border-color:rgba(255,255,255,.4)}
+.cam-err{padding:0 22px 22px;color:#ffb4ab;text-align:center}
 /* ---------- Footer ---------- */
 footer{border-top:1px solid var(--line)}
 footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font:500 .7rem/1.5 var(--f-mono);letter-spacing:.1em;text-transform:uppercase}
@@ -931,11 +969,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <div class="card"><span class="eyebrow">Day 1 · Wolf</span><p>Inland <b class="mono">0</b> · Coastal <b class="mono">0</b></p><span class="chip wait" style="align-self:flex-start">Not started</span></div>
     <div class="card"><span class="eyebrow">Day 2 · Cha Cha Cha</span><p>Inland <b class="mono">0</b> · Coastal <b class="mono">0</b></p><span class="chip wait" style="align-self:flex-start">Not started</span></div>
   </div>
-  <div class="card">
-    <span class="eyebrow">Dop points · live <span id="lb-dop-prac"></span></span>
-    <p>Inland <b class="mono" id="lb-dop-in">0</b> · Coastal <b class="mono" id="lb-dop-co">0</b></p>
-    <a class="maplink" href="#dops">Log a Dop →</a>
-  </div>
   <div class="note">
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
     <p>Live scoring arrives in V2 once the formats are locked. Plan: enter scores hole by hole on your phone, watch the total move, then lock it in against the paper card at the 19th.</p>
@@ -944,129 +977,44 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
 <!-- LOG A DOP -->
 <section data-view="dops" hidden>
-  <div class="head"><span class="eyebrow">Drinking points · witnessed by the enemy</span><h2>Log a Dop</h2></div>
+  <div class="head"><span class="eyebrow">For fun · no points · video or it didn't happen</span><h2>Log a Dop</h2></div>
 
-  <div class="lb" role="table" aria-label="Dop points">
-    <div class="lb-top"><span class="lb-title">Dop points</span><span class="chip wait" id="dop-status">Loading</span></div>
-    <div class="lb-rows">
-      <div class="lb-row hd" role="row"><span class="nm" role="columnheader">Team</span><span role="columnheader">Fri night</span><span role="columnheader">Front 9</span><span role="columnheader">Tot</span></div>
-      <div class="lb-row in" role="row"><span class="nm" role="cell"><i></i>Inland</span><span role="cell" id="t-in-fri">0</span><span role="cell" id="t-in-tee">0</span><span class="tot" role="cell" id="t-in-tot">0</span></div>
-      <div class="lb-row co" role="row"><span class="nm" role="cell"><i></i>Coastal</span><span role="cell" id="t-co-fri">0</span><span role="cell" id="t-co-tee">0</span><span class="tot" role="cell" id="t-co-tot">0</span></div>
-    </div>
-  </div>
-
-  <div class="note" id="prac-note">
-    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <p><b>Practice mode until Friday.</b> Anything logged before the tour is tagged practice and won't count once the tour starts. Go on, test it.</p>
-      <div class="watch-btns"><button type="button" class="btn ghost" id="clear-prac">Clear practice dops</button></div>
-    </div>
-  </div>
-
-  <div class="card gate" id="dop-gate" hidden>
+  <div class="card gate" id="dop-gate">
     <span class="eyebrow">Members only</span>
-    <h3 id="dop-gate-h">Sign in to log dops</h3>
-    <p id="dop-gate-p">Only the 8 on tour can log, and you can only log dops you witnessed for the other team.</p>
+    <h3>Sign in to film a dop</h3>
+    <p>Anyone signed in can film a dop and watch the dop wall. It counts for nothing on the scoreboard, only for the legend.</p>
     <button type="button" class="btn" id="dop-gate-btn">Sign in</button>
   </div>
 
   <div class="card" id="dop-form" hidden>
     <div class="form-step">
-      <div class="step-h"><span class="n">1</span><b>Who drank?</b></div>
-      <div id="drinkers"></div>
+      <div class="step-h"><span class="n">1</span><b>Who's drinking?</b></div>
+      <div class="si-people" id="dv-who"></div>
+      <div class="si-sub" id="dv-other" hidden><label for="dv-other-name">Name</label><input id="dv-other-name" class="code-in" style="letter-spacing:0;font-family:var(--f-body)" autocomplete="off"></div>
     </div>
-
     <div class="form-step">
-      <div class="step-h"><span class="n">2</span><b>What was it?</b></div>
-      <div class="kinds">
-        <button type="button" class="kind" data-kind="fri1" aria-pressed="false"><b>Friday night drink</b><small>Double spirit or 500ml beer</small><span class="p">1</span></button>
-        <button type="button" class="kind" data-kind="fri2" aria-pressed="false"><b>Friday night down-down</b><small>Beer or double, downed</small><span class="p">2</span></button>
-        <button type="button" class="kind" data-kind="tee" aria-pressed="false"><b>Tee-box down-down</b><small>Front 9, before your first tee shot</small><span class="p">1</span></button>
-      </div>
-      <div id="tee-extra" hidden style="display:flex;flex-direction:column;gap:10px">
-        <span class="eyebrow">Which day</span>
-        <div class="picks" id="days">
-          <button type="button" class="pick neutral" data-day="fri" aria-pressed="false">Fri · Randpark</button>
-          <button type="button" class="pick neutral" data-day="sat" aria-pressed="false">Sat · Jackal Creek</button>
-        </div>
-        <span class="eyebrow">Which hole</span>
-        <div class="holes" id="holes"></div>
-        <label class="check"><input type="checkbox" id="first-shot"><span>It was <b>before his first tee shot</b> on this hole. A reload doesn't count.</span></label>
+      <div class="step-h"><span class="n">2</span><b>What is it?</b></div>
+      <div class="picks" id="dv-kind">
+        <button type="button" class="pick neutral" data-k="Down-down" aria-pressed="false">Down-down</button>
+        <button type="button" class="pick neutral" data-k="Pint" aria-pressed="false">Pint</button>
+        <button type="button" class="pick neutral" data-k="Shot" aria-pressed="false">Shot</button>
+        <button type="button" class="pick neutral" data-k="Something else" aria-pressed="false">Something else</button>
       </div>
     </div>
-
     <div class="form-step">
-      <div class="step-h"><span class="n">3</span><b>Witness</b></div>
-      <span class="witness-me" id="witness-me">You</span>
-      <p class="fine">You can only log dops you saw, for the other team.</p>
+      <div class="step-h"><span class="n">3</span><b>Film it</b></div>
+      <p class="fine">Up to 30 seconds. The clock runs while you record, so a quick down-down shows.</p>
+      <div class="verdict" id="dv-msg" role="status" aria-live="polite"></div>
+      <button type="button" class="btn big dv-open" id="dv-open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="13" height="12" rx="2"/><path d="M15.5 10.5 21.5 7v10l-6-3.5z"/></svg>Open camera</button>
+      <input id="dv-file" class="vh" type="file" accept="video/*" capture="environment">
     </div>
-
-    <div class="form-step" id="dd-step" hidden>
-      <div class="step-h"><span class="n">4</span><b>Was it a real down-down?</b></div>
-      <p class="fine">3 gulps or fewer, 20 seconds or less. The witness runs the clock.</p>
-      <div class="watch">
-        <div class="pint-wrap">
-          <svg class="pint" viewBox="0 0 160 170" role="img" aria-label="Pint draining as the clock runs">
-            <defs>
-              <clipPath id="pint-clip"><path d="M45 14 L115 14 L117 36 Q119 42 115 48 L108 152 Q107 156 103 156 L57 156 Q53 156 52 152 L45 48 Q41 42 43 36 Z"/></clipPath>
-              <linearGradient id="beer-g" x1="0" x2="1" y1="0" y2="0">
-                <stop offset="0" stop-color="#c98a12"/><stop offset=".45" stop-color="#f2b83a"/><stop offset="1" stop-color="#b8760c"/>
-              </linearGradient>
-            </defs>
-            <g id="pint-glass" transform="rotate(0 80 90)">
-              <g clip-path="url(#pint-clip)">
-                <rect x="40" y="10" width="80" height="150" style="fill:var(--card);opacity:.6"/>
-                <g id="pint-liquid" transform="rotate(0 80 90)">
-                  <rect id="pint-beer" x="-60" y="26" width="280" height="300" fill="url(#beer-g)"/>
-                  <rect id="pint-foam" x="-60" y="16" width="280" height="11" fill="#fbf4e3"/>
-                  <g id="pint-bubbles" fill="#ffe7a8" opacity=".7">
-                    <circle cx="66" cy="120" r="1.6"/><circle cx="74" cy="95" r="1.2"/><circle cx="90" cy="130" r="1.4"/><circle cx="98" cy="78" r="1.1"/><circle cx="84" cy="60" r="1.3"/><circle cx="70" cy="140" r="1"/>
-                  </g>
-                </g>
-              </g>
-              <path d="M45 14 L115 14 L117 36 Q119 42 115 48 L108 152 Q107 156 103 156 L57 156 Q53 156 52 152 L45 48 Q41 42 43 36 Z" style="fill:none;stroke:var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M53 52 L59 146" style="stroke:var(--card)" stroke-width="3" stroke-linecap="round" opacity=".55"/>
-            </g>
-          </svg>
-          <span class="pint-left" id="pint-left">Full</span>
-        </div>
-        <div class="watch-side">
-          <div class="watch-face" id="watch-face"><b id="watch-t">0.0</b><span>seconds</span></div>
-          <div class="watch-btns">
-            <button type="button" class="btn" id="watch-go">Start</button>
-            <button type="button" class="btn ghost" id="watch-reset">Reset</button>
-          </div>
-        </div>
-      </div>
-      <label class="check"><input type="checkbox" id="no-watch"><span>Timed it another way, and it was <b>20 seconds or less</b></span></label>
-      <span class="eyebrow">Gulps</span>
-      <div class="picks" id="gulps">
-        <button type="button" class="pick neutral" data-g="1" aria-pressed="false">1</button>
-        <button type="button" class="pick neutral" data-g="2" aria-pressed="false">2</button>
-        <button type="button" class="pick neutral" data-g="3" aria-pressed="false">3</button>
-        <button type="button" class="pick neutral" data-g="4" aria-pressed="false">4 or more</button>
-      </div>
-    </div>
-
-    <div class="verdict" id="verdict" role="status" aria-live="polite"></div>
-    <button type="button" class="btn big" id="log-btn">Log it</button>
   </div>
 
-  <div class="tab">
-    <div class="tab-h"><h3>The dop log</h3><span class="eyebrow" id="log-count">0 logged</span></div>
-    <ul class="dlog" id="dlog"><li class="empty" style="display:block">No dops yet. Somebody's slacking.</li></ul>
-  </div>
+  <ul class="ph-queue" id="dv-queue"></ul>
 
-  <div class="card">
-    <span class="eyebrow">The rules</span>
-    <ul class="rules">
-      <li><b>Friday night</b> runs from walking off the 18th until <b>02:00</b>. Double spirit or 500ml beer = 1. Down-down = 2. <b>Cap: 10 points a man.</b></li>
-      <li><b>Front 9, both days:</b> only a tee-box down-down before your first tee shot scores, 1 point per hole. No cap.</li>
-      <li><b>Down-down</b> = 3 gulps or fewer, 20 seconds or less.</li>
-      <li><b>No witness from the other team, no point.</b> The witness logs it.</li>
-      <li>Drivers are just unlucky. Proposed rules, pending exec sign-off.</li>
-    </ul>
-  </div>
+  <div class="head"><span class="eyebrow" id="dv-count">The dop wall</span><h2>The dop wall</h2></div>
+  <div class="dv-wall" id="dv-wall"></div>
+  <p class="empty" id="dv-empty">No dops filmed yet. Somebody's slacking.</p>
 </section>
 
 <!-- PHOTOS -->
@@ -1316,6 +1264,27 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </main>
 <dialog class="lb" id="ph-lb" aria-label="Photo"><button type="button" class="x" id="ph-lb-x" aria-label="Close">×</button><img id="ph-lb-img" alt="Tour photo"><p id="ph-lb-cap"></p></dialog>
 
+<dialog class="cam" id="cam" aria-label="Film a dop">
+  <div class="cam-in">
+    <div class="cam-top"><span class="cam-who" id="cam-who"></span><button type="button" class="x" id="cam-x" aria-label="Close camera">×</button></div>
+    <div class="cam-stage">
+      <video id="cam-live" playsinline autoplay muted></video>
+      <video id="cam-play" playsinline controls hidden></video>
+      <div class="cam-clock" id="cam-clock"><b id="cam-t">0.0</b><span>sec</span></div>
+    </div>
+    <div class="cam-bar" id="cam-bar-rec">
+      <button type="button" class="cam-flip" id="cam-flip" aria-label="Switch camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9 13a3 3 0 0 1 5.2-2M15 13a3 3 0 0 1-5.2 2"/><path d="M14 9.5V11h-1.5M10 16.5V15h1.5"/></svg></button>
+      <button type="button" class="cam-rec" id="cam-rec" aria-label="Start recording"><i></i></button>
+      <span class="cam-spacer"></span>
+    </div>
+    <div class="cam-bar" id="cam-bar-done" hidden>
+      <button type="button" class="btn ghost cam-ghost" id="cam-retake">Retake</button>
+      <button type="button" class="btn big" id="cam-post">Post it</button>
+    </div>
+    <p class="cam-err" id="cam-err" hidden></p>
+  </div>
+</dialog>
+
 <dialog class="sheet" id="signin" aria-labelledby="si-title">
   <div class="sheet-in">
     <div class="sheet-top">
@@ -1332,7 +1301,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <span><b>Fore the Boys</b><small>Tours I–V · 2022–2026</small></span>
         <span class="arr" aria-hidden="true">→</span>
       </button>
-      <p class="fine">Signing in lets you see and add tour photos. The 8 on Tour V can also log dops.</p>
+      <p class="fine">Signing in lets you see and add tour photos and film dops. The 8 on Tour V can also enter live scores.</p>
     </div>
 
     <div class="si-step" data-step="code" hidden>
@@ -1354,8 +1323,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <input id="si-name" class="code-in" style="letter-spacing:0;font-family:var(--f-body)" autocomplete="name">
       </div>
       <div class="si-sub" id="si-tour" hidden>
-        <label for="si-tourcode">Tour V code</label>
-        <p class="fine">You're on Tour V, <span id="si-tour-name"></span>. Enter the Tour V code once and this phone can log dops.</p>
+        <label for="si-tourcode">Tour V code <span class="fine">(optional)</span></label>
+        <p class="fine">You're on Tour V, <span id="si-tour-name"></span>. The Tour V code lets this phone enter live scores on the golf days. Leave it blank if you don't have it yet.</p>
         <input id="si-tourcode" class="code-in" type="password" inputmode="numeric" autocomplete="off">
       </div>
       <div class="verdict" id="si-msg-who" role="status" aria-live="polite"></div>
@@ -1412,6 +1381,13 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <h2 id="si-done-h">Welcome</h2>
       <span class="chip" id="si-done-team"></span>
       <p id="si-done-what"></p>
+      <div class="si-sub" id="si-unlock" hidden>
+        <label for="si-unlock-code">Tour V code</label>
+        <p class="fine">Add it to enter live scores on the golf days.</p>
+        <input id="si-unlock-code" class="code-in" type="password" inputmode="numeric" autocomplete="off">
+        <div class="verdict" id="si-msg-unlock" role="status" aria-live="polite"></div>
+        <button type="button" class="btn" id="si-unlock-go">Unlock scoring</button>
+      </div>
       <div class="si-btns"><button type="button" class="btn ghost" id="si-out">Sign out</button><button type="button" class="btn big" id="si-done-close">Let's go</button></div>
     </div>
 
@@ -1626,14 +1602,13 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     if(!pick)return msg('si-msg-who','Pick your name.');
     var name=($('si-name').value||'').trim(), tc=($('si-tourcode').value||'').trim();
     if(pick.id===null&&!name)return msg('si-msg-who','Type your name.');
-    if(pick.team&&!tc)return msg('si-msg-who','Enter the Tour V code. It’s the same code as the dop PIN.');
     var db=FTV.db;
     var go=db.auth.getSession().then(function(r){
       if(r.data&&r.data.session)return r.data.session;
       return db.auth.signInAnonymously().then(function(x){if(x.error)throw x.error;return x.data.session});
     }).then(function(s){
       FTV.uid=s.user.id;
-      return db.rpc('ftv_join',{p_code:code,p_player:pick.id,p_name:pick.id?null:name,p_tour_code:pick.team?tc:null});
+      return db.rpc('ftv_join',{p_code:code,p_player:pick.id,p_name:pick.id?null:name,p_tour_code:pick.team&&tc?tc:null});
     }).then(function(r){if(r.error)throw r.error;return r.data});
     busy(go).then(function(me){
       FTV.me=me;$('si-tourcode').value='';$('si-code').value='';
@@ -1655,10 +1630,19 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     var team=m.team==='in'?'Inland':m.team==='co'?'Coastal':'';
     $('si-done-team').textContent=m.tour_access?('Tour V · '+team):'Fore the Boys · past tourist';
     $('si-done-team').className='chip '+(m.team||'wait');
+    $('si-done-team').textContent=m.team?('Tour V · '+team):'Fore the Boys · past tourist';
     $('si-done-what').textContent=m.tour_access
-      ?'You can log dops for the other team and add photos. This phone will remember you.'
-      :'You can see and add tour photos. Dop logging is for the 8 on Tour V. This phone will remember you.';
+      ?'You can film dops, add photos and enter live scores. This phone will remember you.'
+      :'You can film dops and add photos. This phone will remember you.';
+    $('si-unlock').hidden=!(m.team&&!m.tour_access);
   }
+  $('si-unlock-go').addEventListener('click',function(){
+    var c=($('si-unlock-code').value||'').trim(),v=$('si-msg-unlock');
+    if(!c){v.className='verdict show no';v.textContent='Enter the Tour V code.';return}
+    FTV.db.rpc('ftv_unlock',{p_tour_code:c}).then(function(r){
+      if(r.error)throw r.error;FTV.me=r.data;$('si-unlock-code').value='';v.className='verdict show ok';v.textContent='Scoring unlocked on this phone.';emit();fillDone();
+    }).catch(function(e){v.className='verdict show no';v.textContent=/bad_tour_code/.test(String(e&&e.message))?'Wrong Tour V code. Ask Steve.':'Couldn’t check the code. Try again.'});
+  });
   $('si-out').addEventListener('click',function(){
     var b=$('si-out');
     if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Tap again to sign out';setTimeout(function(){b.classList.remove('arm');b.textContent='Sign out'},4000);return}
@@ -1676,255 +1660,178 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </script>
 
 <script>
-/* ---------- Log a Dop (Supabase; only the 8 on Tour V can log, and the logger is the witness) ---------- */
+/* ---------- Log a Dop: for fun, filmed, members only (no points) ---------- */
 (function(){
-  var PLAYERS=[
-    {id:'steve',n:'Steve',t:'in'},{id:'nic',n:'Nic',t:'in'},{id:'luke',n:'Luke',t:'in'},{id:'brandon',n:'Brandon',t:'in'},
-    {id:'guy',n:'Guy',t:'co'},{id:'mitch',n:'Mitch',t:'co'},{id:'jay',n:'Jay',t:'co'},{id:'rich',n:'Rich',t:'co'}
-  ];
-  var BY={};PLAYERS.forEach(function(p){BY[p.id]=p});
-  var KINDS={fri1:{pts:1,label:'Friday night drink'},fri2:{pts:2,label:'Friday night down-down'},tee:{pts:1,label:'Tee-box down-down'}};
-  var TOUR_START=new Date('2026-11-06T12:00:00+02:00').getTime();
-  var FRI_END=new Date('2026-11-07T02:00:00+02:00').getTime();
-  var FRI_CAP=10, MAX_MS=20000;
-  function practiceNow(){return Date.now()<TOUR_START}
   function $(id){return document.getElementById(id)}
-  var FTV=window.FTV, db=FTV.db;
+  var FTV=window.FTV, db=FTV&&FTV.db;
+  var PEOPLE=[['steve','Steve','in'],['nic','Nic','in'],['luke','Luke','in'],['brandon','Brandon','in'],['guy','Guy','co'],['mitch','Mitch','co'],['jay','Jay','co'],['rich','Rich','co']];
+  var NAME={};PEOPLE.forEach(function(p){NAME[p[0]]=p[1]});
+  var MAX=30000;
+  var st={who:null,kind:null}, rows=[], urls={}, loading=false;
+  function esc(t){return String(t==null?'':t)}
+  function nm(id){return NAME[id]||id}
+  function fmt(t){try{return new Date(t).toLocaleString('en-ZA',{weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Africa/Johannesburg'})}catch(e){return ''}}
+  function say(t,ok){var v=$('dv-msg');v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||''}
 
-  var st={drinker:null,kind:null,day:null,hole:null,gulps:null,ms:0,running:false,t0:0,timer:null};
-  var docs=[]; var busy=false;
-  function me(){return FTV.me}
-  function canLog(){var m=me();return !!(m&&m.tour_access&&BY[m.player_id])}
-
-  /* ----- pickers ----- */
-  var hWrap=$('holes');
-  for(var h=1;h<=9;h++){(function(h){
-    var b=document.createElement('button');b.type='button';b.className='pick neutral';b.textContent=h;b.dataset.h=h;b.setAttribute('aria-pressed','false');b.setAttribute('aria-label','Hole '+h);
-    b.addEventListener('click',function(){st.hole=h;clearVerdict();render()});hWrap.appendChild(b);
-  })(h)}
-  function buildDrinkers(){
-    var wrap=$('drinkers');wrap.textContent='';
-    var m=me();if(!canLog())return;
-    var other=BY[m.player_id].t==='in'?'co':'in';
-    var col=document.createElement('div');col.className='pick-team';
-    var lab=document.createElement('span');lab.className='eyebrow';lab.textContent=(other==='in'?'Inland':'Coastal')+' · the other lot';col.appendChild(lab);
-    var row=document.createElement('div');row.className='picks';
-    PLAYERS.filter(function(p){return p.t===other}).forEach(function(p){
-      var b=document.createElement('button');b.type='button';b.className='pick '+p.t;b.textContent=p.n;b.dataset.id=p.id;b.setAttribute('aria-pressed','false');
-      b.addEventListener('click',function(){st.drinker=p.id;clearVerdict();render()});
-      row.appendChild(b);
+  /* ----- form ----- */
+  function renderWho(){
+    var wrap=$('dv-who');wrap.textContent='';
+    [['in','Inland'],['co','Coastal']].forEach(function(t){
+      var col=document.createElement('div');col.className='pick-team';
+      var lab=document.createElement('span');lab.className='eyebrow';lab.textContent=t[1];col.appendChild(lab);
+      var row=document.createElement('div');row.className='picks';
+      PEOPLE.filter(function(p){return p[2]===t[0]}).forEach(function(p){
+        var b=document.createElement('button');b.type='button';b.className='pick '+p[2];b.textContent=p[1];
+        b.setAttribute('aria-pressed',st.who===p[0]?'true':'false');
+        b.addEventListener('click',function(){st.who=p[0];say('');renderWho()});row.appendChild(b);
+      });
+      col.appendChild(row);wrap.appendChild(col);
     });
-    col.appendChild(row);wrap.appendChild(col);
-    $('witness-me').textContent='You, '+BY[m.player_id].n;
+    var col=document.createElement('div');col.className='picks';
+    var o=document.createElement('button');o.type='button';o.className='pick neutral';o.textContent='Someone else';
+    o.setAttribute('aria-pressed',st.who==='__other'?'true':'false');
+    o.addEventListener('click',function(){st.who='__other';say('');renderWho()});col.appendChild(o);wrap.appendChild(col);
+    $('dv-other').hidden=st.who!=='__other';
   }
-  [].slice.call(document.querySelectorAll('.kind')).forEach(function(b){
-    b.addEventListener('click',function(){st.kind=b.dataset.kind;clearVerdict();render()});
+  [].slice.call($('dv-kind').querySelectorAll('.pick')).forEach(function(b){
+    b.addEventListener('click',function(){st.kind=b.dataset.k;[].slice.call($('dv-kind').querySelectorAll('.pick')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')})});
   });
-  [].slice.call(document.querySelectorAll('#days .pick')).forEach(function(b){
-    b.addEventListener('click',function(){st.day=b.dataset.day;st.hole=null;clearVerdict();render()});
-  });
-  [].slice.call(document.querySelectorAll('#gulps .pick')).forEach(function(b){
-    b.addEventListener('click',function(){st.gulps=+b.dataset.g;clearVerdict();render()});
-  });
-  $('first-shot').addEventListener('change',clearVerdict);
-  $('no-watch').addEventListener('change',clearVerdict);
-
-  /* ----- stopwatch ----- */
-  function drawPint(ms){
-    var p=Math.min(1,ms/MAX_MS), f=1-p;
-    var tilt=-72*p;
-    $('pint-glass').setAttribute('transform','rotate('+tilt.toFixed(2)+' 80 90)');
-    $('pint-liquid').setAttribute('transform','rotate('+(-tilt).toFixed(2)+' 80 90)');
-    var top=26+(156-26)*(1-f);
-    if(f<=0.001)top=400;
-    $('pint-beer').setAttribute('y',top.toFixed(1));
-    $('pint-foam').setAttribute('y',(top-10).toFixed(1));
-    $('pint-foam').setAttribute('height',f>0.05?'11':(f>0?'5':'0'));
-    $('pint-bubbles').style.opacity=f>0.1?'.7':'0';
-    var lab=$('pint-left'), over=ms>MAX_MS;
-    lab.classList.toggle('over',over);
-    lab.textContent=over?'Too slow':(ms<=0?'Full':(f<=0.001?'Empty':Math.ceil(f*100)+'% left'));
-  }
-  function drawWatch(){
-    var ms=st.running?(performance.now()-st.t0):st.ms;
-    $('watch-t').textContent=(Math.floor(ms/100)/10).toFixed(1);
-    $('watch-face').classList.toggle('over',ms>MAX_MS);
-    drawPint(ms);
-  }
-  $('watch-go').addEventListener('click',function(){
-    if(st.running){st.ms=performance.now()-st.t0;st.running=false;clearInterval(st.timer);$('watch-go').textContent='Start';}
-    else{st.ms=0;st.t0=performance.now();st.running=true;st.timer=setInterval(drawWatch,50);$('watch-go').textContent='Stop';}
-    clearVerdict();drawWatch();
-  });
-  $('watch-reset').addEventListener('click',function(){clearInterval(st.timer);st.running=false;st.ms=0;$('watch-go').textContent='Start';drawWatch();clearVerdict()});
-
-  /* ----- data helpers ----- */
-  function counted(){var p=practiceNow();return docs.filter(function(d){return p?true:!d.practice})}
-  function friPts(pid){return counted().filter(function(d){return d.drinker===pid&&(d.kind==='fri1'||d.kind==='fri2')}).reduce(function(a,d){return a+(d.pts||0)},0)}
-  function teeTaken(pid,day,hole){return counted().some(function(d){return d.kind==='tee'&&d.drinker===pid&&d.day===day&&d.hole===hole})}
-  function fmtTime(ms){try{return new Date(ms).toLocaleString('en-ZA',{weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Africa/Johannesburg'})}catch(e){return ''}}
-
-  /* ----- render ----- */
-  function setPressed(sel,fn){[].slice.call(document.querySelectorAll(sel)).forEach(function(b){b.setAttribute('aria-pressed',fn(b)?'true':'false')})}
-  function renderGate(){
-    var m=me(), ok=canLog();
-    $('dop-form').hidden=!ok;
-    $('dop-gate').hidden=ok;
-    if(!ok){
-      $('dop-gate-h').textContent=m?'Dop logging is for the 8 on Tour V':'Sign in to log dops';
-      $('dop-gate-p').textContent=m?'You can still watch the scores and the log. Get your round in at the bar instead.':'Only the 8 on tour can log, and you can only log dops you witnessed for the other team.';
-      $('dop-gate-btn').hidden=!!m;
-    }
-  }
-  function render(){
-    setPressed('#drinkers .pick',function(b){return b.dataset.id===st.drinker});
-    setPressed('.kind',function(b){return b.dataset.kind===st.kind});
-    setPressed('#days .pick',function(b){return b.dataset.day===st.day});
-    setPressed('#holes .pick',function(b){return +b.dataset.h===st.hole});
-    setPressed('#gulps .pick',function(b){return +b.dataset.g===st.gulps});
-    $('tee-extra').hidden=st.kind!=='tee';
-    $('dd-step').hidden=!(st.kind==='fri2'||st.kind==='tee');
-    [].slice.call(document.querySelectorAll('#holes .pick')).forEach(function(b){
-      var taken=!!(st.drinker&&st.day&&teeTaken(st.drinker,st.day,+b.dataset.h));
-      b.classList.toggle('taken',taken);b.disabled=taken;
-    });
-    $('log-btn').disabled=!db||!canLog()||busy;
-  }
-
-  function renderData(){
-    var c=counted(), p=practiceNow(), m=me();
-    var tot={in:{fri:0,tee:0},co:{fri:0,tee:0}};
-    c.forEach(function(d){var t=BY[d.drinker]&&BY[d.drinker].t;if(!t)return;if(d.kind==='tee')tot[t].tee+=d.pts||0;else tot[t].fri+=d.pts||0});
-    ['in','co'].forEach(function(t){$('t-'+t+'-fri').textContent=tot[t].fri;$('t-'+t+'-tee').textContent=tot[t].tee;$('t-'+t+'-tot').textContent=tot[t].fri+tot[t].tee});
-    $('lb-dop-in').textContent=tot.in.fri+tot.in.tee;$('lb-dop-co').textContent=tot.co.fri+tot.co.tee;
-    $('lb-dop-prac').textContent=p?'· practice':'';
-    var nPrac=docs.filter(function(d){return d.practice}).length;
-    $('prac-note').hidden=!p&&nPrac===0;
-    $('clear-prac').hidden=nPrac===0||!canLog();
-    $('clear-prac').textContent='Clear practice dops ('+nPrac+')';
-    var list=$('dlog');list.textContent='';
-    $('log-count').textContent=docs.length+' logged';
-    if(!docs.length){var e=document.createElement('li');e.className='empty';e.style.display='block';e.textContent='No dops yet. Somebody’s slacking.';list.appendChild(e)}
-    docs.forEach(function(d){
-      var pl=BY[d.drinker]||{n:d.drinker,t:'in'},wt=BY[d.witness]||{n:d.witness};
-      var li=document.createElement('li');li.className=pl.t;
-      var pts=document.createElement('span');pts.className='pts';pts.textContent='+'+(d.pts||0);
-      var what=document.createElement('div');what.className='what';
-      var b=document.createElement('b');b.textContent=pl.n+' · '+((KINDS[d.kind]||{}).label||d.kind)+(d.kind==='tee'?' (hole '+d.hole+', '+(d.day==='sat'?'Sat':'Fri')+')':'');
-      if(d.practice){var pr=document.createElement('span');pr.className='prac';pr.textContent='Practice';b.appendChild(pr)}
-      var sm=document.createElement('small');
-      var bits=['Witness: '+wt.n];
-      if(d.secs!=null)bits.push(d.secs.toFixed(1)+' s');
-      if(d.gulps)bits.push(d.gulps+(d.gulps===1?' gulp':' gulps'));
-      bits.push(fmtTime(d.atMs));
-      sm.textContent=bits.join(' · ');
-      what.appendChild(b);what.appendChild(sm);
-      li.appendChild(pts);li.appendChild(what);
-      var mine=canLog()&&((d.loggedBy&&d.loggedBy===FTV.uid)||(m&&m.is_admin));
-      if(mine){
-        var del=document.createElement('button');del.type='button';del.className='del';del.textContent='Remove';
-        del.addEventListener('click',function(){
-          if(!del.classList.contains('arm')){del.classList.add('arm');del.textContent='Sure?';setTimeout(function(){del.classList.remove('arm');del.textContent='Remove'},4000);return}
-          del.disabled=true;
-          db.rpc('ftv_delete_dop',{p_id:d._id}).then(function(r){if(r.error)throw r.error;refresh()})
-            .catch(function(){del.disabled=false;say('no','Couldn’t remove that one. Try again.')});
-        });
-        li.appendChild(del);
-      }
-      list.appendChild(li);
-    });
-    render();
-  }
-
-  function say(kind,msg){var v=$('verdict');v.className='verdict show '+kind;v.textContent=msg}
-  function clearVerdict(){var v=$('verdict');v.className='verdict';v.textContent=''}
-
-  /* ----- log it ----- */
-  $('log-btn').addEventListener('click',function(){
-    if(!db||busy)return;
-    if(!canLog())return say('no','Sign in as one of the 8 on Tour V to log dops.');
-    var p=practiceNow(), now=Date.now(), w=BY[me().player_id];
-    if(!st.drinker)return say('no','Who drank? Pick the drinker.');
-    if(!st.kind)return say('no','What was it? Pick the type of dop.');
-    var k=KINDS[st.kind], dr=BY[st.drinker];
-    if(dr.t===w.t)return say('no','You can only witness the other team.');
-    if(st.kind!=='tee'&&!p&&now>FRI_END)return say('no','Friday night closed at 02:00. That one’s just for fun.');
-    if(st.kind==='tee'){
-      if(!st.day)return say('no','Which day? Pick Friday or Saturday.');
-      if(!st.hole)return say('no','Which hole? Front 9 only.');
-      if(!$('first-shot').checked)return say('no','It has to be before his first tee shot on the hole. Tick the box if it was.');
-      if(teeTaken(st.drinker,st.day,st.hole))return say('no',dr.n+' already has hole '+st.hole+' logged for that day.');
-    }
-    var secs=null;
-    if(st.kind==='fri2'||st.kind==='tee'){
-      if(st.running)return say('no','Stop the clock first.');
-      var timed=st.ms>0;
-      if(!timed&&!$('no-watch').checked)return say('no','Time it: hit Start, then Stop when the glass is empty.');
-      if(timed&&st.ms>MAX_MS)return say('no',(st.ms/1000).toFixed(1)+' seconds. Too slow, that’s not a down-down.'+(st.kind==='fri2'?' Log it as a Friday night drink (1) instead.':' No point.'));
-      if(!st.gulps)return say('no','How many gulps?');
-      if(st.gulps>3)return say('no','4 or more gulps is a drink, not a down-down.'+(st.kind==='fri2'?' Log it as a Friday night drink (1) instead.':' No point.'));
-      if(timed)secs=Math.round(st.ms/100)/10;
-    }
-    if(st.kind!=='tee'){
-      var cur=friPts(st.drinker);
-      if(cur>=FRI_CAP)return say('no',dr.n+' has hit the Friday cap of '+FRI_CAP+'. Drinking now is for love, not points.');
-      if(cur+k.pts>FRI_CAP)return say('no',dr.n+' is on '+cur+'/'+FRI_CAP+'. A down-down takes him over the cap, so log a 1-pointer.');
-    }
-    var body={drinker:st.drinker,kind:st.kind};
-    if(st.kind==='tee'){body.day=st.day;body.hole=st.hole}
-    if(secs!=null)body.secs=secs;
-    if(st.gulps&&st.kind!=='fri1')body.gulps=st.gulps;
-    busy=true;render();
-    db.rpc('ftv_log_dop',{p:body}).then(function(r){
-      if(r.error)throw r.error;
-      say('ok','Logged: +'+k.pts+' '+(dr.t==='in'?'Inland':'Coastal')+'. '+dr.n+', witnessed by you.'+(p?' (Practice)':''));
-      st.drinker=null;st.kind=null;st.gulps=null;st.hole=null;st.ms=0;$('first-shot').checked=false;$('no-watch').checked=false;$('watch-go').textContent='Start';drawWatch();
-      refresh();
-    }).catch(function(e){
-      var t=String((e&&e.message)||'');
-      if(e&&e.code==='23505')say('no',dr.n+' already has that hole logged.');
-      else if(/not_on_tour/.test(t))say('no','Only the 8 on Tour V can log dops.');
-      else if(/bad_witness/.test(t))say('no','You can only witness the other team.');
-      else say('no','Couldn’t save that one. Check your signal and try again.');
-    }).then(function(){busy=false;render()});
-  });
-
-  /* ----- clear practice ----- */
-  var clr=$('clear-prac'), armT=null;
-  clr.addEventListener('click',function(){
-    var prac=docs.filter(function(d){return d.practice});
-    if(!prac.length||!db||!canLog())return;
-    if(!clr.classList.contains('danger')){clr.classList.add('danger');clr.classList.remove('ghost');clr.textContent='Tap again to delete '+prac.length;armT=setTimeout(function(){clr.classList.remove('danger');clr.classList.add('ghost');renderData()},4000);return}
-    clearTimeout(armT);clr.disabled=true;
-    db.rpc('ftv_clear_practice').then(function(r){if(r.error)throw r.error})
-      .catch(function(){say('no','Couldn’t clear them. Try again.')})
-      .then(function(){clr.disabled=false;clr.classList.remove('danger');clr.classList.add('ghost');refresh()});
-  });
+  function drinker(){if(st.who==='__other')return ($('dv-other-name').value||'').trim();return st.who}
+  function gate(){var m=FTV.me;$('dop-gate').hidden=!!m;$('dop-form').hidden=!m;if(m){renderWho();load();listen()}else{rows=[];renderWall()}}
   $('dop-gate-btn').addEventListener('click',function(){FTV.open()});
 
-  render();drawWatch();renderGate();
-
-  /* ----- connect ----- */
-  var status=$('dop-status');
-  function setStatus(t){status.textContent=t}
-  FTV.on(function(){buildDrinkers();st.drinker=null;renderGate();renderData()});
-  if(!db){setStatus('Offline');return}
-  var loading=false;
-  function refresh(){
-    if(loading)return;loading=true;
-    db.from('dops').select('*').order('at_ms',{ascending:false}).limit(500).then(function(r){
-      loading=false;
-      if(r.error){setStatus('No signal');return}
-      docs=(r.data||[]).map(function(x){return{_id:x.id,drinker:x.drinker,team:x.team,kind:x.kind,pts:x.pts,witness:x.witness,practice:x.practice,atMs:Number(x.at_ms),day:x.day,hole:x.hole,secs:x.secs==null?null:Number(x.secs),gulps:x.gulps,loggedBy:x.logged_by}});
-      setStatus(practiceNow()?'Practice':'Live');
-      renderData();
-    },function(){loading=false;setStatus('No signal')});
+  /* ----- camera ----- */
+  var cam=$('cam'), live=$('cam-live'), play=$('cam-play'), stream=null, rec=null, chunks=[], t0=0, timer=null, facing='environment', blob=null, secs=0, poster=null, mime='';
+  function pickMime(){
+    if(!window.MediaRecorder)return null;
+    var c=['video/mp4;codecs=avc1,mp4a','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];
+    for(var i=0;i<c.length;i++){try{if(MediaRecorder.isTypeSupported(c[i]))return c[i]}catch(e){}}
+    return '';
   }
-  refresh();
-  try{db.channel('dops-live').on('postgres_changes',{event:'*',schema:'public',table:'dops'},function(){refresh()}).subscribe()}catch(e){}
-  setInterval(refresh,15000);
-  document.addEventListener('visibilitychange',function(){if(!document.hidden)refresh()});
+  function canFilm(){return !!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)}
+  function stopStream(){if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}}
+  function startStream(){
+    stopStream();$('cam-err').hidden=true;
+    return navigator.mediaDevices.getUserMedia({video:{facingMode:facing,width:{ideal:720},height:{ideal:1280},frameRate:{ideal:30,max:30}},audio:true})
+      .then(function(s){stream=s;live.srcObject=s;live.classList.toggle('mirror',facing==='user');return live.play().catch(function(){})})
+      .catch(function(){$('cam-err').hidden=false;$('cam-err').textContent='Couldn’t open the camera. Allow camera and microphone access for this site in your phone’s settings, then try again.'});
+  }
+  function showRecUI(){live.hidden=false;play.hidden=true;play.removeAttribute('src');$('cam-bar-rec').hidden=false;$('cam-bar-done').hidden=true;$('cam-t').textContent='0.0';$('cam-clock').classList.remove('rec');$('cam-rec').classList.remove('on')}
+  function openCam(){
+    var d=drinker();
+    if(!st.who||(st.who==='__other'&&!d))return say('Who’s drinking? Pick a name first.');
+    say('');$('cam-who').textContent=nm(d)+(st.kind?' · '+st.kind:'');
+    if(!canFilm()){$('dv-file').click();return}
+    blob=null;showRecUI();
+    try{cam.showModal()}catch(e){cam.setAttribute('open','')}
+    startStream();
+  }
+  $('dv-open').addEventListener('click',openCam);
+  function closeCam(){
+    if(rec&&rec.state!=='inactive'){try{rec.onstop=null;rec.stop()}catch(e){}}
+    clearInterval(timer);stopStream();try{cam.close()}catch(e){cam.removeAttribute('open')}
+  }
+  $('cam-x').addEventListener('click',closeCam);
+  cam.addEventListener('cancel',function(e){e.preventDefault();closeCam()});
+  $('cam-flip').addEventListener('click',function(){if(rec&&rec.state==='recording')return;facing=facing==='user'?'environment':'user';startStream()});
+  function grabPoster(){
+    try{var w=live.videoWidth,h=live.videoHeight;if(!w)return Promise.resolve(null);var s=Math.min(1,480/Math.max(w,h));
+      var c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(h*s);
+      var g=c.getContext('2d');if(facing==='user'){g.translate(c.width,0);g.scale(-1,1)}g.drawImage(live,0,0,c.width,c.height);
+      return new Promise(function(r){c.toBlob(function(b){r(b)},'image/jpeg',.75)})}catch(e){return Promise.resolve(null)}
+  }
+  $('cam-rec').addEventListener('click',function(){
+    if(!stream)return;
+    if(rec&&rec.state==='recording'){rec.stop();return}
+    mime=pickMime();chunks=[];
+    try{rec=new MediaRecorder(stream,mime?{mimeType:mime,videoBitsPerSecond:1200000,audioBitsPerSecond:64000}:{videoBitsPerSecond:1200000})}
+    catch(e){try{rec=new MediaRecorder(stream)}catch(e2){$('cam-err').hidden=false;$('cam-err').textContent='This phone can’t record in the app. Close this and the next tap will use your camera app instead.';return}}
+    rec.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data)};
+    rec.onstop=function(){
+      clearInterval(timer);secs=Math.min(MAX,performance.now()-t0)/1000;
+      blob=new Blob(chunks,{type:(rec.mimeType||mime||'video/webm').split(';')[0]});
+      grabPoster().then(function(p){poster=p});
+      stopStream();live.hidden=true;play.hidden=false;play.src=URL.createObjectURL(blob);play.play().catch(function(){});
+      $('cam-bar-rec').hidden=true;$('cam-bar-done').hidden=false;$('cam-clock').classList.remove('rec');
+    };
+    grabPoster().then(function(p){poster=p});
+    rec.start(500);t0=performance.now();$('cam-rec').classList.add('on');$('cam-clock').classList.add('rec');
+    timer=setInterval(function(){var ms=performance.now()-t0;$('cam-t').textContent=(Math.floor(ms/100)/10).toFixed(1);if(ms>=MAX&&rec.state==='recording')rec.stop()},100);
+  });
+  $('cam-retake').addEventListener('click',function(){blob=null;showRecUI();startStream()});
+  $('cam-post').addEventListener('click',function(){if(!blob)return;var b=blob,p=poster,sx=secs;closeCam();upload(b,p,sx)});
+  $('dv-file').addEventListener('change',function(e){
+    var f=(e.target.files||[])[0];e.target.value='';if(!f)return;
+    if(f.size>50*1024*1024)return say('That video is over 50 MB. Keep it short, under 30 seconds.');
+    upload(f,null,null);
+  });
+
+  /* ----- upload ----- */
+  function upload(b,posterBlob,sx){
+    var m=FTV.me||{}, who=drinker(), kind=st.kind;
+    var li=document.createElement('li');li.className='ph-q';
+    var n=document.createElement('span');n.textContent=nm(who)+(kind?' · '+kind:'');var s2=document.createElement('b');s2.textContent='Uploading…';
+    li.appendChild(n);li.appendChild(s2);$('dv-queue').appendChild(li);
+    var type=(b.type||'video/mp4').split(';')[0];var ext=/webm/.test(type)?'webm':/quicktime/.test(type)?'mov':'mp4';
+    var id=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
+    var vpath='videos/'+id+'.'+ext, ppath=posterBlob?'posters/'+id+'.jpg':null;
+    db.storage.from('dops').upload(vpath,b,{contentType:type,upsert:false}).then(function(r){
+      if(r.error)throw r.error;
+      return ppath?db.storage.from('dops').upload(ppath,posterBlob,{contentType:'image/jpeg',upsert:false}).then(function(){}):null;
+    }).then(function(){
+      return db.from('dop_videos').insert({drinker:who,kind:kind||null,video_path:vpath,poster_path:ppath,secs:sx!=null?Math.round(sx*10)/10:null,posted_name:m.short||m.name||null});
+    }).then(function(r){
+      if(r&&r.error)throw r.error;li.classList.add('ok');s2.textContent='Posted';setTimeout(function(){li.remove()},2500);
+      st.kind=null;[].slice.call($('dv-kind').querySelectorAll('.pick')).forEach(function(x){x.setAttribute('aria-pressed','false')});
+      load();
+    }).catch(function(){li.classList.add('bad');s2.textContent='Failed, try again'});
+  }
+
+  /* ----- the wall ----- */
+  function load(){
+    if(!db||!FTV.me||loading)return;loading=true;
+    db.from('dop_videos').select('*').order('created_at',{ascending:false}).limit(200).then(function(r){
+      if(r.error)throw r.error;rows=r.data||[];
+      var need=[];rows.forEach(function(x){if(!urls[x.video_path])need.push(x.video_path);if(x.poster_path&&!urls[x.poster_path])need.push(x.poster_path)});
+      if(!need.length)return;
+      return db.storage.from('dops').createSignedUrls(need,60*60*6).then(function(s){(s.data||[]).forEach(function(u){if(u.signedUrl)urls[u.path]=u.signedUrl})});
+    }).catch(function(){$('dv-count').textContent='Couldn’t load the dop wall. Check your signal.'}).then(function(){loading=false;renderWall()});
+  }
+  function renderWall(){
+    var w=$('dv-wall');w.textContent='';$('dv-empty').hidden=rows.length>0;
+    $('dv-count').textContent=!FTV.me?'Members only':rows.length?(rows.length+(rows.length===1?' dop':' dops')+' on film'):'Nothing filmed yet';
+    var m=FTV.me||{};
+    rows.forEach(function(x){
+      var c=document.createElement('article');c.className='dv-card';
+      var v=document.createElement('video');v.controls=true;v.setAttribute('playsinline','');v.preload='none';
+      if(urls[x.video_path])v.src=urls[x.video_path];if(x.poster_path&&urls[x.poster_path])v.poster=urls[x.poster_path];
+      var meta=document.createElement('div');meta.className='dv-meta';
+      var b=document.createElement('b');b.textContent=nm(x.drinker)+(x.kind?' · '+x.kind:'');
+      var sm=document.createElement('small');sm.textContent='Filmed by '+esc(x.posted_name||'someone')+' · '+fmt(x.created_at);
+      meta.appendChild(b);
+      if(x.secs!=null){var sc=document.createElement('span');sc.className='secs';sc.textContent=Number(x.secs).toFixed(1)+'s';meta.appendChild(sc)}
+      meta.appendChild(sm);
+      if(x.posted_by===FTV.uid||m.is_admin){
+        var d=document.createElement('button');d.type='button';d.className='del';d.textContent='Remove';
+        d.addEventListener('click',function(){
+          if(!d.classList.contains('arm')){d.classList.add('arm');d.textContent='Sure?';setTimeout(function(){d.classList.remove('arm');d.textContent='Remove'},4000);return}
+          d.disabled=true;db.from('dop_videos').delete().eq('id',x.id).then(function(){load()});
+        });
+        meta.appendChild(d);
+      }
+      c.appendChild(v);c.appendChild(meta);w.appendChild(c);
+    });
+  }
+  var sub=null;
+  function listen(){
+    if(sub||!db)return;
+    try{sub=db.channel('dopv-live').on('postgres_changes',{event:'*',schema:'public',table:'dop_videos'},function(){load()}).subscribe()}catch(e){}
+    document.addEventListener('visibilitychange',function(){if(!document.hidden&&FTV.me)load()});
+  }
+  if(!db){$('dv-count').textContent='Offline';return}
+  FTV.on(gate);
 })();
+
 </script>
 
 <script>
