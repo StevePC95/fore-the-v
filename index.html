@@ -1154,28 +1154,28 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <p>One player per hole is the Wolf. He tees off first and decides how brave (or stupid) he's feeling. Holes 1 and 10 are looseners with no Wolf and no points. They're for the gees, but fines still apply. Over the other 16 holes everyone gets to be Wolf 4 times, in an order the Wolf wheel picks before we tee off.</p>
     <div class="opts">
       <div class="opt">
-        <span class="pts">6<small>pts</small></span>
+        <span class="pts">4<small>pts</small></span>
         <h3>Blind Wolf</h3>
         <div class="risk" aria-label="Risk: maximum"><i class="on"></i><i class="on"></i><i class="on"></i></div>
         <span class="when">Call before tee shot</span>
-        <p>Wolf alone vs the 2 opponents. His teammate is neutral. Win: 6 to his team. Lose: 6 to theirs.</p>
+        <p>Wolf alone vs the 2 opponents. His teammate is neutral. Win: 4 to his team. Lose: 4 to theirs.</p>
       </div>
       <div class="opt">
-        <span class="pts">4<small>pts</small></span>
+        <span class="pts">3<small>pts</small></span>
         <h3>Lone Wolf</h3>
         <div class="risk" aria-label="Risk: high"><i class="on"></i><i class="on"></i><i></i></div>
         <span class="when">Call after tee shot</span>
-        <p>Same as Blind, but he's seen where his drive went first. Win: 4. Lose: 4 to the other lot.</p>
+        <p>Same as Blind, but he's seen where his drive went first. Win: 3. Lose: 3 to the other lot.</p>
       </div>
       <div class="opt">
-        <span class="pts">2+2<small>pts</small></span>
+        <span class="pts">1+1<small>pts</small></span>
         <h3>Partner Wolf</h3>
         <div class="risk" aria-label="Risk: low"><i class="on"></i><i></i><i></i></div>
         <span class="when">Pick after 2nd or 3rd tee shot</span>
-        <p>Picks any one of the other 3, his teammate or one of the other team (confirmed). Don't pick and you get the 4th player. Combined scores decide it. Win or lose: 2 points each.</p>
+        <p>Picks any one of the other 3, his teammate or one of the other team (confirmed). Don't pick and you get the 4th player. Combined scores decide it. The winning pair get 1 point each, so 2 for the team if he picked his teammate.</p>
       </div>
     </div>
-    <p class="fine"><b>Blind and Lone Wolf must beat both opponents:</b> his score has to be better than each of the other team's two scores. Ties: nobody scores. Partner from the other team = "damage control", both teams get 2 and it's all square.</p>
+    <p class="fine"><b>Blind and Lone Wolf must beat both opponents:</b> his score has to be better than each of the other team's two scores. Ties: nobody scores. Partner from the other team = "damage control", both teams get 1 and it's all square.</p>
   </div>
 
   <div class="card wheel-card" id="wheel">
@@ -3376,7 +3376,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     fri:{name:'Randpark · Bushwillow',par:[5,4,5,4,4,3,4,3,4, 4,4,5,3,4,3,4,5,4],si:[16,2,18,4,14,8,10,6,12, 1,13,15,7,11,9,3,17,5]},
     sat:{name:'Jackal Creek',par:[5,4,3,4,4,5,3,4,5, 4,4,3,4,4,3,4,4,5],si:[2,6,10,4,8,16,12,14,18, 17,15,7,13,1,5,11,9,3]}
   };
-  var CALL={blind:['Blind Wolf',6],lone:['Lone Wolf',4],partner:['Partner Wolf',2]};
+  var CALL={blind:['Blind Wolf',4],lone:['Lone Wolf',3],partner:['Partner Wolf',1]};
   var D={pairs:[],wolf:{},shots:{},calls:{},locks:{}};
   var st={view:'enter',day:Date.now()>=new Date('2026-11-07T00:00:00+02:00').getTime()?'sat':'fri',fb:null,hole:null,player:null};
 
@@ -3395,7 +3395,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function callOf(f,h){return D.calls['fri|'+f+'|'+h]||null}
   function chaCount(h){return [1,2,3][(h-1)%3]}
 
-  // Wolf, within a fourball. Blind 6 / Lone 4: the Wolf must beat both opponents. Partner: pair totals, 2 each to the winners.
+  // Wolf, within a fourball. Blind 4 / Lone 3: the Wolf must beat both opponents. Partner: pair totals, 1 each to the winners.
   function wolfHole(f,h){
     var r={in:0,co:0,state:'loose',text:'',wolf:null,call:null};
     if(h===1||h===10){r.text='Loosener: no Wolf, no points.';return r}
@@ -3417,7 +3417,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     if(four.some(function(id){return p[id]==null})){r.state='open';r.text='Partner Wolf: '+N(w)+' + '+N(mate)+'. Waiting for scores.';return r}
     var a=p[w]+p[mate],b=rest.reduce(function(s,id){return s+p[id]},0);r.state='done';
     var win=a>b?pair:a<b?rest:null;
-    if(win){win.forEach(function(id){r[T(id)]+=2});r.text=N(win[0])+' + '+N(win[1])+' win '+Math.max(a,b)+'–'+Math.min(a,b)+' pts. '+(T(win[0])===T(win[1])?TEAM[T(win[0])]+' +4.':'Both teams +2, all square.')}
+    var pv=CALL.partner[1];if(win){win.forEach(function(id){r[T(id)]+=pv});r.text=N(win[0])+' + '+N(win[1])+' win '+Math.max(a,b)+'–'+Math.min(a,b)+' pts. '+(T(win[0])===T(win[1])?TEAM[T(win[0])]+' +'+(2*pv)+'.':'Both teams +'+pv+', all square.')}
     else r.text='Pairs tie '+a+'–'+b+' pts. No points.';
     return r;
   }
@@ -3531,7 +3531,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         var c=callOf(st.fb,st.hole)||{};
         wolfBox.appendChild(el('span','eyebrow',N(w)+'’s call'));
         var row=el('div','picks');
-        ['blind','lone','partner'].forEach(function(k){row.appendChild(btn(CALL[k][0]+' · '+(k==='partner'?'2+2':CALL[k][1]),c.call===k,'neutral',function(){saveCall(c.call===k?null:k,k==='partner'?(c.partner||null):null)},!ed))});
+        ['blind','lone','partner'].forEach(function(k){row.appendChild(btn(CALL[k][0]+' · '+(k==='partner'?'1+1':CALL[k][1]),c.call===k,'neutral',function(){saveCall(c.call===k?null:k,k==='partner'?(c.partner||null):null)},!ed))});
         wolfBox.appendChild(row);
         if(c.call==='partner'){
           wolfBox.appendChild(el('span','eyebrow','His partner'));
