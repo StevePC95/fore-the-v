@@ -271,7 +271,11 @@ button.bk-opt:disabled{cursor:default}
 .pg-stats .stat{padding:10px 12px}
 .pg-stats .stat b{font:900 1.6rem/1 var(--f-display);font-variant-numeric:tabular-nums}
 .pg-wrap{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line);background:var(--green)}
-.pg-canvas{display:block;width:100%;aspect-ratio:300/420;max-height:72vh;touch-action:none;cursor:crosshair}
+.pg-canvas{display:block;width:100%;aspect-ratio:300/420;max-height:72vh;touch-action:pan-y}
+.pg-canvas.armed{touch-action:none;cursor:crosshair}
+.pg-lock{position:absolute;left:0;right:0;bottom:0;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px;background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0));z-index:2}
+.pg-lock .btn.big{width:auto;min-width:70%}
+.pg-lock small{color:#fff;opacity:.85;font-size:.8rem}
 .pg-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none;z-index:1}
 .pg-chip{background:rgba(0,0,0,.45);color:#fff}
 .pg-msg{min-height:1.6em;font:800 1.35rem/1.15 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
@@ -1437,10 +1441,10 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="pg-wrap">
     <div class="pg-hud"><span class="chip pg-chip" id="pg-dist">8 ft</span><span class="chip pg-chip" id="pg-break">Dead flat</span></div>
     <canvas id="pg-canvas" class="pg-canvas" aria-label="Putting green. Pull back anywhere and let go to putt."></canvas>
+    <div class="pg-lock" id="pg-lock"><button type="button" class="btn big" id="pg-start">Start putting</button><small>Green's locked so you can scroll past it</small></div>
   </div>
   <p class="pg-msg" id="pg-msg" role="status" aria-live="polite"></p>
-  <button type="button" class="btn big" id="pg-next" hidden>Go again</button>
-  <p class="fine">Pull back anywhere on the green, aim, and let go. Further back = harder putt. Read the break: the faint arrows show which way it runs. Hole it and the next one gets longer. Stats stay on your phone.</p>
+  <p class="fine">Tap Start putting, then pull back anywhere on the green, aim, and let go. Further back = harder putt. Read the break: the faint arrows show which way it runs. Hole it and the next one gets longer. Stats stay on your phone.</p>
   <button type="button" class="mini" id="pg-reset" style="align-self:flex-start">Wipe my stats</button>
 </section>
 
@@ -2681,8 +2685,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     state='aim';drag=null;bong=null;trail=[];lipped=false;
     $('pg-dist').textContent=ft+' ft';
     var pct=Math.round(Math.hypot(slope.x,slope.y)*600);
-    $('pg-break').textContent=pct?('Break '+pct+'% '+(Math.abs(slope.x)>Math.abs(slope.y)?(slope.x>0?'→':'←'):(slope.y>0?'↓':'↑'))):'Dead flat';
-    $('pg-next').hidden=true;
+    var oct=Math.round(Math.atan2(slope.y,slope.x)/(Math.PI/4));oct=(oct+8)%8;
+    $('pg-break').textContent=pct?('Break '+pct+'% '+['→','↘','↓','↙','←','↖','↑','↗'][oct]):'Dead flat';
     draw();
   }
   function say(t,cls){var v=$('pg-msg');v.className='pg-msg'+(cls?' '+cls:'');v.textContent=t;lastMsg=t}
@@ -2694,13 +2698,19 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
   /* ----- input: pull back from anywhere, release to putt ----- */
   function pos(e){var r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}}
-  cv.addEventListener('pointerdown',function(e){if(state!=='aim')return;try{cv.setPointerCapture(e.pointerId)}catch(_){}drag={a:pos(e),b:pos(e)};draw()});
+  var armed=false;
+  function arm(on){armed=on;cv.classList.toggle('armed',on);$('pg-lock').hidden=on}
+  $('pg-start').addEventListener('click',function(){
+    if(state!=='aim'){newHole();say(st.streak?'Streak: '+st.streak+'. Don’t choke.':'Pull back anywhere and let go.','')}
+    arm(true);cv.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+  cv.addEventListener('pointerdown',function(e){if(state!=='aim'||!armed)return;try{cv.setPointerCapture(e.pointerId)}catch(_){}drag={a:pos(e),b:pos(e)};draw()});
   cv.addEventListener('pointermove',function(e){if(!drag)return;drag.b=pos(e);draw()});
   function pull(){var dx=drag.a.x-drag.b.x,dy=drag.a.y-drag.b.y,d=Math.hypot(dx,dy);if(d>MAXPULL){dx*=MAXPULL/d;dy*=MAXPULL/d;d=MAXPULL}return {x:dx,y:dy,d:d}}
   cv.addEventListener('pointerup',function(){
     if(!drag)return;var p=pull();drag=null;
     if(p.d<8){draw();return}
-    ball.vx=p.x*POWER;ball.vy=p.y*POWER;state='roll';st.tries++;
+    ball.vx=p.x*POWER;ball.vy=p.y*POWER;state='roll';st.tries++;arm(false);$('pg-lock').hidden=true;
     say('…');go();
   });
   cv.addEventListener('pointercancel',function(){drag=null;draw()});
@@ -2781,10 +2791,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       }
     }
     save();renderStats();
-    $('pg-next').hidden=false;$('pg-next').textContent=made?'Next putt (longer)':'Go again';
+    $('pg-start').textContent=made?'Next putt (longer)':'Go again';$('pg-lock').hidden=false;
     if(curse===1&&!made){} // the next one gets the bong
   }
-  $('pg-next').addEventListener('click',function(){newHole();say(st.streak?'Streak: '+st.streak+'. Don’t choke.':'Pull back and let go to putt.','')});
   $('pg-reset').addEventListener('click',function(){st={made:0,tries:0,streak:0,best:0};save();renderStats();newHole();say('Stats wiped. Fresh start, same yips.','')});
 
   /* ----- drawing ----- */
@@ -2824,7 +2833,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(ball.x,ball.y,BR*ball.s,0,7);ctx.fill();
       ctx.fillStyle='rgba(0,0,0,.12)';ctx.beginPath();ctx.arc(ball.x+1.5,ball.y+1.5,BR*ball.s*.55,0,7);ctx.fill()}
     if(bong)drawBong();
-    if(state==='aim'&&!drag&&st.tries===0){ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='600 13px '+getComputedStyle(document.body).fontFamily;ctx.textAlign='center';ctx.fillText('Pull back anywhere, let go to putt',W/2,H-36)}
+    if(state==='aim'&&!drag&&armed&&st.tries===0){ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='600 13px '+getComputedStyle(document.body).fontFamily;ctx.textAlign='center';ctx.fillText('Pull back anywhere, let go to putt',W/2,H-36)}
   }
   function drawBong(){
     var b=bong,dir=b.from;
@@ -2861,8 +2870,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   }
 
   window.addEventListener('resize',draw);
-  window.addEventListener('hashchange',function(){if(location.hash==='#putt')setTimeout(draw,30)});
-  renderStats();newHole();say('Pull back and let go to putt. One putt per hole.','');
+  window.addEventListener('hashchange',function(){if(location.hash==='#putt')setTimeout(draw,30);else if(state==='aim'){arm(false)}});
+  renderStats();newHole();arm(false);say('Tap Start putting, then pull back and let go. One putt per hole.','');
   if(location.hash==='#putt')setTimeout(draw,30);
 })();
 
