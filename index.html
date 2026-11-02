@@ -316,6 +316,55 @@ button.bk-opt:disabled{cursor:default}
 .rl-banner.win{background:var(--flag);color:#1a1405}
 .rl-banner.lose{background:var(--rl-red);color:#fff}
 @keyframes rlban{from{transform:translateY(-50%) rotate(-7deg) scale(.3);opacity:0}}
+a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;align-self:flex-start}
+/* ---------- Profile + Desk ---------- */
+#pf-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+#pf-stats .stat .rec{font-size:1.9rem}
+.pf-top{flex-direction:row;align-items:center;gap:16px}
+.pf-av-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none}
+.pf-av{width:88px;height:88px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:var(--line-strong);color:var(--on-team);font:900 2rem/1 var(--f-display);box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--flag)}
+.pf-av.in{background:var(--inland)}
+.pf-av.co{background:var(--coastal)}
+.pf-av img{width:100%;height:100%;object-fit:cover}
+.pf-who{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pf-who h3{font:800 1.5rem/1.05 var(--f-display);text-transform:uppercase}
+.pf-nick{font:400 1.05rem/1.2 var(--f-hand);color:var(--tbc)}
+.pf-chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip.ok{background:var(--good-bg);color:var(--good)}
+.chip.no{background:var(--bad-bg);color:var(--bad)}
+.chip.wait{background:var(--tbc-bg);color:var(--tbc)}
+.chip.in{background:var(--inland-soft);color:var(--inland)}
+.chip.co{background:var(--coastal-soft);color:var(--coastal)}
+.pf-rows,.pf-reqs,.dk-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.pf-rows li{padding:12px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.pf-rows li:last-child{border-bottom:0}
+.pf-row-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.pf-row-top > div{min-width:0}
+.pf-val{font-weight:600;margin-top:4px;overflow-wrap:anywhere}
+.pf-val.bio{font-weight:400;font-size:.95rem}
+.pf-req-form{display:flex;flex-direction:column;gap:8px}
+.pf-req-form .btn{align-self:flex-start}
+.pf-reqs li{padding:8px 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:.92rem}
+.pf-req-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.dk-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dk-tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink)}
+.dk-tile b{font:900 2.2rem/1 var(--f-display);font-variant-numeric:tabular-nums;color:var(--muted)}
+.dk-tile.hot{border-color:var(--flag);box-shadow:inset 0 3px 0 var(--flag)}
+.dk-tile.hot b{color:var(--ink)}
+.dk-tile span{font:600 .7rem/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.dk-list li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.dk-list li.fine{background:none;border:0;padding:0}
+.dk-h{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.dk-change{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;font-size:.95rem}
+.dk-change .old{color:var(--muted);text-decoration:line-through;overflow-wrap:anywhere}
+.dk-change .arrow{color:var(--tbc);font-weight:700}
+.dk-change .new{font-weight:700;overflow-wrap:anywhere}
+.dk-q{font-weight:700}
+.dk-btns{display:flex;gap:8px;align-items:center}
+.dk-claim{flex-direction:row!important;justify-content:space-between;align-items:center}
+.nav-badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:6px;border-radius:9px;background:var(--bad);color:#fff;font:700 .66rem/1 var(--f-mono)}
+.mono-badge.photo{padding:0;overflow:hidden}
+.mono-badge.photo img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
 /* ---------- Schedule timeline ---------- */
 .tl{display:flex;flex-direction:column;gap:22px}
 .tl-day{display:flex;flex-direction:column;gap:10px}
@@ -959,8 +1008,10 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <a href="#players">Players</a>
     <a href="#honours">Honours</a>
     <a href="#logistics">Logistics</a>
+    <a href="#profile">Profile</a>
     <a href="#fines" class="exec-nav" hidden>Fines &amp; Bets</a>
     <a href="#questions" class="q exec-nav" hidden>Planning</a>
+    <a href="#desk" class="exec-nav desk-nav" hidden>Desk</a>
   </div>
 </nav>
 
@@ -1465,6 +1516,103 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   </div>
 </section>
 
+<!-- PROFILE -->
+<section data-view="profile" hidden>
+  <div class="head"><span class="eyebrow">Yours · PIN-protected</span><h2>Profile</h2></div>
+
+  <div class="card gate" id="pf-gate">
+    <span class="eyebrow">Members only</span>
+    <h3>Sign in to see your profile</h3>
+    <p>Pick your name, claim it with a 4-digit PIN, and it’s yours.</p>
+    <button type="button" class="btn" id="pf-gate-btn">Sign in</button>
+  </div>
+
+  <div class="card" id="pf-guest" hidden>
+    <span class="eyebrow">Guest</span>
+    <h3>You signed in as a guest</h3>
+    <p class="fine">Profiles are for tourists on the list. If you should be on it, ask Steve.</p>
+  </div>
+
+  <div id="pf-body" hidden>
+    <div class="card pf-top">
+      <div class="pf-av-wrap">
+        <div class="pf-av" id="pf-av"><span id="pf-init">?</span></div>
+        <button type="button" class="mini" id="pf-photo-btn">Change photo</button>
+        <input type="file" id="pf-photo-in" accept="image/*" class="vh">
+      </div>
+      <div class="pf-who">
+        <span class="pf-nick" id="pf-nick"></span>
+        <h3 id="pf-name"></h3>
+        <div class="pf-chips" id="pf-chips"></div>
+      </div>
+    </div>
+    <div class="verdict" id="pf-msg" role="status" aria-live="polite"></div>
+
+    <div class="card pick-card" id="pf-claim" hidden>
+      <span class="eyebrow">Claim your profile</span>
+      <h3>Lock it with a PIN</h3>
+      <p class="fine">Choose a 4-digit PIN only you know. From now on, signing in as you needs it. Forgotten it later? Steve can reset it, but he can’t see it.</p>
+      <label class="fld"><span>PIN</span><input class="code-in" id="pf-c1" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>
+      <label class="fld"><span>Type it again</span><input class="code-in" id="pf-c2" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>
+      <button type="button" class="btn big" id="pf-claim-go">Claim my profile</button>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Yours to change</span>
+      <h3>Your name</h3>
+      <label class="fld"><span>First name</span><input class="txt-in" id="pf-first" maxlength="40" autocomplete="given-name"></label>
+      <label class="fld"><span>Surname</span><input class="txt-in" id="pf-sur" maxlength="60" autocomplete="family-name"></label>
+      <button type="button" class="btn" id="pf-name-save" style="align-self:flex-start">Save name</button>
+    </div>
+
+    <div class="card">
+      <span class="eyebrow">Goes to Steve for approval</span>
+      <h3>Profile details</h3>
+      <ul class="pf-rows" id="pf-rows"></ul>
+      <div id="pf-reqs-wrap" hidden><span class="eyebrow">Your requests</span><ul class="pf-reqs" id="pf-reqs"></ul></div>
+    </div>
+
+    <div class="head"><span class="eyebrow">The numbers don’t lie</span><h2>Stats</h2></div>
+    <div class="stats" id="pf-stats"></div>
+
+    <details class="card bk-how" id="pf-pin-card" hidden>
+      <summary><b>Change my PIN</b></summary>
+      <label class="fld"><span>Current PIN</span><input class="code-in" id="pf-p0" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>
+      <label class="fld"><span>New PIN</span><input class="code-in" id="pf-p1" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>
+      <label class="fld"><span>New PIN again</span><input class="code-in" id="pf-p2" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>
+      <div class="verdict" id="pf-pin-msg" role="status" aria-live="polite"></div>
+      <button type="button" class="btn" id="pf-pin-go" style="align-self:flex-start">Change PIN</button>
+    </details>
+  </div>
+</section>
+
+<!-- STEVE'S DESK -->
+<section data-view="desk" hidden>
+  <div class="head"><span class="eyebrow">Steve only · hidden tab</span><h2>Steve’s Desk</h2></div>
+  <div class="card gate" id="dk-gate">
+    <span class="eyebrow">Admin only</span>
+    <h3>This one’s Steve’s</h3>
+    <p>Requests, pitches and resets land here.</p>
+  </div>
+  <div id="dk-body" hidden>
+    <div class="dk-tiles" id="dk-tiles"></div>
+    <div class="verdict" id="dk-msg" role="status" aria-live="polite"></div>
+
+    <div class="head"><span class="eyebrow" id="dk-req-n">Nothing waiting</span><h2>Profile changes</h2></div>
+    <ul class="dk-list" id="dk-reqs"></ul>
+
+    <div class="head"><span class="eyebrow" id="dk-pitch-n">Nothing waiting</span><h2>Market pitches</h2></div>
+    <ul class="dk-list" id="dk-pitches"></ul>
+
+    <div class="head"><span class="eyebrow" id="dk-settle-n">All squared away</span><h2>Markets to settle</h2></div>
+    <ul class="dk-list" id="dk-settle"></ul>
+
+    <div class="head"><span class="eyebrow" id="dk-claim-n">Who’s claimed</span><h2>Profiles &amp; PINs</h2></div>
+    <ul class="dk-list" id="dk-claims"></ul>
+    <p class="fine">Reset wipes that person’s PIN and signs them out on every phone, so they can claim again. You never see anyone’s PIN.</p>
+  </div>
+</section>
+
 <!-- PRACTICE GREEN -->
 <section data-view="putt" hidden>
   <div class="head"><span class="eyebrow">One putt per hole · no gimmes</span><h2>Practice Green</h2></div>
@@ -1554,14 +1702,14 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <button type="button" id="f-co" data-f="co" aria-pressed="false">Coastal</button>
   </div>
   <div class="players" id="players">
-    <article class="pl in"><span class="mono-badge">SC</span><span class="nick">“Wooden Spoon”</span><h3>Stephen Coombe <i class="hc" title="Playing handicap">HCP 26</i></h3><span class="from">Inland · Sandton, GP<span class="champ">★ Ashes champ</span></span><p>To keep ball costs down, you won't see his driver. Runs on brandy and may smell suspicious on the back nine.</p></article>
-    <article class="pl in"><span class="mono-badge">NF</span><span class="nick">“0 Tour Wins”</span><h3>Nicolas Finn <i class="hc" title="Playing handicap">HCP 13</i></h3><span class="from">Inland · Sandton, GP</span><p>Plans the whole bloody tour, still waiting to win one. Hopefully no spelling mistakes on the tour shirts this year.</p></article>
-    <article class="pl in"><span class="mono-badge">LG</span><span class="nick">“Young Skywalker”</span><h3>Luke Gibbon <i class="hc" title="Playing handicap">HCP 20</i></h3><span class="from">Inland · Centurion, GP</span><p>First tour, and worried the "ballies" won't be able to keep up. Says he loves a beer, but may fall asleep in a bathroom stall afterwards.</p></article>
-    <article class="pl in"><span class="mono-badge">BW</span><span class="nick">“Whistle Blower”</span><h3>Brandon Wiesner <b class="capt" title="Captain">C</b> <i class="hc" title="Playing handicap">HCP 10</i></h3><span class="from">Inland · Pretoria, GP</span><p>Mr. Discovery during the week, Bryce Lawrence on the weekend. Has conveniently made plans to disappear before fines.</p></article>
-    <article class="pl co"><span class="mono-badge">GM</span><span class="nick">“9pm Bedtime”</span><h3>Guy Moody <b class="capt" title="Captain">C</b> <i class="hc" title="Playing handicap">HCP 14</i></h3><span class="from">Coastal · Durbanville, WC<span class="champ">★ Ashes champ</span></span><p>Big fan of an afternoon nap. Get him past 10pm and watch the tequilas start coming out.</p></article>
-    <article class="pl co"><span class="mono-badge">MC</span><span class="nick">“Hansa Draught Please”</span><h3>Mitch Cason <i class="hc" title="Playing handicap">HCP 30</i></h3><span class="from">Coastal · Hillcrest, KZN</span><p>Golf frustrates him. The bar does not. Don't walk slowly in front of his car…</p></article>
-    <article class="pl co"><span class="mono-badge">JD</span><span class="nick">“Pro Golfer”</span><h3>Jason de Klerk <i class="hc" title="Playing handicap">HCP 26</i></h3><span class="from">Coastal · Umdloti, KZN<span class="champ">★ Ashes champ</span></span><p>Would marry Rassie Erasmus if he could.</p></article>
-    <article class="pl co"><span class="mono-badge">RL</span><span class="nick">“Massive Calves”</span><h3>Richard Le Roux <i class="hc" title="Playing handicap">HCP 14</i></h3><span class="from">Coastal · Richmond, KZN</span><p>Guaranteed to wear shorts to show off his legs. Mr Consistent on the golf course and at the bar, but swears he never has time for either.</p></article>
+    <article class="pl in" data-pid="steve"><span class="mono-badge">SC</span><span class="nick">“Wooden Spoon”</span><h3>Stephen Coombe <i class="hc" title="Playing handicap">HCP 26</i></h3><span class="from">Inland · Sandton, GP<span class="champ">★ Ashes champ</span></span><p>To keep ball costs down, you won't see his driver. Runs on brandy and may smell suspicious on the back nine.</p></article>
+    <article class="pl in" data-pid="nic"><span class="mono-badge">NF</span><span class="nick">“0 Tour Wins”</span><h3>Nicolas Finn <i class="hc" title="Playing handicap">HCP 13</i></h3><span class="from">Inland · Sandton, GP</span><p>Plans the whole bloody tour, still waiting to win one. Hopefully no spelling mistakes on the tour shirts this year.</p></article>
+    <article class="pl in" data-pid="luke"><span class="mono-badge">LG</span><span class="nick">“Young Skywalker”</span><h3>Luke Gibbon <i class="hc" title="Playing handicap">HCP 20</i></h3><span class="from">Inland · Centurion, GP</span><p>First tour, and worried the "ballies" won't be able to keep up. Says he loves a beer, but may fall asleep in a bathroom stall afterwards.</p></article>
+    <article class="pl in" data-pid="brandon"><span class="mono-badge">BW</span><span class="nick">“Whistle Blower”</span><h3>Brandon Wiesner <b class="capt" title="Captain">C</b> <i class="hc" title="Playing handicap">HCP 10</i></h3><span class="from">Inland · Pretoria, GP</span><p>Mr. Discovery during the week, Bryce Lawrence on the weekend. Has conveniently made plans to disappear before fines.</p></article>
+    <article class="pl co" data-pid="guy"><span class="mono-badge">GM</span><span class="nick">“9pm Bedtime”</span><h3>Guy Moody <b class="capt" title="Captain">C</b> <i class="hc" title="Playing handicap">HCP 14</i></h3><span class="from">Coastal · Durbanville, WC<span class="champ">★ Ashes champ</span></span><p>Big fan of an afternoon nap. Get him past 10pm and watch the tequilas start coming out.</p></article>
+    <article class="pl co" data-pid="mitch"><span class="mono-badge">MC</span><span class="nick">“Hansa Draught Please”</span><h3>Mitch Cason <i class="hc" title="Playing handicap">HCP 30</i></h3><span class="from">Coastal · Hillcrest, KZN</span><p>Golf frustrates him. The bar does not. Don't walk slowly in front of his car…</p></article>
+    <article class="pl co" data-pid="jay"><span class="mono-badge">JD</span><span class="nick">“Pro Golfer”</span><h3>Jason de Klerk <i class="hc" title="Playing handicap">HCP 26</i></h3><span class="from">Coastal · Umdloti, KZN<span class="champ">★ Ashes champ</span></span><p>Would marry Rassie Erasmus if he could.</p></article>
+    <article class="pl co" data-pid="rich"><span class="mono-badge">RL</span><span class="nick">“Massive Calves”</span><h3>Richard Le Roux <i class="hc" title="Playing handicap">HCP 14</i></h3><span class="from">Coastal · Richmond, KZN</span><p>Guaranteed to wear shorts to show off his legs. Mr Consistent on the golf course and at the bar, but swears he never has time for either.</p></article>
   </div>
 </section>
 
@@ -1839,10 +1987,12 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <label for="si-name">Your name</label>
         <input id="si-name" class="code-in" style="letter-spacing:0;font-family:var(--f-body)" autocomplete="name">
       </div>
-      <div class="si-sub" id="si-tour" hidden>
-        <label for="si-tourcode" id="si-tour-lab">Tour V code <span class="fine">(optional)</span></label>
-        <p class="fine" id="si-tour-what">You're on Tour V, <span id="si-tour-name"></span>. The Tour V code lets this phone enter live scores on the golf days. Leave it blank if you don't have it yet.</p>
-        <input id="si-tourcode" class="code-in" type="password" inputmode="numeric" autocomplete="off">
+      <div class="si-sub" id="si-pin" hidden>
+        <label for="si-pin1" id="si-pin-lab">Your PIN</label>
+        <p class="fine" id="si-pin-what"></p>
+        <input id="si-pin1" class="code-in" type="password" inputmode="numeric" maxlength="4" autocomplete="off">
+        <div class="si-sub" id="si-pin2-wrap" hidden><label for="si-pin2">Type it again</label><input id="si-pin2" class="code-in" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></div>
+        <div class="si-sub" id="si-adm-wrap" hidden><label for="si-admcode">Your admin code</label><p class="fine">This name has admin powers, so claiming it also needs your own code.</p><input id="si-admcode" class="code-in" type="password" autocomplete="off"></div>
       </div>
       <div class="verdict" id="si-msg-who" role="status" aria-live="polite"></div>
       <div class="si-btns"><button type="button" class="btn ghost" data-back="code">Back</button><button type="button" class="btn big" id="si-join">Sign in</button></div>
@@ -1904,6 +2054,11 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <input id="si-unlock-code" class="code-in" type="password" inputmode="numeric" autocomplete="off">
         <div class="verdict" id="si-msg-unlock" role="status" aria-live="polite"></div>
         <button type="button" class="btn" id="si-unlock-go">Unlock scoring</button>
+      </div>
+      <div class="si-sub" id="si-claim" hidden>
+        <span class="eyebrow">One more thing</span>
+        <p class="fine">Claim your profile: pick a 4-digit PIN so nobody else can sign in as you.</p>
+        <a class="btn" href="#profile" id="si-claim-go">Claim my profile</a>
       </div>
       <div class="si-sub" id="si-test" hidden>
         <span class="eyebrow">Steve only · testing</span>
@@ -2027,6 +2182,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   if(window.supabase&&CFG.supabaseUrl&&!/YOUR-/.test(CFG.supabaseUrl+CFG.supabaseKey)){
     FTV.db=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'ftv-auth'}});
   }
+  FTV.emit=function(){emit()};
   function emit(){FTV.ready=true;renderAcct();try{document.getElementById('test-bar').hidden=!(FTV.me&&FTV.me.is_test)}catch(e){}FTV.subs.forEach(function(f){try{f(FTV.me)}catch(e){}})}
   function loadMe(){
     if(!FTV.db){emit();return Promise.resolve()}
@@ -2064,6 +2220,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   $('si-close').addEventListener('click',closeSheet);
   $('si-skip').addEventListener('click',closeSheet);
   $('si-done-close').addEventListener('click',closeSheet);
+  $('si-claim-go').addEventListener('click',closeSheet);
   [].slice.call(sheet.querySelectorAll('[data-back]')).forEach(function(b){b.addEventListener('click',function(){show(b.dataset.back)})});
 
   /* waiting: the spinning pint, kept up long enough to enjoy */
@@ -2109,7 +2266,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       list.forEach(function(p){
         var b=document.createElement('button');b.type='button';b.className='pick '+g[2];b.textContent=p.name;
         b.setAttribute('aria-pressed',pick&&pick.id===p.id?'true':'false');
-        b.addEventListener('click',function(){pick=p;msg('si-msg-who','');renderPeople()});row.appendChild(b);
+        b.addEventListener('click',function(){pick=p;msg('si-msg-who','');['si-pin1','si-pin2','si-admcode'].forEach(function(i){$(i).value=''});renderPeople();loadStatus(p)});row.appendChild(b);
       });
       col.appendChild(row);wrap.appendChild(col);
     });
@@ -2119,34 +2276,60 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     b2.addEventListener('click',function(){pick={id:null};msg('si-msg-who','');renderPeople()});
     col2.appendChild(b2);wrap.appendChild(col2);
     $('si-other').hidden=!(pick&&pick.id===null);
-    $('si-tour').hidden=!(pick&&pick.team);
-    if(pick&&pick.team)$('si-tour-name').textContent=pick.short;
-    var adm=!!(pick&&pick.is_admin);
-    $('si-tour').hidden=!(pick&&(pick.team||adm));
-    $('si-tour-lab').innerHTML=adm?'Your own code <span class="fine">(required)</span>':'Tour V code <span class="fine">(optional)</span>';
-    if(adm)$('si-tour-what').textContent='This name has admin powers, so it needs its own code. The shared Tour V code won’t work here.';
-    else{$('si-tour-what').textContent='';$('si-tour-what').append('You’re on Tour V, ',Object.assign(document.createElement('span'),{id:'si-tour-name',textContent:pick&&pick.short||''}),'. The Tour V code lets this phone enter live scores on the golf days. Leave it blank if you don’t have it yet.')}
+    renderPin();
+  }
+  function renderPin(){
+    var named=!!(pick&&pick.id),s=pick&&pick.status;
+    $('si-pin').hidden=!named;if(!named)return;
+    $('si-pin2-wrap').hidden=true;$('si-adm-wrap').hidden=true;
+    if(!s){$('si-pin-lab').textContent='Your PIN';$('si-pin-what').textContent='Checking…';return}
+    if(s.claimed){
+      $('si-pin-lab').textContent='Your PIN';
+      $('si-pin-what').textContent=s.locked?'Too many wrong tries. This name is locked for 15 minutes. Forgotten it? Ask Steve to reset it.':'The 4-digit PIN you chose for '+pick.short+'.';
+    }else{
+      $('si-pin-lab').textContent='Claim your profile';
+      $('si-pin-what').textContent='Nobody’s claimed '+pick.short+' yet. Choose a 4-digit PIN that only you know. You’ll use it to sign in from now on.';
+      $('si-pin2-wrap').hidden=false;$('si-adm-wrap').hidden=!s.admin;
+    }
+  }
+  function loadStatus(p){
+    if(!p||!p.id||p.status)return;
+    FTV.db.rpc('ftv_player_status',{p_code:code,p_player:p.id}).then(function(r){
+      p.status=r.error||!r.data?{claimed:false,admin:!!p.is_admin,locked:false,legacy:true}:r.data;
+      if(pick===p)renderPin();
+    });
   }
   $('si-join').addEventListener('click',function(){
     if(!pick)return msg('si-msg-who','Pick your name.');
-    var name=($('si-name').value||'').trim(), tc=($('si-tourcode').value||'').trim();
+    var name=($('si-name').value||'').trim(), pin=($('si-pin1').value||'').trim(), pin2=($('si-pin2').value||'').trim(), adm=($('si-admcode').value||'').trim();
     if(pick.id===null&&!name)return msg('si-msg-who','Type your name.');
-    if(pick.is_admin&&!tc)return msg('si-msg-who','This name needs its own code.');
+    var s=pick.status;
+    if(pick.id){
+      if(!s)return msg('si-msg-who','Hang on, still checking that name.');
+      if(s.claimed&&s.locked)return msg('si-msg-who','This name is locked for 15 minutes. Ask Steve to reset it if you’ve forgotten your PIN.');
+      if(!/^[0-9]{4}$/.test(pin))return msg('si-msg-who','Your PIN is 4 digits.');
+      if(!s.claimed&&pin!==pin2)return msg('si-msg-who','The two PINs don’t match.');
+      if(!s.claimed&&s.admin&&!adm)return msg('si-msg-who','Claiming this name needs your admin code too.');
+    }
     var db=FTV.db;
     var go=db.auth.getSession().then(function(r){
       if(r.data&&r.data.session)return r.data.session;
       return db.auth.signInAnonymously().then(function(x){if(x.error)throw x.error;return x.data.session});
-    }).then(function(s){
-      FTV.uid=s.user.id;
-      return db.rpc('ftv_join',{p_code:code,p_player:pick.id,p_name:pick.id?null:name,p_tour_code:(pick.team||pick.is_admin)&&tc?tc:null});
-    }).then(function(r){if(r.error)throw r.error;return r.data});
+    }).then(function(ss){
+      FTV.uid=ss.user.id;
+      if(pick.id&&!(s&&s.legacy))return db.rpc('ftv_sign_in',{p_code:code,p_player:pick.id,p_pin:pin,p_admin_code:adm||null});
+      return db.rpc('ftv_join',{p_code:code,p_player:pick.id,p_name:pick.id?null:name,p_tour_code:null});
+    }).then(function(r){if(r.error)throw r.error;if(r.data&&r.data.error)throw new Error(r.data.error);return r.data});
     busy(go).then(function(me){
-      FTV.me=me;$('si-tourcode').value='';$('si-code').value='';
+      FTV.me=me;['si-pin1','si-pin2','si-admcode','si-code'].forEach(function(i){$(i).value=''});if(pick)pick.status=null;
       try{localStorage.setItem('ftv-seen-signin','1')}catch(e){}
       emit();fillDone(true);show('done');
     }).catch(function(e){
       var t=errText(e);show('who');
-      if(/bad_tour_code/.test(t))msg('si-msg-who',pick&&pick.is_admin?'Wrong code for this name.':'Wrong Tour V code. Try again, or ask Steve.');
+      if(/bad_pin_format/.test(t))msg('si-msg-who','Your PIN is 4 digits.');
+      else if(/bad_pin/.test(t))msg('si-msg-who','Wrong PIN. 5 wrong tries locks this name for 15 minutes.');
+      else if(/locked/.test(t)){if(pick&&pick.status)pick.status.locked=true;renderPin();msg('si-msg-who','Too many wrong tries. Locked for 15 minutes. Ask Steve to reset it if you’ve forgotten it.')}
+      else if(/bad_tour_code/.test(t))msg('si-msg-who','Wrong admin code for this name.');
       else if(/bad_code/.test(t)){show('code');msg('si-msg-code','That code has changed. Enter the new one.')}
       else if(/anonymous/i.test(t))msg('si-msg-who','Sign-in isn’t switched on yet. Tell Steve to turn on anonymous sign-ins in Supabase.');
       else msg('si-msg-who','Couldn’t sign you in. Check your signal and try again.');
@@ -2164,7 +2347,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     $('si-done-what').textContent=m.tour_access
       ?'You can film dops, add photos and enter live scores. This phone will remember you.'
       :'You can film dops and add photos. This phone will remember you.';
-    $('si-unlock').hidden=!(m.team&&!m.tour_access);
+    if(m.player_id&&m.claimed)$('si-done-what').textContent+=' Your profile is claimed and PIN-protected.';
+    $('si-unlock').hidden=true;
+    $('si-claim').hidden=!(m.player_id&&!m.claimed&&!m.is_test);
     if(m.is_test){$('si-done-team').textContent='Test profile';$('si-done-team').className='chip wait';$('si-done-what').textContent='You’re on the test profile: a regular punter with no admin powers. Switch back below.'}
     var canTest=!!(m.is_admin||m.test_of);
     $('si-test').hidden=!canTest;
@@ -3542,6 +3727,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function key(d,h,p){return d+'|'+h+'|'+p}
   function shots(d,h,p){var v=D.shots[key(d,h,p)];return v==null?null:v}
   function pts(d,h,p){var s=shots(d,h,p);if(s==null)return null;if(s===0)return 0;return Math.max(0,2+par(d,h)-(s-recv(p,d,h)))}
+  window.FTV_PTS=function(id,d){var t=0,n=0;for(var h=1;h<=18;h++){var v=pts(d,h,id);if(v!=null){t+=v;n++}}return n?{pts:t,holes:n}:null};
   function fbPlayers(d,f){
     var ids=D.pairs.filter(function(x){return x.day===d&&x.fourball===f}).map(function(x){return x.player_id});
     return ids.filter(function(i){return T(i)==='in'}).sort().concat(ids.filter(function(i){return T(i)==='co'}).sort());
@@ -3885,6 +4071,279 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
 
 <script>
+/* ---------- Profiles (script 014): claim with a PIN, edit your name + photo, request other changes; Steve's Desk; Players tab reads live profile data ---------- */
+(function(){
+  function $(id){return document.getElementById(id)}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+  var FTV=window.FTV;if(!FTV)return;
+  var db=FTV.db, me=null, players=[], byId={}, reqs=[], urls={}, started=false;
+  var FIELDS=[['short','Tour name','The name the app uses for you',20],['nickname','Nickname','Locked by the social committee. Try your luck.',40],['hometown','Hometown','Area, province (e.g. Sandton, GP)',40],['bio','Bio','The banter bio on the Players tab',400]];
+  var FLABEL={short:'Tour name',nickname:'Nickname',hometown:'Hometown',bio:'Bio'};
+  var REC={steve:'2–2',nic:'0–4',luke:'0–0',brandon:'1–2',guy:'2–1',mitch:'0–3',jay:'2–1',rich:'2–0'};
+  function say(id,t,ok){var v=$(id);if(!v)return;v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||'';if(t&&ok)setTimeout(function(){if(v.textContent===t){v.className='verdict';v.textContent=''}},5000)}
+  function Rk(n){n=Math.round(n||0);var a=Math.abs(n),s=n<0?'-R':'R';if(a>=1e6)return s+(+(a/1e6).toFixed(2))+'m';if(a>=1e3)return s+(+(a/1e3).toFixed(a%1e3?1:0))+'k';return s+a}
+  function Rm(n){n=Math.round(n||0);return (n<0?'-R':'R')+Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+  function initials(p){var n=((p&&(p.first_name||p.name))||'?')+' '+((p&&p.surname)||'');return n.split(/\s+/).filter(Boolean).map(function(w){return w[0]}).join('').slice(0,2).toUpperCase()}
+  function nm(id){var p=byId[id];return p?(p.short||p.name):id}
+  function when(t){try{return new Date(t).toLocaleString('en-ZA',{weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Africa/Johannesburg'})}catch(e){return ''}}
+  function errMsg(e){var c=String((e&&(e.message||e.details))||e||'');
+    if(/bad_pin_format/.test(c))return 'A PIN is 4 digits.';
+    if(/already_claimed/.test(c))return 'This profile has already been claimed.';
+    if(/bad_name/.test(c))return 'Give it a first name (40 characters max).';
+    if(/bad_request/.test(c))return 'That’s too long or empty.';
+    if(/not_pending/.test(c))return 'That one’s already been dealt with.';
+    if(/not_allowed/.test(c))return 'You can’t do that.';
+    if(/function|schema cache|does not exist/.test(c))return 'This bit switches on once Steve runs script 014.';
+    return 'That didn’t work. Check your signal and try again.'}
+  function armBtn(b,label,fn){var armed=false,tm=null;b.addEventListener('click',function(){
+    if(!armed){armed=true;b.classList.add('arm');b.textContent='Sure? Tap again';tm=setTimeout(function(){armed=false;b.classList.remove('arm');b.textContent=label},3500);return}
+    clearTimeout(tm);armed=false;b.classList.remove('arm');b.textContent=label;fn()})}
+
+  /* ----- photos (private bucket, signed links) ----- */
+  function signAll(){
+    var need=players.filter(function(p){return p.photo_path&&!urls[p.photo_path]}).map(function(p){return p.photo_path});
+    if(!need.length||!me)return Promise.resolve();
+    return db.storage.from('avatars').createSignedUrls(need,60*60*6).then(function(r){(r.data||[]).forEach(function(x){if(x.signedUrl)urls[x.path]=x.signedUrl})}).catch(function(){});
+  }
+  function avatar(box,p){
+    box.textContent='';var u=p&&p.photo_path&&urls[p.photo_path];
+    if(u){var i=el('img');i.src=u;i.alt='';box.appendChild(i)}else box.appendChild(el('span',null,initials(p)));
+  }
+  function shrink(file,max){
+    return new Promise(function(res,rej){var u=URL.createObjectURL(file),img=new Image();img.onload=function(){
+      var w=img.naturalWidth,h=img.naturalHeight,s=Math.min(w,h),c=document.createElement('canvas');c.width=c.height=Math.min(max,s);
+      c.getContext('2d').drawImage(img,(w-s)/2,(h-s)/2,s,s,0,0,c.width,c.height);URL.revokeObjectURL(u);
+      c.toBlob(function(b){b?res(b):rej(new Error('encode'))},'image/jpeg',.85)};img.onerror=function(){rej(new Error('not_image'))};img.src=u});
+  }
+  $('pf-photo-btn').addEventListener('click',function(){$('pf-photo-in').click()});
+  $('pf-photo-in').addEventListener('change',function(){
+    var f=this.files&&this.files[0];this.value='';if(!f||!me||!me.player_id)return;
+    var b=$('pf-photo-btn');b.disabled=true;b.textContent='Uploading…';
+    var path=me.player_id+'/'+Date.now()+'.jpg';
+    shrink(f,480).then(function(blob){return db.storage.from('avatars').upload(path,blob,{contentType:'image/jpeg',upsert:false})})
+      .then(function(r){if(r.error)throw r.error;return db.rpc('ftv_set_photo',{p_path:path})})
+      .then(function(r){if(r.error)throw r.error;FTV.me=r.data;say('pf-msg','Looking sharp. Photo updated.',true);load()})
+      .catch(function(e){say('pf-msg',/not_image/.test(String(e&&e.message))?'That’s not a photo.':errMsg(e))})
+      .then(function(){b.disabled=false;b.textContent='Change photo'});
+  });
+
+  /* ----- profile ----- */
+  function renderProfile(){
+    var signed=!!me, named=!!(me&&me.player_id);
+    $('pf-gate').hidden=signed;$('pf-guest').hidden=!(signed&&!named);$('pf-body').hidden=!named;
+    if(!named)return;
+    var p=byId[me.player_id]||{id:me.player_id,name:me.name,short:me.short,first_name:me.first_name,surname:me.surname,nickname:me.nickname,team:me.team,photo_path:me.photo_path};
+    avatar($('pf-av'),p);$('pf-av').className='pf-av '+(p.team||'past');
+    $('pf-nick').textContent=p.nickname?'“'+p.nickname+'”':'';
+    $('pf-name').textContent=p.name||'';
+    var ch=$('pf-chips');ch.textContent='';
+    ch.appendChild(el('span','chip '+(p.team||'wait'),p.team==='in'?'Inland':p.team==='co'?'Coastal':me.is_test?'Test profile':'Past tourist'));
+    if(me.is_admin)ch.appendChild(el('span','chip wait','Admin'));
+    if(me.is_captain)ch.appendChild(el('span','chip wait','Captain'));
+    if(me.is_exec)ch.appendChild(el('span','chip wait','Exec'));
+    ch.appendChild(el('span','chip '+(me.claimed?'ok':'wait'),me.claimed?'PIN set':'Not claimed'));
+    $('pf-claim').hidden=!!(me.claimed||me.is_test);
+    $('pf-pin-card').hidden=!me.claimed;
+    if(document.activeElement!==$('pf-first'))$('pf-first').value=p.first_name||'';
+    if(document.activeElement!==$('pf-sur'))$('pf-sur').value=p.surname||'';
+    renderRows(p);renderReqs();renderStats(p);
+  }
+  var openField=null;
+  function renderRows(p){
+    var ul=$('pf-rows');if(ul.contains(document.activeElement))return;ul.textContent='';
+    FIELDS.forEach(function(f){
+      var li=el('li'),top=el('div','pf-row-top');
+      var lab=el('div');lab.appendChild(el('span','eyebrow',f[1]));lab.appendChild(el('p',f[0]==='bio'?'pf-val bio':'pf-val',p[f[0]]||'Not set'));top.appendChild(lab);
+      var pend=reqs.filter(function(r){return r.field===f[0]&&r.status==='pending'})[0];
+      if(pend)top.appendChild(el('span','chip wait','Pending'));
+      else if(!me.is_test){var b=el('button','mini','Apply for change');b.type='button';b.addEventListener('click',function(){openField=openField===f[0]?null:f[0];renderRows(p)});top.appendChild(b)}
+      li.appendChild(top);
+      if(openField===f[0]&&!pend){
+        var form=el('div','pf-req-form');
+        var inp=el(f[0]==='bio'?'textarea':'input','txt-in');inp.maxLength=f[3];inp.value=p[f[0]]||'';if(f[0]==='bio')inp.rows=3;
+        inp.setAttribute('aria-label','New '+f[1].toLowerCase());
+        var note=el('input','txt-in');note.placeholder='Why? (optional, Steve may laugh)';note.maxLength=300;
+        form.appendChild(el('small','fine',f[2]));form.appendChild(inp);form.appendChild(note);
+        var go=el('button','btn','Send to Steve');go.type='button';
+        go.addEventListener('click',function(){
+          var v=inp.value.trim();if(!v)return say('pf-msg','Type the new '+f[1].toLowerCase()+'.');
+          if(v===(p[f[0]]||''))return say('pf-msg','That’s the same as what you’ve got.');
+          go.disabled=true;
+          db.rpc('ftv_request_change',{p_field:f[0],p_value:v,p_note:note.value}).then(function(r){go.disabled=false;
+            if(r.error)return say('pf-msg',errMsg(r.error));openField=null;say('pf-msg','Sent. Steve will approve it or laugh at it.',true);load()});
+        });
+        form.appendChild(go);li.appendChild(form);
+      }
+      ul.appendChild(li);
+    });
+    var hc=el('li'),top2=el('div','pf-row-top'),lab2=el('div');
+    lab2.appendChild(el('span','eyebrow','Handicap'));lab2.appendChild(el('p','pf-val',p.handicap!=null?String(+p.handicap):'—'));
+    top2.appendChild(lab2);top2.appendChild(el('small','fine','Set by the organisers'));hc.appendChild(top2);ul.appendChild(hc);
+  }
+  function renderReqs(){
+    var ul=$('pf-reqs');ul.textContent='';var list=reqs.slice(0,6);
+    $('pf-reqs-wrap').hidden=!list.length;
+    list.forEach(function(r){
+      var li=el('li'),t=el('div');
+      t.appendChild(el('b',null,FLABEL[r.field]+': '));t.appendChild(document.createTextNode(r.new_value.length>60?r.new_value.slice(0,60)+'…':r.new_value));
+      li.appendChild(t);
+      var row=el('div','pf-req-meta');
+      row.appendChild(el('span','chip '+(r.status==='approved'?'ok':r.status==='declined'?'no':'wait'),{pending:'Waiting on Steve',approved:'Approved',declined:'Declined',withdrawn:'Withdrawn'}[r.status]));
+      row.appendChild(el('small','fine',when(r.created_at)));
+      if(r.status==='pending'){var w=el('button','mini','Withdraw');w.type='button';row.appendChild(w);armBtn(w,'Withdraw',function(){db.rpc('ftv_request_withdraw',{p_id:r.id}).then(function(x){if(x.error)say('pf-msg',errMsg(x.error));load()})})}
+      li.appendChild(row);ul.appendChild(li);
+    });
+  }
+  var stats=null;
+  function stat(box,big,label,sub){var s=el('div','stat');s.appendChild(el('span','rec',big));s.appendChild(el('b',null,label));if(sub)s.appendChild(el('p',null,sub));box.appendChild(s)}
+  function renderStats(p){
+    var box=$('pf-stats');box.textContent='';
+    if(REC[p.id])stat(box,REC[p.id],'Tour record','Wins–losses, Tours I–IV');
+    if(p.team&&window.FTV_PTS){
+      ['fri','sat'].forEach(function(d){var x=window.FTV_PTS(p.id,d);stat(box,x?String(x.pts):'—',d==='fri'?'Friday points':'Saturday points',x?(x.holes+' holes · Stableford'):'Not teed off yet')});
+    }
+    if(stats){
+      if(stats.wallet!=null)stat(box,Rk(stats.wallet),'Bookie wallet',stats.bets+(stats.bets===1?' bet placed':' bets placed'));
+      if(stats.spins)stat(box,(stats.casino_net>0?'+':'')+Rk(stats.casino_net),'At the Casino',stats.spins+(stats.spins===1?' spin':' spins'));
+      stat(box,String(stats.dops),'Dops filmed','On the dop wall');
+      if(stats.pitches)stat(box,String(stats.pitches),'Markets pitched','Approved by Steve');
+    }
+    try{var pg=JSON.parse(localStorage.getItem('ftv-putt')||'null');if(pg&&pg.tries)stat(box,String(pg.best),'Best putting streak','Practice Green, this phone')}catch(e){}
+  }
+  $('pf-claim-go').addEventListener('click',function(){
+    var a=$('pf-c1').value.trim(),b=$('pf-c2').value.trim();
+    if(!/^[0-9]{4}$/.test(a))return say('pf-msg','A PIN is 4 digits.');
+    if(a!==b)return say('pf-msg','The two PINs don’t match.');
+    var btn=this;btn.disabled=true;
+    db.rpc('ftv_claim',{p_pin:a}).then(function(r){btn.disabled=false;if(r.error)return say('pf-msg',errMsg(r.error));
+      $('pf-c1').value=$('pf-c2').value='';FTV.me=r.data;FTV.emit&&FTV.emit();say('pf-msg','Claimed. Only your PIN signs in as you now.',true);start(FTV.me)});
+  });
+  $('pf-name-save').addEventListener('click',function(){
+    var btn=this;btn.disabled=true;
+    db.rpc('ftv_update_me',{p_first:$('pf-first').value,p_surname:$('pf-sur').value}).then(function(r){btn.disabled=false;
+      if(r.error)return say('pf-msg',errMsg(r.error));FTV.me=r.data;say('pf-msg','Name saved.',true);load()});
+  });
+  $('pf-pin-go').addEventListener('click',function(){
+    var o=$('pf-p0').value.trim(),a=$('pf-p1').value.trim(),b=$('pf-p2').value.trim();
+    if(!/^[0-9]{4}$/.test(a))return say('pf-pin-msg','A PIN is 4 digits.');
+    if(a!==b)return say('pf-pin-msg','The new PINs don’t match.');
+    var btn=this;btn.disabled=true;
+    db.rpc('ftv_change_pin',{p_old:o,p_new:a}).then(function(r){btn.disabled=false;
+      if(r.error)return say('pf-pin-msg',errMsg(r.error));
+      if(r.data==='ok'){['pf-p0','pf-p1','pf-p2'].forEach(function(i){$(i).value=''});return say('pf-pin-msg','PIN changed.',true)}
+      say('pf-pin-msg',r.data==='locked'?'Too many wrong tries. Locked for 15 minutes.':'Current PIN is wrong.')});
+  });
+  $('pf-gate-btn').addEventListener('click',function(){FTV.open()});
+
+  /* ----- Steve's Desk ----- */
+  var desk={reqs:[],pitches:[],markets:[],claims:[]};
+  function tile(box,n,label,href){var a=el(href?'a':'div','dk-tile'+(n?' hot':''));if(href)a.href=href;a.appendChild(el('b',null,String(n)));a.appendChild(el('span',null,label));box.appendChild(a)}
+  function renderDesk(){
+    var admin=!!(me&&me.is_admin);
+    $('dk-gate').hidden=admin;$('dk-body').hidden=!admin;
+    var nav=document.querySelector('nav.tabs a[href="#desk"]');
+    var pendReq=desk.reqs.filter(function(r){return r.status==='pending'}),pendPitch=desk.pitches.filter(function(s){return s.status==='pending'});
+    var toSettle=desk.markets.filter(function(m){return (m.status==='closed'||(m.status==='open'&&m.closes_at&&new Date(m.closes_at)<=Date.now()))});
+    var unclaimed=desk.claims.filter(function(c){return !c.claimed&&byId[c.player_id]&&byId[c.player_id].team});
+    var todo=pendReq.length+pendPitch.length+toSettle.length;
+    if(nav){nav.hidden=!admin;var bdg=nav.querySelector('.nav-badge');if(!bdg){bdg=el('span','nav-badge');nav.appendChild(bdg)}bdg.textContent=todo?String(todo):'';bdg.hidden=!todo}
+    if(!admin)return;
+    var tl=$('dk-tiles');tl.textContent='';
+    tile(tl,pendReq.length,'Profile changes','#desk');tile(tl,pendPitch.length,'Market pitches','#desk');tile(tl,toSettle.length,'To settle','#bookie');tile(tl,unclaimed.length,'Unclaimed of the 8','#desk');
+    // requests
+    var ul=$('dk-reqs');ul.textContent='';
+    $('dk-req-n').textContent=pendReq.length?pendReq.length+' waiting':'Nothing waiting';
+    if(!pendReq.length)ul.appendChild(el('li','fine','No profile changes waiting.'));
+    pendReq.forEach(function(r){
+      var li=el('li'),h=el('div','dk-h');h.appendChild(el('b',null,nm(r.player_id)));h.appendChild(el('span','chip wait',FLABEL[r.field]));h.appendChild(el('small','fine',when(r.created_at)));li.appendChild(h);
+      var ch=el('div','dk-change');ch.appendChild(el('span','old',r.old_value||'(not set)'));ch.appendChild(el('span','arrow','→'));ch.appendChild(el('span','new',r.new_value));li.appendChild(ch);
+      if(r.note)li.appendChild(el('p','fine','“'+r.note+'”'));
+      var row=el('div','dk-btns');var ok=el('button','btn','Approve');ok.type='button';var no=el('button','mini','Decline');no.type='button';row.appendChild(ok);row.appendChild(no);li.appendChild(row);
+      ok.addEventListener('click',function(){ok.disabled=true;db.rpc('ftv_request_decide',{p_id:r.id,p_approve:true}).then(function(x){if(x.error)say('dk-msg',errMsg(x.error));else say('dk-msg','Approved: '+nm(r.player_id)+'’s '+FLABEL[r.field].toLowerCase()+' updated.',true);load()})});
+      armBtn(no,'Decline',function(){db.rpc('ftv_request_decide',{p_id:r.id,p_approve:false}).then(function(x){if(x.error)say('dk-msg',errMsg(x.error));else say('dk-msg','Declined.',true);load()})});
+      ul.appendChild(li);
+    });
+    // pitches
+    var pl=$('dk-pitches');pl.textContent='';
+    $('dk-pitch-n').textContent=pendPitch.length?pendPitch.length+' waiting':'Nothing waiting';
+    if(!pendPitch.length)pl.appendChild(el('li','fine','No market pitches waiting.'));
+    pendPitch.forEach(function(s){
+      var li=el('li'),h=el('div','dk-h');h.appendChild(el('b',null,nm(s.player_id)));h.appendChild(el('span','chip wait','R50k paid'));h.appendChild(el('small','fine',when(s.created_at)));li.appendChild(h);
+      li.appendChild(el('p','dk-q',s.question));
+      var o=el('p','fine');s.options.forEach(function(a,i){if(i)o.appendChild(document.createTextNode(' · '));o.appendChild(i===s.pick?el('b',null,a+' ✓'):document.createTextNode(a))});li.appendChild(o);
+      if(s.detail)li.appendChild(el('p','fine',s.detail));
+      var row=el('div','dk-btns');var ok=el('button','btn','Approve & go live');ok.type='button';var no=el('button','mini','Decline');no.type='button';row.appendChild(ok);row.appendChild(no);li.appendChild(row);
+      ok.addEventListener('click',function(){ok.disabled=true;db.rpc('ftv_suggest_decide',{p_id:s.id,p_approve:true}).then(function(x){if(x.error)say('dk-msg',errMsg(x.error));else say('dk-msg','Live in the Bookie, on default odds. Edit the odds there.',true);load()})});
+      armBtn(no,'Decline',function(){db.rpc('ftv_suggest_decide',{p_id:s.id,p_approve:false}).then(function(x){if(x.error)say('dk-msg',errMsg(x.error));else say('dk-msg','Declined. '+nm(s.player_id)+'’s R50k is gone.',true);load()})});
+      pl.appendChild(li);
+    });
+    // to settle
+    var sl=$('dk-settle');sl.textContent='';
+    $('dk-settle-n').textContent=toSettle.length?toSettle.length+' need a result':'All squared away';
+    if(!toSettle.length)sl.appendChild(el('li','fine','No markets waiting on a result.'));
+    toSettle.forEach(function(m){var li=el('li'),h=el('div','dk-h');h.appendChild(el('b',null,m.question));li.appendChild(h);var a=el('a','pl-go','Post the result in the Bookie →');a.href='#bookie';li.appendChild(a);sl.appendChild(li)});
+    // claims
+    var cl=$('dk-claims');cl.textContent='';
+    $('dk-claim-n').textContent=desk.claims.filter(function(c){return c.claimed}).length+' of '+desk.claims.length+' claimed';
+    desk.claims.forEach(function(c){
+      var p=byId[c.player_id];if(!p)return;
+      var li=el('li','dk-claim'),h=el('div','dk-h');h.appendChild(el('b',null,p.name));
+      h.appendChild(el('span','chip '+(c.locked?'no':c.claimed?'ok':'wait'),c.locked?'Locked out':c.claimed?'Claimed':'Not claimed'));
+      if(c.claimed&&c.set_at)h.appendChild(el('small','fine',when(c.set_at)));
+      li.appendChild(h);
+      if(c.claimed&&c.player_id!==me.player_id){var r=el('button','mini','Reset PIN');r.type='button';li.appendChild(r);
+        armBtn(r,'Reset PIN',function(){db.rpc('ftv_reset_pin',{p_player:c.player_id}).then(function(x){if(x.error)say('dk-msg',errMsg(x.error));else say('dk-msg',p.short+'’s PIN is wiped. They can claim again.',true);load()})})}
+      cl.appendChild(li);
+    });
+  }
+
+  /* ----- Players tab: live names, nicknames, hometowns, bios and photos ----- */
+  function renderPlayersTab(){
+    [].slice.call(document.querySelectorAll('#players article[data-pid]')).forEach(function(a){
+      var p=byId[a.dataset.pid];if(!p)return;
+      var nk=a.querySelector('.nick');if(nk&&p.nickname)nk.textContent='“'+p.nickname+'”';
+      var h=a.querySelector('h3');if(h&&h.firstChild&&h.firstChild.nodeType===3)h.firstChild.textContent=p.name+' ';
+      var fr=a.querySelector('.from');if(fr&&fr.firstChild&&fr.firstChild.nodeType===3&&p.hometown)fr.firstChild.textContent=(p.team==='in'?'Inland':'Coastal')+' · '+p.hometown;
+      var bio=a.querySelector('p');if(bio&&p.bio)bio.textContent=p.bio;
+      var badge=a.querySelector('.mono-badge');
+      if(badge){var u=p.photo_path&&urls[p.photo_path];if(u){badge.textContent='';var i=el('img');i.src=u;i.alt='';badge.appendChild(i);badge.classList.add('photo')}else{badge.classList.remove('photo');badge.textContent=initials(p)}}
+    });
+  }
+
+  function load(){
+    if(!db)return;
+    var q=[db.from('players').select('*').order('sort')];
+    q.push(me&&me.player_id?db.from('profile_requests').select('*').eq('player_id',me.player_id).order('created_at',{ascending:false}).limit(20):Promise.resolve({data:[]}));
+    q.push(me&&me.player_id?db.rpc('ftv_profile_stats',{p_player:me.player_id}):Promise.resolve({data:null}));
+    if(me&&me.is_admin){
+      q.push(db.from('profile_requests').select('*').eq('status','pending').order('created_at'));
+      q.push(db.from('market_suggestions').select('*').eq('status','pending').order('created_at'));
+      q.push(db.from('markets').select('id,question,status,closes_at').in('status',['open','closed']));
+      q.push(db.rpc('ftv_claims'));
+    }
+    Promise.all(q).then(function(r){
+      if(!r[0].error){players=(r[0].data||[]).filter(function(p){return !p.is_test||(me&&me.player_id===p.id)});byId={};players.forEach(function(p){byId[p.id]=p})}
+      reqs=r[1].error?[]:(r[1].data||[]);stats=r[2].error?null:r[2].data;
+      if(me&&me.is_admin){desk.reqs=r[3].error?[]:r[3].data||[];desk.pitches=r[4].error?[]:r[4].data||[];desk.markets=r[5].error?[]:r[5].data||[];desk.claims=r[6].error?[]:r[6].data||[]}
+      return signAll();
+    }).then(function(){renderProfile();renderDesk();renderPlayersTab()});
+  }
+  function start(m){
+    me=m;db=FTV.db;
+    // exec tabs follow the profile's exec flag
+    renderProfile();renderDesk();
+    if(!db)return;
+    load();
+    if(!started){started=true;
+      try{var ch=db.channel('profiles-live');['players','profile_requests','market_suggestions','markets'].forEach(function(t){ch.on('postgres_changes',{event:'*',schema:'public',table:t},function(){load()})});ch.subscribe()}catch(e){}
+      document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
+      window.addEventListener('hashchange',function(){if(location.hash==='#profile'||location.hash==='#desk')load()});
+    }
+  }
+  FTV.on(start);
+})();
+</script>
+<script>
 /* ---------- Exec-only tabs (Planning, Fines): visible to Steve, Nic, Brandon and Guy, flagged as hidden ---------- */
 (function(){
   var EXEC=['steve','nic','brandon','guy'];
@@ -3900,8 +4359,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     gate.appendChild(b);sec.insertBefore(gate,sec.firstChild);
   });
   function apply(m){
-    var ok=!!(m&&EXEC.indexOf(m.player_id)>-1);
-    [].slice.call(document.querySelectorAll('nav.tabs a.exec-nav')).forEach(function(a){a.hidden=!ok});
+    var ok=!!(m&&(m.is_exec||EXEC.indexOf(m.player_id)>-1));
+    [].slice.call(document.querySelectorAll('nav.tabs a.exec-nav:not(.desk-nav)')).forEach(function(a){a.hidden=!ok});
     secs.forEach(function(sec){sec.classList.toggle('exec-locked',!ok)});
   }
   apply(null);
