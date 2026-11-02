@@ -16,6 +16,7 @@ The old Claude artifact link is retired and only shows a "We've moved" banner. M
 - Codes live in Supabase (`tour_secret`), never in this repo.
 - Installable via Add to Home Screen (`manifest.webmanifest`, `icons/`).
 - Push to `main` and the site updates in about a minute.
+- Supabase project id `hlzmprtoofinzvzinvtf`. When the Supabase connector is attached, run non-destructive SQL directly with `execute_sql` (creates, inserts, `create or replace`). `apply_migration` and anything with drop/delete ask for a confirmation that Steve's mobile app auto-cancels, so hand him those as a script file to paste into the SQL Editor. Always keep the matching `supabase/0NN_*.sql` file in the repo up to date.
 
 ## Design rules (keep it looking paid-for)
 - Use the colour and font tokens in the `:root` block; never hard-code a colour that only works in light or dark mode.
