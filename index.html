@@ -1840,8 +1840,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <input id="si-name" class="code-in" style="letter-spacing:0;font-family:var(--f-body)" autocomplete="name">
       </div>
       <div class="si-sub" id="si-tour" hidden>
-        <label for="si-tourcode">Tour V code <span class="fine">(optional)</span></label>
-        <p class="fine">You're on Tour V, <span id="si-tour-name"></span>. The Tour V code lets this phone enter live scores on the golf days. Leave it blank if you don't have it yet.</p>
+        <label for="si-tourcode" id="si-tour-lab">Tour V code <span class="fine">(optional)</span></label>
+        <p class="fine" id="si-tour-what">You're on Tour V, <span id="si-tour-name"></span>. The Tour V code lets this phone enter live scores on the golf days. Leave it blank if you don't have it yet.</p>
         <input id="si-tourcode" class="code-in" type="password" inputmode="numeric" autocomplete="off">
       </div>
       <div class="verdict" id="si-msg-who" role="status" aria-live="polite"></div>
@@ -2096,7 +2096,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   /* step 3: who are you */
   function loadPeople(){
     if(people.length)return Promise.resolve();
-    return FTV.db.from('players').select('id,name,short,team,sort').order('sort').then(function(r){if(r.error)throw r.error;people=(r.data||[]).filter(function(p){return !/_test$/.test(p.id)})});
+    return FTV.db.from('players').select('id,name,short,team,sort,is_admin').order('sort').then(function(r){if(r.error)throw r.error;people=(r.data||[]).filter(function(p){return !/_test$/.test(p.id)})});
   }
   function renderPeople(){
     var wrap=$('si-people');wrap.textContent='';
@@ -2121,18 +2121,24 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     $('si-other').hidden=!(pick&&pick.id===null);
     $('si-tour').hidden=!(pick&&pick.team);
     if(pick&&pick.team)$('si-tour-name').textContent=pick.short;
+    var adm=!!(pick&&pick.is_admin);
+    $('si-tour').hidden=!(pick&&(pick.team||adm));
+    $('si-tour-lab').innerHTML=adm?'Your own code <span class="fine">(required)</span>':'Tour V code <span class="fine">(optional)</span>';
+    if(adm)$('si-tour-what').textContent='This name has admin powers, so it needs its own code. The shared Tour V code won’t work here.';
+    else{$('si-tour-what').textContent='';$('si-tour-what').append('You’re on Tour V, ',Object.assign(document.createElement('span'),{id:'si-tour-name',textContent:pick&&pick.short||''}),'. The Tour V code lets this phone enter live scores on the golf days. Leave it blank if you don’t have it yet.')}
   }
   $('si-join').addEventListener('click',function(){
     if(!pick)return msg('si-msg-who','Pick your name.');
     var name=($('si-name').value||'').trim(), tc=($('si-tourcode').value||'').trim();
     if(pick.id===null&&!name)return msg('si-msg-who','Type your name.');
+    if(pick.is_admin&&!tc)return msg('si-msg-who','This name needs its own code.');
     var db=FTV.db;
     var go=db.auth.getSession().then(function(r){
       if(r.data&&r.data.session)return r.data.session;
       return db.auth.signInAnonymously().then(function(x){if(x.error)throw x.error;return x.data.session});
     }).then(function(s){
       FTV.uid=s.user.id;
-      return db.rpc('ftv_join',{p_code:code,p_player:pick.id,p_name:pick.id?null:name,p_tour_code:pick.team&&tc?tc:null});
+      return db.rpc('ftv_join',{p_code:code,p_player:pick.id,p_name:pick.id?null:name,p_tour_code:(pick.team||pick.is_admin)&&tc?tc:null});
     }).then(function(r){if(r.error)throw r.error;return r.data});
     busy(go).then(function(me){
       FTV.me=me;$('si-tourcode').value='';$('si-code').value='';
@@ -2140,7 +2146,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       emit();fillDone(true);show('done');
     }).catch(function(e){
       var t=errText(e);show('who');
-      if(/bad_tour_code/.test(t))msg('si-msg-who','Wrong Tour V code. Try again, or ask Steve.');
+      if(/bad_tour_code/.test(t))msg('si-msg-who',pick&&pick.is_admin?'Wrong code for this name.':'Wrong Tour V code. Try again, or ask Steve.');
       else if(/bad_code/.test(t)){show('code');msg('si-msg-code','That code has changed. Enter the new one.')}
       else if(/anonymous/i.test(t))msg('si-msg-who','Sign-in isn’t switched on yet. Tell Steve to turn on anonymous sign-ins in Supabase.');
       else msg('si-msg-who','Couldn’t sign you in. Check your signal and try again.');
