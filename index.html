@@ -283,6 +283,10 @@ button.bk-opt:disabled{cursor:default}
 .pg-msg.warn{color:var(--tbc)}
 .pg-msg.bong{color:var(--bad)}
 
+.test-bar{background:var(--flag);color:#1a1405}
+.test-bar .wrap{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;padding-top:7px;padding-bottom:7px;font-size:.85rem}
+.test-bar b{font:800 .72rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+.acct-i.test{background:#7f6110}
 /* ---------- Schedule timeline ---------- */
 .tl{display:flex;flex-direction:column;gap:22px}
 .tl-day{display:flex;flex-direction:column;gap:10px}
@@ -908,6 +912,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <button type="button" class="acct" id="acct-btn">Sign in</button>
   </div>
 </header>
+
+<div class="test-bar" id="test-bar" hidden><div class="wrap"><b>Test profile</b><span>You’re Steve T. Switch back in your account.</span></div></div>
 
 <nav class="tabs" aria-label="Sections">
   <div class="wrap">
@@ -1870,6 +1876,13 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <div class="verdict" id="si-msg-unlock" role="status" aria-live="polite"></div>
         <button type="button" class="btn" id="si-unlock-go">Unlock scoring</button>
       </div>
+      <div class="si-sub" id="si-test" hidden>
+        <span class="eyebrow">Steve only · testing</span>
+        <p class="fine" id="si-test-what">Switch this phone to a regular punter called “Steve T” to see the app the way the boys do. Its bets and spins are hidden from everyone else.</p>
+        <button type="button" class="btn" id="si-test-go">Switch to test profile</button>
+        <button type="button" class="mini" id="si-test-reset" style="align-self:flex-start">Reset test wallet</button>
+        <div class="verdict" id="si-msg-test" role="status" aria-live="polite"></div>
+      </div>
       <div class="si-btns"><button type="button" class="btn ghost" id="si-out">Sign out</button><button type="button" class="btn big" id="si-done-close">Let's go</button></div>
     </div>
 
@@ -1985,7 +1998,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   if(window.supabase&&CFG.supabaseUrl&&!/YOUR-/.test(CFG.supabaseUrl+CFG.supabaseKey)){
     FTV.db=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseKey,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'ftv-auth'}});
   }
-  function emit(){FTV.ready=true;renderAcct();FTV.subs.forEach(function(f){try{f(FTV.me)}catch(e){}})}
+  function emit(){FTV.ready=true;renderAcct();try{document.getElementById('test-bar').hidden=!(FTV.me&&FTV.me.is_test)}catch(e){}FTV.subs.forEach(function(f){try{f(FTV.me)}catch(e){}})}
   function loadMe(){
     if(!FTV.db){emit();return Promise.resolve()}
     return FTV.db.auth.getSession().then(function(r){
@@ -2001,7 +2014,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function renderAcct(){
     var m=FTV.me;acct.textContent='';
     if(m){
-      var i=document.createElement('span');i.className='acct-i '+(m.team||'past');i.textContent=initials(m.name);
+      var i=document.createElement('span');i.className='acct-i '+(m.is_test?'test':(m.team||'past'));i.textContent=initials(m.name);
       var t=document.createElement('span');t.textContent=m.short||m.name;
       acct.appendChild(i);acct.appendChild(t);acct.setAttribute('aria-label','Signed in as '+(m.short||m.name)+'. Account');
     }else{acct.textContent='Sign in';acct.removeAttribute('aria-label')}
@@ -2054,7 +2067,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   /* step 3: who are you */
   function loadPeople(){
     if(people.length)return Promise.resolve();
-    return FTV.db.from('players').select('id,name,short,team,sort').order('sort').then(function(r){if(r.error)throw r.error;people=r.data||[]});
+    return FTV.db.from('players').select('id,name,short,team,sort').order('sort').then(function(r){if(r.error)throw r.error;people=(r.data||[]).filter(function(p){return !/_test$/.test(p.id)})});
   }
   function renderPeople(){
     var wrap=$('si-people');wrap.textContent='';
@@ -2117,7 +2130,27 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       ?'You can film dops, add photos and enter live scores. This phone will remember you.'
       :'You can film dops and add photos. This phone will remember you.';
     $('si-unlock').hidden=!(m.team&&!m.tour_access);
+    if(m.is_test){$('si-done-team').textContent='Test profile';$('si-done-team').className='chip wait';$('si-done-what').textContent='You’re on the test profile: a regular punter with no admin powers. Switch back below.'}
+    var canTest=!!(m.is_admin||m.test_of);
+    $('si-test').hidden=!canTest;
+    $('si-test-go').textContent=m.test_of?'Switch back to '+(m.test_of==='steve'?'Steve':m.test_of):'Switch to test profile';
+    $('si-test-what').hidden=!!m.test_of;
   }
+  function testMsg(t,ok){var v=$('si-msg-test');v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||''}
+  $('si-test-go').addEventListener('click',function(){
+    var b=this;b.disabled=true;testMsg('');
+    FTV.db.rpc('ftv_switch_test').then(function(r){
+      b.disabled=false;
+      if(r.error){testMsg(/function|schema/.test(r.error.message||'')?'Switching needs script 011 run in Supabase first.':'Couldn’t switch. Try again.');return}
+      FTV.me=r.data;emit();fillDone();testMsg(FTV.me.is_test?'Now on the test profile.':'Back to the real you.',true);
+    });
+  });
+  $('si-test-reset').addEventListener('click',function(){
+    var b=this;
+    if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Sure? Tap again';setTimeout(function(){b.classList.remove('arm');b.textContent='Reset test wallet'},3500);return}
+    b.classList.remove('arm');b.textContent='Reset test wallet';
+    FTV.db.rpc('ftv_test_reset').then(function(r){if(r.error){testMsg('Couldn’t reset. Is script 011 run?');return}testMsg('Test wallet back to R1,000,000.',true);emit()});
+  });
   $('si-unlock-go').addEventListener('click',function(){
     var c=($('si-unlock-code').value||'').trim(),v=$('si-msg-unlock');
     if(!c){v.className='verdict show no';v.textContent='Enter the Tour V code.';return}
@@ -2155,7 +2188,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
   function R(n){n=Math.round(n||0);return (n<0?'-R':'R')+Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')}
   function Rk(n){n=Math.round(n||0);var a=Math.abs(n),s=n<0?'-R':'R';if(a>=1e6)return s+(+(a/1e6).toFixed(a%1e6?2:0))+'m';if(a>=1e3)return s+(+(a/1e3).toFixed(a%1e3?1:0))+'k';return s+a}
-  function nm(id){return NAME[id]||id}
+  function nm(id){if(NAME[id])return NAME[id];if(wallets)for(var i=0;i<wallets.length;i++)if(wallets[i].player_id===id)return wallets[i].short||id;return id}
   function pickOne(a){return a[Math.floor(Math.random()*a.length)]}
   function say(t,ok,id){var v=$(id||'bk-msg');v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||'';if(t&&!id)setTimeout(function(){if(v.textContent===t){v.className='verdict';v.textContent=''}},5000)}
   function sast(t,o){try{return new Date(t).toLocaleString('en-ZA',Object.assign({timeZone:'Africa/Johannesburg',hour12:false},o))}catch(e){return ''}}
