@@ -2141,7 +2141,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     var b=this;b.disabled=true;testMsg('');
     FTV.db.rpc('ftv_switch_test').then(function(r){
       b.disabled=false;
-      if(r.error){testMsg(/function|schema/.test(r.error.message||'')?'Switching needs script 011 run in Supabase first.':'Couldn’t switch. Try again.');return}
+      if(r.error){testMsg('Couldn’t switch. Supabase says: '+(r.error.message||r.error.code||'unknown error'));return}
       FTV.me=r.data;emit();fillDone();testMsg(FTV.me.is_test?'Now on the test profile.':'Back to the real you.',true);
     });
   });
@@ -2149,7 +2149,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     var b=this;
     if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Sure? Tap again';setTimeout(function(){b.classList.remove('arm');b.textContent='Reset test wallet'},3500);return}
     b.classList.remove('arm');b.textContent='Reset test wallet';
-    FTV.db.rpc('ftv_test_reset').then(function(r){if(r.error){testMsg('Couldn’t reset. Is script 011 run?');return}testMsg('Test wallet back to R1,000,000.',true);emit()});
+    FTV.db.rpc('ftv_test_reset').then(function(r){if(r.error){testMsg('Couldn’t reset. Supabase says: '+(r.error.message||r.error.code||'unknown error'));return}testMsg('Test wallet back to R1,000,000.',true);emit()});
   });
   $('si-unlock-go').addEventListener('click',function(){
     var c=($('si-unlock-code').value||'').trim(),v=$('si-msg-unlock');
