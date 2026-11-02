@@ -287,6 +287,35 @@ button.bk-opt:disabled{cursor:default}
 .test-bar .wrap{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;padding-top:7px;padding-bottom:7px;font-size:.85rem}
 .test-bar b{font:800 .72rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
 .acct-i.test{background:#7f6110}
+.rl-chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.rl-chip{width:48px;height:48px;border-radius:50%;border:3px dashed rgba(255,255,255,.75);background:var(--flag);color:#1a1405;font:800 .78rem/1 var(--f-mono);cursor:pointer;box-shadow:0 0 0 2px var(--flag),0 2px 4px rgba(0,0,0,.25);transition:transform .12s}
+.rl-chip[aria-pressed="true"]{transform:translateY(-4px) scale(1.08);box-shadow:0 0 0 2px var(--flag),0 0 0 5px var(--ink),0 6px 10px rgba(0,0,0,.3)}
+.rl-felt{background:var(--green);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 0 0 2px var(--flag)}
+.rl-table{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 52px;grid-auto-rows:34px;gap:3px}
+.rl-outside{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:38px;gap:3px}
+.rl-cell{position:relative;border:1px solid rgba(255,255,255,.45);border-radius:6px;color:#fff;font:700 .95rem/1 var(--f-mono);font-variant-numeric:tabular-nums;cursor:pointer;padding:0;display:grid;place-items:center;background:transparent;-webkit-tap-highlight-color:transparent}
+.rl-cell:active{filter:brightness(1.25)}
+.rl-cell.red{background:var(--rl-red)}
+.rl-cell.black{background:var(--rl-black)}
+.rl-cell.zero{background:var(--rl-green)}
+.rl-corner{display:grid;place-items:center;color:var(--green-ink);opacity:.7;font:700 .66rem/1 var(--f-mono);letter-spacing:.08em}
+.rl-cell.dozen{grid-column:4;font:700 .72rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase}
+.rl-cell.dozen .rl-lab{writing-mode:vertical-rl;transform:rotate(180deg)}
+.rl-cell.out{font:700 .8rem/1 var(--f-mono);letter-spacing:.04em;text-transform:uppercase}
+.rl-cell.redbet{background:var(--rl-red)}
+.rl-cell.blackbet{background:var(--rl-black)}
+.rl-stack{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:30px;height:30px;padding:0 4px;border-radius:15px;background:var(--flag);color:#1a1405;border:2px dashed rgba(255,255,255,.8);font:800 .66rem/26px var(--f-mono);text-align:center;text-transform:none;letter-spacing:0;box-shadow:0 2px 4px rgba(0,0,0,.4);pointer-events:none}
+.rl-cell.hit{box-shadow:0 0 0 3px var(--flag),0 0 14px 2px var(--flag);z-index:1;animation:rlhit 1s ease-in-out 3}
+@keyframes rlhit{50%{filter:brightness(1.45)}}
+.rl-bar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rl-bar b{font:900 1.6rem/1 var(--f-display);display:block;margin-top:4px}
+.rl-bar-btns{display:flex;gap:6px}
+.rl-banner{position:absolute;left:-4%;right:-4%;top:76%;transform:translateY(-50%) rotate(-7deg);z-index:3;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 8px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.35);animation:rlban .35s cubic-bezier(.2,1.6,.4,1)}
+.rl-banner b{font:900 2.6rem/1 var(--f-display);letter-spacing:.04em}
+.rl-banner span{font:700 1rem/1.2 var(--f-mono)}
+.rl-banner.win{background:var(--flag);color:#1a1405}
+.rl-banner.lose{background:var(--rl-red);color:#fff}
+@keyframes rlban{from{transform:translateY(-50%) rotate(-7deg) scale(.3);opacity:0}}
 /* ---------- Schedule timeline ---------- */
 .tl{display:flex;flex-direction:column;gap:22px}
 .tl-day{display:flex;flex-direction:column;gap:10px}
@@ -1413,21 +1442,21 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <span class="rl-ptr" aria-hidden="true"></span>
         <svg class="rl-wheel" id="rl-wheel" viewBox="-150 -150 300 300" role="img" aria-label="Roulette wheel"></svg>
         <div class="rl-hub" id="rl-hub" aria-live="polite"><b id="rl-num">?</b><small id="rl-col">Spin it</small></div>
+        <div class="rl-banner" id="rl-banner" hidden aria-live="polite"><b id="rl-ban-h">WINNER</b><span id="rl-ban-s"></span></div>
       </div>
-      <div class="form-step">
-        <div class="step-h"><span class="n">1</span><b>Bet on</b></div>
-        <div class="picks" id="rl-kinds"></div>
-        <div class="rl-numrow" id="rl-numrow" hidden><label for="rl-num-in">Number (0 to 36)</label><input class="code-in" id="rl-num-in" inputmode="numeric" maxlength="2" autocomplete="off"></div>
+      <div class="rl-chips" id="rl-chips" aria-label="Chip value"></div>
+      <div class="rl-felt">
+        <div class="rl-table" id="rl-table"></div>
+        <div class="rl-outside" id="rl-outside"></div>
       </div>
-      <div class="form-step">
-        <div class="step-h"><span class="n">2</span><b>How much</b></div>
-        <div class="picks" id="rl-stakes"></div>
-        <input class="code-in rl-amt" id="rl-amt" inputmode="numeric" placeholder="Or type an amount (R)" aria-label="Amount in Rand">
+      <div class="rl-bar">
+        <div><span class="eyebrow">On the table</span><b class="mono" id="rl-total">R0</b></div>
+        <div class="rl-bar-btns"><button type="button" class="mini" id="rl-undo">Undo</button><button type="button" class="mini" id="rl-clear">Clear</button></div>
       </div>
       <p class="bk-ret" id="rl-ret"></p>
       <button type="button" class="btn big" id="rl-spin">Spin</button>
       <div class="verdict" id="rl-msg" role="status" aria-live="polite"></div>
-      <p class="fine">European wheel, single zero. Red/black, odd/even and 1–18/19–36 pay 2×; dozens pay 3×; a single number pays 36×. Zero loses everything except a bet on 0.</p>
+      <p class="fine">Pick a chip, tap the table as many times as you like (two dozens, a number and red, whatever), then spin. One spin settles everything. Red/black, odd/even and 1–18/19–36 pay 2×; dozens pay 3×; a single number pays 36×. Zero beats everything except a chip on 0.</p>
     </div>
     <div class="card">
       <span class="eyebrow">Latest at the table</span>
@@ -2540,8 +2569,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   var ORDER=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
   var REDS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
   function colour(n){return n===0?'green':REDS.indexOf(n)>-1?'red':'black'}
-  var KINDS=[['red',null,'Red','2×'],['black',null,'Black','2×'],['odd',null,'Odd','2×'],['even',null,'Even','2×'],['low',null,'1–18','2×'],['high',null,'19–36','2×'],['dozen',1,'1st 12','3×'],['dozen',2,'2nd 12','3×'],['dozen',3,'3rd 12','3×'],['num',null,'Single number','36×']];
-  var rl={k:null,amt:''},rot=0;
   (function drawWheel(){
     var svg=$('rl-wheel'),NS='http://www.w3.org/2000/svg',step=360/37,r1=146,r0=96;
     var g=document.createElementNS(NS,'g');
@@ -2559,74 +2586,115 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     var rim=document.createElementNS(NS,'circle');rim.setAttribute('r',r1+2);rim.setAttribute('style','fill:none;stroke:var(--flag);stroke-width:4');
     svg.appendChild(g);svg.appendChild(rim);
   })();
-  function rlKind(){return rl.k==null?null:KINDS[rl.k]}
-  function renderKinds(){
-    var box=$('rl-kinds');box.textContent='';
-    KINDS.forEach(function(k,i){
-      var b=el('button','pick neutral',k[2]+' · '+k[3]);b.type='button';b.setAttribute('aria-pressed',rl.k===i?'true':'false');
-      b.addEventListener('click',function(){rl.k=i;renderKinds();rlPreview()});box.appendChild(b);
+  /* ----- The Casino table: drop chips on as many spots as you like; one spin settles them all (spun in the database) ----- */
+  var CHIPS=[10000,25000,50000,100000,250000];
+  var rl={chip:50000,bets:{},hist:[],last:null},rot=0;
+  function betKind(key){var p=key.split(':');return {kind:p[0],pick:p[1]!=null?+p[1]:null}}
+  function keyLabel(key){var b=betKind(key);if(b.kind==='num')return String(b.pick);if(b.kind==='dozen')return ['1st','2nd','3rd'][b.pick-1]+' 12';return {red:'Red',black:'Black',odd:'Odd',even:'Even',low:'1–18',high:'19–36'}[b.kind]}
+  function wins(key,r){var b=betKind(key);switch(b.kind){
+    case 'num':return r===b.pick; case 'red':return REDS.indexOf(r)>-1; case 'black':return r>0&&REDS.indexOf(r)<0;
+    case 'odd':return r>0&&r%2===1; case 'even':return r>0&&r%2===0; case 'low':return r>=1&&r<=18; case 'high':return r>=19&&r<=36;
+    case 'dozen':return r>=(b.pick-1)*12+1&&r<=b.pick*12;}return false}
+  function mult(key){var k=betKind(key).kind;return k==='num'?36:k==='dozen'?3:2}
+  function total(){var t=0;for(var k in rl.bets)t+=rl.bets[k];return t}
+  function chipTxt(n){return n>=1e6?(+(n/1e6).toFixed(1))+'m':(+(n/1e3).toFixed(n%1e3?1:0))+'k'}
+  function renderChips(){
+    var box=$('rl-chips');box.textContent='';
+    CHIPS.forEach(function(v){
+      var b=el('button','rl-chip',chipTxt(v));b.type='button';b.setAttribute('aria-pressed',rl.chip===v?'true':'false');b.setAttribute('aria-label','Chip R'+fmtAmt(v));
+      b.addEventListener('click',function(){rl.chip=v;renderChips()});box.appendChild(b);
     });
-    $('rl-numrow').hidden=!(rlKind()&&rlKind()[0]==='num');
   }
-  function renderStakes(){
-    var box=$('rl-stakes');box.textContent='';var w=myWallet(),bal=w?+w.balance:0;
-    [[10000,'R10k'],[50000,'R50k'],[100000,'R100k'],[bal,'All in']].forEach(function(a){
-      if(a[0]<=0||(a[1]!=='All in'&&a[0]>bal))return;
-      var b=el('button','pick neutral',a[1]);b.type='button';b.setAttribute('aria-pressed',+rl.amt===a[0]?'true':'false');
-      b.addEventListener('click',function(){rl.amt=String(a[0]);$('rl-amt').value=fmtAmt(a[0]);renderStakes();rlPreview()});box.appendChild(b);
+  function cell(key,cls,label,extra){
+    var b=el('button','rl-cell '+cls);b.type='button';b.dataset.key=key;
+    b.appendChild(el('span','rl-lab',label));
+    if(extra)b.setAttribute('aria-label',extra);
+    b.addEventListener('click',function(){place(key)});
+    return b;
+  }
+  (function buildTable(){
+    var t=$('rl-table');
+    var z=cell('num:0','green zero','0');z.style.gridRow='1';z.style.gridColumn='1 / span 3';t.appendChild(z);
+    var corner=el('span','rl-corner','3×');corner.style.gridRow='1';corner.style.gridColumn='4';t.appendChild(corner);
+    for(var row=0;row<12;row++){
+      for(var c=1;c<=3;c++){var n=row*3+c,x=cell('num:'+n,(REDS.indexOf(n)>-1?'red':'black')+' num',String(n));x.style.gridRow=String(row+2);x.style.gridColumn=String(c);t.appendChild(x)}
+      if(row%4===0){var d=cell('dozen:'+(row/4+1),'dozen',['1st 12','2nd 12','3rd 12'][row/4],['1 to 12','13 to 24','25 to 36'][row/4]);d.style.gridRow=(row+2)+' / span 4';d.style.gridColumn='4';t.appendChild(d)}
+    }
+    var o=$('rl-outside');
+    [['low','out','1–18'],['even','out','Even'],['red','out redbet','Red'],['black','out blackbet','Black'],['odd','out','Odd'],['high','out','19–36']].forEach(function(x){o.appendChild(cell(x[0],x[1],x[2]))});
+  })();
+  function place(key){
+    if(spinning)return;
+    if(!hasWallet())return say(me&&me.player_id?'Buy in at the top first.':'You need a wallet to play.',false,'rl-msg');
+    var w=myWallet(),bal=w?+w.balance:0;
+    if(total()+rl.chip>bal)return say('You’re skint. That chip takes you over '+R(bal)+'.',false,'rl-msg');
+    rl.bets[key]=(rl.bets[key]||0)+rl.chip;rl.hist.push([key,rl.chip]);say('',false,'rl-msg');
+    clearResult();renderTable();
+  }
+  $('rl-undo').addEventListener('click',function(){if(spinning)return;var h=rl.hist.pop();if(!h)return;rl.bets[h[0]]-=h[1];if(rl.bets[h[0]]<=0)delete rl.bets[h[0]];clearResult();renderTable()});
+  $('rl-clear').addEventListener('click',function(){if(spinning)return;rl.bets={};rl.hist=[];clearResult();renderTable()});
+  function clearResult(){$('rl-banner').hidden=true;[].slice.call(document.querySelectorAll('.rl-cell.hit')).forEach(function(c){c.classList.remove('hit')})}
+  function renderTable(){
+    [].slice.call(document.querySelectorAll('.rl-cell')).forEach(function(c){
+      var v=rl.bets[c.dataset.key],chip=c.querySelector('.rl-stack');
+      if(v){if(!chip){chip=el('span','rl-stack');c.appendChild(chip)}chip.textContent=chipTxt(v)}else if(chip)chip.remove();
     });
+    var t=total();$('rl-total').textContent=R(t);
+    var p=$('rl-ret');p.textContent='';
+    if(t){
+      var best=0,keys=Object.keys(rl.bets);
+      for(var r=0;r<=36;r++){var s=0;keys.forEach(function(k){if(wins(k,r))s+=rl.bets[k]*mult(k)});if(s>best)best=s}
+      p.appendChild(document.createTextNode(keys.length+(keys.length>1?' bets':' bet')+'. Best case it pays '));p.appendChild(el('b',null,R(best)));p.appendChild(document.createTextNode('.'));
+    }else p.textContent='Pick a chip, tap the table to drop it. Tap again to stack.';
+    $('rl-spin').textContent=rl.last&&t?'Spin again':'Spin';
   }
-  $('rl-amt').addEventListener('input',function(){rl.amt=String(amtOf(this.value)||'');renderStakes();rlPreview()});
-  $('rl-num-in').addEventListener('input',rlPreview);
-  function rlPreview(){
-    var k=rlKind(),a=amtOf(rl.amt),p=$('rl-ret');p.textContent='';
-    if(!k||!a)return;
-    var mult=k[0]==='num'?36:k[0]==='dozen'?3:2;
-    p.appendChild(document.createTextNode(R(a)+' on '+(k[0]==='num'?'number '+($('rl-num-in').value||'?'):k[2])+' pays '));
-    p.appendChild(el('b',null,R(a*mult)));
-    p.appendChild(document.createTextNode(' if it lands.'));
-  }
-  var WIN=['Winner! Walk away now. You won’t.','The wheel loves you. For now.','Ka-ching. Drinks are on you.'];
+  var WIN=['Walk away now. You won’t.','The wheel loves you. For now.','Ka-ching. Drinks are on you.'];
   var LOSE=['The house thanks you for your donation.','Gone. Like your tee shot on the 7th.','Classic. Go again, you know you want to.','Ouch. That’s a dop’s worth of shame.'];
   $('rl-spin').addEventListener('click',function(){
     if(spinning||busy)return;
     if(!hasWallet())return say(me&&me.player_id?'Buy in at the top first.':'You need a wallet to play.',false,'rl-msg');
-    var k=rlKind(),a=amtOf(rl.amt);
-    if(!k)return say('Pick what you’re betting on.',false,'rl-msg');
-    if(!a)return say('Pick how much.',false,'rl-msg');
-    var pick=k[1];
-    if(k[0]==='num'){var v=$('rl-num-in').value.trim();pick=parseInt(v,10);if(v===''||isNaN(pick)||pick<0||pick>36)return say('Pick a number from 0 to 36.',false,'rl-msg')}
-    var btn=$('rl-spin');btn.disabled=true;btn.textContent='No more bets…';spinning=true;say('',false,'rl-msg');
+    var keys=Object.keys(rl.bets),t=total();
+    if(!keys.length)return say('Drop a chip on the table first.',false,'rl-msg');
+    var w=myWallet();if(w&&t>+w.balance)return say('You’re skint. Take some chips off.',false,'rl-msg');
+    var list=keys.map(function(k){var b=betKind(k);return {kind:b.kind,pick:b.pick,stake:rl.bets[k]}});
+    var btn=$('rl-spin');btn.disabled=true;btn.textContent='No more bets…';spinning=true;say('',false,'rl-msg');clearResult();
     $('rl-hub').className='rl-hub';$('rl-num').textContent='…';$('rl-col').textContent='Spinning';
-    db.rpc('ftv_spin',{p_kind:k[0],p_pick:pick,p_stake:a}).then(function(r){
-      if(r.error){spinning=false;btn.disabled=false;btn.textContent='Spin';$('rl-num').textContent='?';$('rl-col').textContent='Spin it';say(err(r.error),false,'rl-msg');return}
-      var res=r.data.result,pay=+r.data.payout,idx=ORDER.indexOf(res),step=360/37;
+    db.rpc('ftv_spin_table',{p_bets:list}).then(function(r){
+      if(r.error){spinning=false;btn.disabled=false;renderTable();$('rl-num').textContent='?';$('rl-col').textContent='Spin it';say(err(r.error),false,'rl-msg');return}
+      var res=r.data.result,pay=+r.data.payout,staked=+r.data.staked,idx=ORDER.indexOf(res),step=360/37;
       var target=-idx*step, base=rot-(rot%360);
       rot=base+360*5+(((target%360)+360)%360);
       $('rl-wheel').style.transform='rotate('+rot+'deg)';
       setTimeout(function(){
-        spinning=false;btn.disabled=false;btn.textContent='Spin again';
+        spinning=false;btn.disabled=false;rl.last=res;
         var c=colour(res);$('rl-hub').className='rl-hub '+c;$('rl-num').textContent=res;$('rl-col').textContent=c;
-        if(pay>0)say(res+' '+c.toUpperCase()+'. +'+R(pay-a)+'. '+pickOne(WIN),true,'rl-msg');
-        else say(res+' '+c.toUpperCase()+'. -'+R(a)+'. '+pickOne(LOSE),false,'rl-msg');
-        if(+rl.amt>+r.data.balance)rl.amt='';
-        load();
+        [].slice.call(document.querySelectorAll('.rl-cell')).forEach(function(x){if(wins(x.dataset.key,res))x.classList.add('hit')});
+        var net=pay-staked,bn=$('rl-banner');
+        bn.className='rl-banner '+(net>0?'win':'lose');
+        $('rl-ban-h').textContent=net>0?'WINNER':'LOSER';
+        $('rl-ban-s').textContent=net>0?R(pay):(pay>0?'Got '+R(pay)+' back on '+R(staked):'-'+R(staked));
+        bn.hidden=false;
+        say(res+' '+c.toUpperCase()+'. '+(net>0?'+'+R(net)+' profit. '+pickOne(WIN):pickOne(LOSE)),net>0,'rl-msg');
+        var bal=+r.data.balance;if(total()>bal){rl.bets={};rl.hist=[]}
+        renderTable();load();
       },4300);
     });
   });
-  function kindLabel(s){if(s.kind==='num')return 'number '+s.pick;if(s.kind==='dozen')return ['1st','2nd','3rd'][s.pick-1]+' 12';for(var i=0;i<KINDS.length;i++)if(KINDS[i][0]===s.kind)return KINDS[i][2];return s.kind}
+  function kindLabel(s){if(s.kind==='num')return 'number '+s.pick;if(s.kind==='dozen')return ['1st','2nd','3rd'][s.pick-1]+' 12';return {red:'Red',black:'Black',odd:'Odd',even:'Even',low:'1–18',high:'19–36'}[s.kind]||s.kind}
   function renderFeed(){
     var ul=$('rl-feed');ul.textContent='';
     if(!extras){ul.appendChild(el('li','fine','The Casino opens once Steve runs script 010.'));$('rl-spin').disabled=true;return}
     $('rl-spin').disabled=spinning;
     if(!spins.length){ul.appendChild(el('li','fine','Nobody’s been stupid enough yet.'));return}
-    spins.forEach(function(s){
+    var groups=[],by={};
+    spins.forEach(function(s){var k=s.spin_id||s.id;if(!by[k]){by[k]={p:s.player_id,r:s.result,t:s.created_at,stake:0,pay:0,n:0,first:s};groups.push(by[k])}var g=by[k];g.stake+=+s.stake;g.pay+=+s.payout;g.n++});
+    groups.slice(0,12).forEach(function(g){
       var li=el('li'),l=el('div');
-      var t=el('span');t.appendChild(el('b',null,nm(s.player_id)));t.appendChild(document.createTextNode(' '+Rk(s.stake)+' on '+kindLabel(s)));l.appendChild(t);
-      l.appendChild(el('small',null,sast(s.created_at,{weekday:'short',hour:'2-digit',minute:'2-digit'})));
+      var t=el('span');t.appendChild(el('b',null,nm(g.p)));t.appendChild(document.createTextNode(' '+Rk(g.stake)+' on '+(g.n>1?g.n+' bets':kindLabel(g.first))));l.appendChild(t);
+      l.appendChild(el('small',null,sast(g.t,{weekday:'short',hour:'2-digit',minute:'2-digit'})));
       li.appendChild(l);
-      var r=el('span','res '+(s.payout>0?'won':'lost'));var d=el('i','dot');d.style.background='var(--rl-'+colour(s.result)+')';r.appendChild(d);
-      r.appendChild(document.createTextNode(s.result+' · '+(s.payout>0?'+'+Rk(s.payout-s.stake):'-'+Rk(s.stake))));
+      var net=g.pay-g.stake,r=el('span','res '+(net>0?'won':'lost'));var d=el('i','dot');d.style.background='var(--rl-'+colour(g.r)+')';r.appendChild(d);
+      r.appendChild(document.createTextNode(g.r+' · '+(net>0?'+'+Rk(net):net<0?'-'+Rk(-net):'even')));
       li.appendChild(r);ul.appendChild(li);
     });
   }
@@ -2634,7 +2702,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   /* ----- render & load ----- */
   function render(){
     if(!me)return;
-    renderWallet();renderRich();renderSugs();renderFeed();renderStakes();
+    renderWallet();renderRich();renderSugs();renderFeed();renderTable();
     var ae=document.activeElement;
     if(ae&&ae.tagName==='INPUT'&&ae.closest&&ae.closest('.bk-slip'))return; // don't yank the keyboard mid-typing
     var open=[],wait=[],done=[];
@@ -2682,7 +2750,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   }
   $('bk-join').addEventListener('click',function(){rpc('ftv_bookie_join',{},'You’re in. R1,000,000 of fake money. Don’t blow it at the Casino.')});
   $('bk-gate-btn').addEventListener('click',function(){FTV&&FTV.open()});
-  renderKinds();
+  renderChips();renderTable();
   if(FTV)FTV.on(start);
 })();
 
