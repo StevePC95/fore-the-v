@@ -5,9 +5,10 @@ The old Claude artifact link is retired and only shows a "We've moved" banner. M
 
 ## How it's built
 - `index.html` holds the whole site (HTML, CSS and JS). Tabs are `section[data-view]`, routed by `#hash`.
-- Supabase backs sign-in, photos, dop videos, fourball pairings, the Wolf wheel and live scoring (`config.js` holds the public URL and anon key). Schema scripts run in order: `supabase/setup.sql`, `002`…`007`.
+- Supabase backs sign-in, photos, dop videos, fourball pairings, the Wolf wheel and live scoring (`config.js` holds the public URL and anon key). Schema scripts run in order: `supabase/setup.sql`, `002`…`009`.
 - Sign-in: pick Fore the Boys, enter the group code, pick your name. The Tour V code is optional and only unlocks score entry, captains' picks and the Wolf wheel. Sessions are remembered on the phone (anonymous Supabase auth + `members` table).
 - Log a Dop is for fun (no points): any signed-in member films up to 30 s in-app; videos in the private `dops` bucket. Photos in the private `photos` bucket (General album).
+- The Bookie (`#bookie`, script 009): fake-money prediction market. Each of the 8 starts on R1,000,000; Steve (is_admin) posts markets, closes betting and posts answers. Tote payouts (winners split the pot pro rata; nobody right or scrapped = refunds). All money checks happen in the `ftv_bet` / `ftv_market_*` functions, never in the browser.
 - Scoring: shots per hole are stored; Stableford points are calculated in the browser from par, stroke index (course cards in the scoring script) and full handicap. Friday = Wolf (calls in `wolf_calls`), Saturday = Cha Cha Cha (best 1/2/3 staggered). Rounds can be locked by captains/Steve.
 - Exec-only tabs (Fines, Planning) are shown to Steve, Nic, Brandon, Guy with a "Hidden tab" flag. Their fine ideas (golf / general / random) and planning items live in `exec_items` (script 007), shared and live; before 007 runs, Fines shows the draft list and Planning falls back to on-phone ticks.
 - Codes live in Supabase (`tour_secret`), never in this repo.

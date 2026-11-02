@@ -179,6 +179,58 @@ h3{font:700 1.08rem/1.3 var(--f-body)}
 .bok-links{display:flex;flex-wrap:wrap;gap:8px;position:relative}
 .bok-note{margin:0;font-size:.85rem;opacity:.8;position:relative}
 
+/* ---------- The Bookie ---------- */
+.bk-wallet{background:var(--green);color:var(--green-ink);border-radius:var(--r);padding:16px 18px;display:flex;flex-direction:column;gap:4px;box-shadow:inset 0 4px 0 var(--flag)}
+.bk-wallet .eyebrow{color:var(--green-ink);opacity:.85}
+.bk-bal{font:900 clamp(2.4rem,13vw,3.4rem)/.95 var(--f-display);letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.bk-wallet small{opacity:.85;font-size:.9rem}
+.bk-rich{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.bk-rich li{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+.bk-rich li:last-child{border-bottom:0}
+.bk-rich .rk{font:600 .85rem/1 var(--f-mono);color:var(--muted)}
+.bk-rich .nm{display:flex;align-items:center;gap:8px;min-width:0;font-weight:700}
+.bk-rich .nm::before{content:"";width:8px;height:8px;border-radius:50%;flex:none;background:var(--muted)}
+.bk-rich .in::before{background:var(--inland)}
+.bk-rich .co::before{background:var(--coastal)}
+.bk-rich .amt{font:600 .95rem/1 var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.bk-rich .amt small{display:block;font-size:.7rem;color:var(--muted);margin-top:3px}
+.bk-rich .me{background:var(--tbc-bg);margin:0 -8px;padding:9px 8px;border-radius:8px}
+.bk-tag{font:600 .6rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line-strong);color:var(--muted);border-radius:999px;padding:4px 7px;white-space:nowrap}
+.bk-tag.gold{border-color:var(--flag);color:var(--tbc);background:var(--tbc-bg)}
+.bk-how summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.bk-how summary::after{content:"+";font:700 1.2rem/1 var(--f-mono);color:var(--muted)}
+.bk-how[open] summary::after{content:"–"}
+.bk-how summary::-webkit-details-marker{display:none}
+.bk-form{display:flex;flex-direction:column;gap:12px}
+.bk-form .fld > span{font-weight:700;font-size:.92rem}
+.bk-form textarea{resize:vertical;font-family:var(--f-body)}
+.bk-list{display:flex;flex-direction:column;gap:12px}
+.bk-mk h3{font:800 1.35rem/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
+.bk-mk.settled,.bk-mk.void{opacity:.95}
+.bk-meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font:500 .72rem/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bk-meta .hot{color:var(--bad)}
+.bk-opts{display:flex;flex-direction:column;gap:6px}
+.bk-opt{position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;width:100%;text-align:left;font:600 .95rem/1.2 var(--f-body);color:var(--ink);background:var(--card);border:1.5px solid var(--line-strong);border-radius:12px;padding:11px 12px;min-height:46px;cursor:pointer}
+button.bk-opt:disabled{cursor:default}
+.bk-opt .bar{position:absolute;inset:0 auto 0 0;background:var(--line);opacity:.7;pointer-events:none}
+.bk-opt > span{position:relative}
+.bk-opt .pool{font:500 .78rem/1 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.bk-opt .x{font:700 .9rem/1 var(--f-mono);font-variant-numeric:tabular-nums;min-width:48px;text-align:right}
+.bk-opt[aria-pressed="true"]{border-color:var(--flag);box-shadow:inset 0 0 0 1.5px var(--flag)}
+.bk-opt.win{border-color:var(--good);background:var(--good-bg)}
+.bk-opt.win .bar{display:none}
+.bk-opt.mine .lab::after{content:" · yours";font:500 .7rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--tbc)}
+.bk-slip{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line-strong);padding-top:12px}
+.bk-slip .code-in{letter-spacing:.02em;font-size:1rem}
+.bk-ret{font-size:.92rem;color:var(--muted)}
+.bk-ret b{color:var(--ink)}
+.bk-bets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:.88rem;color:var(--muted)}
+.bk-bets b{color:var(--ink)}
+.bk-bets .won{color:var(--good)}
+.bk-bets .lost{text-decoration:line-through;opacity:.75}
+.bk-adm{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding-top:10px}
+.bk-adm select{font:600 .9rem/1 var(--f-body);padding:8px 10px;border-radius:10px;border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink);max-width:100%}
+
 /* ---------- Schedule timeline ---------- */
 .tl{display:flex;flex-direction:column;gap:22px}
 .tl-day{display:flex;flex-direction:column;gap:10px}
@@ -813,6 +865,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <a href="#formats">Formats</a>
     <a href="#live">Scores</a>
     <a href="#scores">Leaderboard</a>
+    <a href="#bookie">Bookie</a>
     <a href="#dops">Log a Dop</a>
     <a href="#photos">Photos</a>
     <a href="#players">Players</a>
@@ -1216,6 +1269,67 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </section>
 
 <!-- LOG A DOP -->
+<!-- BOOKIE -->
+<section data-view="bookie" hidden>
+  <div class="head"><span class="eyebrow">Fake money · real bragging rights</span><h2>The Bookie</h2></div>
+
+  <div class="card gate" id="bk-gate">
+    <span class="eyebrow">Members only</span>
+    <h3>Sign in to get your R1,000,000</h3>
+    <p>Each of the 8 starts with a fake million. Back your calls, Steve posts the answers, winners get paid. Most money at the end of the weekend takes the bragging rights.</p>
+    <button type="button" class="btn" id="bk-gate-btn">Sign in</button>
+  </div>
+
+  <div id="bk-body" hidden>
+    <div class="bk-wallet" id="bk-wallet">
+      <span class="eyebrow" id="bk-w-who">Your wallet</span>
+      <b class="bk-bal mono" id="bk-bal">R1,000,000</b>
+      <small id="bk-w-sub">Started on R1,000,000</small>
+    </div>
+
+    <div class="verdict" id="bk-msg" role="status" aria-live="polite"></div>
+
+    <div class="card">
+      <span class="eyebrow">The rich list</span>
+      <ol class="bk-rich" id="bk-rich"></ol>
+    </div>
+
+    <details class="card bk-how">
+      <summary><b>How the Bookie works</b></summary>
+      <ul class="rules">
+        <li>Everyone on Tour V starts with <b>R1,000,000</b> of fake money. It isn't real. Nobody pays anybody.</li>
+        <li>Pick an answer, pick how much, place the bet. You can bet more than once, on anything, until betting closes.</li>
+        <li><b>It's a tote:</b> all the money on a question goes in one pot, and whoever backed the right answer splits the pot in proportion to what they put in. The <b>×</b> number is what you'd get back per R1 if it landed right now. It moves as people bet.</li>
+        <li>Nobody backed the right answer, or the question gets scrapped = everyone gets their money back.</li>
+        <li>Steve posts the answers. Most money at the end of the weekend wins.</li>
+      </ul>
+    </details>
+
+    <div class="card bk-admin" id="bk-admin" hidden>
+      <span class="eyebrow">Steve only</span>
+      <button type="button" class="btn big" id="bk-new-open" aria-expanded="false" aria-controls="bk-form">+ New market</button>
+      <form class="bk-form" id="bk-form" hidden>
+        <label class="fld"><span>Question</span><input class="txt-in" id="bk-f-q" maxlength="160" autocomplete="off" placeholder="Who loses the most balls on Friday?"></label>
+        <label class="fld"><span>Small print (optional)</span><input class="txt-in" id="bk-f-d" maxlength="400" autocomplete="off" placeholder="How it gets decided"></label>
+        <label class="fld"><span>Answers, one per line (2 to 10)</span><textarea class="txt-in" id="bk-f-o" rows="4" placeholder="Steve&#10;Nic&#10;Someone else"></textarea></label>
+        <div class="picks" id="bk-f-who" aria-label="Quick fill"><button type="button" class="mini" data-fill="eight">Fill the 8 names</button><button type="button" class="mini" data-fill="teams">Inland / Coastal</button><button type="button" class="mini" data-fill="yn">Yes / No</button></div>
+        <label class="fld"><span>Betting closes (SAST, optional)</span><input class="txt-in" id="bk-f-c" type="datetime-local"></label>
+        <div class="verdict" id="bk-f-msg" role="status" aria-live="polite"></div>
+        <div class="xb-btns"><button type="button" class="btn ghost" id="bk-f-cancel">Cancel</button><button type="submit" class="btn" id="bk-f-save">Post it</button></div>
+      </form>
+    </div>
+
+    <div class="head"><span class="eyebrow" id="bk-open-n">Taking bets</span><h2>Open markets</h2></div>
+    <div class="bk-list" id="bk-open"></div>
+
+    <div class="head" id="bk-wait-h" hidden><span class="eyebrow">Betting closed · waiting on Steve</span><h2>Awaiting the result</h2></div>
+    <div class="bk-list" id="bk-wait"></div>
+
+    <div class="head" id="bk-done-h" hidden><span class="eyebrow">Paid out</span><h2>Results</h2></div>
+    <div class="bk-list" id="bk-done"></div>
+  </div>
+</section>
+
 <section data-view="dops" hidden>
   <div class="head"><span class="eyebrow">For fun · no points · video or it didn't happen</span><h2>Log a Dop</h2></div>
 
@@ -1910,6 +2024,295 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </script>
 
 <script>
+/* ---------- The Bookie: fake-money prediction market (tote payouts, settled by Steve) ---------- */
+(function(){
+  function $(id){return document.getElementById(id)}
+  var FTV=window.FTV, db=FTV&&FTV.db;
+  var START=1000000;
+  var PEOPLE=[['steve','Steve','in'],['nic','Nic','in'],['luke','Luke','in'],['brandon','Brandon','in'],['guy','Guy','co'],['mitch','Mitch','co'],['jay','Jay','co'],['rich','Rich','co']];
+  var NAME={},TEAM={};PEOPLE.forEach(function(p){NAME[p[0]]=p[1];TEAM[p[0]]=p[2]});
+  var me=null, markets=[], bets=[], live=false, started=false, busy=false;
+  var slip={}; // market id -> {opt, amt}
+  var editing=null;
+
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+  function R(n){n=Math.round(n||0);return (n<0?'-R':'R')+Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+  function Rk(n){n=Math.round(n||0);if(n>=1e6)return 'R'+(+(n/1e6).toFixed(n%1e6?2:0))+'m';if(n>=1e3)return 'R'+(+(n/1e3).toFixed(n%1e3?1:0))+'k';return 'R'+n}
+  function nm(id){return NAME[id]||id}
+  function say(t,ok){var v=$('bk-msg');v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||'';if(t)setTimeout(function(){if(v.textContent===t){v.className='verdict';v.textContent=''}},5000)}
+  function sast(t,o){try{return new Date(t).toLocaleString('en-ZA',Object.assign({timeZone:'Africa/Johannesburg',hour12:false},o))}catch(e){return ''}}
+  function closesLabel(t){
+    if(!t)return 'Open until Steve closes it';
+    var ms=new Date(t)-Date.now();
+    if(ms<=0)return 'Closed';
+    var m=Math.round(ms/60000),h=Math.floor(m/60),d=Math.floor(h/24);
+    var left=d>=1?d+'d '+(h%24)+'h':h>=1?h+'h '+(m%60)+'m':m+' min';
+    return 'Closes '+sast(t,{weekday:'short',hour:'2-digit',minute:'2-digit'})+' · '+left+' left';
+  }
+  function isOpen(m){return m.status==='open'&&(!m.closes_at||new Date(m.closes_at)>Date.now())}
+  function onTour(){return !!(me&&TEAM[me.player_id])}
+  function err(e){
+    var c=(e&&(e.message||e.details))||'';
+    if(/closed/.test(c))return 'Too late, betting’s closed on that one.';
+    if(/skint/.test(c))return 'You’re skint. Not enough left in the wallet for that.';
+    if(/not_on_tour/.test(c))return 'Only the 8 on Tour V can bet. Feel free to heckle.';
+    if(/has_bets/.test(c))return 'People have already bet on this, so the answers can’t change now.';
+    if(/need_two/.test(c))return 'Give it at least two answers.';
+    if(/not_allowed/.test(c))return 'Only Steve can do that.';
+    if(/bad_stake/.test(c))return 'Enter how much you want to bet.';
+    return 'That didn’t work. Check your signal and try again.';
+  }
+
+  /* ----- money ----- */
+  function wallet(pid){
+    var w={bal:START,inplay:0,won:0};
+    bets.forEach(function(b){if(b.player_id!==pid)return;w.bal-=b.stake;if(b.payout!=null){w.bal+=b.payout;w.won+=b.payout-b.stake}else w.inplay+=b.stake});
+    return w;
+  }
+  function pools(m){
+    var p=m.options.map(function(){return 0}),tot=0;
+    bets.forEach(function(b){if(b.market_id===m.id){p[b.option]=(p[b.option]||0)+b.stake;tot+=b.stake}});
+    return {opt:p,tot:tot};
+  }
+
+  /* ----- render ----- */
+  function renderWallet(){
+    var w=me&&onTour()?wallet(me.player_id):null;
+    $('bk-w-who').textContent=w?nm(me.player_id)+'’s wallet':'Watching only';
+    $('bk-bal').textContent=w?R(w.bal):'—';
+    $('bk-w-sub').textContent=w?((w.inplay?Rk(w.inplay)+' riding on open bets · ':'')+(w.won>0?'up '+Rk(w.won)+' on settled bets':w.won<0?'down '+Rk(-w.won)+' on settled bets':'Started on R1,000,000')):'Past tourists can watch the action, but only the 8 on Tour V get a wallet.';
+  }
+  function renderRich(){
+    var ol=$('bk-rich');ol.textContent='';
+    var rows=PEOPLE.map(function(p){var w=wallet(p[0]);return {id:p[0],team:p[2],net:w.bal+w.inplay,bal:w.bal,inplay:w.inplay}});
+    rows.sort(function(a,b){return b.net-a.net||a.id.localeCompare(b.id)});
+    var any=bets.length>0;
+    rows.forEach(function(r,i){
+      var li=el('li');if(me&&me.player_id===r.id)li.classList.add('me');
+      li.appendChild(el('span','rk',String(i+1)));
+      var n=el('span','nm '+r.team,nm(r.id));
+      if(any&&i===0)n.appendChild(el('span','bk-tag gold','Fat cat'));
+      if(any&&i===rows.length-1&&r.net<START)n.appendChild(el('span','bk-tag','Skint'));
+      li.appendChild(n);
+      var a=el('span','amt',R(r.net));
+      if(r.inplay)a.appendChild(el('small',null,Rk(r.inplay)+' riding'));
+      li.appendChild(a);ol.appendChild(li);
+    });
+  }
+  function betLines(m,ps){
+    var ul=el('ul','bk-bets');
+    var mine=bets.filter(function(b){return b.market_id===m.id}).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});
+    if(!mine.length){ul.appendChild(el('li',null,isOpen(m)?'No bets yet. Get in first.':'Nobody bet on this one.'));return ul}
+    var grouped={};
+    mine.forEach(function(b){var k=b.player_id+'|'+b.option;if(!grouped[k])grouped[k]={p:b.player_id,o:b.option,s:0,pay:null};grouped[k].s+=b.stake;if(b.payout!=null)grouped[k].pay=(grouped[k].pay||0)+b.payout});
+    Object.keys(grouped).forEach(function(k){
+      var g=grouped[k],li=el('li');
+      li.appendChild(el('b',null,nm(g.p)));
+      li.appendChild(document.createTextNode(' '+Rk(g.s)+' on '+m.options[g.o]));
+      if(g.pay!=null){
+        if(m.status==='void'||g.pay===g.s)li.appendChild(document.createTextNode(' · refunded'));
+        else if(g.pay>0){li.className='won';li.appendChild(document.createTextNode(' · won '+R(g.pay)))}
+        else li.className='lost';
+      }
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+  function card(m){
+    var c=el('div','card bk-mk '+m.status), open=isOpen(m), ps=pools(m), s=slip[m.id]||{};
+    var mw=me&&onTour()?wallet(me.player_id):null;
+    var myOpt={};bets.forEach(function(b){if(me&&b.market_id===m.id&&b.player_id===me.player_id)myOpt[b.option]=1});
+    var meta=el('div','bk-meta');
+    if(m.status==='settled')meta.appendChild(el('span',null,'Result posted · pot '+Rk(ps.tot)));
+    else if(m.status==='void')meta.appendChild(el('span',null,'Scrapped · everyone refunded'));
+    else{
+      var cl=el('span',null,open?closesLabel(m.closes_at):'Betting closed');
+      if(open&&m.closes_at&&new Date(m.closes_at)-Date.now()<3600000)cl.className='hot';
+      meta.appendChild(cl);meta.appendChild(el('span',null,'Pot '+Rk(ps.tot)));
+    }
+    c.appendChild(meta);
+    c.appendChild(el('h3',null,m.question));
+    if(m.detail)c.appendChild(el('p','fine',m.detail));
+
+    var box=el('div','bk-opts');
+    m.options.forEach(function(o,i){
+      var canPick=open&&onTour();
+      var b=el(canPick?'button':'div','bk-opt');if(canPick)b.type='button';
+      var share=ps.tot?ps.opt[i]/ps.tot:0;
+      var bar=el('i','bar');bar.style.width=(share*100)+'%';b.appendChild(bar);
+      b.appendChild(el('span','lab',o));
+      b.appendChild(el('span','pool',ps.opt[i]?Rk(ps.opt[i]):''));
+      var x=m.status==='settled'?(m.winner===i?'✓':''):(ps.opt[i]?'×'+(ps.tot/ps.opt[i]).toFixed(ps.tot/ps.opt[i]>=10?0:1):'—');
+      b.appendChild(el('span','x',x));
+      if(m.status==='settled'&&m.winner===i)b.classList.add('win');
+      if(myOpt[i])b.classList.add('mine');
+      if(canPick){
+        b.setAttribute('aria-pressed',s.opt===i?'true':'false');
+        b.addEventListener('click',function(){slip[m.id]={opt:s.opt===i?null:i,amt:s.amt||''};render()});
+      }
+      box.appendChild(b);
+    });
+    c.appendChild(box);
+
+    if(open&&onTour()&&s.opt!=null&&mw){
+      var sl=el('div','bk-slip');
+      var chips=el('div','picks');
+      [[10000,'R10k'],[50000,'R50k'],[100000,'R100k'],[250000,'R250k'],[mw.bal,'All in']].forEach(function(a){
+        if(a[0]<=0)return;
+        var ch=el('button','pick neutral',a[1]);ch.type='button';
+        ch.setAttribute('aria-pressed',+s.amt===a[0]?'true':'false');
+        ch.addEventListener('click',function(){slip[m.id].amt=String(a[0]);render()});
+        chips.appendChild(ch);
+      });
+      sl.appendChild(chips);
+      var inp=el('input','code-in');inp.inputMode='numeric';inp.placeholder='Or type an amount (R)';inp.value=s.amt?Number(s.amt).toLocaleString('en-ZA').replace(/\s| /g,','):'';
+      inp.setAttribute('aria-label','Amount in Rand');
+      var ret=el('p','bk-ret');
+      function amt(){return Math.floor(Number(String(inp.value).replace(/[^\d]/g,''))||0)}
+      function preview(){
+        var a=amt();ret.textContent='';
+        if(!a){ret.textContent='Backing '+m.options[s.opt]+'. Pick an amount.';return}
+        if(a>mw.bal){ret.appendChild(el('b',null,'You’ve only got '+R(mw.bal)+'.'));return}
+        var back=a*(ps.tot+a)/(ps.opt[s.opt]+a);
+        ret.appendChild(document.createTextNode(R(a)+' on '+m.options[s.opt]+' pays about '));
+        ret.appendChild(el('b',null,R(back)));
+        ret.appendChild(document.createTextNode(' if it lands right now. Moves as others bet.'));
+      }
+      inp.addEventListener('input',function(){slip[m.id].amt=String(amt()||'');preview()});
+      sl.appendChild(inp);sl.appendChild(ret);preview();
+      var go=el('button','btn big','Place bet');go.type='button';
+      go.addEventListener('click',function(){
+        var a=amt();if(!a){say('Pick an amount first.');return}
+        if(busy)return;busy=true;go.disabled=true;go.textContent='Placing…';
+        db.rpc('ftv_bet',{p_market:m.id,p_option:s.opt,p_stake:a}).then(function(r){
+          busy=false;
+          if(r.error){go.disabled=false;go.textContent='Place bet';say(err(r.error));return}
+          delete slip[m.id];say('Done. '+R(a)+' on '+m.options[s.opt]+'. Wallet: '+R(r.data)+'.',true);load();
+        });
+      });
+      sl.appendChild(go);
+      c.appendChild(sl);
+    }else if(open&&me&&!onTour()){
+      c.appendChild(el('p','fine','Only the 8 on Tour V can bet.'));
+    }else if(open&&onTour()&&s.opt==null){
+      c.appendChild(el('p','fine','Tap an answer to bet on it.'));
+    }
+
+    c.appendChild(betLines(m,ps));
+    if(me&&me.is_admin)c.appendChild(adminRow(m));
+    return c;
+  }
+
+  /* ----- Steve's controls ----- */
+  function rpc(fn,args,ok){
+    if(busy)return;busy=true;
+    db.rpc(fn,args).then(function(r){busy=false;if(r.error){say(err(r.error));return}if(ok)say(ok,true);load()});
+  }
+  function armBtn(b,label,fn){
+    var armed=false,t=null;
+    b.addEventListener('click',function(){
+      if(!armed){armed=true;b.classList.add('arm');b.textContent='Sure? Tap again';t=setTimeout(function(){armed=false;b.classList.remove('arm');b.textContent=label},3500);return}
+      clearTimeout(t);fn();
+    });
+  }
+  function adminRow(m){
+    var row=el('div','bk-adm');
+    function mini(t,fn){var b=el('button','mini',t);b.type='button';b.addEventListener('click',fn);row.appendChild(b);return b}
+    if(m.status==='open'||m.status==='closed'){
+      mini('Edit',function(){openForm(m)});
+      if(isOpen(m))mini('Close betting',function(){rpc('ftv_market_status',{p_id:m.id,p_open:false},'Betting closed.')});
+      else mini('Reopen betting',function(){rpc('ftv_market_status',{p_id:m.id,p_open:true},'Betting reopened.')});
+      var sel=el('select');sel.setAttribute('aria-label','Winning answer');
+      var o0=el('option',null,'Winning answer…');o0.value='';sel.appendChild(o0);
+      m.options.forEach(function(o,i){var op=el('option',null,o);op.value=String(i);sel.appendChild(op)});
+      row.appendChild(sel);
+      var pay=el('button','mini','Pay out');pay.type='button';row.appendChild(pay);
+      armBtn(pay,'Pay out',function(){if(sel.value===''){say('Pick the winning answer first.');pay.classList.remove('arm');pay.textContent='Pay out';return}rpc('ftv_market_settle',{p_id:m.id,p_winner:+sel.value},'Paid out: '+m.options[+sel.value]+'.')});
+      var vd=el('button','mini','Scrap & refund');vd.type='button';row.appendChild(vd);
+      armBtn(vd,'Scrap & refund',function(){rpc('ftv_market_settle',{p_id:m.id,p_winner:null},'Scrapped. Everyone refunded.')});
+    }else{
+      var un=el('button','mini','Undo result');un.type='button';row.appendChild(un);
+      armBtn(un,'Undo result',function(){rpc('ftv_market_unsettle',{p_id:m.id},'Result undone. Payouts taken back.')});
+    }
+    var del=el('button','mini','Delete');del.type='button';row.appendChild(del);
+    armBtn(del,'Delete',function(){rpc('ftv_market_delete',{p_id:m.id},'Deleted. Any bets on it were cancelled.')});
+    return row;
+  }
+  function localInput(t){if(!t)return '';var d=new Date(t);if(isNaN(d))return '';var z=new Date(d.getTime()+2*3600000);return z.toISOString().slice(0,16)}
+  function openForm(m){
+    editing=m||null;
+    $('bk-form').hidden=false;$('bk-new-open').setAttribute('aria-expanded','true');
+    $('bk-f-q').value=m?m.question:'';$('bk-f-d').value=m?(m.detail||''):'';
+    $('bk-f-o').value=m?m.options.join('\n'):'';$('bk-f-c').value=m?localInput(m.closes_at):'';
+    $('bk-f-save').textContent=m?'Save changes':'Post it';
+    var fm=$('bk-f-msg');fm.className='verdict';fm.textContent='';
+    $('bk-admin').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function closeForm(){editing=null;$('bk-form').hidden=true;$('bk-new-open').setAttribute('aria-expanded','false')}
+  $('bk-new-open').addEventListener('click',function(){if($('bk-form').hidden)openForm(null);else closeForm()});
+  $('bk-f-cancel').addEventListener('click',closeForm);
+  [].slice.call($('bk-f-who').querySelectorAll('[data-fill]')).forEach(function(b){
+    b.addEventListener('click',function(){
+      var f=b.dataset.fill;
+      $('bk-f-o').value=f==='eight'?PEOPLE.map(function(p){return p[1]}).join('\n'):f==='teams'?'Inland\nCoastal':'Yes\nNo';
+    });
+  });
+  $('bk-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var fm=$('bk-f-msg');
+    var q=$('bk-f-q').value.trim(),opts=$('bk-f-o').value.split('\n').map(function(x){return x.trim()}).filter(Boolean);
+    var c=$('bk-f-c').value;
+    if(q.length<3){fm.className='verdict show no';fm.textContent='What’s the question?';return}
+    if(opts.length<2||opts.length>10){fm.className='verdict show no';fm.textContent='Give it between 2 and 10 answers, one per line.';return}
+    var closes=c?new Date(c+':00+02:00').toISOString():null;
+    var btn=$('bk-f-save');btn.disabled=true;
+    db.rpc('ftv_market_save',{p_id:editing?editing.id:null,p_question:q,p_detail:$('bk-f-d').value,p_options:opts,p_closes:closes}).then(function(r){
+      btn.disabled=false;
+      if(r.error){fm.className='verdict show no';fm.textContent=err(r.error);return}
+      say(editing?'Market updated.':'Market posted. Let the boys at it.',true);closeForm();load();
+    });
+  });
+
+  function render(){
+    if(!me){return}
+    renderWallet();renderRich();
+    var open=[],wait=[],done=[];
+    markets.forEach(function(m){if(m.status==='settled'||m.status==='void')done.push(m);else if(isOpen(m))open.push(m);else wait.push(m)});
+    open.sort(function(a,b){return (a.closes_at?new Date(a.closes_at):Infinity)-(b.closes_at?new Date(b.closes_at):Infinity)});
+    done.sort(function(a,b){return new Date(b.settled_at)-new Date(a.settled_at)});
+    var ae=document.activeElement,keepFocus=ae&&ae.tagName==='INPUT'&&ae.closest&&ae.closest('.bk-slip');
+    if(keepFocus)return; // don't yank the keyboard away mid-typing; next update catches up
+    [['bk-open',open],['bk-wait',wait],['bk-done',done]].forEach(function(g){
+      var box=$(g[0]);box.textContent='';
+      g[1].forEach(function(m){box.appendChild(card(m))});
+    });
+    if(!open.length)$('bk-open').appendChild(el('p','empty',live?'Nothing open right now. Steve’s cooking up the next one.':'The Bookie opens once Steve runs script 009 in Supabase.'));
+    $('bk-open-n').textContent=open.length?open.length+' taking bets':'Taking bets';
+    $('bk-wait-h').hidden=!wait.length;$('bk-done-h').hidden=!done.length;
+  }
+  function load(){
+    if(!db||!me)return;
+    Promise.all([db.from('markets').select('*').order('created_at'),db.from('bets').select('*')]).then(function(r){
+      if(r[0].error||r[1].error){live=false;markets=[];bets=[];render();return}
+      live=true;markets=r[0].data||[];bets=r[1].data||[];render();
+    });
+  }
+  function start(m){
+    me=m;db=window.FTV&&window.FTV.db;
+    $('bk-gate').hidden=!!m;$('bk-body').hidden=!m;
+    $('bk-admin').hidden=!(m&&m.is_admin);
+    if(!m||!db)return;
+    load();
+    if(!started){started=true;
+      try{db.channel('bookie-live').on('postgres_changes',{event:'*',schema:'public',table:'markets'},function(){load()}).on('postgres_changes',{event:'*',schema:'public',table:'bets'},function(){load()}).subscribe()}catch(e){}
+      document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
+      setInterval(function(){if(!document.hidden)render()},30000);
+    }
+  }
+  $('bk-gate-btn').addEventListener('click',function(){FTV&&FTV.open()});
+  if(FTV)FTV.on(start);
+})();
+
 /* ---------- Log a Dop: for fun, filmed, members only (no points) ---------- */
 (function(){
   function $(id){return document.getElementById(id)}
