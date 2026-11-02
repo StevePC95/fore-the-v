@@ -32,6 +32,7 @@
   --flag:#e2b23a; --tbc:#7f6110; --tbc-bg:#faf0d2;
   --tile:#ffffff; --tile-ink:#123f28;
   --bad:#b3261e; --bad-bg:#fbe4e1; --good:#1d6b3a; --good-bg:#e1f2e6;
+  --rl-red:#c0281f; --rl-black:#1c211e; --rl-green:#118048; --rl-red-ink:#c0281f;
   --f-display:"Big Shoulders Display","Arial Narrow","Helvetica Neue",Impact,sans-serif;
   --f-body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -47,7 +48,7 @@
   --on-team:#0b130f;
   --flag:#f0c75a; --tbc:#f0c75a; --tbc-bg:#30270e;
   --tile:#eef3ea; --tile-ink:#0d2f1e;
-  --bad:#ff8f84; --bad-bg:#3a1714; --good:#7fd69c; --good-bg:#12301d; color-scheme:dark}}
+  --bad:#ff8f84; --bad-bg:#3a1714; --good:#7fd69c; --good-bg:#12301d; --rl-red-ink:#ff8a80; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#0b130f; --card:#131d17; --ink:#e5ede6; --muted:#97aa9d; --line:#223128; --line-strong:#2f4236;
   --green:#0d2f1e; --green-2:#14432b; --green-ink:#eaf2e6;
@@ -57,7 +58,7 @@
   --on-team:#0b130f;
   --flag:#f0c75a; --tbc:#f0c75a; --tbc-bg:#30270e;
   --tile:#eef3ea; --tile-ink:#0d2f1e;
-  --bad:#ff8f84; --bad-bg:#3a1714; --good:#7fd69c; --good-bg:#12301d; color-scheme:dark}
+  --bad:#ff8f84; --bad-bg:#3a1714; --good:#7fd69c; --good-bg:#12301d; --rl-red-ink:#ff8a80; color-scheme:dark}
 
 *{box-sizing:border-box}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
@@ -230,6 +231,40 @@ button.bk-opt:disabled{cursor:default}
 .bk-bets .lost{text-decoration:line-through;opacity:.75}
 .bk-adm{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border-top:1px solid var(--line);padding-top:10px}
 .bk-adm select{font:600 .9rem/1 var(--f-body);padding:8px 10px;border-radius:10px;border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink);max-width:100%}
+
+.bk-wallet .btn.big{margin-top:8px}
+.bk-odds{display:flex;flex-direction:column;gap:6px}
+.bk-oddsrow{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:10px;align-items:center;font-weight:600}
+.bk-oddsrow span{overflow-wrap:anywhere}
+.bk-oddsrow .txt-in{font-family:var(--f-mono);text-align:right;min-height:42px;padding:8px 10px}
+.bk-sgs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.bk-sgs li{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.bk-sgs li b.q{font-size:1rem}
+.bk-sgs .opts{font-size:.9rem;color:var(--muted)}
+.bk-sgs .opts b{color:var(--ink)}
+.bk-sgs .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.bk-sgs .gone{opacity:.7}
+.bk-maker{font:600 .66rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--tbc);background:var(--tbc-bg);border-radius:999px;padding:5px 8px;align-self:flex-start}
+.rl-stage{position:relative;width:min(100%,290px);aspect-ratio:1;margin:4px auto 0}
+.rl-wheel{width:100%;height:100%;display:block;transition:transform 4.2s cubic-bezier(.12,.66,.1,1)}
+.rl-wheel text{font:700 11px var(--f-mono);fill:#fff}
+.rl-ptr{position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-top:20px solid var(--flag);z-index:2;filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+.rl-hub{position:absolute;inset:32%;border-radius:50%;background:var(--card);border:3px solid var(--flag);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
+.rl-hub b{font:900 2.4rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.rl-hub small{font:600 .6rem/1.2 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rl-hub.red b{color:var(--rl-red-ink)}
+.rl-hub.green b{color:var(--good)}
+.rl-numrow{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.rl-numrow label{font-weight:700;font-size:.92rem}
+.rl-amt,.rl-numrow .code-in{font-size:1rem;letter-spacing:.02em}
+.rl-feed{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.rl-feed li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.rl-feed li:last-child{border-bottom:0}
+.rl-feed small{display:block;color:var(--muted);font-size:.8rem}
+.rl-feed .res{display:inline-flex;align-items:center;gap:6px;font:600 .85rem/1 var(--f-mono);font-variant-numeric:tabular-nums}
+.rl-feed .dot{width:12px;height:12px;border-radius:50%;flex:none}
+.rl-feed .won{color:var(--good)}
+.rl-feed .lost{color:var(--muted)}
 
 /* ---------- Schedule timeline ---------- */
 .tl{display:flex;flex-direction:column;gap:22px}
@@ -1276,7 +1311,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="card gate" id="bk-gate">
     <span class="eyebrow">Members only</span>
     <h3>Sign in to get your R1,000,000</h3>
-    <p>Each of the 8 starts with a fake million. Back your calls, Steve posts the answers, winners get paid. Most money at the end of the weekend takes the bragging rights.</p>
+    <p>Each of the 8 starts with a fake million (past tourists can buy in too). Bet against the house, Steve posts the answers, winners get paid. Most money at the end of the weekend takes the bragging rights.</p>
     <button type="button" class="btn" id="bk-gate-btn">Sign in</button>
   </div>
 
@@ -1285,6 +1320,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <span class="eyebrow" id="bk-w-who">Your wallet</span>
       <b class="bk-bal mono" id="bk-bal">R1,000,000</b>
       <small id="bk-w-sub">Started on R1,000,000</small>
+      <button type="button" class="btn big" id="bk-join" hidden>Buy in: get R1,000,000</button>
     </div>
 
     <div class="verdict" id="bk-msg" role="status" aria-live="polite"></div>
@@ -1297,10 +1333,11 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <details class="card bk-how">
       <summary><b>How the Bookie works</b></summary>
       <ul class="rules">
-        <li>Everyone on Tour V starts with <b>R1,000,000</b> of fake money. It isn't real. Nobody pays anybody.</li>
-        <li>Pick an answer, pick how much, place the bet. You can bet more than once, on anything, until betting closes.</li>
-        <li><b>It's a tote:</b> all the money on a question goes in one pot, and whoever backed the right answer splits the pot in proportion to what they put in. The <b>×</b> number is what you'd get back per R1 if it landed right now. It moves as people bet.</li>
-        <li>Nobody backed the right answer, or the question gets scrapped = everyone gets their money back.</li>
+        <li>Everyone on Tour V starts with <b>R1,000,000</b> of fake money. Past tourists can buy in for their own million. It isn't real. Nobody pays anybody.</li>
+        <li><b>You bet against the house</b>, like Betway. Each answer has odds: <b>2.50</b> means R10k pays R25k if it lands. Your odds lock in the moment you bet.</li>
+        <li>Steve's the bookie: he sets the odds and can shorten or lengthen them any time (only new bets get the new odds). The bar behind each answer shows where the money's going.</li>
+        <li>You can bet more than once, on anything, until betting closes. Question gets scrapped = everyone gets their stake back.</li>
+        <li><b>Pitch a market</b> for <b>R50,000</b>. Steve declines it = money gone. Steve approves it = your R50k becomes your opening bet at <b>maker's odds</b>: <b>double</b> the opening odds on your answer.</li>
         <li>Steve posts the answers. Most money at the end of the weekend wins.</li>
       </ul>
     </details>
@@ -1312,7 +1349,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <label class="fld"><span>Question</span><input class="txt-in" id="bk-f-q" maxlength="160" autocomplete="off" placeholder="Who loses the most balls on Friday?"></label>
         <label class="fld"><span>Small print (optional)</span><input class="txt-in" id="bk-f-d" maxlength="400" autocomplete="off" placeholder="How it gets decided"></label>
         <label class="fld"><span>Answers, one per line (2 to 10)</span><textarea class="txt-in" id="bk-f-o" rows="4" placeholder="Steve&#10;Nic&#10;Someone else"></textarea></label>
-        <div class="picks" id="bk-f-who" aria-label="Quick fill"><button type="button" class="mini" data-fill="eight">Fill the 8 names</button><button type="button" class="mini" data-fill="teams">Inland / Coastal</button><button type="button" class="mini" data-fill="yn">Yes / No</button></div>
+        <div class="picks" data-fill-for="bk-f-o"><button type="button" class="mini" data-fill="eight">Fill the 8 names</button><button type="button" class="mini" data-fill="teams">Inland / Coastal</button><button type="button" class="mini" data-fill="yn">Yes / No</button></div>
+        <div class="fld"><span>Odds per answer</span><small class="fine">Decimal odds: 2.50 means R10k pays R25k. Starts at answers × 0.9 (a 10% house edge). Change them any time; bets already placed keep their odds.</small><div class="bk-odds" id="bk-f-odds"></div></div>
         <label class="fld"><span>Betting closes (SAST, optional)</span><input class="txt-in" id="bk-f-c" type="datetime-local"></label>
         <div class="verdict" id="bk-f-msg" role="status" aria-live="polite"></div>
         <div class="xb-btns"><button type="button" class="btn ghost" id="bk-f-cancel">Cancel</button><button type="submit" class="btn" id="bk-f-save">Post it</button></div>
@@ -1325,8 +1363,52 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <div class="head" id="bk-wait-h" hidden><span class="eyebrow">Betting closed · waiting on Steve</span><h2>Awaiting the result</h2></div>
     <div class="bk-list" id="bk-wait"></div>
 
+    <div class="head"><span class="eyebrow">R50,000 to play · double odds on your pick</span><h2>Pitch a market</h2></div>
+    <div class="card" id="bk-sg">
+      <p class="fine">Think you know something? Pitch a market. It costs <b>R50,000</b> and you have to pick your answer. Steve says no = money gone. Steve says yes = your R50k is your opening bet at <b>double the opening odds</b>.</p>
+      <button type="button" class="btn big" id="bk-sg-open" aria-expanded="false" aria-controls="bk-sg-form">Pitch a market · R50k</button>
+      <form class="bk-form" id="bk-sg-form" hidden>
+        <label class="fld"><span>Question</span><input class="txt-in" id="bk-s-q" maxlength="160" autocomplete="off" placeholder="Who's first in the bunker?"></label>
+        <label class="fld"><span>How it gets decided (optional)</span><input class="txt-in" id="bk-s-d" maxlength="400" autocomplete="off"></label>
+        <label class="fld"><span>Answers, one per line</span><textarea class="txt-in" id="bk-s-o" rows="4" placeholder="Mitch&#10;Jay&#10;Someone else"></textarea></label>
+        <div class="picks" data-fill-for="bk-s-o"><button type="button" class="mini" data-fill="eight">Fill the 8 names</button><button type="button" class="mini" data-fill="teams">Inland / Coastal</button><button type="button" class="mini" data-fill="yn">Yes / No</button></div>
+        <div class="fld"><span><b>Your answer</b> (your R50k rides on this)</span><div class="picks" id="bk-s-pick"><span class="fine">Type the answers first.</span></div></div>
+        <label class="fld"><span>Betting closes (SAST, optional)</span><input class="txt-in" id="bk-s-c" type="datetime-local"></label>
+        <div class="verdict" id="bk-s-msg" role="status" aria-live="polite"></div>
+        <div class="xb-btns"><button type="button" class="btn ghost" id="bk-s-cancel">Cancel</button><button type="submit" class="btn" id="bk-s-save">Pay R50k &amp; pitch it</button></div>
+      </form>
+      <ul class="bk-sgs" id="bk-sgs"></ul>
+    </div>
+
     <div class="head" id="bk-done-h" hidden><span class="eyebrow">Paid out</span><h2>Results</h2></div>
     <div class="bk-list" id="bk-done"></div>
+
+    <div class="head"><span class="eyebrow">For the idiots · the house always wins</span><h2>The Casino</h2></div>
+    <div class="card rl" id="rl">
+      <div class="rl-stage">
+        <span class="rl-ptr" aria-hidden="true"></span>
+        <svg class="rl-wheel" id="rl-wheel" viewBox="-150 -150 300 300" role="img" aria-label="Roulette wheel"></svg>
+        <div class="rl-hub" id="rl-hub" aria-live="polite"><b id="rl-num">?</b><small id="rl-col">Spin it</small></div>
+      </div>
+      <div class="form-step">
+        <div class="step-h"><span class="n">1</span><b>Bet on</b></div>
+        <div class="picks" id="rl-kinds"></div>
+        <div class="rl-numrow" id="rl-numrow" hidden><label for="rl-num-in">Number (0 to 36)</label><input class="code-in" id="rl-num-in" inputmode="numeric" maxlength="2" autocomplete="off"></div>
+      </div>
+      <div class="form-step">
+        <div class="step-h"><span class="n">2</span><b>How much</b></div>
+        <div class="picks" id="rl-stakes"></div>
+        <input class="code-in rl-amt" id="rl-amt" inputmode="numeric" placeholder="Or type an amount (R)" aria-label="Amount in Rand">
+      </div>
+      <p class="bk-ret" id="rl-ret"></p>
+      <button type="button" class="btn big" id="rl-spin">Spin</button>
+      <div class="verdict" id="rl-msg" role="status" aria-live="polite"></div>
+      <p class="fine">European wheel, single zero. Red/black, odd/even and 1–18/19–36 pay 2×; dozens pay 3×; a single number pays 36×. Zero loses everything except a bet on 0.</p>
+    </div>
+    <div class="card">
+      <span class="eyebrow">Latest at the table</span>
+      <ul class="rl-feed" id="rl-feed"></ul>
+    </div>
   </div>
 </section>
 
@@ -2024,22 +2106,22 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </script>
 
 <script>
-/* ---------- The Bookie: fake-money prediction market (tote payouts, settled by Steve) ---------- */
+/* ---------- The Bookie: fake-money prediction market, suggestions and the Casino ---------- */
 (function(){
   function $(id){return document.getElementById(id)}
   var FTV=window.FTV, db=FTV&&FTV.db;
-  var START=1000000;
+  var START=1000000, FEE=50000;
   var PEOPLE=[['steve','Steve','in'],['nic','Nic','in'],['luke','Luke','in'],['brandon','Brandon','in'],['guy','Guy','co'],['mitch','Mitch','co'],['jay','Jay','co'],['rich','Rich','co']];
   var NAME={},TEAM={};PEOPLE.forEach(function(p){NAME[p[0]]=p[1];TEAM[p[0]]=p[2]});
-  var me=null, markets=[], bets=[], live=false, started=false, busy=false;
-  var slip={}; // market id -> {opt, amt}
-  var editing=null;
+  var me=null, markets=[], bets=[], wallets=null, sugs=[], spins=[], extras=false, live=false, started=false, busy=false, spinning=false, reloadAfterSpin=false;
+  var slip={}, editing=null;
 
   function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
   function R(n){n=Math.round(n||0);return (n<0?'-R':'R')+Math.abs(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',')}
-  function Rk(n){n=Math.round(n||0);if(n>=1e6)return 'R'+(+(n/1e6).toFixed(n%1e6?2:0))+'m';if(n>=1e3)return 'R'+(+(n/1e3).toFixed(n%1e3?1:0))+'k';return 'R'+n}
+  function Rk(n){n=Math.round(n||0);var a=Math.abs(n),s=n<0?'-R':'R';if(a>=1e6)return s+(+(a/1e6).toFixed(a%1e6?2:0))+'m';if(a>=1e3)return s+(+(a/1e3).toFixed(a%1e3?1:0))+'k';return s+a}
   function nm(id){return NAME[id]||id}
-  function say(t,ok){var v=$('bk-msg');v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||'';if(t)setTimeout(function(){if(v.textContent===t){v.className='verdict';v.textContent=''}},5000)}
+  function pickOne(a){return a[Math.floor(Math.random()*a.length)]}
+  function say(t,ok,id){var v=$(id||'bk-msg');v.className=t?'verdict show '+(ok?'ok':'no'):'verdict';v.textContent=t||'';if(t&&!id)setTimeout(function(){if(v.textContent===t){v.className='verdict';v.textContent=''}},5000)}
   function sast(t,o){try{return new Date(t).toLocaleString('en-ZA',Object.assign({timeZone:'Africa/Johannesburg',hour12:false},o))}catch(e){return ''}}
   function closesLabel(t){
     if(!t)return 'Open until Steve closes it';
@@ -2050,47 +2132,82 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     return 'Closes '+sast(t,{weekday:'short',hour:'2-digit',minute:'2-digit'})+' · '+left+' left';
   }
   function isOpen(m){return m.status==='open'&&(!m.closes_at||new Date(m.closes_at)>Date.now())}
-  function onTour(){return !!(me&&TEAM[me.player_id])}
+  function myWallet(){if(!me||!me.player_id||!wallets)return null;for(var i=0;i<wallets.length;i++)if(wallets[i].player_id===me.player_id)return wallets[i];return null}
+  function hasWallet(){return !!myWallet()}
+  function amtOf(v){return Math.floor(Number(String(v||'').replace(/[^\d]/g,''))||0)}
+  function fmtAmt(n){return n?String(n).replace(/\B(?=(\d{3})+(?!\d))/g,','):''}
+  function localInput(t){if(!t)return '';var d=new Date(t);if(isNaN(d))return '';return new Date(d.getTime()+2*3600000).toISOString().slice(0,16)}
+  function fromLocal(v){return v?new Date(v+':00+02:00').toISOString():null}
   function err(e){
     var c=(e&&(e.message||e.details))||'';
     if(/closed/.test(c))return 'Too late, betting’s closed on that one.';
     if(/skint/.test(c))return 'You’re skint. Not enough left in the wallet for that.';
-    if(/not_on_tour/.test(c))return 'Only the 8 on Tour V can bet. Feel free to heckle.';
+    if(/no_wallet|not_on_tour/.test(c))return 'You need a wallet first. Buy in at the top.';
     if(/has_bets/.test(c))return 'People have already bet on this, so the answers can’t change now.';
     if(/need_two/.test(c))return 'Give it at least two answers.';
+    if(/need_pick/.test(c))return 'Pick which answer your R50k rides on.';
+    if(/not_pending/.test(c))return 'That one’s already been dealt with.';
     if(/not_allowed/.test(c))return 'Only Steve can do that.';
     if(/bad_stake/.test(c))return 'Enter how much you want to bet.';
+    if(/bad_odds/.test(c))return 'Odds must be between 1.01 and 1000, one per answer.';
+    if(/bad_bet/.test(c))return 'Pick something to bet on (numbers go 0 to 36).';
+    if(/function|schema cache|does not exist/.test(c))return 'That bit switches on once Steve runs script 010.';
     return 'That didn’t work. Check your signal and try again.';
+  }
+  function armBtn(b,label,fn){
+    var armed=false,t=null;
+    b.addEventListener('click',function(){
+      if(!armed){armed=true;b.classList.add('arm');b.textContent='Sure? Tap again';t=setTimeout(function(){armed=false;b.classList.remove('arm');b.textContent=label},3500);return}
+      clearTimeout(t);armed=false;b.classList.remove('arm');b.textContent=label;fn();
+    });
+  }
+  function rpc(fn,args,ok){
+    if(busy)return;busy=true;
+    db.rpc(fn,args).then(function(r){busy=false;if(r.error){say(err(r.error));return}if(ok)say(ok,true);load()});
   }
 
   /* ----- money ----- */
-  function wallet(pid){
-    var w={bal:START,inplay:0,won:0};
-    bets.forEach(function(b){if(b.player_id!==pid)return;w.bal-=b.stake;if(b.payout!=null){w.bal+=b.payout;w.won+=b.payout-b.stake}else w.inplay+=b.stake});
-    return w;
+  function localWallets(){ // before script 010: the 8, worked out from bets
+    return PEOPLE.map(function(p){
+      var w={player_id:p[0],short:p[1],team:p[2],balance:START,inplay:0};
+      bets.forEach(function(b){if(b.player_id!==p[0])return;w.balance-=b.stake;if(b.payout!=null)w.balance+=b.payout;else w.inplay+=b.stake});
+      return w;
+    });
   }
+  function defOdds(n){return Math.max(1.1,Math.round(n*0.9*100)/100)}
+  function oddsOf(m,i){return m.odds&&m.odds[i]!=null?+m.odds[i]:defOdds(m.options.length)}
+  function fmtOdds(o){o=+o;return o>=10?o.toFixed(1).replace(/\.0$/,''):o.toFixed(2)}
   function pools(m){
     var p=m.options.map(function(){return 0}),tot=0;
     bets.forEach(function(b){if(b.market_id===m.id){p[b.option]=(p[b.option]||0)+b.stake;tot+=b.stake}});
     return {opt:p,tot:tot};
   }
 
-  /* ----- render ----- */
+  /* ----- wallet & rich list ----- */
   function renderWallet(){
-    var w=me&&onTour()?wallet(me.player_id):null;
-    $('bk-w-who').textContent=w?nm(me.player_id)+'’s wallet':'Watching only';
-    $('bk-bal').textContent=w?R(w.bal):'—';
-    $('bk-w-sub').textContent=w?((w.inplay?Rk(w.inplay)+' riding on open bets · ':'')+(w.won>0?'up '+Rk(w.won)+' on settled bets':w.won<0?'down '+Rk(-w.won)+' on settled bets':'Started on R1,000,000')):'Past tourists can watch the action, but only the 8 on Tour V get a wallet.';
+    var w=myWallet();
+    $('bk-join').hidden=true;
+    if(w){
+      $('bk-w-who').textContent=nm(w.player_id)+'’s wallet';
+      $('bk-bal').textContent=R(w.balance);
+      var diff=w.balance+w.inplay-START;
+      $('bk-w-sub').textContent=(w.inplay?Rk(w.inplay)+' riding on open bets · ':'')+(diff>0?'up '+Rk(diff)+' overall':diff<0?'down '+Rk(-diff)+' overall':'Started on R1,000,000');
+      return;
+    }
+    $('bk-w-who').textContent='Watching only';$('bk-bal').textContent='—';
+    if(me&&me.player_id&&extras){$('bk-w-sub').textContent='Past tourists can buy in for their own fake million and get stuck in.';$('bk-join').hidden=false}
+    else if(me&&me.player_id)$('bk-w-sub').textContent='Past tourists can buy in once Steve switches it on.';
+    else $('bk-w-sub').textContent='Sign in with your name from the list to get a wallet.';
   }
   function renderRich(){
     var ol=$('bk-rich');ol.textContent='';
-    var rows=PEOPLE.map(function(p){var w=wallet(p[0]);return {id:p[0],team:p[2],net:w.bal+w.inplay,bal:w.bal,inplay:w.inplay}});
+    var rows=(wallets||[]).map(function(w){return {id:w.player_id,team:w.team,net:+w.balance+ +w.inplay,inplay:+w.inplay}});
     rows.sort(function(a,b){return b.net-a.net||a.id.localeCompare(b.id)});
-    var any=bets.length>0;
+    var any=bets.length>0||spins.length>0;
     rows.forEach(function(r,i){
       var li=el('li');if(me&&me.player_id===r.id)li.classList.add('me');
       li.appendChild(el('span','rk',String(i+1)));
-      var n=el('span','nm '+r.team,nm(r.id));
+      var n=el('span','nm'+(r.team?' '+r.team:''),nm(r.id));
       if(any&&i===0)n.appendChild(el('span','bk-tag gold','Fat cat'));
       if(any&&i===rows.length-1&&r.net<START)n.appendChild(el('span','bk-tag','Skint'));
       li.appendChild(n);
@@ -2099,16 +2216,18 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       li.appendChild(a);ol.appendChild(li);
     });
   }
-  function betLines(m,ps){
+
+  /* ----- market cards ----- */
+  function betLines(m){
     var ul=el('ul','bk-bets');
-    var mine=bets.filter(function(b){return b.market_id===m.id}).sort(function(a,b){return new Date(b.created_at)-new Date(a.created_at)});
-    if(!mine.length){ul.appendChild(el('li',null,isOpen(m)?'No bets yet. Get in first.':'Nobody bet on this one.'));return ul}
-    var grouped={};
-    mine.forEach(function(b){var k=b.player_id+'|'+b.option;if(!grouped[k])grouped[k]={p:b.player_id,o:b.option,s:0,pay:null};grouped[k].s+=b.stake;if(b.payout!=null)grouped[k].pay=(grouped[k].pay||0)+b.payout});
-    Object.keys(grouped).forEach(function(k){
+    var list=bets.filter(function(b){return b.market_id===m.id});
+    if(!list.length){ul.appendChild(el('li',null,isOpen(m)?'No bets yet. Get in first.':'Nobody bet on this one.'));return ul}
+    var grouped={},order=[];
+    list.forEach(function(b){var od=b.odds!=null?+b.odds:oddsOf(m,b.option);var k=b.player_id+'|'+b.option+'|'+(b.boost||1)+'|'+od;if(!grouped[k]){grouped[k]={p:b.player_id,o:b.option,boost:b.boost||1,od:od,s:0,pay:null};order.push(k)}grouped[k].s+=b.stake;if(b.payout!=null)grouped[k].pay=(grouped[k].pay||0)+b.payout});
+    order.forEach(function(k){
       var g=grouped[k],li=el('li');
       li.appendChild(el('b',null,nm(g.p)));
-      li.appendChild(document.createTextNode(' '+Rk(g.s)+' on '+m.options[g.o]));
+      li.appendChild(document.createTextNode(' '+Rk(g.s)+' on '+m.options[g.o]+' @ '+fmtOdds(g.od*g.boost)+(g.boost>1?' (maker’s odds, doubled)':'')));
       if(g.pay!=null){
         if(m.status==='void'||g.pay===g.s)li.appendChild(document.createTextNode(' · refunded'));
         else if(g.pay>0){li.className='won';li.appendChild(document.createTextNode(' · won '+R(g.pay)))}
@@ -2120,8 +2239,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   }
   function card(m){
     var c=el('div','card bk-mk '+m.status), open=isOpen(m), ps=pools(m), s=slip[m.id]||{};
-    var mw=me&&onTour()?wallet(me.player_id):null;
-    var myOpt={};bets.forEach(function(b){if(me&&b.market_id===m.id&&b.player_id===me.player_id)myOpt[b.option]=1});
+    var mw=myWallet();
+    var myOpt={},maker=null;
+    bets.forEach(function(b){if(b.market_id!==m.id)return;if(me&&b.player_id===me.player_id)myOpt[b.option]=1;if(b.boost>1)maker=b});
     var meta=el('div','bk-meta');
     if(m.status==='settled')meta.appendChild(el('span',null,'Result posted · pot '+Rk(ps.tot)));
     else if(m.status==='void')meta.appendChild(el('span',null,'Scrapped · everyone refunded'));
@@ -2131,18 +2251,19 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       meta.appendChild(cl);meta.appendChild(el('span',null,'Pot '+Rk(ps.tot)));
     }
     c.appendChild(meta);
+    if(maker)c.appendChild(el('span','bk-maker','Pitched by '+nm(maker.player_id)+' · backing '+m.options[maker.option]));
     c.appendChild(el('h3',null,m.question));
     if(m.detail)c.appendChild(el('p','fine',m.detail));
 
     var box=el('div','bk-opts');
     m.options.forEach(function(o,i){
-      var canPick=open&&onTour();
+      var canPick=open&&!!mw;
       var b=el(canPick?'button':'div','bk-opt');if(canPick)b.type='button';
       var share=ps.tot?ps.opt[i]/ps.tot:0;
       var bar=el('i','bar');bar.style.width=(share*100)+'%';b.appendChild(bar);
       b.appendChild(el('span','lab',o));
       b.appendChild(el('span','pool',ps.opt[i]?Rk(ps.opt[i]):''));
-      var x=m.status==='settled'?(m.winner===i?'✓':''):(ps.opt[i]?'×'+(ps.tot/ps.opt[i]).toFixed(ps.tot/ps.opt[i]>=10?0:1):'—');
+      var x=m.status==='settled'?(m.winner===i?'✓':''):m.status==='void'?'':fmtOdds(oddsOf(m,i));
       b.appendChild(el('span','x',x));
       if(m.status==='settled'&&m.winner===i)b.classList.add('win');
       if(myOpt[i])b.classList.add('mine');
@@ -2154,35 +2275,34 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     });
     c.appendChild(box);
 
-    if(open&&onTour()&&s.opt!=null&&mw){
-      var sl=el('div','bk-slip');
+    if(open&&mw&&s.opt!=null){
+      var sl=el('div','bk-slip'),bal=+mw.balance;
       var chips=el('div','picks');
-      [[10000,'R10k'],[50000,'R50k'],[100000,'R100k'],[250000,'R250k'],[mw.bal,'All in']].forEach(function(a){
-        if(a[0]<=0)return;
+      [[10000,'R10k'],[50000,'R50k'],[100000,'R100k'],[250000,'R250k'],[bal,'All in']].forEach(function(a){
+        if(a[0]<=0||(a[1]!=='All in'&&a[0]>bal))return;
         var ch=el('button','pick neutral',a[1]);ch.type='button';
         ch.setAttribute('aria-pressed',+s.amt===a[0]?'true':'false');
         ch.addEventListener('click',function(){slip[m.id].amt=String(a[0]);render()});
         chips.appendChild(ch);
       });
       sl.appendChild(chips);
-      var inp=el('input','code-in');inp.inputMode='numeric';inp.placeholder='Or type an amount (R)';inp.value=s.amt?Number(s.amt).toLocaleString('en-ZA').replace(/\s| /g,','):'';
+      var inp=el('input','code-in');inp.inputMode='numeric';inp.placeholder='Or type an amount (R)';inp.value=fmtAmt(+s.amt);
       inp.setAttribute('aria-label','Amount in Rand');
       var ret=el('p','bk-ret');
-      function amt(){return Math.floor(Number(String(inp.value).replace(/[^\d]/g,''))||0)}
       function preview(){
-        var a=amt();ret.textContent='';
+        var a=amtOf(inp.value);ret.textContent='';
         if(!a){ret.textContent='Backing '+m.options[s.opt]+'. Pick an amount.';return}
-        if(a>mw.bal){ret.appendChild(el('b',null,'You’ve only got '+R(mw.bal)+'.'));return}
-        var back=a*(ps.tot+a)/(ps.opt[s.opt]+a);
-        ret.appendChild(document.createTextNode(R(a)+' on '+m.options[s.opt]+' pays about '));
-        ret.appendChild(el('b',null,R(back)));
-        ret.appendChild(document.createTextNode(' if it lands right now. Moves as others bet.'));
+        if(a>bal){ret.appendChild(el('b',null,'You’ve only got '+R(bal)+'.'));return}
+        var od=oddsOf(m,s.opt);
+        ret.appendChild(document.createTextNode(R(a)+' on '+m.options[s.opt]+' at '+fmtOdds(od)+' pays '));
+        ret.appendChild(el('b',null,R(Math.floor(a*od))));
+        ret.appendChild(document.createTextNode(' if it lands. Odds lock in when you bet.'));
       }
-      inp.addEventListener('input',function(){slip[m.id].amt=String(amt()||'');preview()});
+      inp.addEventListener('input',function(){slip[m.id].amt=String(amtOf(inp.value)||'');preview()});
       sl.appendChild(inp);sl.appendChild(ret);preview();
       var go=el('button','btn big','Place bet');go.type='button';
       go.addEventListener('click',function(){
-        var a=amt();if(!a){say('Pick an amount first.');return}
+        var a=amtOf(inp.value);if(!a){say('Pick an amount first.');return}
         if(busy)return;busy=true;go.disabled=true;go.textContent='Placing…';
         db.rpc('ftv_bet',{p_market:m.id,p_option:s.opt,p_stake:a}).then(function(r){
           busy=false;
@@ -2192,29 +2312,18 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       });
       sl.appendChild(go);
       c.appendChild(sl);
-    }else if(open&&me&&!onTour()){
-      c.appendChild(el('p','fine','Only the 8 on Tour V can bet.'));
-    }else if(open&&onTour()&&s.opt==null){
+    }else if(open&&!mw){
+      c.appendChild(el('p','fine',me&&me.player_id&&extras?'Buy in at the top to bet.':'Watching only.'));
+    }else if(open&&s.opt==null){
       c.appendChild(el('p','fine','Tap an answer to bet on it.'));
     }
 
-    c.appendChild(betLines(m,ps));
+    c.appendChild(betLines(m));
     if(me&&me.is_admin)c.appendChild(adminRow(m));
     return c;
   }
 
-  /* ----- Steve's controls ----- */
-  function rpc(fn,args,ok){
-    if(busy)return;busy=true;
-    db.rpc(fn,args).then(function(r){busy=false;if(r.error){say(err(r.error));return}if(ok)say(ok,true);load()});
-  }
-  function armBtn(b,label,fn){
-    var armed=false,t=null;
-    b.addEventListener('click',function(){
-      if(!armed){armed=true;b.classList.add('arm');b.textContent='Sure? Tap again';t=setTimeout(function(){armed=false;b.classList.remove('arm');b.textContent=label},3500);return}
-      clearTimeout(t);fn();
-    });
-  }
+  /* ----- Steve's market controls ----- */
   function adminRow(m){
     var row=el('div','bk-adm');
     function mini(t,fn){var b=el('button','mini',t);b.type='button';b.addEventListener('click',fn);row.appendChild(b);return b}
@@ -2227,7 +2336,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       m.options.forEach(function(o,i){var op=el('option',null,o);op.value=String(i);sel.appendChild(op)});
       row.appendChild(sel);
       var pay=el('button','mini','Pay out');pay.type='button';row.appendChild(pay);
-      armBtn(pay,'Pay out',function(){if(sel.value===''){say('Pick the winning answer first.');pay.classList.remove('arm');pay.textContent='Pay out';return}rpc('ftv_market_settle',{p_id:m.id,p_winner:+sel.value},'Paid out: '+m.options[+sel.value]+'.')});
+      armBtn(pay,'Pay out',function(){if(sel.value===''){say('Pick the winning answer first.');return}rpc('ftv_market_settle',{p_id:m.id,p_winner:+sel.value},'Paid out: '+m.options[+sel.value]+'.')});
       var vd=el('button','mini','Scrap & refund');vd.type='button';row.appendChild(vd);
       armBtn(vd,'Scrap & refund',function(){rpc('ftv_market_settle',{p_id:m.id,p_winner:null},'Scrapped. Everyone refunded.')});
     }else{
@@ -2238,63 +2347,256 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     armBtn(del,'Delete',function(){rpc('ftv_market_delete',{p_id:m.id},'Deleted. Any bets on it were cancelled.')});
     return row;
   }
-  function localInput(t){if(!t)return '';var d=new Date(t);if(isNaN(d))return '';var z=new Date(d.getTime()+2*3600000);return z.toISOString().slice(0,16)}
+  var oddsVals=[];
+  function renderOddsInputs(){
+    var box=$('bk-f-odds'),opts=lines($('bk-f-o').value);box.textContent='';
+    if(opts.length<2){box.appendChild(el('span','fine','Type the answers first.'));return}
+    opts.forEach(function(o,i){
+      var row=el('label','bk-oddsrow');row.appendChild(el('span',null,o));
+      var inp=el('input','txt-in');inp.inputMode='decimal';inp.value=oddsVals[i]!=null?oddsVals[i]:fmtOdds(defOdds(opts.length));
+      inp.setAttribute('aria-label','Odds for '+o);
+      inp.addEventListener('input',function(){oddsVals[i]=inp.value});
+      row.appendChild(inp);box.appendChild(row);
+    });
+  }
+  $('bk-f-o').addEventListener('input',function(){renderOddsInputs()});
   function openForm(m){
     editing=m||null;
+    oddsVals=m?m.options.map(function(o,i){return fmtOdds(oddsOf(m,i))}):[];
     $('bk-form').hidden=false;$('bk-new-open').setAttribute('aria-expanded','true');
     $('bk-f-q').value=m?m.question:'';$('bk-f-d').value=m?(m.detail||''):'';
     $('bk-f-o').value=m?m.options.join('\n'):'';$('bk-f-c').value=m?localInput(m.closes_at):'';
     $('bk-f-save').textContent=m?'Save changes':'Post it';
-    var fm=$('bk-f-msg');fm.className='verdict';fm.textContent='';
+    renderOddsInputs();
+    say('',false,'bk-f-msg');
     $('bk-admin').scrollIntoView({behavior:'smooth',block:'start'});
   }
   function closeForm(){editing=null;$('bk-form').hidden=true;$('bk-new-open').setAttribute('aria-expanded','false')}
   $('bk-new-open').addEventListener('click',function(){if($('bk-form').hidden)openForm(null);else closeForm()});
   $('bk-f-cancel').addEventListener('click',closeForm);
-  [].slice.call($('bk-f-who').querySelectorAll('[data-fill]')).forEach(function(b){
-    b.addEventListener('click',function(){
-      var f=b.dataset.fill;
-      $('bk-f-o').value=f==='eight'?PEOPLE.map(function(p){return p[1]}).join('\n'):f==='teams'?'Inland\nCoastal':'Yes\nNo';
+  [].slice.call(document.querySelectorAll('[data-fill-for]')).forEach(function(box){
+    var ta=$(box.getAttribute('data-fill-for'));
+    [].slice.call(box.querySelectorAll('[data-fill]')).forEach(function(b){
+      b.addEventListener('click',function(){
+        var f=b.dataset.fill;
+        ta.value=f==='eight'?PEOPLE.map(function(p){return p[1]}).join('\n'):f==='teams'?'Inland\nCoastal':'Yes\nNo';
+        ta.dispatchEvent(new Event('input'));
+      });
     });
   });
+  function lines(v){return String(v||'').split('\n').map(function(x){return x.trim()}).filter(Boolean)}
   $('bk-form').addEventListener('submit',function(e){
     e.preventDefault();
-    var fm=$('bk-f-msg');
-    var q=$('bk-f-q').value.trim(),opts=$('bk-f-o').value.split('\n').map(function(x){return x.trim()}).filter(Boolean);
-    var c=$('bk-f-c').value;
-    if(q.length<3){fm.className='verdict show no';fm.textContent='What’s the question?';return}
-    if(opts.length<2||opts.length>10){fm.className='verdict show no';fm.textContent='Give it between 2 and 10 answers, one per line.';return}
-    var closes=c?new Date(c+':00+02:00').toISOString():null;
+    var q=$('bk-f-q').value.trim(),opts=lines($('bk-f-o').value);
+    if(q.length<3)return say('What’s the question?',false,'bk-f-msg');
+    if(opts.length<2||opts.length>10)return say('Give it between 2 and 10 answers, one per line.',false,'bk-f-msg');
+    var odds=[].slice.call($('bk-f-odds').querySelectorAll('input')).map(function(x){return parseFloat(String(x.value).replace(',','.'))});
+    if(odds.length!==opts.length||odds.some(function(o){return !(o>=1.01&&o<=1000)}))return say('Every answer needs odds between 1.01 and 1000 (e.g. 2.5).',false,'bk-f-msg');
     var btn=$('bk-f-save');btn.disabled=true;
-    db.rpc('ftv_market_save',{p_id:editing?editing.id:null,p_question:q,p_detail:$('bk-f-d').value,p_options:opts,p_closes:closes}).then(function(r){
+    var args={p_id:editing?editing.id:null,p_question:q,p_detail:$('bk-f-d').value,p_options:opts,p_closes:fromLocal($('bk-f-c').value)};
+    if(extras)args.p_odds=odds;
+    db.rpc('ftv_market_save',args).then(function(r){
       btn.disabled=false;
-      if(r.error){fm.className='verdict show no';fm.textContent=err(r.error);return}
+      if(r.error)return say(err(r.error),false,'bk-f-msg');
       say(editing?'Market updated.':'Market posted. Let the boys at it.',true);closeForm();load();
     });
   });
 
+  /* ----- Suggestions ----- */
+  var sgPick=null;
+  function renderPickChoices(){
+    var box=$('bk-s-pick'),opts=lines($('bk-s-o').value);box.textContent='';
+    if(sgPick!=null&&sgPick>=opts.length)sgPick=null;
+    if(opts.length<2){box.appendChild(el('span','fine','Type at least two answers first.'));return}
+    opts.forEach(function(o,i){
+      var b=el('button','pick neutral',o);b.type='button';b.setAttribute('aria-pressed',sgPick===i?'true':'false');
+      b.addEventListener('click',function(){sgPick=i;renderPickChoices()});box.appendChild(b);
+    });
+  }
+  $('bk-s-o').addEventListener('input',renderPickChoices);
+  function closeSg(){$('bk-sg-form').hidden=true;$('bk-sg-open').hidden=false;$('bk-sg-open').setAttribute('aria-expanded','false')}
+  $('bk-sg-open').addEventListener('click',function(){
+    if(!hasWallet())return say(me&&me.player_id?'Buy in at the top first.':'You need a wallet to pitch a market.');
+    $('bk-sg-form').hidden=false;$('bk-sg-open').hidden=true;$('bk-sg-open').setAttribute('aria-expanded','true');
+    ['bk-s-q','bk-s-d','bk-s-o','bk-s-c'].forEach(function(id){$(id).value=''});sgPick=null;renderPickChoices();say('',false,'bk-s-msg');
+  });
+  $('bk-s-cancel').addEventListener('click',closeSg);
+  $('bk-sg-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var q=$('bk-s-q').value.trim(),opts=lines($('bk-s-o').value);
+    if(q.length<3)return say('What’s the question?',false,'bk-s-msg');
+    if(opts.length<2||opts.length>10)return say('Give it between 2 and 10 answers, one per line.',false,'bk-s-msg');
+    if(sgPick==null)return say('Pick which answer your R50k rides on.',false,'bk-s-msg');
+    var w=myWallet();if(w&&+w.balance<FEE)return say('You’re skint. It costs R50,000 to pitch.',false,'bk-s-msg');
+    var btn=$('bk-s-save');btn.disabled=true;
+    db.rpc('ftv_suggest',{p_question:q,p_detail:$('bk-s-d').value,p_options:opts,p_closes:fromLocal($('bk-s-c').value),p_pick:sgPick}).then(function(r){
+      btn.disabled=false;
+      if(r.error)return say(err(r.error),false,'bk-s-msg');
+      closeSg();say('Pitched. R50k gone from your wallet. Now go suck up to Steve.',true);load();
+    });
+  });
+  function renderSugs(){
+    var ul=$('bk-sgs');ul.textContent='';
+    $('bk-sg-open').hidden=!$('bk-sg-form').hidden;
+    if(!extras){ul.appendChild(el('li','fine','Pitching switches on once Steve runs script 010.'));$('bk-sg-open').hidden=true;return}
+    var pend=sugs.filter(function(x){return x.status==='pending'});
+    var recent=sugs.filter(function(x){return x.status!=='pending'&&x.status!=='withdrawn'}).slice(0,4);
+    pend.concat(recent).forEach(function(x){
+      var li=el('li',x.status==='pending'?'':'gone');
+      var top=el('div','row');
+      top.appendChild(el('span','bk-tag'+(x.status==='pending'?' gold':''),x.status==='pending'?'Waiting on Steve':x.status==='approved'?'Approved · live':'Declined · R50k down the drain'));
+      top.appendChild(el('span','fine',nm(x.player_id)));
+      li.appendChild(top);
+      li.appendChild(el('b','q',x.question));
+      var o=el('div','opts');
+      x.options.forEach(function(a,i){if(i)o.appendChild(document.createTextNode(' · '));o.appendChild(i===x.pick?el('b',null,a+' ✓'):document.createTextNode(a))});
+      li.appendChild(o);
+      if(x.detail)li.appendChild(el('small','fine',x.detail));
+      if(x.status==='pending'){
+        var row=el('div','row');
+        if(me&&me.player_id===x.player_id){var wd=el('button','mini','Withdraw & refund');wd.type='button';row.appendChild(wd);armBtn(wd,'Withdraw & refund',function(){rpc('ftv_suggest_withdraw',{p_id:x.id},'Withdrawn. R50k back in your wallet.')})}
+        if(me&&me.is_admin){
+          var ap=el('button','mini','Approve');ap.type='button';row.appendChild(ap);
+          armBtn(ap,'Approve',function(){rpc('ftv_suggest_decide',{p_id:x.id,p_approve:true},'Approved. It’s live, with '+nm(x.player_id)+'’s R50k on '+x.options[x.pick]+' at maker’s odds.')});
+          var dc=el('button','mini','Decline');dc.type='button';row.appendChild(dc);
+          armBtn(dc,'Decline',function(){rpc('ftv_suggest_decide',{p_id:x.id,p_approve:false},'Declined. '+nm(x.player_id)+'’s R50k is gone.')});
+        }
+        if(row.childNodes.length)li.appendChild(row);
+      }
+      ul.appendChild(li);
+    });
+  }
+
+  /* ----- The Casino (European roulette; the spin happens in the database) ----- */
+  var ORDER=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+  var REDS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+  function colour(n){return n===0?'green':REDS.indexOf(n)>-1?'red':'black'}
+  var KINDS=[['red',null,'Red','2×'],['black',null,'Black','2×'],['odd',null,'Odd','2×'],['even',null,'Even','2×'],['low',null,'1–18','2×'],['high',null,'19–36','2×'],['dozen',1,'1st 12','3×'],['dozen',2,'2nd 12','3×'],['dozen',3,'3rd 12','3×'],['num',null,'Single number','36×']];
+  var rl={k:null,amt:''},rot=0;
+  (function drawWheel(){
+    var svg=$('rl-wheel'),NS='http://www.w3.org/2000/svg',step=360/37,r1=146,r0=96;
+    var g=document.createElementNS(NS,'g');
+    function pt(r,a){a=(a-90)*Math.PI/180;return [r*Math.cos(a),r*Math.sin(a)]}
+    ORDER.forEach(function(n,i){
+      var a0=i*step-step/2,a1=i*step+step/2,p=[pt(r1,a0),pt(r1,a1),pt(r0,a1),pt(r0,a0)];
+      var path=document.createElementNS(NS,'path');
+      path.setAttribute('d','M'+p[0]+' A'+r1+' '+r1+' 0 0 1 '+p[1]+' L'+p[2]+' A'+r0+' '+r0+' 0 0 0 '+p[3]+'Z');
+      path.setAttribute('style','fill:var(--rl-'+colour(n)+');stroke:var(--flag);stroke-width:.6');
+      g.appendChild(path);
+      var t=document.createElementNS(NS,'text'),c=pt((r1+r0)/2+12,i*step);
+      t.setAttribute('x',c[0]);t.setAttribute('y',c[1]);t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','central');
+      t.setAttribute('transform','rotate('+(i*step)+' '+c[0]+' '+c[1]+')');t.textContent=n;g.appendChild(t);
+    });
+    var rim=document.createElementNS(NS,'circle');rim.setAttribute('r',r1+2);rim.setAttribute('style','fill:none;stroke:var(--flag);stroke-width:4');
+    svg.appendChild(g);svg.appendChild(rim);
+  })();
+  function rlKind(){return rl.k==null?null:KINDS[rl.k]}
+  function renderKinds(){
+    var box=$('rl-kinds');box.textContent='';
+    KINDS.forEach(function(k,i){
+      var b=el('button','pick neutral',k[2]+' · '+k[3]);b.type='button';b.setAttribute('aria-pressed',rl.k===i?'true':'false');
+      b.addEventListener('click',function(){rl.k=i;renderKinds();rlPreview()});box.appendChild(b);
+    });
+    $('rl-numrow').hidden=!(rlKind()&&rlKind()[0]==='num');
+  }
+  function renderStakes(){
+    var box=$('rl-stakes');box.textContent='';var w=myWallet(),bal=w?+w.balance:0;
+    [[10000,'R10k'],[50000,'R50k'],[100000,'R100k'],[bal,'All in']].forEach(function(a){
+      if(a[0]<=0||(a[1]!=='All in'&&a[0]>bal))return;
+      var b=el('button','pick neutral',a[1]);b.type='button';b.setAttribute('aria-pressed',+rl.amt===a[0]?'true':'false');
+      b.addEventListener('click',function(){rl.amt=String(a[0]);$('rl-amt').value=fmtAmt(a[0]);renderStakes();rlPreview()});box.appendChild(b);
+    });
+  }
+  $('rl-amt').addEventListener('input',function(){rl.amt=String(amtOf(this.value)||'');renderStakes();rlPreview()});
+  $('rl-num-in').addEventListener('input',rlPreview);
+  function rlPreview(){
+    var k=rlKind(),a=amtOf(rl.amt),p=$('rl-ret');p.textContent='';
+    if(!k||!a)return;
+    var mult=k[0]==='num'?36:k[0]==='dozen'?3:2;
+    p.appendChild(document.createTextNode(R(a)+' on '+(k[0]==='num'?'number '+($('rl-num-in').value||'?'):k[2])+' pays '));
+    p.appendChild(el('b',null,R(a*mult)));
+    p.appendChild(document.createTextNode(' if it lands.'));
+  }
+  var WIN=['Winner! Walk away now. You won’t.','The wheel loves you. For now.','Ka-ching. Drinks are on you.'];
+  var LOSE=['The house thanks you for your donation.','Gone. Like your tee shot on the 7th.','Classic. Go again, you know you want to.','Ouch. That’s a dop’s worth of shame.'];
+  $('rl-spin').addEventListener('click',function(){
+    if(spinning||busy)return;
+    if(!hasWallet())return say(me&&me.player_id?'Buy in at the top first.':'You need a wallet to play.',false,'rl-msg');
+    var k=rlKind(),a=amtOf(rl.amt);
+    if(!k)return say('Pick what you’re betting on.',false,'rl-msg');
+    if(!a)return say('Pick how much.',false,'rl-msg');
+    var pick=k[1];
+    if(k[0]==='num'){var v=$('rl-num-in').value.trim();pick=parseInt(v,10);if(v===''||isNaN(pick)||pick<0||pick>36)return say('Pick a number from 0 to 36.',false,'rl-msg')}
+    var btn=$('rl-spin');btn.disabled=true;btn.textContent='No more bets…';spinning=true;say('',false,'rl-msg');
+    $('rl-hub').className='rl-hub';$('rl-num').textContent='…';$('rl-col').textContent='Spinning';
+    db.rpc('ftv_spin',{p_kind:k[0],p_pick:pick,p_stake:a}).then(function(r){
+      if(r.error){spinning=false;btn.disabled=false;btn.textContent='Spin';$('rl-num').textContent='?';$('rl-col').textContent='Spin it';say(err(r.error),false,'rl-msg');return}
+      var res=r.data.result,pay=+r.data.payout,idx=ORDER.indexOf(res),step=360/37;
+      var target=-idx*step, base=rot-(rot%360);
+      rot=base+360*5+(((target%360)+360)%360);
+      $('rl-wheel').style.transform='rotate('+rot+'deg)';
+      setTimeout(function(){
+        spinning=false;btn.disabled=false;btn.textContent='Spin again';
+        var c=colour(res);$('rl-hub').className='rl-hub '+c;$('rl-num').textContent=res;$('rl-col').textContent=c;
+        if(pay>0)say(res+' '+c.toUpperCase()+'. +'+R(pay-a)+'. '+pickOne(WIN),true,'rl-msg');
+        else say(res+' '+c.toUpperCase()+'. -'+R(a)+'. '+pickOne(LOSE),false,'rl-msg');
+        if(+rl.amt>+r.data.balance)rl.amt='';
+        load();
+      },4300);
+    });
+  });
+  function kindLabel(s){if(s.kind==='num')return 'number '+s.pick;if(s.kind==='dozen')return ['1st','2nd','3rd'][s.pick-1]+' 12';for(var i=0;i<KINDS.length;i++)if(KINDS[i][0]===s.kind)return KINDS[i][2];return s.kind}
+  function renderFeed(){
+    var ul=$('rl-feed');ul.textContent='';
+    if(!extras){ul.appendChild(el('li','fine','The Casino opens once Steve runs script 010.'));$('rl-spin').disabled=true;return}
+    $('rl-spin').disabled=spinning;
+    if(!spins.length){ul.appendChild(el('li','fine','Nobody’s been stupid enough yet.'));return}
+    spins.forEach(function(s){
+      var li=el('li'),l=el('div');
+      var t=el('span');t.appendChild(el('b',null,nm(s.player_id)));t.appendChild(document.createTextNode(' '+Rk(s.stake)+' on '+kindLabel(s)));l.appendChild(t);
+      l.appendChild(el('small',null,sast(s.created_at,{weekday:'short',hour:'2-digit',minute:'2-digit'})));
+      li.appendChild(l);
+      var r=el('span','res '+(s.payout>0?'won':'lost'));var d=el('i','dot');d.style.background='var(--rl-'+colour(s.result)+')';r.appendChild(d);
+      r.appendChild(document.createTextNode(s.result+' · '+(s.payout>0?'+'+Rk(s.payout-s.stake):'-'+Rk(s.stake))));
+      li.appendChild(r);ul.appendChild(li);
+    });
+  }
+
+  /* ----- render & load ----- */
   function render(){
-    if(!me){return}
-    renderWallet();renderRich();
+    if(!me)return;
+    renderWallet();renderRich();renderSugs();renderFeed();renderStakes();
+    var ae=document.activeElement;
+    if(ae&&ae.tagName==='INPUT'&&ae.closest&&ae.closest('.bk-slip'))return; // don't yank the keyboard mid-typing
     var open=[],wait=[],done=[];
     markets.forEach(function(m){if(m.status==='settled'||m.status==='void')done.push(m);else if(isOpen(m))open.push(m);else wait.push(m)});
     open.sort(function(a,b){return (a.closes_at?new Date(a.closes_at):Infinity)-(b.closes_at?new Date(b.closes_at):Infinity)});
     done.sort(function(a,b){return new Date(b.settled_at)-new Date(a.settled_at)});
-    var ae=document.activeElement,keepFocus=ae&&ae.tagName==='INPUT'&&ae.closest&&ae.closest('.bk-slip');
-    if(keepFocus)return; // don't yank the keyboard away mid-typing; next update catches up
     [['bk-open',open],['bk-wait',wait],['bk-done',done]].forEach(function(g){
       var box=$(g[0]);box.textContent='';
       g[1].forEach(function(m){box.appendChild(card(m))});
     });
-    if(!open.length)$('bk-open').appendChild(el('p','empty',live?'Nothing open right now. Steve’s cooking up the next one.':'The Bookie opens once Steve runs script 009 in Supabase.'));
+    if(!open.length)$('bk-open').appendChild(el('p','empty',live?'Nothing open right now. Pitch one below.':'The Bookie opens once Steve runs script 009 in Supabase.'));
     $('bk-open-n').textContent=open.length?open.length+' taking bets':'Taking bets';
     $('bk-wait-h').hidden=!wait.length;$('bk-done-h').hidden=!done.length;
   }
   function load(){
     if(!db||!me)return;
-    Promise.all([db.from('markets').select('*').order('created_at'),db.from('bets').select('*')]).then(function(r){
-      if(r[0].error||r[1].error){live=false;markets=[];bets=[];render();return}
-      live=true;markets=r[0].data||[];bets=r[1].data||[];render();
+    if(spinning){reloadAfterSpin=true;return}
+    Promise.all([
+      db.from('markets').select('*').order('created_at'),
+      db.from('bets').select('*'),
+      db.rpc('ftv_wallets'),
+      db.from('market_suggestions').select('*').order('created_at',{ascending:false}).limit(40),
+      db.from('casino_spins').select('*').order('created_at',{ascending:false}).limit(15)
+    ]).then(function(r){
+      if(spinning){reloadAfterSpin=true;return}
+      if(r[0].error||r[1].error){live=false;markets=[];bets=[];wallets=[];render();return}
+      live=true;markets=r[0].data||[];bets=r[1].data||[];
+      extras=!r[2].error;
+      wallets=extras?(r[2].data||[]):localWallets();
+      sugs=r[3].error?[]:(r[3].data||[]);spins=r[4].error?[]:(r[4].data||[]);
+      render();
     });
   }
   function start(m){
@@ -2304,12 +2606,14 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     if(!m||!db)return;
     load();
     if(!started){started=true;
-      try{db.channel('bookie-live').on('postgres_changes',{event:'*',schema:'public',table:'markets'},function(){load()}).on('postgres_changes',{event:'*',schema:'public',table:'bets'},function(){load()}).subscribe()}catch(e){}
+      try{var ch=db.channel('bookie-live');['markets','bets','market_suggestions','casino_spins','bookie_joins'].forEach(function(t){ch.on('postgres_changes',{event:'*',schema:'public',table:t},function(){load()})});ch.subscribe()}catch(e){}
       document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
-      setInterval(function(){if(!document.hidden)render()},30000);
+      setInterval(function(){if(!document.hidden&&!spinning)render()},30000);
     }
   }
+  $('bk-join').addEventListener('click',function(){rpc('ftv_bookie_join',{},'You’re in. R1,000,000 of fake money. Don’t blow it at the Casino.')});
   $('bk-gate-btn').addEventListener('click',function(){FTV&&FTV.open()});
+  renderKinds();
   if(FTV)FTV.on(start);
 })();
 
