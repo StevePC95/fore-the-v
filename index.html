@@ -2653,16 +2653,17 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   if(FTV)FTV.on(start);
 })();
 
-/* ---------- Practice Green: one-putt game. Secretly cursed: some streaks get rigged, and the 6th rigged putt gets whacked by a bong ---------- */
+/* ---------- Practice Green: one-putt game. Secret joke (Steve): a dropping putt has a 20% chance to lip out and start a 6-putt curse.
+   Putts 2-5 are rigged at release (a touch less pace or a fraction of a degree) so they genuinely just miss; on the 6th a bong swats it away. ---------- */
 (function(){
   var cv=document.getElementById('pg-canvas'); if(!cv||!cv.getContext)return;
   var ctx=cv.getContext('2d');
   function $(id){return document.getElementById(id)}
-  var CURSE_CHANCE=1/3, CURSE_LEN=6;         // a putt that's dropping has a 33% chance to start a 6-putt curse
+  var CURSE_CHANCE=0.2, CURSE_LEN=6;
   var W=300,H=420, BR=5.5, HR=9.5, START_Y=385;
   var FRICTION=0.982, ROLL=0.015, CAPTURE=3.4, POWER=0.055, MAXPULL=150;   // ROLL = grass grip: always beats the steepest slope, so balls stop
   var C={};
-  function tokens(){var s=getComputedStyle(document.documentElement);['--green','--green-2','--flag','--ink','--paper','--rl-red'].forEach(function(k){C[k]=s.getPropertyValue(k).trim()||'#123f28'})}
+  function tokens(){var s=getComputedStyle(document.documentElement);['--green','--green-2','--flag','--rl-red'].forEach(function(k){C[k]=s.getPropertyValue(k).trim()||'#123f28'})}
   tokens();
   try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){tokens();draw()})}catch(e){}
 
@@ -2671,32 +2672,29 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function save(){try{localStorage.setItem('ftv-putt',JSON.stringify(st))}catch(e){}}
 
   var curse=0;             // rigged putts left (0 = honest green)
-  var ball,hole,slope,state='aim',drag=null,anim=0,bong=null,trail=[],sinkT=0,lipped=false,lastMsg='';
+  var ball,hole,slope,state='aim',drag=null,anim=0,bong=null,trail=[],sinkT=0,rim=null,smoke=[];
 
   function rnd(a,b){return a+Math.random()*(b-a)}
+  function pick(a){return a[Math.floor(Math.random()*a.length)]}
   function newHole(){
     var lvl=Math.min(st.streak,12);
     var ft=Math.round(rnd(5,9)+lvl*1.6);           // gets longer as your streak grows
     var y=Math.max(55,START_Y-ft*11);
     hole={x:rnd(70,230),y:y,ft:ft};
-    ball={x:rnd(120,180),y:START_Y,vx:0,vy:0,r:BR,s:1};
+    ball={x:rnd(120,180),y:START_Y,vx:0,vy:0,s:1,lipped:false,lip:false};
     var sm=rnd(0,0.006+lvl*0.0007), ang=rnd(0,Math.PI*2);   // max 0.0144 < ROLL
     slope={x:Math.cos(ang)*sm,y:Math.sin(ang)*sm*0.5};
-    state='aim';drag=null;bong=null;trail=[];lipped=false;
+    state='aim';drag=null;bong=null;trail=[];rim=null;smoke=[];
     $('pg-dist').textContent=ft+' ft';
     var pct=Math.round(Math.hypot(slope.x,slope.y)*600);
     var oct=Math.round(Math.atan2(slope.y,slope.x)/(Math.PI/4));oct=(oct+8)%8;
     $('pg-break').textContent=pct?('Break '+pct+'% '+['→','↘','↓','↙','←','↖','↑','↗'][oct]):'Dead flat';
     draw();
   }
-  function say(t,cls){var v=$('pg-msg');v.className='pg-msg'+(cls?' '+cls:'');v.textContent=t;lastMsg=t}
-  function renderStats(){
-    $('pg-made').textContent=st.made+' / '+st.tries;
-    $('pg-streak').textContent=st.streak;$('pg-best').textContent=st.best;
-  }
-  function pick(a){return a[Math.floor(Math.random()*a.length)]}
+  function say(t,cls){var v=$('pg-msg');v.className='pg-msg'+(cls?' '+cls:'');v.textContent=t}
+  function renderStats(){$('pg-made').textContent=st.made+' / '+st.tries;$('pg-streak').textContent=st.streak;$('pg-best').textContent=st.best}
 
-  /* ----- input: pull back from anywhere, release to putt ----- */
+  /* ----- input: tap Start, then pull back anywhere and release ----- */
   function pos(e){var r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}}
   var armed=false;
   function arm(on){armed=on;cv.classList.toggle('armed',on);$('pg-lock').hidden=on}
@@ -2710,91 +2708,159 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   cv.addEventListener('pointerup',function(){
     if(!drag)return;var p=pull();drag=null;
     if(p.d<8){draw();return}
-    ball.vx=p.x*POWER;ball.vy=p.y*POWER;state='roll';st.tries++;arm(false);$('pg-lock').hidden=true;
+    ball.vx=p.x*POWER;ball.vy=p.y*POWER;
+    if(curse>1)rig();                               // cursed putts 2-5: nudged at release so they just miss
+    state='roll';st.tries++;arm(false);$('pg-lock').hidden=true;
     say('…');go();
   });
   cv.addEventListener('pointercancel',function(){drag=null;draw()});
 
-  /* ----- physics ----- */
-  var last=0;
-  function go(){last=performance.now();cancelAnimationFrame(anim);anim=requestAnimationFrame(tick)}
-  function tick(t){
-    var f=Math.min(3,(t-last)/16.67);last=t;
-    if(state==='roll')step(f);
-    else if(state==='sink'){sinkT+=f;ball.s=Math.max(0,1-sinkT/14);ball.x+=(hole.x-ball.x)*0.25;ball.y+=(hole.y-ball.y)*0.25;if(sinkT>16){done(true);draw();return}}
-    else if(state==='bong'){stepBong(f);if(state!=='bong'){draw();return}}
-    draw();
-    if(state==='roll'||state==='sink'||state==='bong')anim=requestAnimationFrame(tick);
-  }
-  function step(f){
+  /* ----- physics: fixed 60 Hz steps, so a putt can be simulated exactly before it's played ----- */
+  function phys(b){   // one frame; returns 'sink' | 'off' | 'stop' | null
     for(var i=0;i<4;i++){
-      var g=f/4;
-      ball.vx+=slope.x*g;ball.vy+=slope.y*g;
-      var k=Math.pow(FRICTION,g);ball.vx*=k;ball.vy*=k;
-      var sp0=Math.hypot(ball.vx,ball.vy),grip=ROLL*g;
-      if(sp0<=grip){ball.vx=0;ball.vy=0}else{ball.vx*=(sp0-grip)/sp0;ball.vy*=(sp0-grip)/sp0}
-      ball.x+=ball.vx*g;ball.y+=ball.vy*g;
-      var dx=hole.x-ball.x,dy=hole.y-ball.y,d=Math.hypot(dx,dy),sp=Math.hypot(ball.vx,ball.vy);
-      // the 6th cursed putt: here comes the bong
-      if(curse===1&&!bong&&(d<70||sp<0.6)){startBong();return}
+      var g=0.25;
+      b.vx+=slope.x*g;b.vy+=slope.y*g;
+      var k=Math.pow(FRICTION,g);b.vx*=k;b.vy*=k;
+      var sp0=Math.hypot(b.vx,b.vy),grip=ROLL*g;
+      if(sp0<=grip){b.vx=0;b.vy=0}else{b.vx*=(sp0-grip)/sp0;b.vy*=(sp0-grip)/sp0}
+      b.x+=b.vx*g;b.y+=b.vy*g;
+      var dx=hole.x-b.x,dy=hole.y-b.y,d=Math.hypot(dx,dy),sp=Math.hypot(b.vx,b.vy);
+      if(b.minD==null||d<b.minD)b.minD=d;
       if(d<HR){
-        if(sp<CAPTURE){
-          if(curse>0||(Math.random()<CURSE_CHANCE&&(curse=CURSE_LEN))){lipOut(sp);continue}
-          state='sink';sinkT=0;return;
-        }
-        if(!lipped){lipped=true;var nx=-dx/d,ny=-dy/d,dot=ball.vx*nx+ball.vy*ny;ball.vx-=nx*dot*0.6;ball.vy-=ny*dot*0.6;ball.vx*=0.7;ball.vy*=0.7}
+        if(sp<CAPTURE&&!b.lip)return 'sink';
+        if(!b.lipped){b.lipped=true;var nx=-dx/d,ny=-dy/d,dot=b.vx*nx+b.vy*ny;b.vx-=nx*dot*0.6;b.vy-=ny*dot*0.6;b.vx*=0.7;b.vy*=0.7}
       }
-      if(ball.x<-20||ball.x>W+20||ball.y<-20||ball.y>H+20){done(false,'Off the green. Impressive, honestly.');return}
-      if(sp<0.05){done(false);return}
+      if(b.x<-20||b.x>W+20||b.y<-20||b.y>H+20)return 'off';
+      if(sp<0.05)return 'stop';
     }
-    trail.push({x:ball.x,y:ball.y});if(trail.length>40)trail.shift();
+    return null;
   }
-  function lipOut(sp){
-    // rigged: it catches the edge, half-circles the cup and dribbles out the side, a foot or two past
-    lipped=true;
-    var u=Math.hypot(ball.vx,ball.vy)||1, ux=ball.vx/u, uy=ball.vy/u;
-    var a=(Math.random()<.5?1:-1)*rnd(1.2,2.0), ca=Math.cos(a), sa=Math.sin(a);
-    var ex=ux*ca-uy*sa, ey=ux*sa+uy*ca;            // exit direction: incoming line turned 70-115 degrees
-    ball.x=hole.x+ex*(HR+1.5);ball.y=hole.y+ey*(HR+1.5);
-    var v=rnd(0.8,1.3);ball.vx=ex*v;ball.vy=ey*v;
-    ball.lip=true;
+  function simulate(vx,vy){
+    var b={x:ball.x,y:ball.y,vx:vx,vy:vy,lipped:false,minD:null};
+    for(var n=0;n<3000;n++){var e=phys(b);if(e)return {e:e,b:b}}
+    return {e:'stop',b:b};
+  }
+  function rig(){
+    var r=simulate(ball.vx,ball.vy);
+    if(r.e!=='sink')return;                         // missing on its own: leave it alone
+    var vx=ball.vx,vy=ball.vy,modes=Math.random()<.5?['short','wide']:['wide','short'];
+    for(var m=0;m<2;m++){
+      if(modes[m]==='short'){                        // dies a few inches short
+        for(var k=0.99;k>0.55;k-=0.005){
+          var s=simulate(vx*k,vy*k),dd=Math.hypot(s.b.x-hole.x,s.b.y-hole.y);
+          if(s.e==='stop'&&dd>HR+1.5&&dd<HR+9){ball.vx=vx*k;ball.vy=vy*k;return}
+        }
+      }else{                                         // slides past the edge
+        var side=Math.random()<.5?1:-1;
+        for(var a=0.003;a<0.26;a+=0.0015){
+          var ca=Math.cos(a*side),sa=Math.sin(a*side),nx=vx*ca-vy*sa,ny=vx*sa+vy*ca;
+          var w=simulate(nx,ny);
+          if(w.e!=='sink'&&w.b.minD>HR+0.8&&w.b.minD<HR+6){ball.vx=nx;ball.vy=ny;return}
+        }
+      }
+    }
+    // couldn't find a clean miss: it'll lip out instead
   }
 
-  /* ----- the bong ----- */
-  function startBong(){state='bong';bong={t:0,from:ball.x<W/2?1:-1,hit:false,py:Math.min(H-40,Math.max(80,ball.y-6))};say('Wait… what’s that?','warn')}
-  function stepBong(f){
-    var b=bong;b.t+=f;
-    // swing angle: wind up, then whack at t≈30
-    if(!b.hit&&b.t>=30){b.hit=true;ball.vx=-b.from*rnd(9,12);ball.vy=-rnd(3,6);say('BONG’D','bong');shake=12}
-    if(b.hit){ball.x+=ball.vx*f;ball.y+=ball.vy*f;ball.vy+=0.25*f;ball.spin=(ball.spin||0)+0.4*f}
-    if(b.t>95){curse=0;done(false,'BONG’D. You were cursed: 6 putts rigged in a row. Not even sorry.',true)}
+  var last=0,acc=0;
+  function go(){last=performance.now();acc=0;cancelAnimationFrame(anim);anim=requestAnimationFrame(tick)}
+  function tick(t){
+    acc+=Math.min(4,(t-last)/16.67);last=t;
+    while(acc>=1&&(state==='roll'||state==='rim'||state==='sink'||state==='bong')){acc-=1;frame()}
+    if(state==='bong'||state==='smoke'){smokeStep()}
+    draw();
+    if(state==='roll'||state==='rim'||state==='sink'||state==='bong'||state==='smoke')anim=requestAnimationFrame(tick);
+  }
+  function frame(){
+    if(state==='roll'){
+      var dx=hole.x-ball.x,dy=hole.y-ball.y,d=Math.hypot(dx,dy),sp=Math.hypot(ball.vx,ball.vy);
+      if(curse===1&&!bong&&(d<70||sp<0.6)){startBong();return}
+      var e=phys(ball);
+      trail.push({x:ball.x,y:ball.y});if(trail.length>50)trail.shift();
+      if(e==='sink'){
+        if(curse>0||Math.random()<CURSE_CHANCE){if(!curse)curse=CURSE_LEN;startRim();return}
+        state='sink';sinkT=0;return;
+      }
+      if(e==='off'){done(false,'Off the green. Impressive, honestly.');return}
+      if(e==='stop'){done(false);return}
+    }else if(state==='rim')rimStep();
+    else if(state==='sink'){sinkT++;ball.s=Math.max(0,1-sinkT/14);ball.x+=(hole.x-ball.x)*0.25;ball.y+=(hole.y-ball.y)*0.25;if(sinkT>16)done(true)}
+    else if(state==='bong')bongStep();
+  }
+
+  /* ----- the lip-out: catches the edge, half-circles the cup, dies a few inches out ----- */
+  function startRim(){
+    var rx=ball.x-hole.x,ry=ball.y-hole.y,th=Math.atan2(ry,rx);
+    var sp=Math.hypot(ball.vx,ball.vy),cross=rx*ball.vy-ry*ball.vx,dir=cross>=0?1:-1;
+    rim={th:th,dir:dir,w:Math.min(0.11,Math.max(0.05,sp/HR*0.55)),left:rnd(2.3,3.6)};
+    ball.lip=true;state='rim';
+  }
+  function rimStep(){
+    rim.th+=rim.dir*rim.w;rim.left-=rim.w;rim.w=Math.max(0.035,rim.w*0.985);
+    var R=HR+0.2;ball.x=hole.x+Math.cos(rim.th)*R;ball.y=hole.y+Math.sin(rim.th)*R;
+    trail.push({x:ball.x,y:ball.y});if(trail.length>50)trail.shift();
+    if(rim.left<=0){
+      var tx=-Math.sin(rim.th)*rim.dir,ty=Math.cos(rim.th)*rim.dir,ox=Math.cos(rim.th),oy=Math.sin(rim.th);
+      ball.x=hole.x+ox*(HR+1.2);ball.y=hole.y+oy*(HR+1.2);
+      var v=rnd(0.32,0.45);ball.vx=(tx*0.85+ox*0.5)*v;ball.vy=(ty*0.85+oy*0.5)*v;
+      ball.lipped=true;rim=null;state='roll';
+    }
+  }
+
+  /* ----- the 6th cursed putt: a bong swats it, then sits centre stage, smoking ----- */
+  function startBong(){state='bong';bong={t:0,from:ball.x<W/2?1:-1,hit:false,py:Math.min(H-60,Math.max(90,ball.y-10))};say('Wait… what’s that?','warn')}
+  function bongStep(){
+    var b=bong;b.t++;
+    if(!b.hit&&b.t>=30){b.hit=true;ball.vx=-b.from*rnd(9,12);ball.vy=-rnd(3,6);shake=10}
+    if(b.hit){ball.x+=ball.vx;ball.y+=ball.vy;ball.vy+=0.25}
+    if(b.t>70){curse=0;done(false,'Hahahahaha got you',true);state='smoke'}
+  }
+  function bongPose(){   // where the bong is drawn: swinging in from the side, then gliding to centre stage
+    var b=bong,dir=b.from,sx=dir>0?W-50:50;
+    if(b.t<34){
+      var enter=Math.min(1,b.t/14),ang=b.t<22?(-0.9-0.35*(b.t/22)):(-1.25+2.2*((b.t-22)/12));
+      return {x:sx+dir*60*(1-enter),y:b.py,a:ang*-dir,s:1};
+    }
+    var k=Math.min(1,(b.t-34)/26),e=k*k*(3-2*k);
+    return {x:sx+(W/2-sx)*e,y:b.py+(H/2+5-b.py)*e,a:(0.95*-dir)*(1-e),s:1+0.5*e};
+  }
+  function smokeStep(){
+    if(!bong)return;
+    var p=bongPose(),sc=p.s,settled=bong.t>=60||state==='smoke';
+    if(state==='smoke')bong.t=Math.max(bong.t,60);
+    var rate=settled?0.55:0.25;
+    if(Math.random()<rate)smoke.push({x:p.x+rnd(-3,3)*sc,y:p.y-66*sc,r:rnd(5,8)*sc,vx:rnd(-0.25,0.25),vy:-rnd(0.5,0.9),a:0.55,life:0});
+    if(settled&&Math.random()<0.3)smoke.push({x:p.x+37*sc,y:p.y-2*sc,r:rnd(3,5)*sc,vx:rnd(0,0.3),vy:-rnd(0.4,0.7),a:0.45,life:0});
+    smoke.forEach(function(s){s.life++;s.x+=s.vx+Math.sin((s.life+s.r)/12)*0.25;s.y+=s.vy;s.r+=0.18;s.a*=0.982});
+    smoke=smoke.filter(function(s){return s.a>0.03&&s.y>-30});
+    if(smoke.length>140)smoke.splice(0,smoke.length-140);
   }
   var shake=0;
 
   /* ----- results ----- */
-  var MISS_SHORT=['Never up, never in.','Short. Did you even hit it?','That’s a fine. Left it short.','Grandma putts harder than that.'];
+  var NEAR=['Died on the lip. Agony.','One more roll! ONE.','Hanging on the edge. Blow on it.','Shaved the edge. So close.','How did that stay out?','Peeking in. Not dropping.'];
+  var MISS_SHORT=['Never up, never in.','Short. Did you even hit it?','That’s a fine. Left it short.','Died on the lip. Agony.'];
   var MISS_LONG=['Way too hot. Next postcode.','Easy, Tiger.','Bit of steam on that one.'];
-  var MISS_WIDE=['Didn’t read the break, did you.','Wide. Blame the green.','Pulled it. Classic.'];
+  var MISS_WIDE=['Didn’t read the break, did you.','Wide. Blame the green.','Pulled it. Classic.','Shaved the edge. So close.'];
   var LIP=['Lipped out! Brutal.','Horseshoe! The cup spat it out.','Rimmed it. The golf gods hate you.','In and out. Pain.','Round the houses and out. Sjoe.'];
   var MADE=['Drained it!','Centre cut. Tour pro.','Cash money.','Dropped like a dop.','Get in the hole!'];
-  function done(made,msg,bonged){
-    state='done';cancelAnimationFrame(anim);
+  function done(made,msg,gotYou){
+    if(!gotYou)state='done';
     if(made){st.made++;st.streak++;if(st.streak>st.best)st.best=st.streak;say(pick(MADE)+(st.streak>1?' '+st.streak+' in a row.':''),'ok')}
     else{
       st.streak=0;
-      if(curse>0&&!bonged)curse--;
-      if(msg)say(msg,bonged?'bong':'');
+      if(curse>0&&!gotYou)curse--;
+      if(msg)say(msg,gotYou?'bong':'');
       else if(ball.lip)say(pick(LIP),'');
       else{
-        var past=(START_Y-ball.y)>(START_Y-hole.y)+14, near=Math.abs(ball.x-hole.x)<18;
-        say(near?(past?pick(MISS_LONG):pick(MISS_SHORT)):pick(MISS_WIDE),'');
+        var dd=Math.hypot(ball.x-hole.x,ball.y-hole.y),past=(START_Y-ball.y)>(START_Y-hole.y)+14,near=Math.abs(ball.x-hole.x)<18;
+        say(dd<HR+10?pick(NEAR):near?(past?pick(MISS_LONG):pick(MISS_SHORT)):pick(MISS_WIDE),'');
       }
     }
     save();renderStats();
     $('pg-start').textContent=made?'Next putt (longer)':'Go again';$('pg-lock').hidden=false;
-    if(curse===1&&!made){} // the next one gets the bong
   }
-  $('pg-reset').addEventListener('click',function(){st={made:0,tries:0,streak:0,best:0};save();renderStats();newHole();say('Stats wiped. Fresh start, same yips.','')});
+  $('pg-reset').addEventListener('click',function(){st={made:0,tries:0,streak:0,best:0};curse=0;save();renderStats();cancelAnimationFrame(anim);newHole();arm(false);$('pg-start').textContent='Start putting';say('Stats wiped. Fresh start, same yips.','')});
 
   /* ----- drawing ----- */
   function draw(){
@@ -2804,23 +2870,17 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     if(!cv.width)return;
     ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
     if(shake>0){ctx.translate(rnd(-shake,shake)/3,rnd(-shake,shake)/3);shake*=0.85;if(shake<.5)shake=0}
-    // mown stripes
     for(var i=0;i<12;i++){ctx.fillStyle=i%2?C['--green']:C['--green-2'];ctx.fillRect(0,i*H/12,W,H/12+1)}
-    // fringe
     ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=6;ctx.strokeRect(3,3,W-6,H-6);
     if(!hole)return;
-    // slope arrows (faint)
     var sm=Math.hypot(slope.x,slope.y);
     if(sm>0.0005){ctx.save();ctx.strokeStyle='rgba(255,255,255,.10)';ctx.lineWidth=2;var ux=slope.x/sm,uy=slope.y/sm;
       for(var gx=40;gx<W;gx+=80)for(var gy=50;gy<H;gy+=90){ctx.beginPath();ctx.moveTo(gx-ux*10,gy-uy*10);ctx.lineTo(gx+ux*10,gy+uy*10);ctx.lineTo(gx+ux*10-ux*5+uy*4,gy+uy*10-uy*5-ux*4);ctx.moveTo(gx+ux*10,gy+uy*10);ctx.lineTo(gx+ux*10-ux*5-uy*4,gy+uy*10-uy*5+ux*4);ctx.stroke()}ctx.restore()}
-    // hole + flag
     ctx.fillStyle='rgba(0,0,0,.25)';ctx.beginPath();ctx.ellipse(hole.x,hole.y+1,HR+2,HR+1,0,0,7);ctx.fill();
     ctx.fillStyle='#0b0f0c';ctx.beginPath();ctx.arc(hole.x,hole.y,HR,0,7);ctx.fill();
     ctx.strokeStyle='#f3f3ee';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(hole.x,hole.y);ctx.lineTo(hole.x,hole.y-46);ctx.stroke();
     ctx.fillStyle=C['--flag'];ctx.beginPath();ctx.moveTo(hole.x,hole.y-46);ctx.lineTo(hole.x+22,hole.y-39);ctx.lineTo(hole.x,hole.y-32);ctx.fill();
-    // trail
     if(trail.length>1){ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(trail[0].x,trail[0].y);trail.forEach(function(p){ctx.lineTo(p.x,p.y)});ctx.stroke()}
-    // aim line + power
     if(drag&&state==='aim'){
       var p=pull(),n=Math.max(p.d,1);
       ctx.save();ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;
@@ -2828,45 +2888,33 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       var pw=p.d/MAXPULL;ctx.fillStyle='rgba(0,0,0,.35)';ctx.fillRect(12,H-22,W-24,8);
       ctx.fillStyle=pw>.85?C['--rl-red']:C['--flag'];ctx.fillRect(12,H-22,(W-24)*pw,8);
     }
-    // ball
-    if(ball.s>0){ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.ellipse(ball.x+1.5,ball.y+2,BR*ball.s,BR*ball.s*.8,0,0,7);ctx.fill();
-      ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(ball.x,ball.y,BR*ball.s,0,7);ctx.fill();
-      ctx.fillStyle='rgba(0,0,0,.12)';ctx.beginPath();ctx.arc(ball.x+1.5,ball.y+1.5,BR*ball.s*.55,0,7);ctx.fill()}
+    if(ball.s>0){
+      var bs=ball.s*(state==='rim'?0.92:1);
+      ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.ellipse(ball.x+1.5,ball.y+2,BR*bs,BR*bs*.8,0,0,7);ctx.fill();
+      ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(ball.x,ball.y,BR*bs,0,7);ctx.fill();
+      ctx.fillStyle='rgba(0,0,0,.12)';ctx.beginPath();ctx.arc(ball.x+1.5,ball.y+1.5,BR*bs*.55,0,7);ctx.fill();
+    }
     if(bong)drawBong();
     if(state==='aim'&&!drag&&armed&&st.tries===0){ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='600 13px '+getComputedStyle(document.body).fontFamily;ctx.textAlign='center';ctx.fillText('Pull back anywhere, let go to putt',W/2,H-36)}
   }
   function drawBong(){
-    var b=bong,dir=b.from;
-    // pivot off-screen at the side; wind up (t<22), swing through (22-34), follow through
-    var px=dir>0?W+30:-30, py=b.py;
-    var ang;
-    if(b.t<22)ang=-0.9-0.35*(b.t/22);
-    else if(b.t<34)ang=-1.25+2.2*((b.t-22)/12);
-    else ang=0.95+0.1*Math.sin(b.t/4);
-    var enter=Math.min(1,b.t/14);
-    ctx.save();
-    ctx.translate(px-dir*55*enter,py);ctx.scale(-dir,1);ctx.rotate(ang);
-    // bong: tube along -x from pivot
-    var L=130;
-    ctx.fillStyle='rgba(170,225,215,.55)';ctx.strokeStyle='rgba(235,255,250,.95)';ctx.lineWidth=2;
-    // base bulb
-    ctx.beginPath();ctx.ellipse(L-8,0,24,22,0,0,7);ctx.fill();ctx.stroke();
-    // water
-    ctx.fillStyle='rgba(90,170,140,.6)';ctx.beginPath();ctx.ellipse(L-2,0,14,17,0,-Math.PI/2,Math.PI/2);ctx.fill();
-    // tube
-    ctx.fillStyle='rgba(170,225,215,.55)';ctx.beginPath();ctx.rect(0,-9,L-26,18);ctx.fill();ctx.stroke();
-    // mouth lip
-    ctx.beginPath();ctx.rect(-6,-12,8,24);ctx.fill();ctx.stroke();
+    var p=bongPose();
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.scale(p.s,p.s);
+    var glass='rgba(170,225,215,.55)',edge='rgba(235,255,250,.95)';
+    ctx.lineWidth=2/p.s;ctx.strokeStyle=edge;
+    // base bulb + water
+    ctx.fillStyle=glass;ctx.beginPath();ctx.ellipse(0,30,27,25,0,0,7);ctx.fill();ctx.stroke();
+    ctx.fillStyle='rgba(80,160,130,.65)';ctx.beginPath();ctx.ellipse(0,38,21,14,0,0,Math.PI);ctx.fill();
+    ctx.fillRect(-21,34,42,4);
+    // tube + mouthpiece
+    ctx.fillStyle=glass;ctx.beginPath();ctx.rect(-9,-62,18,70);ctx.fill();ctx.stroke();
+    ctx.beginPath();ctx.rect(-12,-68,24,7);ctx.fill();ctx.stroke();
     // stem + bowl
-    ctx.strokeStyle='rgba(235,255,250,.95)';ctx.beginPath();ctx.moveTo(L-26,-14);ctx.lineTo(L-48,-34);ctx.stroke();
-    ctx.fillStyle=C['--flag'];ctx.beginPath();ctx.arc(L-50,-36,6,Math.PI,0);ctx.fill();
+    ctx.beginPath();ctx.moveTo(10,24);ctx.lineTo(34,4);ctx.stroke();
+    ctx.fillStyle=C['--flag'];ctx.beginPath();ctx.arc(37,1,7,Math.PI,0);ctx.fill();
     ctx.restore();
-    if(b.hit&&b.t<80){
-      ctx.save();ctx.fillStyle=C['--flag'];ctx.strokeStyle='#1a1405';ctx.lineWidth=4;
-      ctx.font='900 '+(44+Math.min(10,(b.t-30)))+'px '+getComputedStyle(document.documentElement).getPropertyValue('--f-display');
-      ctx.textAlign='center';ctx.translate(W/2,H/2-40);ctx.rotate(-0.12);
-      ctx.strokeText('BONG!',0,0);ctx.fillText('BONG!',0,0);ctx.restore();
-    }
+    // smoke
+    smoke.forEach(function(s){ctx.fillStyle='rgba(235,240,236,'+s.a.toFixed(3)+')';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill()});
   }
 
   window.addEventListener('resize',draw);
