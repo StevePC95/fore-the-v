@@ -266,6 +266,19 @@ button.bk-opt:disabled{cursor:default}
 .rl-feed .won{color:var(--good)}
 .rl-feed .lost{color:var(--muted)}
 
+/* ---------- Practice Green ---------- */
+.pg-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pg-stats .stat{padding:10px 12px}
+.pg-stats .stat b{font:900 1.6rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.pg-wrap{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line);background:var(--green)}
+.pg-canvas{display:block;width:100%;aspect-ratio:300/420;max-height:72vh;touch-action:none;cursor:crosshair}
+.pg-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none;z-index:1}
+.pg-chip{background:rgba(0,0,0,.45);color:#fff}
+.pg-msg{min-height:1.6em;font:800 1.35rem/1.15 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
+.pg-msg.ok{color:var(--good)}
+.pg-msg.warn{color:var(--tbc)}
+.pg-msg.bong{color:var(--bad)}
+
 /* ---------- Schedule timeline ---------- */
 .tl{display:flex;flex-direction:column;gap:22px}
 .tl-day{display:flex;flex-direction:column;gap:10px}
@@ -901,6 +914,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <a href="#live">Scores</a>
     <a href="#scores">Leaderboard</a>
     <a href="#bookie">Bookie</a>
+    <a href="#putt">Practice Green</a>
     <a href="#dops">Log a Dop</a>
     <a href="#photos">Photos</a>
     <a href="#players">Players</a>
@@ -1410,6 +1424,24 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <ul class="rl-feed" id="rl-feed"></ul>
     </div>
   </div>
+</section>
+
+<!-- PRACTICE GREEN -->
+<section data-view="putt" hidden>
+  <div class="head"><span class="eyebrow">One putt per hole · no gimmes</span><h2>Practice Green</h2></div>
+  <div class="pg-stats">
+    <div class="stat"><span class="eyebrow">Holed</span><b class="mono" id="pg-made">0 / 0</b></div>
+    <div class="stat"><span class="eyebrow">Streak</span><b class="mono" id="pg-streak">0</b></div>
+    <div class="stat"><span class="eyebrow">Best</span><b class="mono" id="pg-best">0</b></div>
+  </div>
+  <div class="pg-wrap">
+    <div class="pg-hud"><span class="chip pg-chip" id="pg-dist">8 ft</span><span class="chip pg-chip" id="pg-break">Dead flat</span></div>
+    <canvas id="pg-canvas" class="pg-canvas" aria-label="Putting green. Pull back anywhere and let go to putt."></canvas>
+  </div>
+  <p class="pg-msg" id="pg-msg" role="status" aria-live="polite"></p>
+  <button type="button" class="btn big" id="pg-next" hidden>Go again</button>
+  <p class="fine">Pull back anywhere on the green, aim, and let go. Further back = harder putt. Read the break: the faint arrows show which way it runs. Hole it and the next one gets longer. Stats stay on your phone.</p>
+  <button type="button" class="mini" id="pg-reset" style="align-self:flex-start">Wipe my stats</button>
 </section>
 
 <section data-view="dops" hidden>
@@ -2615,6 +2647,220 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   $('bk-gate-btn').addEventListener('click',function(){FTV&&FTV.open()});
   renderKinds();
   if(FTV)FTV.on(start);
+})();
+
+/* ---------- Practice Green: one-putt game. Secretly cursed: some streaks get rigged, and the 6th rigged putt gets whacked by a bong ---------- */
+(function(){
+  var cv=document.getElementById('pg-canvas'); if(!cv||!cv.getContext)return;
+  var ctx=cv.getContext('2d');
+  function $(id){return document.getElementById(id)}
+  var CURSE_CHANCE=1/3, CURSE_LEN=6;         // a putt that's dropping has a 33% chance to start a 6-putt curse
+  var W=300,H=420, BR=5.5, HR=9.5, START_Y=385;
+  var FRICTION=0.982, CAPTURE=3.4, POWER=0.05, MAXPULL=150;
+  var C={};
+  function tokens(){var s=getComputedStyle(document.documentElement);['--green','--green-2','--flag','--ink','--paper','--rl-red'].forEach(function(k){C[k]=s.getPropertyValue(k).trim()||'#123f28'})}
+  tokens();
+  try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){tokens();draw()})}catch(e){}
+
+  var st={made:0,tries:0,streak:0,best:0};
+  try{var sv=JSON.parse(localStorage.getItem('ftv-putt')||'null');if(sv)st=Object.assign(st,sv)}catch(e){}
+  function save(){try{localStorage.setItem('ftv-putt',JSON.stringify(st))}catch(e){}}
+
+  var curse=0;             // rigged putts left (0 = honest green)
+  var ball,hole,slope,state='aim',drag=null,anim=0,bong=null,trail=[],sinkT=0,lipped=false,lastMsg='';
+
+  function rnd(a,b){return a+Math.random()*(b-a)}
+  function newHole(){
+    var lvl=Math.min(st.streak,12);
+    var ft=Math.round(rnd(5,9)+lvl*1.6);           // gets longer as your streak grows
+    var y=Math.max(55,START_Y-ft*11);
+    hole={x:rnd(70,230),y:y,ft:ft};
+    ball={x:rnd(120,180),y:START_Y,vx:0,vy:0,r:BR,s:1};
+    var sm=rnd(0,0.010+lvl*0.0012), ang=rnd(0,Math.PI*2);
+    slope={x:Math.cos(ang)*sm,y:Math.sin(ang)*sm*0.5};
+    state='aim';drag=null;bong=null;trail=[];lipped=false;
+    $('pg-dist').textContent=ft+' ft';
+    var pct=Math.round(Math.hypot(slope.x,slope.y)*400);
+    $('pg-break').textContent=pct?('Break '+pct+'% '+(Math.abs(slope.x)>Math.abs(slope.y)?(slope.x>0?'→':'←'):(slope.y>0?'↓':'↑'))):'Dead flat';
+    $('pg-next').hidden=true;
+    draw();
+  }
+  function say(t,cls){var v=$('pg-msg');v.className='pg-msg'+(cls?' '+cls:'');v.textContent=t;lastMsg=t}
+  function renderStats(){
+    $('pg-made').textContent=st.made+' / '+st.tries;
+    $('pg-streak').textContent=st.streak;$('pg-best').textContent=st.best;
+  }
+  function pick(a){return a[Math.floor(Math.random()*a.length)]}
+
+  /* ----- input: pull back from anywhere, release to putt ----- */
+  function pos(e){var r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height}}
+  cv.addEventListener('pointerdown',function(e){if(state!=='aim')return;try{cv.setPointerCapture(e.pointerId)}catch(_){}drag={a:pos(e),b:pos(e)};draw()});
+  cv.addEventListener('pointermove',function(e){if(!drag)return;drag.b=pos(e);draw()});
+  function pull(){var dx=drag.a.x-drag.b.x,dy=drag.a.y-drag.b.y,d=Math.hypot(dx,dy);if(d>MAXPULL){dx*=MAXPULL/d;dy*=MAXPULL/d;d=MAXPULL}return {x:dx,y:dy,d:d}}
+  cv.addEventListener('pointerup',function(){
+    if(!drag)return;var p=pull();drag=null;
+    if(p.d<8){draw();return}
+    ball.vx=p.x*POWER;ball.vy=p.y*POWER;state='roll';st.tries++;
+    say('…');go();
+  });
+  cv.addEventListener('pointercancel',function(){drag=null;draw()});
+
+  /* ----- physics ----- */
+  var last=0;
+  function go(){last=performance.now();cancelAnimationFrame(anim);anim=requestAnimationFrame(tick)}
+  function tick(t){
+    var f=Math.min(3,(t-last)/16.67);last=t;
+    if(state==='roll')step(f);
+    else if(state==='sink'){sinkT+=f;ball.s=Math.max(0,1-sinkT/14);ball.x+=(hole.x-ball.x)*0.25;ball.y+=(hole.y-ball.y)*0.25;if(sinkT>16){done(true);draw();return}}
+    else if(state==='bong'){stepBong(f);if(state!=='bong'){draw();return}}
+    draw();
+    if(state==='roll'||state==='sink'||state==='bong')anim=requestAnimationFrame(tick);
+  }
+  function step(f){
+    for(var i=0;i<4;i++){
+      var g=f/4;
+      ball.vx+=slope.x*g;ball.vy+=slope.y*g;
+      var k=Math.pow(FRICTION,g);ball.vx*=k;ball.vy*=k;
+      ball.x+=ball.vx*g;ball.y+=ball.vy*g;
+      var dx=hole.x-ball.x,dy=hole.y-ball.y,d=Math.hypot(dx,dy),sp=Math.hypot(ball.vx,ball.vy);
+      // the 6th cursed putt: here comes the bong
+      if(curse===1&&!bong&&(d<70||sp<0.6)){startBong();return}
+      if(d<HR){
+        if(sp<CAPTURE){
+          if(curse>0||(Math.random()<CURSE_CHANCE&&(curse=CURSE_LEN))){lipOut(sp);continue}
+          state='sink';sinkT=0;return;
+        }
+        if(!lipped){lipped=true;var nx=-dx/d,ny=-dy/d,dot=ball.vx*nx+ball.vy*ny;ball.vx-=nx*dot*0.6;ball.vy-=ny*dot*0.6;ball.vx*=0.7;ball.vy*=0.7}
+      }
+      if(ball.x<-20||ball.x>W+20||ball.y<-20||ball.y>H+20){done(false,'Off the green. Impressive, honestly.');return}
+      if(sp<0.05){done(false);return}
+    }
+    trail.push({x:ball.x,y:ball.y});if(trail.length>40)trail.shift();
+  }
+  function lipOut(sp){
+    // rigged: spin it round the cup and out
+    lipped=true;
+    var dx=ball.x-hole.x,dy=ball.y-hole.y,d=Math.hypot(dx,dy)||1;
+    var tx=-dy/d,ty=dx/d,dir=Math.random()<.5?1:-1,v=Math.max(sp,1.2)*1.15;
+    ball.x=hole.x+dx/d*(HR+0.5);ball.y=hole.y+dy/d*(HR+0.5);
+    ball.vx=(tx*dir*0.8+dx/d*0.6)*v;ball.vy=(ty*dir*0.8+dy/d*0.6)*v;
+    ball.lip=true;
+  }
+
+  /* ----- the bong ----- */
+  function startBong(){state='bong';bong={t:0,from:ball.x<W/2?1:-1,hit:false,py:Math.min(H-40,Math.max(80,ball.y-6))};say('Wait… what’s that?','warn')}
+  function stepBong(f){
+    var b=bong;b.t+=f;
+    // swing angle: wind up, then whack at t≈30
+    if(!b.hit&&b.t>=30){b.hit=true;ball.vx=-b.from*rnd(9,12);ball.vy=-rnd(3,6);say('BONG’D','bong');shake=12}
+    if(b.hit){ball.x+=ball.vx*f;ball.y+=ball.vy*f;ball.vy+=0.25*f;ball.spin=(ball.spin||0)+0.4*f}
+    if(b.t>95){curse=0;done(false,'BONG’D. You were cursed: 6 putts rigged in a row. Not even sorry.',true)}
+  }
+  var shake=0;
+
+  /* ----- results ----- */
+  var MISS_SHORT=['Never up, never in.','Short. Did you even hit it?','That’s a fine. Left it short.','Grandma putts harder than that.'];
+  var MISS_LONG=['Way too hot. Next postcode.','Easy, Tiger.','Bit of steam on that one.'];
+  var MISS_WIDE=['Didn’t read the break, did you.','Wide. Blame the green.','Pulled it. Classic.'];
+  var LIP=['Lipped out! Brutal.','Horseshoe! The cup spat it out.','Rimmed it. The golf gods hate you.','In and out. Pain.','Round the houses and out. Sjoe.'];
+  var MADE=['Drained it!','Centre cut. Tour pro.','Cash money.','Dropped like a dop.','Get in the hole!'];
+  function done(made,msg,bonged){
+    state='done';cancelAnimationFrame(anim);
+    if(made){st.made++;st.streak++;if(st.streak>st.best)st.best=st.streak;say(pick(MADE)+(st.streak>1?' '+st.streak+' in a row.':''),'ok')}
+    else{
+      st.streak=0;
+      if(curse>0&&!bonged)curse--;
+      if(msg)say(msg,bonged?'bong':'');
+      else if(ball.lip)say(pick(LIP),'');
+      else{
+        var past=(START_Y-ball.y)>(START_Y-hole.y)+14, near=Math.abs(ball.x-hole.x)<18;
+        say(near?(past?pick(MISS_LONG):pick(MISS_SHORT)):pick(MISS_WIDE),'');
+      }
+    }
+    save();renderStats();
+    $('pg-next').hidden=false;$('pg-next').textContent=made?'Next putt (longer)':'Go again';
+    if(curse===1&&!made){} // the next one gets the bong
+  }
+  $('pg-next').addEventListener('click',function(){newHole();say(st.streak?'Streak: '+st.streak+'. Don’t choke.':'Pull back and let go to putt.','')});
+  $('pg-reset').addEventListener('click',function(){st={made:0,tries:0,streak:0,best:0};save();renderStats();newHole();say('Stats wiped. Fresh start, same yips.','')});
+
+  /* ----- drawing ----- */
+  function draw(){
+    var r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+    var w=Math.round(r.width*dpr),h=Math.round(r.height*dpr);
+    if(w&&(cv.width!==w||cv.height!==h)){cv.width=w;cv.height=h}
+    if(!cv.width)return;
+    ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);
+    if(shake>0){ctx.translate(rnd(-shake,shake)/3,rnd(-shake,shake)/3);shake*=0.85;if(shake<.5)shake=0}
+    // mown stripes
+    for(var i=0;i<12;i++){ctx.fillStyle=i%2?C['--green']:C['--green-2'];ctx.fillRect(0,i*H/12,W,H/12+1)}
+    // fringe
+    ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=6;ctx.strokeRect(3,3,W-6,H-6);
+    if(!hole)return;
+    // slope arrows (faint)
+    var sm=Math.hypot(slope.x,slope.y);
+    if(sm>0.0005){ctx.save();ctx.strokeStyle='rgba(255,255,255,.10)';ctx.lineWidth=2;var ux=slope.x/sm,uy=slope.y/sm;
+      for(var gx=40;gx<W;gx+=80)for(var gy=50;gy<H;gy+=90){ctx.beginPath();ctx.moveTo(gx-ux*10,gy-uy*10);ctx.lineTo(gx+ux*10,gy+uy*10);ctx.lineTo(gx+ux*10-ux*5+uy*4,gy+uy*10-uy*5-ux*4);ctx.moveTo(gx+ux*10,gy+uy*10);ctx.lineTo(gx+ux*10-ux*5-uy*4,gy+uy*10-uy*5+ux*4);ctx.stroke()}ctx.restore()}
+    // hole + flag
+    ctx.fillStyle='rgba(0,0,0,.25)';ctx.beginPath();ctx.ellipse(hole.x,hole.y+1,HR+2,HR+1,0,0,7);ctx.fill();
+    ctx.fillStyle='#0b0f0c';ctx.beginPath();ctx.arc(hole.x,hole.y,HR,0,7);ctx.fill();
+    ctx.strokeStyle='#f3f3ee';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(hole.x,hole.y);ctx.lineTo(hole.x,hole.y-46);ctx.stroke();
+    ctx.fillStyle=C['--flag'];ctx.beginPath();ctx.moveTo(hole.x,hole.y-46);ctx.lineTo(hole.x+22,hole.y-39);ctx.lineTo(hole.x,hole.y-32);ctx.fill();
+    // trail
+    if(trail.length>1){ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(trail[0].x,trail[0].y);trail.forEach(function(p){ctx.lineTo(p.x,p.y)});ctx.stroke()}
+    // aim line + power
+    if(drag&&state==='aim'){
+      var p=pull(),n=Math.max(p.d,1);
+      ctx.save();ctx.setLineDash([4,6]);ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(ball.x,ball.y);ctx.lineTo(ball.x+p.x/n*(30+p.d*1.2),ball.y+p.y/n*(30+p.d*1.2));ctx.stroke();ctx.restore();
+      var pw=p.d/MAXPULL;ctx.fillStyle='rgba(0,0,0,.35)';ctx.fillRect(12,H-22,W-24,8);
+      ctx.fillStyle=pw>.85?C['--rl-red']:C['--flag'];ctx.fillRect(12,H-22,(W-24)*pw,8);
+    }
+    // ball
+    if(ball.s>0){ctx.fillStyle='rgba(0,0,0,.3)';ctx.beginPath();ctx.ellipse(ball.x+1.5,ball.y+2,BR*ball.s,BR*ball.s*.8,0,0,7);ctx.fill();
+      ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(ball.x,ball.y,BR*ball.s,0,7);ctx.fill();
+      ctx.fillStyle='rgba(0,0,0,.12)';ctx.beginPath();ctx.arc(ball.x+1.5,ball.y+1.5,BR*ball.s*.55,0,7);ctx.fill()}
+    if(bong)drawBong();
+    if(state==='aim'&&!drag&&st.tries===0){ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='600 13px '+getComputedStyle(document.body).fontFamily;ctx.textAlign='center';ctx.fillText('Pull back anywhere, let go to putt',W/2,H-36)}
+  }
+  function drawBong(){
+    var b=bong,dir=b.from;
+    // pivot off-screen at the side; wind up (t<22), swing through (22-34), follow through
+    var px=dir>0?W+30:-30, py=b.py;
+    var ang;
+    if(b.t<22)ang=-0.9-0.35*(b.t/22);
+    else if(b.t<34)ang=-1.25+2.2*((b.t-22)/12);
+    else ang=0.95+0.1*Math.sin(b.t/4);
+    var enter=Math.min(1,b.t/14);
+    ctx.save();
+    ctx.translate(px-dir*55*enter,py);ctx.scale(-dir,1);ctx.rotate(ang);
+    // bong: tube along -x from pivot
+    var L=130;
+    ctx.fillStyle='rgba(170,225,215,.55)';ctx.strokeStyle='rgba(235,255,250,.95)';ctx.lineWidth=2;
+    // base bulb
+    ctx.beginPath();ctx.ellipse(L-8,0,24,22,0,0,7);ctx.fill();ctx.stroke();
+    // water
+    ctx.fillStyle='rgba(90,170,140,.6)';ctx.beginPath();ctx.ellipse(L-2,0,14,17,0,-Math.PI/2,Math.PI/2);ctx.fill();
+    // tube
+    ctx.fillStyle='rgba(170,225,215,.55)';ctx.beginPath();ctx.rect(0,-9,L-26,18);ctx.fill();ctx.stroke();
+    // mouth lip
+    ctx.beginPath();ctx.rect(-6,-12,8,24);ctx.fill();ctx.stroke();
+    // stem + bowl
+    ctx.strokeStyle='rgba(235,255,250,.95)';ctx.beginPath();ctx.moveTo(L-26,-14);ctx.lineTo(L-48,-34);ctx.stroke();
+    ctx.fillStyle=C['--flag'];ctx.beginPath();ctx.arc(L-50,-36,6,Math.PI,0);ctx.fill();
+    ctx.restore();
+    if(b.hit&&b.t<80){
+      ctx.save();ctx.fillStyle=C['--flag'];ctx.strokeStyle='#1a1405';ctx.lineWidth=4;
+      ctx.font='900 '+(44+Math.min(10,(b.t-30)))+'px '+getComputedStyle(document.documentElement).getPropertyValue('--f-display');
+      ctx.textAlign='center';ctx.translate(W/2,H/2-40);ctx.rotate(-0.12);
+      ctx.strokeText('BONG!',0,0);ctx.fillText('BONG!',0,0);ctx.restore();
+    }
+  }
+
+  window.addEventListener('resize',draw);
+  window.addEventListener('hashchange',function(){if(location.hash==='#putt')setTimeout(draw,30)});
+  renderStats();newHole();say('Pull back and let go to putt. One putt per hole.','');
+  if(location.hash==='#putt')setTimeout(draw,30);
 })();
 
 /* ---------- Log a Dop: for fun, filmed, members only (no points) ---------- */
