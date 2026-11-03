@@ -143,14 +143,17 @@ h3{font:700 1.08rem/1.3 var(--f-body)}
 .tile b{display:block;font:900 clamp(2.1rem,10vw,3rem)/1 var(--f-display);font-variant-numeric:tabular-nums}
 .tile span{font:500 .62rem/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;opacity:.7}
 .board-frame p{font-size:.92rem;opacity:.85}
-.cd-row{display:grid;grid-template-columns:clamp(104px,31vw,132px) minmax(0,1fr);gap:12px;align-items:center}
-.cd-row .countdown{grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (min-width:560px){.cd-row .countdown{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.cd-cup{position:relative;display:grid;place-items:center;border-radius:10px;padding:4px 0 10px;
-  background:radial-gradient(closest-side,rgba(240,199,90,.32),transparent)}
-.cd-cup::after{content:"";position:absolute;left:50%;bottom:4px;width:62%;height:10px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent)}
-.cd-cup img{position:relative;z-index:1;width:100%;height:auto;filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
-.cd-cup:focus-visible{outline:3px solid var(--flag);outline-offset:2px}
+
+/* Home live score strip */
+.hm-score{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto minmax(0,1fr);align-items:center;gap:6px;margin-top:12px;padding:12px;border-radius:var(--r);background:var(--green);color:var(--green-ink);text-decoration:none;position:relative}
+.hm-score:focus-visible{outline:3px solid var(--flag);outline-offset:2px}
+.hs-team{display:flex;align-items:center;gap:6px;min-width:0;font:900 clamp(.9rem,3.8vw,1.2rem)/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;overflow:hidden}
+.hs-team.co{justify-content:flex-end}
+.hs-team i{flex:none;width:8px;height:20px;border-radius:2px}
+.hs-team.in i{background:#5b3e96}.hs-team.co i{background:#08716c}
+.hs-n{background:var(--tile);color:var(--tile-ink);border-radius:5px;padding:6px 8px;font:900 clamp(1.4rem,7vw,2.1rem)/1 var(--f-display);font-variant-numeric:tabular-nums;min-width:2.2ch;text-align:center}
+.hs-dash{font:900 1.4rem/1 var(--f-display);opacity:.7}
+.hs-chip{grid-column:1/-1;justify-self:center}
 
 /* Day cards */
 .dayc{position:relative}
@@ -423,7 +426,7 @@ tbody th{font:500 .7rem/1.3 var(--f-mono);letter-spacing:.12em;text-transform:up
 :root[data-theme="dark"] .example{border-left-color:var(--flag)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .example{border-left-color:var(--flag)}}
 
-/* ---------- Leaderboard (manual board) ---------- */
+/* ---------- Team totals board (Scores) ---------- */
 .lb{background:var(--green);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px;color:var(--green-ink)}
 .lb-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .lb-top .eyebrow{color:var(--green-ink);opacity:.85}
@@ -829,17 +832,6 @@ dialog.cam::backdrop{background:#000}
 .cam-ghost{color:#fff;border-color:rgba(255,255,255,.4)}
 .cam-err{padding:0 22px 22px;color:#ffb4ab;text-align:center}
 
-/* ---------- The cup (Leaderboard) ---------- */
-.cup-card{padding:0;overflow:hidden;gap:0}
-.cup-stage{position:relative;display:grid;place-items:end center;padding:38px 16px 18px;color:var(--green-ink);
-  background:radial-gradient(60% 55% at 50% 42%,rgba(240,199,90,.30),transparent 70%),linear-gradient(180deg,var(--green-2),var(--green))}
-.cup-stage::after{content:"";position:absolute;left:50%;bottom:14px;width:46%;height:16px;transform:translateX(-50%);
-  background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);z-index:0}
-.cup-stage img{position:relative;z-index:1;width:auto;height:clamp(190px,52vw,250px);filter:drop-shadow(0 6px 14px rgba(0,0,0,.35))}
-.cup-stage .eyebrow{position:absolute;top:12px;left:14px;color:var(--green-ink);opacity:.85}
-.cup-stage .yr{position:absolute;top:10px;right:12px}
-.cup-txt{display:flex;flex-direction:column;gap:6px;min-width:0;padding:14px 16px 16px}
-.cup-txt .sub-h{margin-top:0}
 
 /* ---------- Live scores ---------- */
 .chip.in-live{background:var(--bad);color:#fff}
@@ -1000,7 +992,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <a href="#courses">Courses</a>
     <a href="#formats">Formats</a>
     <a href="#live">Scores</a>
-    <a href="#scores">Leaderboard</a>
     <a href="#bookie">Bookie</a>
     <a href="#putt">Practice Green</a>
     <a href="#dops">Log a Dop</a>
@@ -1022,17 +1013,21 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <section data-view="home">
   <div class="board-frame">
     <span class="eyebrow">First tee · Randpark Bushwillow · Fri 12:02</span>
-    <div class="cd-row">
-    <a class="cd-cup" href="#scores" aria-label="The cup: see the leaderboard"><img src="img/the-cup.webp" alt="" width="520" height="566"></a>
     <div class="countdown" id="countdown" aria-live="polite">
       <div class="tile"><b id="cd-d">–</b><span>Days</span></div>
       <div class="tile"><b id="cd-h">–</b><span>Hrs</span></div>
       <div class="tile"><b id="cd-m">–</b><span>Mins</span></div>
       <div class="tile"><b id="cd-s">–</b><span>Secs</span></div>
     </div>
-    </div>
     <p id="cd-msg">Time left to find your golf shoes and lower your expectations.</p>
   </div>
+
+  <a class="hm-score" href="#live" aria-label="Team score: open the Scores tab">
+    <span class="hs-team in"><i></i>Inland</span>
+    <b class="hs-n" id="hm-in">0</b><span class="hs-dash" aria-hidden="true">–</span><b class="hs-n" id="hm-co">0</b>
+    <span class="hs-team co">Coastal<i></i></span>
+    <span class="chip wait hs-chip" id="hm-chip">Not started</span>
+  </a>
 
   <div class="head"><span class="eyebrow">4 vs 4 · handicap points</span><h2>The teams</h2></div>
   <div class="matchup">
@@ -1327,6 +1322,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <section data-view="live" hidden>
   <div class="head"><span class="eyebrow">Shots in · Stableford points worked out · full handicap</span><h2>Scores</h2></div>
   <div class="lb sc-board" role="table" aria-label="Team totals">
+    <div class="lb-top"><span class="lb-title">Running total</span><span class="chip wait" id="sc-b-chip">Not started</span></div>
     <div class="lb-rows">
       <div class="lb-row hd" role="row"><span class="nm" role="columnheader">Team</span><span role="columnheader">Fri</span><span role="columnheader">Sat</span><span role="columnheader">Tot</span></div>
       <div class="lb-row in" role="row"><span class="nm" role="cell"><i></i>Inland</span><span role="cell" id="sc-b-in-fri">0</span><span role="cell" id="sc-b-in-sat">0</span><span class="tot" role="cell" id="sc-b-in">0</span></div>
@@ -1375,36 +1371,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   </div>
   <div id="sc-v-teams" class="sc-vbody" hidden><div id="sc-t-body" class="sc-vbody"></div></div>
   <div id="sc-v-overall" class="sc-vbody" hidden><div id="sc-o-body" class="sc-vbody"></div></div>
-</section>
-
-<!-- LEADERBOARD -->
-<section data-view="scores" hidden>
-  <div class="head"><span class="eyebrow">Inland vs Coastal · running total</span><h2>Leaderboard</h2></div>
-  <div class="lb" role="table" aria-label="Team leaderboard">
-    <div class="lb-top"><span class="lb-title">Leaders</span><span class="chip wait" id="lb-chip">Not started</span></div>
-    <div class="lb-rows">
-      <div class="lb-row hd" role="row"><span class="nm" role="columnheader">Team</span><span role="columnheader">Fri</span><span role="columnheader">Sat</span><span role="columnheader">Tot</span></div>
-      <div class="lb-row in" role="row"><span class="nm" role="cell"><i></i>Inland</span><span role="cell" id="lb-in-fri">0</span><span role="cell" id="lb-in-sat">0</span><span class="tot" role="cell" id="lb-in-tot">0</span></div>
-      <div class="lb-row co" role="row"><span class="nm" role="cell"><i></i>Coastal</span><span role="cell" id="lb-co-fri">0</span><span role="cell" id="lb-co-sat">0</span><span class="tot" role="cell" id="lb-co-tot">0</span></div>
-    </div>
-  </div>
-  <div class="card cup-card">
-    <div class="cup-stage">
-      <span class="eyebrow">Playing for</span>
-      <img src="img/the-cup.webp" alt="The Fore the V cup: a silver two-handled trophy on a marble base" loading="lazy" width="520" height="566">
-    </div>
-    <div class="cup-txt">
-      <h3 class="sub-h">The cup</h3>
-      <p>Most team points over both days takes it. Last held by Steve, Guy and Jay (Team Australia, 2025), who are now split across both teams.</p>
-      <p class="fine"><b>Level after Saturday?</b> We split the tour and both teams win.</p>
-    </div>
-  </div>
-  <div class="grid2">
-    <div class="card"><span class="eyebrow">Day 1 · Wolf</span><p>Inland <b class="mono" id="lb-d1">0</b> · Coastal <b class="mono" id="lb-d1c">0</b></p><span class="chip wait" id="lb-d1-chip" style="align-self:flex-start">Not started</span></div>
-    <div class="card"><span class="eyebrow">Day 2 · Cha Cha Cha</span><p>Inland <b class="mono" id="lb-d2">0</b> · Coastal <b class="mono" id="lb-d2c">0</b></p><span class="chip wait" id="lb-d2-chip" style="align-self:flex-start">Not started</span></div>
-  </div>
-  <a class="maplink" href="#live">Enter scores →</a>
-  <p class="fine">Live scores are unofficial until each day is locked against the paper cards.</p>
 </section>
 
 <!-- LOG A DOP -->
@@ -2082,6 +2048,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   var links=[].slice.call(document.querySelectorAll('nav.tabs a'));
   function show(){
     var h=(location.hash||'#home').slice(1);
+    if(h==='scores'){h='live';try{history.replaceState(null,'','#live')}catch(e){}}
     if(!views.some(function(v){return v.dataset.view===h})) h='home';
     views.forEach(function(v){v.hidden=v.dataset.view!==h});
     links.forEach(function(a){
@@ -3796,20 +3763,16 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     return o;
   }
 
-  /* ----- leaderboard tab + scoreboard ----- */
+  /* ----- team totals: Scores board + Home strip ----- */
   function renderBoard(){
     var f=dayTeam('fri'),s=dayTeam('sat');
     function set(id,v){var e=$(id);if(e)e.textContent=v}
-    set('lb-in-fri',f.in);set('lb-co-fri',f.co);set('lb-in-sat',s.in);set('lb-co-sat',s.co);
-    set('lb-in-tot',f.in+s.in);set('lb-co-tot',f.co+s.co);
-    set('lb-d1',f.in);set('lb-d1c',f.co);set('lb-d2',s.in);set('lb-d2c',s.co);
-    function chip(id,day,t){var e=$(id);if(!e)return;var lk=D.locks[day]&&D.locks[day].locked;
-      e.className='chip '+(lk?'ok':t.any?'in-live':'wait');e.textContent=lk?'Locked':t.any?'Live':'Not started'}
-    chip('lb-d1-chip','fri',f);chip('lb-d2-chip','sat',s);
-    var any=f.any||s.any,lk=D.locks.fri&&D.locks.fri.locked&&D.locks.sat&&D.locks.sat.locked;
-    var c=$('lb-chip');if(c){c.className='chip '+(lk?'ok':any?'in-live':'wait');c.textContent=lk?'Final':any?'Live':'Not started'}
     set('sc-b-in-fri',f.in);set('sc-b-co-fri',f.co);set('sc-b-in-sat',s.in);set('sc-b-co-sat',s.co);
     set('sc-b-in',f.in+s.in);set('sc-b-co',f.co+s.co);
+    set('hm-in',f.in+s.in);set('hm-co',f.co+s.co);
+    var any=f.any||s.any,lk=D.locks.fri&&D.locks.fri.locked&&D.locks.sat&&D.locks.sat.locked;
+    ['sc-b-chip','hm-chip'].forEach(function(id){var c=$(id);if(!c)return;
+      c.className='chip '+(lk?'ok':any?'in-live':'wait')+(id==='hm-chip'?' hs-chip':'');c.textContent=lk?'Final':any?'Live':'Not started'});
   }
 
   /* ----- shared helpers ----- */
