@@ -1717,16 +1717,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <div class="si-sub" id="dv-other" hidden><label for="dv-other-name">Name</label><input id="dv-other-name" class="code-in" style="letter-spacing:0;font-family:var(--f-body)" autocomplete="off"></div>
     </div>
     <div class="form-step">
-      <div class="step-h"><span class="n">2</span><b>What is it?</b></div>
-      <div class="picks" id="dv-kind">
-        <button type="button" class="pick neutral" data-k="Shot" aria-pressed="false">Shot</button>
-        <button type="button" class="pick neutral" data-k="Beer" aria-pressed="false">Beer</button>
-        <button type="button" class="pick neutral" data-k="Double Brandy" aria-pressed="false">Double Brandy</button>
-        <button type="button" class="pick neutral" data-k="Other" aria-pressed="false">Other</button>
-      </div>
-    </div>
-    <div class="form-step">
-      <div class="step-h"><span class="n">3</span><b>Film it</b></div>
+      <div class="step-h"><span class="n">2</span><b>Film it</b></div>
       <p class="fine">Up to 30 seconds. The clock runs while you record, so a quick down-down shows.</p>
       <div class="verdict" id="dv-msg" role="status" aria-live="polite"></div>
       <button type="button" class="btn big dv-open" id="dv-open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="13" height="12" rx="2"/><path d="M15.5 10.5 21.5 7v10l-6-3.5z"/></svg>Open camera</button>
@@ -3432,9 +3423,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     o.addEventListener('click',function(){st.who='__other';say('');renderWho()});col.appendChild(o);wrap.appendChild(col);
     $('dv-other').hidden=st.who!=='__other';
   }
-  [].slice.call($('dv-kind').querySelectorAll('.pick')).forEach(function(b){
-    b.addEventListener('click',function(){st.kind=b.dataset.k;[].slice.call($('dv-kind').querySelectorAll('.pick')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')})});
-  });
   function drinker(){if(st.who==='__other')return ($('dv-other-name').value||'').trim();return st.who}
   function gate(){var m=FTV.me;$('dop-gate').hidden=!!m;$('dop-form').hidden=!m;if(m){renderWho();load();listen()}else{rows=[];renderWall()}}
   $('dop-gate-btn').addEventListener('click',function(){FTV.open()});
@@ -3521,7 +3509,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       return db.from('dop_videos').insert({drinker:who,kind:kind||null,video_path:vpath,poster_path:ppath,secs:sx!=null?Math.round(sx*10)/10:null,posted_name:m.short||m.name||null});
     }).then(function(r){
       if(r&&r.error)throw r.error;li.classList.add('ok');s2.textContent='Posted';setTimeout(function(){li.remove()},2500);
-      st.kind=null;[].slice.call($('dv-kind').querySelectorAll('.pick')).forEach(function(x){x.setAttribute('aria-pressed','false')});
+      st.kind=null;
       load();
     }).catch(function(){li.classList.add('bad');s2.textContent='Failed, try again'});
   }
