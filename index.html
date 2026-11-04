@@ -639,6 +639,10 @@ dialog.lb[open]{display:block}
 dialog.lb::backdrop{background:rgba(5,10,7,.88)}
 dialog.lb img{display:block;max-width:100%;max-height:82vh;border-radius:10px;margin:0 auto}
 dialog.lb p{color:#fff;text-align:center;font:500 .72rem/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;margin-top:10px}
+.av-lb img{width:min(86vw,520px);height:auto;aspect-ratio:1;object-fit:cover;border-radius:14px}
+.av-lb-btn{display:flex;justify-content:center;margin-top:12px}
+.av-lb-btn[hidden],.av-lb-btn:has(> [hidden]){display:none}
+#players .mono-badge.photo,#pf-av.has-pic{cursor:zoom-in}
 dialog.lb .x{position:absolute;top:-14px;right:-6px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#111;font:600 1.3rem/1 var(--f-body);cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.35)}
 
 /* ---------- Honours board (deliberately one look: varnished wood + gold leaf, in both themes) ---------- */
@@ -2112,6 +2116,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </div>
 </main>
 <dialog class="lb" id="ph-lb" aria-label="Photo"><button type="button" class="x" id="ph-lb-x" aria-label="Close">×</button><img id="ph-lb-img" alt="Tour photo"><p id="ph-lb-cap"></p><div class="ph-retag" id="ph-lb-tag" hidden></div></dialog>
+
+<dialog class="lb av-lb" id="av-lb" aria-label="Profile pic"><button type="button" class="x" id="av-lb-x" aria-label="Close">×</button><img id="av-lb-img" alt=""><p id="av-lb-cap"></p><div class="av-lb-btn"><button type="button" class="btn" id="av-lb-change" hidden></button></div></dialog>
 
 <dialog class="cam" id="cam" aria-label="Film a fully">
   <div class="cam-in">
@@ -4552,16 +4558,34 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     var f=this.files&&this.files[0];this.value='';var pid=picFor,b=picBtn;picFor=null;if(!f||!pid||!me||!me.player_id)return;
     b.disabled=true;b.textContent='Uploading…';
     var path=pid+'/'+Date.now()+'.jpg';
-    shrink(f,480).then(function(blob){return db.storage.from('avatars').upload(path,blob,{contentType:'image/jpeg',upsert:false})})
+    shrink(f,1080).then(function(blob){return db.storage.from('avatars').upload(path,blob,{contentType:'image/jpeg',upsert:false})})
       .then(function(r){if(r.error)throw r.error;return db.rpc('ftv_set_photo_for',{p_player:pid,p_path:path})})
       .then(function(r){if(r.error)throw r.error;b.textContent='Done. Enjoy that.';setTimeout(function(){b.disabled=false;b.textContent=picLabel(byId[pid])},2500);load()})
       .catch(function(e){var m=String((e&&(e.message||e.details))||'');b.disabled=false;
         b.textContent=/not_image/.test(m)?'That’s not a photo':/own_photo/.test(m)?'Nice try. Not your own.':/function|schema/.test(m)?'Not switched on yet':'Failed. Try again';
         setTimeout(function(){b.textContent=picLabel(byId[pid])},3000)});
   });
+  /* tap a pic to see it big */
+  var avLb=$('av-lb');
+  function closeAv(){try{avLb.close()}catch(e){avLb.removeAttribute('open')}}
+  $('av-lb-x').addEventListener('click',closeAv);
+  avLb.addEventListener('click',function(e){if(e.target===avLb)closeAv()});
+  function viewPic(pid){
+    var p=byId[pid]||(me&&me.player_id===pid?{photo_path:me.photo_path,short:me.short,name:me.name,nickname:me.nickname}:null);
+    var u=p&&p.photo_path&&urls[p.photo_path];if(!u)return;
+    $('av-lb-img').src=u;$('av-lb-img').alt=(p.name||p.short||'')+' profile pic';
+    $('av-lb-cap').textContent=(p.name||p.short||'')+(p.nickname?' · “'+p.nickname+'”':'');
+    var ch=$('av-lb-change'),can=me&&me.player_id&&me.player_id!==pid&&!me.is_test;
+    ch.hidden=!can;ch.textContent=picLabel(p);
+    ch.onclick=function(){closeAv();var card=document.getElementById('pl-'+pid),b=card&&card.querySelector('.pl-pic');if(b){picFor=pid;picBtn=b;picIn.click()}};
+    try{avLb.showModal()}catch(e){avLb.setAttribute('open','')}
+  }
+  $('pf-av').addEventListener('click',function(){if(me&&me.player_id)viewPic(me.player_id)});
   function picButtons(){
     [].slice.call(document.querySelectorAll('#players article[data-pid]')).forEach(function(a){
       var pid=a.dataset.pid;a.id='pl-'+pid;
+      var bd=a.querySelector('.mono-badge');
+      if(bd&&!bd.dataset.view){bd.dataset.view='1';bd.addEventListener('click',function(e){if(bd.classList.contains('photo')){e.stopPropagation();viewPic(pid)}})}
       var b=a.querySelector('.pl-pic');
       if(!b){b=el('button','mini pl-pic');b.type='button';a.appendChild(b);
         b.addEventListener('click',function(e){e.stopPropagation();picFor=pid;picBtn=b;picIn.click()})}
@@ -4576,7 +4600,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     $('pf-gate').hidden=signed;$('pf-guest').hidden=!(signed&&!named);$('pf-body').hidden=!named;
     if(!named)return;
     var p=byId[me.player_id]||{id:me.player_id,name:me.name,short:me.short,first_name:me.first_name,surname:me.surname,nickname:me.nickname,team:me.team,photo_path:me.photo_path};
-    avatar($('pf-av'),p);$('pf-av').className='pf-av '+(p.team||'past');
+    avatar($('pf-av'),p);$('pf-av').className='pf-av '+(p.team||'past')+(p.photo_path&&urls[p.photo_path]?' has-pic':'');
     $('pf-nick').textContent=p.nickname?'“'+p.nickname+'”':'';
     $('pf-name').textContent=p.name||'';
     var ch=$('pf-chips');ch.textContent='';
