@@ -1105,7 +1105,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <div class="sub-set" data-group="weekend"><a href="#schedule">Schedule</a><a href="#logistics">Logistics</a></div>
     <div class="sub-set" data-group="golf"><a href="#courses">Courses</a><a href="#formats">Formats &amp; rules</a></div>
     <div class="sub-set" data-group="nineteenth"><a href="#dops">Log a Fully</a><a href="#photos">Photos</a><a href="#putt">Practice Green</a></div>
-    <div class="sub-set" data-group="players"><a href="#players">The 8</a><a href="#honours">Honours</a></div>
+    <div class="sub-set" data-group="crew"><a href="#players">The 8</a><a href="#honours">Honours</a></div>
     <div class="sub-set" data-group="exec"><a href="#fines" class="exec-nav" hidden>Fines &amp; Bets</a><a href="#questions" class="exec-nav" hidden>Planning</a><a href="#desk" class="exec-nav desk-nav" hidden>Desk</a></div>
   </div>
 </nav>
@@ -1124,7 +1124,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="more-in">
     <div class="more-h"><span class="eyebrow">More</span><button type="button" class="x" id="more-x" aria-label="Close">×</button></div>
     <a href="#nineteenth" data-group="nineteenth"><span class="mi">🍺</span><span class="mt"><b>The 19th</b><small>Log a Fully · Photos · Practice Green</small></span></a>
-    <a href="#players" data-group="players"><span class="mi">⛳</span><span class="mt"><b>The Players</b><small>The 8 · Honours</small></span></a>
+    <a href="#crew" data-group="crew"><span class="mi">⛳</span><span class="mt"><b>The Players</b><small>The 8 · Honours</small></span></a>
     <a href="#profile" data-group="profile"><span class="mi">👤</span><span class="mt"><b>Profile</b><small>Your name, photo, PIN and stats</small></span></a>
     <a href="#exec" data-group="exec" class="exec-nav" hidden><span class="mi">🔒</span><span class="mt"><b>Exec</b><small>Fines &amp; Bets · Planning · Desk</small></span><b class="more-badge" id="more-badge-exec" hidden></b></a>
   </div>
@@ -2184,7 +2184,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
      a section hash (#formats) opens that section. Old links all still work. */
   var views=[].slice.call(document.querySelectorAll('section[data-view]'));
   var GROUPS={home:['home'],weekend:['schedule','logistics'],golf:['courses','formats'],live:['live'],bookie:['bookie'],
-    nineteenth:['dops','photos','putt'],players:['players','honours'],profile:['profile'],exec:['fines','questions','desk']};
+    nineteenth:['dops','photos','putt'],crew:['players','honours'],profile:['profile'],exec:['fines','questions','desk']};
   var GROUP_OF={};Object.keys(GROUPS).forEach(function(g){GROUPS[g].forEach(function(v){GROUP_OF[v]=g})});
   var LAST={};try{LAST=JSON.parse(localStorage.getItem('ftv-last-sub')||'{}')||{}}catch(e){}
   var subnav=document.getElementById('subnav'),more=document.getElementById('more');
