@@ -454,6 +454,23 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .dk-tile span{font:600 .7rem/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .dk-list li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
 .dk-list li.fine{background:none;border:0;padding:0}
+.us-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.us-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px;display:flex;flex-direction:column;gap:8px}
+.us-card h3{margin:0;font:800 1.1rem/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.us-num{display:flex;justify-content:space-between;gap:8px;font-size:.92rem;border-bottom:1px dashed var(--line);padding-bottom:6px}
+.us-num:last-child{border-bottom:0;padding-bottom:0}
+.us-num b{font:600 .9rem/1.3 var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.us-bar{display:grid;grid-template-columns:7.5em minmax(0,1fr) auto;gap:8px;align-items:center;font-size:.85rem}
+.us-bar i{display:block;height:10px;border-radius:5px;background:var(--flag);min-width:3px}
+.us-bar small{font:600 .75rem/1 var(--f-mono);color:var(--muted);white-space:nowrap}
+.us-hours{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:2px;align-items:end;height:70px}
+.us-hours i{display:block;background:var(--flag);border-radius:2px 2px 0 0;min-height:2px;opacity:.85}
+.us-hours i.zero{background:var(--line);opacity:1}
+.us-hlab{display:flex;justify-content:space-between;font:600 .65rem/1 var(--f-mono);color:var(--muted)}
+.us-ppl li{display:flex;flex-direction:column;gap:4px}
+.us-ppl .dk-h b{border-left:4px solid var(--line);padding-left:8px}
+.us-ppl .dk-h b.in{border-color:var(--inland)}.us-ppl .dk-h b.co{border-color:var(--coastal)}
+.us-ppl p{margin:0;font-size:.82rem;color:var(--muted)}
 .dk-h{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
 .dk-change{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;font-size:.95rem}
 .dk-change .old{color:var(--muted);text-decoration:line-through;overflow-wrap:anywhere}
@@ -1679,6 +1696,10 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <div class="head"><span class="eyebrow" id="dk-claim-n">Who’s claimed</span><h2>Profiles &amp; PINs</h2></div>
     <ul class="dk-list" id="dk-claims"></ul>
     <p class="fine">Reset wipes that person’s PIN and signs them out on every phone, so they can claim again. You never see anyone’s PIN.</p>
+
+    <div class="head"><span class="eyebrow" id="us-since">Who’s on the app</span><h2>Usage</h2></div>
+    <div id="us-body"><p class="fine">Loading the numbers…</p></div>
+    <p class="fine">Counts each time someone opens a page while signed in. Test profile left out. Only you see this.</p>
   </div>
 </section>
 
@@ -4517,6 +4538,45 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         armBtn(r,'Reset PIN',function(){db.rpc('ftv_reset_pin',{p_player:c.player_id}).then(function(x){if(x.error)say('dk-msg',errMsg(x.error));else say('dk-msg',p.short+'’s PIN is wiped. They can claim again.',true);load()})})}
       cl.appendChild(li);
     });
+    renderUsage();
+  }
+
+  /* ----- Usage (script 017) ----- */
+  var PAGE={home:'Home',schedule:'Schedule',logistics:'Logistics',courses:'Courses',formats:'Formats',live:'Scores',bookie:'Bookie',dops:'Log a Fully',photos:'Photos',putt:'Practice Green',players:'The 8',honours:'Honours',profile:'Profile',fines:'Fines',questions:'Planning',desk:'Desk'};
+  function ago(t){if(!t)return 'Not seen yet';var m=Math.round((Date.now()-new Date(t))/60000);if(m<2)return 'On now';if(m<60)return m+' min ago';var h=Math.round(m/60);if(h<24)return h+' h ago';return when(t)}
+  function renderUsage(){
+    var box=$('us-body');if(!box)return;var u=desk.usage;box.textContent='';
+    if(!u){box.appendChild(el('p','fine','Loading the numbers…'));return}
+    if(u.err){box.appendChild(el('p','fine',/function|schema cache|does not exist/.test(String(u.err.message||''))?'This switches on once script 017 runs.':'Couldn’t load the numbers. Pull down to try again.'));return}
+    var t=u.totals||{};
+    $('us-since').textContent=t.tracked_since?'Tracking since '+when(t.tracked_since):'Tracking starts now';
+    var g=el('div','us-grid');box.appendChild(g);
+    tile(g,t.active_hour||0,'On in the last hour');tile(g,t.active_today||0,'On today');tile(g,t.views||0,'Page opens');tile(g,t.bets||0,'Bets placed');
+    // the numbers
+    var c=el('div','us-card');c.appendChild(el('h3',null,'The numbers'));
+    var hc=t.house_casino||0;
+    [['Wagered in the Bookie',Rm(t.staked)],['Casino spins',String(t.spins||0)],['Chips on the roulette table',Rm(t.casino_staked)],['Casino house is',(hc>=0?'up ':'down ')+Rm(Math.abs(hc))],['Fullies logged',String(t.fullies||0)],['Photos uploaded',String(t.photos||0)],['Markets pitched',String(t.pitches||0)],['Past tourists bought in',String(t.buyins||0)]].forEach(function(r){var d=el('div','us-num');d.appendChild(el('span',null,r[0]));d.appendChild(el('b',null,r[1]));c.appendChild(d)});
+    box.appendChild(c);
+    // top pages
+    var pg=(u.pages||[]);c=el('div','us-card');c.appendChild(el('h3',null,'Most-used pages'));
+    if(!pg.length)c.appendChild(el('p','fine','Nothing yet. Give the boys a day.'));
+    var mx=pg.length?pg[0].n:1;
+    pg.slice(0,10).forEach(function(p){var d=el('div','us-bar');d.appendChild(el('span',null,PAGE[p.v]||p.v));var w=el('div'),i=el('i');i.style.width=Math.max(2,Math.round(p.n/mx*100))+'%';w.appendChild(i);d.appendChild(w);d.appendChild(el('small',null,p.n+' · '+p.people+(p.people===1?' oke':' okes')));c.appendChild(d)});
+    box.appendChild(c);
+    // busiest hours
+    c=el('div','us-card');c.appendChild(el('h3',null,'Busiest hours'));
+    var hrs=new Array(24).fill(0);(u.hours||[]).forEach(function(h){hrs[h.h]=h.n});var hm=Math.max.apply(null,hrs)||1;
+    var hb=el('div','us-hours');hrs.forEach(function(n,h){var i=el('i',n?null:'zero');i.style.height=n?Math.max(6,Math.round(n/hm*100))+'%':'2px';i.title=(h<10?'0':'')+h+':00 · '+n;hb.appendChild(i)});c.appendChild(hb);
+    var lab=el('div','us-hlab');['00','06','12','18','23'].forEach(function(x){lab.appendChild(el('span',null,x))});c.appendChild(lab);
+    var top=hrs.indexOf(Math.max.apply(null,hrs));if(Math.max.apply(null,hrs))c.appendChild(el('p','fine','Peak: '+(top<10?'0':'')+top+':00 SAST'));
+    box.appendChild(c);
+    // people
+    c=el('div','us-card');c.appendChild(el('h3',null,'Who’s on it'));var ul=el('ul','dk-list us-ppl');
+    (u.people||[]).forEach(function(p){var li=el('li'),h=el('div','dk-h');h.appendChild(el('b',p.team||'',p.name));h.appendChild(el('span','chip '+(p.last_seen&&Date.now()-new Date(p.last_seen)<36e5?'ok':'wait'),ago(p.last_seen)));li.appendChild(h);
+      var bits=[p.views_today+' today',p.views+' total'];if(p.fav)bits.push('lives on '+(PAGE[p.fav]||p.fav));li.appendChild(el('p',null,bits.join(' · ')));
+      var b2=[p.bets+' bets ('+Rk(p.staked)+')',p.spins+' spins'];if(p.fullies)b2.push(p.fullies+(p.fullies===1?' fully':' fullies'));if(p.photos)b2.push(p.photos+' photos');li.appendChild(el('p',null,b2.join(' · ')));
+      ul.appendChild(li)});
+    c.appendChild(ul);box.appendChild(c);
   }
 
   /* ----- Players tab: live names, nicknames, hometowns, bios and photos ----- */
@@ -4542,11 +4602,12 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       q.push(db.from('market_suggestions').select('*').eq('status','pending').order('created_at'));
       q.push(db.from('markets').select('id,question,status,closes_at').in('status',['open','closed']));
       q.push(db.rpc('ftv_claims'));
+      q.push(db.rpc('ftv_usage_stats'));
     }
     Promise.all(q).then(function(r){
       if(!r[0].error){players=(r[0].data||[]).filter(function(p){return !p.is_test||(me&&me.player_id===p.id)});byId={};players.forEach(function(p){byId[p.id]=p})}
       reqs=r[1].error?[]:(r[1].data||[]);stats=r[2].error?null:r[2].data;
-      if(me&&me.is_admin){desk.reqs=r[3].error?[]:r[3].data||[];desk.pitches=r[4].error?[]:r[4].data||[];desk.markets=r[5].error?[]:r[5].data||[];desk.claims=r[6].error?[]:r[6].data||[]}
+      if(me&&me.is_admin){desk.reqs=r[3].error?[]:r[3].data||[];desk.pitches=r[4].error?[]:r[4].data||[];desk.markets=r[5].error?[]:r[5].data||[];desk.claims=r[6].error?[]:r[6].data||[];desk.usage=r[7].error?{err:r[7].error}:r[7].data}
       return signAll();
     }).then(function(){renderProfile();renderDesk();renderPlayersTab()});
   }
@@ -4802,6 +4863,28 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   }
   renderFines(DRAFT);
   if(window.FTV)window.FTV.on(start);
+})();
+</script>
+<script>
+/* ---------- Usage tracking (script 017): logs page opens for Steve's Desk. Batched, never blocks anything. ---------- */
+(function(){
+  var FTV=window.FTV;if(!FTV)return;
+  var q=[],me=null,last='',lastAt=0,hiddenAt=0;
+  function add(v){if(!v)return;var now=Date.now();if(v===last&&now-lastAt<5000)return;last=v;lastAt=now;q.push({v:v,t:new Date(now).toISOString()});if(q.length>=20)flush()}
+  function page(){setTimeout(function(){add(document.documentElement.dataset.page||'home')},0)}
+  function flush(){
+    if(!q.length||!me||!me.player_id||me.is_test||!FTV.db)return;
+    var batch=q.splice(0,60);
+    try{FTV.db.rpc('ftv_track',{p_events:batch}).then(function(r){if(r&&r.error&&!/function|schema cache/.test(String(r.error.message||'')))q=batch.concat(q).slice(-200)},function(){q=batch.concat(q).slice(-200)})}catch(e){}
+  }
+  add('open');page();
+  window.addEventListener('hashchange',page);
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){hiddenAt=Date.now();flush()}
+    else if(hiddenAt&&Date.now()-hiddenAt>30*60000){add('open');page()}
+  });
+  setInterval(flush,15000);
+  FTV.on(function(m){me=m;if(m&&m.is_test)q=[];flush()});
 })();
 </script>
 </body>
