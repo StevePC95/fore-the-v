@@ -209,6 +209,20 @@ h3{font:700 1.08rem/1.3 var(--f-body)}
 .bk-form .fld > span{font-weight:700;font-size:.92rem}
 .bk-form textarea{resize:vertical;font-family:var(--f-body)}
 .bk-list{display:flex;flex-direction:column;gap:12px}
+.bk-secs{display:flex;flex-direction:column;gap:10px}
+.bk-sec{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.bk-sec > summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px;min-height:60px}
+.bk-sec > summary::-webkit-details-marker{display:none}
+.bk-sec > summary::after{content:"+";font:700 1.3rem/1 var(--f-mono);color:var(--muted);grid-column:3}
+.bk-sec[open] > summary{border-bottom:1px solid var(--line);box-shadow:inset 4px 0 0 var(--flag)}
+.bk-sec[open] > summary::after{content:"–"}
+.bk-sec .ic{font-size:1.5rem;line-height:1}
+.bk-sec .tt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.bk-sec .tt b{font:800 1.25rem/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
+.bk-sec .tt small{font:500 .7rem/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bk-sec .tt small .hot{color:var(--good)}
+.bk-sec-body{display:flex;flex-direction:column;gap:12px;padding:12px;background:var(--paper)}
+.bk-sec-body .bk-sub{font:600 .7rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 2px 0}
 .bk-mk h3{font:800 1.35rem/1.1 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
 .bk-mk.settled,.bk-mk.void{opacity:.95}
 .bk-meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font:500 .72rem/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -1421,17 +1435,15 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         <label class="fld"><span>Answers, one per line (2 to 10)</span><textarea class="txt-in" id="bk-f-o" rows="4" placeholder="Steve&#10;Nic&#10;Someone else"></textarea></label>
         <div class="picks" data-fill-for="bk-f-o"><button type="button" class="mini" data-fill="eight">Fill the 8 names</button><button type="button" class="mini" data-fill="teams">Inland / Coastal</button><button type="button" class="mini" data-fill="yn">Yes / No</button></div>
         <div class="fld"><span>Odds per answer</span><small class="fine">Decimal odds: 2.50 means R10k pays R25k. Starts at answers × 0.9 (a 10% house edge). Change them any time; bets already placed keep their odds.</small><div class="bk-odds" id="bk-f-odds"></div></div>
+        <label class="fld"><span>Section</span><select class="txt-in" id="bk-f-cat"><option value="weekend">⛳ The Weekend</option><option value="friday">🐺 Friday: Wolf</option><option value="saturday">💃 Saturday: Cha Cha Cha</option><option value="boks">🏉 Springboks vs Italy</option><option value="other" selected>🍺 Off the Course</option></select></label>
         <label class="fld"><span>Betting closes (SAST, optional)</span><input class="txt-in" id="bk-f-c" type="datetime-local"></label>
         <div class="verdict" id="bk-f-msg" role="status" aria-live="polite"></div>
         <div class="xb-btns"><button type="button" class="btn ghost" id="bk-f-cancel">Cancel</button><button type="submit" class="btn" id="bk-f-save">Post it</button></div>
       </form>
     </div>
 
-    <div class="head"><span class="eyebrow" id="bk-open-n">Taking bets</span><h2>Open markets</h2></div>
-    <div class="bk-list" id="bk-open"></div>
-
-    <div class="head" id="bk-wait-h" hidden><span class="eyebrow">Betting closed · waiting on Steve</span><h2>Awaiting the result</h2></div>
-    <div class="bk-list" id="bk-wait"></div>
+    <div class="head"><span class="eyebrow" id="bk-open-n">Taking bets</span><h2>The markets</h2></div>
+    <div class="bk-secs" id="bk-secs"></div>
 
     <div class="head"><span class="eyebrow">R50,000 to play · double odds on your pick</span><h2>Pitch a market</h2></div>
     <div class="card" id="bk-sg">
@@ -1449,9 +1461,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       </form>
       <ul class="bk-sgs" id="bk-sgs"></ul>
     </div>
-
-    <div class="head" id="bk-done-h" hidden><span class="eyebrow">Paid out</span><h2>Results</h2></div>
-    <div class="bk-list" id="bk-done"></div>
 
     <div class="head"><span class="eyebrow">For the idiots · the house always wins</span><h2>The Casino</h2></div>
     <div class="card rl" id="rl">
@@ -2388,6 +2397,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     return 'Closes '+sast(t,{weekday:'short',hour:'2-digit',minute:'2-digit'})+' · '+left+' left';
   }
   function isOpen(m){return m.status==='open'&&(!m.closes_at||new Date(m.closes_at)>Date.now())}
+  var SECS=[['weekend','⛳','The Weekend'],['friday','🐺','Friday: Wolf'],['saturday','💃','Saturday: Cha Cha Cha'],['boks','🏉','Springboks vs Italy'],['other','🍺','Off the Course']];
+  function secOf(m){var c=m&&m.category;return SECS.some(function(x){return x[0]===c})?c:'other'}
+  var secOpen={};try{secOpen=JSON.parse(localStorage.getItem('ftv-bk-secs')||'{}')||{}}catch(e){secOpen={}}
   function myWallet(){if(!me||!me.player_id||!wallets)return null;for(var i=0;i<wallets.length;i++)if(wallets[i].player_id===me.player_id)return wallets[i];return null}
   function hasWallet(){return !!myWallet()}
   function amtOf(v){return Math.floor(Number(String(v||'').replace(/[^\d]/g,''))||0)}
@@ -2622,6 +2634,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     $('bk-form').hidden=false;$('bk-new-open').setAttribute('aria-expanded','true');
     $('bk-f-q').value=m?m.question:'';$('bk-f-d').value=m?(m.detail||''):'';
     $('bk-f-o').value=m?m.options.join('\n'):'';$('bk-f-c').value=m?localInput(m.closes_at):'';
+    $('bk-f-cat').value=secOf(m||{});
     $('bk-f-save').textContent=m?'Save changes':'Post it';
     renderOddsInputs();
     say('',false,'bk-f-msg');
@@ -2654,7 +2667,9 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     db.rpc('ftv_market_save',args).then(function(r){
       btn.disabled=false;
       if(r.error)return say(err(r.error),false,'bk-f-msg');
-      say(editing?'Market updated.':'Market posted. Let the boys at it.',true);closeForm();load();
+      var wasEdit=!!editing,mid=editing?editing.id:r.data,cat=$('bk-f-cat').value;
+      var done=function(){say(wasEdit?'Market updated.':'Market posted. Let the boys at it.',true);closeForm();load()};
+      if(mid)db.rpc('ftv_market_section',{p_id:mid,p_cat:cat}).then(done,done);else done();
     });
   });
 
@@ -2867,13 +2882,27 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     markets.forEach(function(m){if(m.status==='settled'||m.status==='void')done.push(m);else if(isOpen(m))open.push(m);else wait.push(m)});
     open.sort(function(a,b){return (a.closes_at?new Date(a.closes_at):Infinity)-(b.closes_at?new Date(b.closes_at):Infinity)});
     done.sort(function(a,b){return new Date(b.settled_at)-new Date(a.settled_at)});
-    [['bk-open',open],['bk-wait',wait],['bk-done',done]].forEach(function(g){
-      var box=$(g[0]);box.textContent='';
-      g[1].forEach(function(m){box.appendChild(card(m))});
+    var box=$('bk-secs');box.textContent='';
+    if(!markets.length)box.appendChild(el('p','empty',live?'Nothing open right now. Pitch one below.':'The Bookie opens once Steve runs script 009 in Supabase.'));
+    SECS.forEach(function(sc){
+      var o=open.filter(function(m){return secOf(m)===sc[0]}),w=wait.filter(function(m){return secOf(m)===sc[0]}),d=done.filter(function(m){return secOf(m)===sc[0]});
+      var n=o.length+w.length+d.length;if(!n)return;
+      var det=el('details','bk-sec');det.dataset.sec=sc[0];if(secOpen[sc[0]])det.open=true;
+      var sm=el('summary');sm.appendChild(el('span','ic',sc[1]));
+      var tt=el('span','tt');tt.appendChild(el('b',null,sc[2]));
+      var sub=el('small');
+      if(o.length)sub.appendChild(el('span','hot',o.length+' open'));
+      [[w.length,' waiting'],[d.length,' settled']].forEach(function(x){if(!x[0])return;if(sub.childNodes.length)sub.appendChild(document.createTextNode(' · '));sub.appendChild(document.createTextNode(x[0]+x[1]))});
+      tt.appendChild(sub);sm.appendChild(tt);det.appendChild(sm);
+      var body=el('div','bk-sec-body');
+      o.forEach(function(m){body.appendChild(card(m))});
+      if(w.length){body.appendChild(el('p','bk-sub','Betting closed · waiting on Steve'));w.forEach(function(m){body.appendChild(card(m))})}
+      if(d.length){body.appendChild(el('p','bk-sub','Paid out'));d.forEach(function(m){body.appendChild(card(m))})}
+      det.appendChild(body);
+      det.addEventListener('toggle',function(){secOpen[sc[0]]=det.open;try{localStorage.setItem('ftv-bk-secs',JSON.stringify(secOpen))}catch(e){}});
+      box.appendChild(det);
     });
-    if(!open.length)$('bk-open').appendChild(el('p','empty',live?'Nothing open right now. Pitch one below.':'The Bookie opens once Steve runs script 009 in Supabase.'));
-    $('bk-open-n').textContent=open.length?open.length+' taking bets':'Taking bets';
-    $('bk-wait-h').hidden=!wait.length;$('bk-done-h').hidden=!done.length;
+    $('bk-open-n').textContent=open.length?open.length+' taking bets · tap a section':'Taking bets';
   }
   function load(){
     if(!db||!me)return;
