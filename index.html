@@ -918,7 +918,7 @@ td[data-slot] .co{color:var(--coastal)}
 .dv-open svg{width:24px;height:24px}
 .dv-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px}
 .dv-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0}
-.dv-card video{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:#0b130f}
+.dv-card video{display:block;width:100%;aspect-ratio:3/4;object-fit:contain;background:#000}
 .dv-meta{padding:10px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center}
 .dv-meta b{font:800 1.15rem/1.05 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
 .dv-meta small{grid-column:1;color:var(--muted);font-size:.8rem}
@@ -955,7 +955,11 @@ dialog.cam::backdrop{background:#000}
 .cam-who{font:900 1.4rem/1 var(--f-display);text-transform:uppercase;letter-spacing:.03em}
 .cam-top .x{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;font:600 1.4rem/1 var(--f-body);cursor:pointer}
 .cam-stage{position:relative;flex:1;min-height:0;display:grid;place-items:center;overflow:hidden}
-.cam-stage video{width:100%;height:100%;object-fit:cover;background:#000}
+.cam-stage video{width:100%;height:100%;object-fit:contain;background:#000;touch-action:none}
+.cam-zoom{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.55);border-radius:999px;padding:8px 14px;width:min(78%,320px)}
+.cam-zoom input{flex:1;min-width:0;accent-color:#e2b23a;height:28px}
+.cam-zoom b{font:700 .8rem/1 var(--f-mono);min-width:38px;text-align:right}
+.cam-zoom button{border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;border-radius:999px;font:700 .72rem/1 var(--f-mono);padding:7px 9px;cursor:pointer}
 .cam-stage video.mirror{transform:scaleX(-1)}
 .cam-clock{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(18,63,40,.88);border-radius:10px;padding:8px 14px;text-align:center;min-width:110px}
 .cam-clock b{display:block;font:900 2.2rem/1 var(--f-display);font-variant-numeric:tabular-nums}
@@ -2116,6 +2120,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       <video id="cam-live" playsinline autoplay muted></video>
       <video id="cam-play" playsinline controls hidden></video>
       <div class="cam-clock" id="cam-clock"><b id="cam-t">0.0</b><span>sec</span></div>
+      <div class="cam-zoom" id="cam-zoom" hidden><button type="button" id="cam-zoom-min" aria-label="Zoom all the way out">Widest</button><input type="range" id="cam-zoom-in" aria-label="Zoom"><b id="cam-zoom-v">1×</b></div>
     </div>
     <div class="cam-bar" id="cam-bar-rec">
       <button type="button" class="cam-flip" id="cam-flip" aria-label="Switch camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><path d="M9 13a3 3 0 0 1 5.2-2M15 13a3 3 0 0 1-5.2 2"/><path d="M14 9.5V11h-1.5M10 16.5V15h1.5"/></svg></button>
@@ -3542,10 +3547,40 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function stopStream(){if(stream){stream.getTracks().forEach(function(t){t.stop()});stream=null}}
   function startStream(){
     stopStream();$('cam-err').hidden=true;
-    return navigator.mediaDevices.getUserMedia({video:{facingMode:facing,width:{ideal:720},height:{ideal:1280},frameRate:{ideal:30,max:30}},audio:true})
-      .then(function(s){stream=s;live.srcObject=s;live.classList.toggle('mirror',facing==='user');return live.play().catch(function(){})})
+    var v={facingMode:facing,width:{ideal:1280},height:{ideal:960},frameRate:{ideal:30,max:30}};
+    var withZoom=Object.assign({zoom:true},v);
+    $('cam-zoom').hidden=true;
+    return navigator.mediaDevices.getUserMedia({video:withZoom,audio:true})
+      .catch(function(){return navigator.mediaDevices.getUserMedia({video:v,audio:true})})
+      .then(function(s){stream=s;live.srcObject=s;live.classList.toggle('mirror',facing==='user');setupZoom();return live.play().catch(function(){})})
       .catch(function(){$('cam-err').hidden=false;$('cam-err').textContent='Couldn’t open the camera. Allow camera and microphone access for this site in your phone’s settings, then try again.'});
   }
+  /* zoom: only on phones that let the browser control it. Starts fully zoomed out */
+  var zoomCap=null;
+  function vtrack(){return stream&&stream.getVideoTracks()[0]}
+  function setZoom(z){
+    var t=vtrack();if(!t||!zoomCap)return;
+    z=Math.max(zoomCap.min,Math.min(zoomCap.max,z));
+    t.applyConstraints({advanced:[{zoom:z}]}).catch(function(){});
+    $('cam-zoom-in').value=z;$('cam-zoom-v').textContent=(Math.round(z*10)/10)+'×';
+  }
+  function setupZoom(){
+    zoomCap=null;var t=vtrack(),c=null;
+    try{c=t&&t.getCapabilities&&t.getCapabilities()}catch(e){}
+    if(c&&c.zoom&&c.zoom.max>c.zoom.min){
+      zoomCap={min:c.zoom.min,max:Math.min(c.zoom.max,c.zoom.min+7)};
+      var r=$('cam-zoom-in');r.min=zoomCap.min;r.max=zoomCap.max;r.step=c.zoom.step||0.1;
+      $('cam-zoom').hidden=false;setZoom(zoomCap.min);
+    }
+  }
+  $('cam-zoom-in').addEventListener('input',function(){setZoom(parseFloat(this.value))});
+  $('cam-zoom-min').addEventListener('click',function(){if(zoomCap)setZoom(zoomCap.min)});
+  (function(){ // pinch to zoom on the preview
+    var d0=0,z0=1;
+    live.addEventListener('touchstart',function(e){if(e.touches.length===2&&zoomCap){d0=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);z0=parseFloat($('cam-zoom-in').value)||zoomCap.min}},{passive:true});
+    live.addEventListener('touchmove',function(e){if(e.touches.length===2&&d0&&zoomCap){var d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);setZoom(z0*d/d0)}},{passive:true});
+    live.addEventListener('touchend',function(){d0=0},{passive:true});
+  })();
   function showRecUI(){live.hidden=false;play.hidden=true;play.removeAttribute('src');$('cam-bar-rec').hidden=false;$('cam-bar-done').hidden=true;$('cam-t').textContent='0.0';$('cam-clock').classList.remove('rec');$('cam-rec').classList.remove('on')}
   function openCam(){
     var d=drinker();
@@ -3559,7 +3594,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   $('dv-open').addEventListener('click',openCam);
   function closeCam(){
     if(rec&&rec.state!=='inactive'){try{rec.onstop=null;rec.stop()}catch(e){}}
-    clearInterval(timer);stopStream();try{cam.close()}catch(e){cam.removeAttribute('open')}
+    clearInterval(timer);stopStream();$('cam-zoom').hidden=true;try{cam.close()}catch(e){cam.removeAttribute('open')}
   }
   $('cam-x').addEventListener('click',closeCam);
   cam.addEventListener('cancel',function(e){e.preventDefault();closeCam()});
@@ -3581,7 +3616,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       clearInterval(timer);secs=Math.min(MAX,performance.now()-t0)/1000;
       blob=new Blob(chunks,{type:(rec.mimeType||mime||'video/webm').split(';')[0]});
       grabPoster().then(function(p){poster=p});
-      stopStream();live.hidden=true;play.hidden=false;play.src=URL.createObjectURL(blob);play.play().catch(function(){});
+      stopStream();$('cam-zoom').hidden=true;live.hidden=true;play.hidden=false;play.src=URL.createObjectURL(blob);play.play().catch(function(){});
       $('cam-bar-rec').hidden=true;$('cam-bar-done').hidden=false;$('cam-clock').classList.remove('rec');
     };
     grabPoster().then(function(p){poster=p});
