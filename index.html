@@ -422,6 +422,11 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 #pf-stats .stat .rec{font-size:1.9rem}
 .pf-top{flex-direction:row;align-items:center;gap:16px}
 .pf-av-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none}
+.pf-pic-note{max-width:110px;text-align:center;font:600 .62rem/1.3 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+#players .pl .pl-pic{grid-column:1 / -1;justify-self:start;margin-top:10px;display:none}
+#players .pl.open .pl-pic{display:inline-flex}
+.ftv-flash{animation:ftvflash 2.2s ease-out}
+@keyframes ftvflash{0%,30%{box-shadow:0 0 0 3px var(--flag)}100%{box-shadow:0 0 0 3px transparent}}
 .pf-av{width:88px;height:88px;border-radius:50%;overflow:hidden;display:grid;place-items:center;background:var(--line-strong);color:var(--on-team);font:900 2rem/1 var(--f-display);box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--flag)}
 .pf-av.in{background:var(--inland)}
 .pf-av.co{background:var(--coastal)}
@@ -1086,6 +1091,33 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   section[data-view]:not([hidden]){animation:rise .22s ease-out}
   @keyframes rise{from{opacity:.5;transform:translateY(6px)}to{opacity:1;transform:none}}
 }
+
+/* The Feed */
+.fd-filter{margin-bottom:10px}
+.fd-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fd-day{align-self:center;margin:10px 0 4px;font:600 .66rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 10px}
+.fd-app{align-self:stretch;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:8px 10px;border-radius:12px;background:var(--card);border:1px dashed var(--line-strong);font-size:.88rem;line-height:1.4;color:var(--ink)}
+.fd-app .ic{font-size:1rem;line-height:1}
+.fd-app .tx{overflow-wrap:anywhere}
+.fd-app time,.fd-msg time{font:500 .64rem/1 var(--f-mono);color:var(--muted);white-space:nowrap}
+.fd-who{font-weight:700}
+.fd-who.in{color:var(--inland)}
+.fd-who.co{color:var(--coastal)}
+.fd-go{color:inherit;font-weight:700;text-decoration:underline;text-decoration-color:var(--flag);text-decoration-thickness:2px;text-underline-offset:3px}
+.fd-msg{max-width:86%;align-self:flex-start;display:flex;flex-direction:column;gap:3px}
+.fd-msg .bub{background:var(--card);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:8px 11px;font-size:.95rem;line-height:1.4;overflow-wrap:anywhere;white-space:pre-wrap;cursor:default}
+.fd-msg .meta{display:flex;gap:8px;align-items:baseline;padding:0 4px}
+.fd-msg .meta b{font-size:.78rem}
+.fd-msg.me{align-self:flex-end;align-items:flex-end}
+.fd-msg.me .bub{background:var(--ink);color:var(--paper);border-color:var(--ink);border-radius:16px 16px 4px 16px}
+.fd-msg.can .bub{cursor:pointer}
+.fd-msg .del{font:600 .66rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:transparent;border:1px solid var(--line-strong);color:var(--muted);border-radius:999px;padding:7px 10px;cursor:pointer}
+.fd-msg .del.arm{background:var(--bad);border-color:var(--bad);color:#fff}
+.fd-bar{position:sticky;bottom:calc(66px + env(safe-area-inset-bottom,0px));z-index:5;display:flex;gap:8px;margin-top:12px;padding:10px 0;background:var(--paper)}
+.fd-bar input{flex:1;min-width:0;font:400 16px/1.2 var(--f-body);color:var(--ink);background:var(--card);border:1px solid var(--line-strong);border-radius:999px;padding:12px 14px}
+.fd-bar button{flex:0 0 auto;font:700 .78rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--paper);border:0;border-radius:999px;padding:0 18px;min-height:46px;cursor:pointer}
+.fd-bar button:disabled{opacity:.5}
+.fd-err{color:var(--bad);font-size:.85rem;margin:0}
 </style>
 </head>
 <body>
@@ -1144,6 +1176,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 <dialog class="more" id="more" aria-label="More pages">
   <div class="more-in">
     <div class="more-h"><span class="eyebrow">More</span><button type="button" class="x" id="more-x" aria-label="Close">×</button></div>
+    <a href="#feed" data-group="feed"><span class="mi">📣</span><span class="mt"><b>The Feed</b><small>Chat, bets and everything going down</small></span><b class="more-badge" id="more-badge-feed" hidden></b></a>
     <a href="#nineteenth" data-group="nineteenth"><span class="mi">🍺</span><span class="mt"><b>The 19th</b><small>Log a Fully · Photos · Practice Green</small></span></a>
     <a href="#crew" data-group="crew"><span class="mi">⛳</span><span class="mt"><b>The Players</b><small>The 8 · Honours</small></span></a>
     <a href="#profile" data-group="profile"><span class="mi">👤</span><span class="mt"><b>Profile</b><small>Your name, photo, PIN and stats</small></span></a>
@@ -1623,6 +1656,31 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   </div>
 </section>
 
+<!-- THE FEED -->
+<section data-view="feed" hidden>
+  <div class="head"><span class="eyebrow">Chat · bets · banter · live</span><h2>The Feed</h2></div>
+  <div class="card gate" id="fd-gate">
+    <span class="eyebrow">Members only</span>
+    <h3>Sign in to join the chat</h3>
+    <p>Chat with the boys and see everything going down: bets, results, fullies, pics and more.</p>
+    <button type="button" class="btn" id="fd-gate-btn">Sign in</button>
+  </div>
+  <div id="fd-app" hidden>
+    <div class="ph-tags fd-filter" id="fd-filter" role="group" aria-label="Show">
+      <button type="button" class="pick neutral" data-f="all" aria-pressed="true">Everything</button>
+      <button type="button" class="pick neutral" data-f="chat" aria-pressed="false">Chat only</button>
+      <button type="button" class="pick neutral" data-f="app" aria-pressed="false">App only</button>
+    </div>
+    <ol class="fd-list" id="fd-list" aria-live="polite"></ol>
+    <p class="empty" id="fd-empty" hidden>Dead quiet. Somebody say something.</p>
+    <form class="fd-bar" id="fd-form" autocomplete="off">
+      <input id="fd-in" type="text" maxlength="500" placeholder="Say something…" aria-label="Message">
+      <button type="submit" id="fd-send">Send</button>
+    </form>
+    <p class="fd-err" id="fd-err" role="status" hidden></p>
+  </div>
+</section>
+
 <!-- PROFILE -->
 <section data-view="profile" hidden>
   <div class="head"><span class="eyebrow">Yours · PIN-protected</span><h2>Profile</h2></div>
@@ -1644,8 +1702,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <div class="card pf-top">
       <div class="pf-av-wrap">
         <div class="pf-av" id="pf-av"><span id="pf-init">?</span></div>
-        <button type="button" class="mini" id="pf-photo-btn">Change photo</button>
-        <input type="file" id="pf-photo-in" accept="image/*" class="vh">
+        <small class="pf-pic-note">Your pic is in the boys’ hands</small>
       </div>
       <div class="pf-who">
         <span class="pf-nick" id="pf-nick"></span>
@@ -2205,7 +2262,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
      a section hash (#formats) opens that section. Old links all still work. */
   var views=[].slice.call(document.querySelectorAll('section[data-view]'));
   var GROUPS={home:['home'],weekend:['schedule','logistics'],golf:['courses','formats'],live:['live'],bookie:['bookie'],
-    nineteenth:['dops','photos','putt'],crew:['players','honours'],profile:['profile'],exec:['fines','questions','desk']};
+    nineteenth:['dops','photos','putt'],crew:['players','honours'],feed:['feed'],profile:['profile'],exec:['fines','questions','desk']};
   var GROUP_OF={};Object.keys(GROUPS).forEach(function(g){GROUPS[g].forEach(function(v){GROUP_OF[v]=g})});
   var LAST={};try{LAST=JSON.parse(localStorage.getItem('ftv-last-sub')||'{}')||{}}catch(e){}
   var subnav=document.getElementById('subnav'),more=document.getElementById('more');
@@ -2239,6 +2296,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     document.documentElement.dataset.page=h;
   }
   window.ftvRoute=show;
+  window.FTV_BADGE=window.FTV_BADGE||{};
+  window.ftvMoreBadge=function(){var B=window.FTV_BADGE,n=(B.desk||0)+(B.feed||0),b=document.getElementById('more-badge');if(b){b.textContent=n>99?'99+':n?String(n):'';b.hidden=!n}};
   window.addEventListener('hashchange',function(){show();window.scrollTo(0,0);try{if(more.open)more.close()}catch(e){}});
   show();
 
@@ -2262,7 +2321,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   [].slice.call(document.querySelectorAll('#players .pl')).forEach(function(c){
     c.setAttribute('tabindex','0');c.setAttribute('role','button');c.setAttribute('aria-expanded','false');
     function tog(){var o=!c.classList.contains('open');c.classList.toggle('open',o);c.setAttribute('aria-expanded',o?'true':'false')}
-    c.addEventListener('click',function(e){if(e.target.closest('a'))return;tog()});
+    c.addEventListener('click',function(e){if(e.target.closest('a,button,input'))return;tog()});
     c.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tog()}});
   });
 
@@ -2727,7 +2786,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     return ul;
   }
   function card(m){
-    var c=el('div','card bk-mk '+m.status), open=isOpen(m), ps=pools(m), s=slip[m.id]||{};
+    var c=el('div','card bk-mk '+m.status), open=isOpen(m), ps=pools(m), s=slip[m.id]||{};c.id='mk-'+m.id;
     var mw=myWallet();
     var myOpt={},maker=null;
     bets.forEach(function(b){if(b.market_id!==m.id)return;if(me&&b.player_id===me.player_id)myOpt[b.option]=1;if(b.boost>1)maker=b});
@@ -3574,7 +3633,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     $('dv-count').textContent=!FTV.me?'Members only':rows.length?(rows.length+(rows.length===1?' fully':' fullies')+' on film'):'Nothing filmed yet';
     var m=FTV.me||{};
     rows.forEach(function(x){
-      var c=document.createElement('article');c.className='dv-card';
+      var c=document.createElement('article');c.className='dv-card';c.id='dv-'+x.id;
       var v=document.createElement('video');v.controls=true;v.setAttribute('playsinline','');v.preload='none';
       if(urls[x.video_path])v.src=urls[x.video_path];if(x.poster_path&&urls[x.poster_path])v.poster=urls[x.poster_path];
       var meta=document.createElement('div');meta.className='dv-meta';
@@ -4451,17 +4510,30 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       c.getContext('2d').drawImage(img,(w-s)/2,(h-s)/2,s,s,0,0,c.width,c.height);URL.revokeObjectURL(u);
       c.toBlob(function(b){b?res(b):rej(new Error('encode'))},'image/jpeg',.85)};img.onerror=function(){rej(new Error('not_image'))};img.src=u});
   }
-  $('pf-photo-btn').addEventListener('click',function(){$('pf-photo-in').click()});
-  $('pf-photo-in').addEventListener('change',function(){
-    var f=this.files&&this.files[0];this.value='';if(!f||!me||!me.player_id)return;
-    var b=$('pf-photo-btn');b.disabled=true;b.textContent='Uploading…';
-    var path=me.player_id+'/'+Date.now()+'.jpg';
+  var picIn=document.createElement('input');picIn.type='file';picIn.accept='image/*';picIn.className='vh';document.body.appendChild(picIn);
+  var picFor=null,picBtn=null;
+  function picLabel(p){return '📸 Change '+(p&&p.short?p.short+'’s':'his')+' pic'}
+  picIn.addEventListener('change',function(){
+    var f=this.files&&this.files[0];this.value='';var pid=picFor,b=picBtn;picFor=null;if(!f||!pid||!me||!me.player_id)return;
+    b.disabled=true;b.textContent='Uploading…';
+    var path=pid+'/'+Date.now()+'.jpg';
     shrink(f,480).then(function(blob){return db.storage.from('avatars').upload(path,blob,{contentType:'image/jpeg',upsert:false})})
-      .then(function(r){if(r.error)throw r.error;return db.rpc('ftv_set_photo',{p_path:path})})
-      .then(function(r){if(r.error)throw r.error;FTV.me=r.data;say('pf-msg','Looking sharp. Photo updated.',true);load()})
-      .catch(function(e){say('pf-msg',/not_image/.test(String(e&&e.message))?'That’s not a photo.':errMsg(e))})
-      .then(function(){b.disabled=false;b.textContent='Change photo'});
+      .then(function(r){if(r.error)throw r.error;return db.rpc('ftv_set_photo_for',{p_player:pid,p_path:path})})
+      .then(function(r){if(r.error)throw r.error;b.textContent='Done. Enjoy that.';setTimeout(function(){b.disabled=false;b.textContent=picLabel(byId[pid])},2500);load()})
+      .catch(function(e){var m=String((e&&(e.message||e.details))||'');b.disabled=false;
+        b.textContent=/not_image/.test(m)?'That’s not a photo':/own_photo/.test(m)?'Nice try. Not your own.':/function|schema/.test(m)?'Not switched on yet':'Failed. Try again';
+        setTimeout(function(){b.textContent=picLabel(byId[pid])},3000)});
   });
+  function picButtons(){
+    [].slice.call(document.querySelectorAll('#players article[data-pid]')).forEach(function(a){
+      var pid=a.dataset.pid;a.id='pl-'+pid;
+      var b=a.querySelector('.pl-pic');
+      if(!b){b=el('button','mini pl-pic');b.type='button';a.appendChild(b);
+        b.addEventListener('click',function(e){e.stopPropagation();picFor=pid;picBtn=b;picIn.click()})}
+      if(!b.disabled)b.textContent=picLabel(byId[pid]);
+      b.hidden=!(me&&me.player_id&&me.player_id!==pid&&!me.is_test);
+    });
+  }
 
   /* ----- profile ----- */
   function renderProfile(){
@@ -4583,7 +4655,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     var unclaimed=desk.claims.filter(function(c){return !c.claimed&&byId[c.player_id]&&byId[c.player_id].team});
     var todo=pendReq.length+pendPitch.length+toSettle.length;
     if(nav){nav.hidden=!admin;var bdg=nav.querySelector('.nav-badge');if(!bdg){bdg=el('span','nav-badge');nav.appendChild(bdg)}bdg.textContent=todo?String(todo):'';bdg.hidden=!todo}
-    ['more-badge','more-badge-exec'].forEach(function(i){var b=document.getElementById(i);if(b){b.textContent=todo&&admin?String(todo):'';b.hidden=!(todo&&admin)}});
+    var bx=document.getElementById('more-badge-exec');if(bx){bx.textContent=todo&&admin?String(todo):'';bx.hidden=!(todo&&admin)}
+    window.FTV_BADGE=window.FTV_BADGE||{};window.FTV_BADGE.desk=todo&&admin?todo:0;if(window.ftvMoreBadge)window.ftvMoreBadge();
     if(window.ftvRoute)window.ftvRoute();
     if(!admin)return;
     var tl=$('dk-tiles');tl.textContent='';
@@ -4637,7 +4710,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   }
 
   /* ----- Usage (script 017) ----- */
-  var PAGE={home:'Home',schedule:'Schedule',logistics:'Logistics',courses:'Courses',formats:'Formats',live:'Scores',bookie:'Bookie',dops:'Log a Fully',photos:'Photos',putt:'Practice Green',players:'The 8',honours:'Honours',profile:'Profile',fines:'Fines',questions:'Planning',desk:'Desk'};
+  var PAGE={home:'Home',schedule:'Schedule',logistics:'Logistics',courses:'Courses',formats:'Formats',live:'Scores',bookie:'Bookie',dops:'Log a Fully',photos:'Photos',putt:'Practice Green',players:'The 8',honours:'Honours',feed:'The Feed',profile:'Profile',fines:'Fines',questions:'Planning',desk:'Desk'};
   function ago(t){if(!t)return 'Not seen yet';var m=Math.round((Date.now()-new Date(t))/60000);if(m<2)return 'On now';if(m<60)return m+' min ago';var h=Math.round(m/60);if(h<24)return h+' h ago';return when(t)}
   function renderUsage(){
     var box=$('us-body');if(!box)return;var u=desk.usage;box.textContent='';
@@ -4676,6 +4749,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
   /* ----- Players tab: live names, nicknames, hometowns, bios and photos ----- */
   function renderPlayersTab(){
+    picButtons();
     [].slice.call(document.querySelectorAll('#players article[data-pid]')).forEach(function(a){
       var p=byId[a.dataset.pid];if(!p)return;
       var nk=a.querySelector('.nick');if(nk&&p.nickname)nk.textContent='“'+p.nickname+'”';
@@ -4716,6 +4790,138 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       try{var ch=db.channel('profiles-live');['players','profile_requests','market_suggestions','markets'].forEach(function(t){ch.on('postgres_changes',{event:'*',schema:'public',table:t},function(){load()})});ch.subscribe()}catch(e){}
       document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
       window.addEventListener('hashchange',function(){if(location.hash==='#profile'||location.hash==='#desk')load()});
+    }
+  }
+  FTV.on(start);
+})();
+</script>
+<script>
+/* ---------- The Feed (script 019): members' chat + messages the app posts itself (bets, results, pics, fullies…). Links jump to where it happened ---------- */
+(function(){
+  function $(id){return document.getElementById(id)}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+  var FTV=window.FTV;if(!FTV)return;
+  var db=FTV.db, rows=[], team={}, filter='all', loading=false, again=false, started=false, armed=null;
+  var SEEN='ftv-feed-seen';
+  function seen(){try{return localStorage.getItem(SEEN)||''}catch(e){return ''}}
+  function setSeen(t){try{if(t&&t>seen())localStorage.setItem(SEEN,t)}catch(e){}}
+  var TZ='Africa/Johannesburg';
+  function hm(t){try{return new Date(t).toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ})}catch(e){return ''}}
+  function day(t){try{return new Date(t).toLocaleDateString('en-ZA',{weekday:'short',day:'numeric',month:'short',timeZone:TZ})}catch(e){return ''}}
+  function onFeed(){return document.documentElement.dataset.page==='feed'&&!document.hidden}
+  function atBottom(){return window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-160}
+  function toBottom(){window.scrollTo(0,document.documentElement.scrollHeight)}
+
+  /* ----- jump to where it happened ----- */
+  function go(href,ref){
+    if(!href)return;
+    if(location.hash===href){if(window.ftvRoute)window.ftvRoute()}else location.hash=href;
+    if(!ref)return;
+    var tries=0;
+    (function look(){
+      var t=document.getElementById(ref);
+      if(t&&!t.closest('[hidden]')){
+        var d=t.parentElement;while(d){if(d.tagName==='DETAILS'&&!d.open)d.open=true;d=d.parentElement}
+        if(t.classList.contains('pl')&&!t.classList.contains('open'))t.click();
+        setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'center'});t.classList.remove('ftv-flash');void t.offsetWidth;t.classList.add('ftv-flash')},80);
+        return;
+      }
+      if(t){var dd=t.parentElement;while(dd){if(dd.tagName==='DETAILS'&&!dd.open){dd.open=true}dd=dd.parentElement}}
+      if(++tries<40)setTimeout(look,150);
+    })();
+  }
+
+  /* ----- render ----- */
+  function who(name,actor){var b=el('b','fd-who',name||'Someone');var t=team[actor];if(t)b.classList.add(t);return b}
+  function appText(box,r){
+    var parts=String(r.body).split(/(\{who\}|\{link\})/);
+    parts.forEach(function(p){
+      if(p==='{who}')box.appendChild(who(r.actor_name,r.actor));
+      else if(p==='{link}'){
+        if(r.link_href){var a=el('a','fd-go',r.link_label||'here');a.href=r.link_href;
+          a.addEventListener('click',function(e){e.preventDefault();go(r.link_href,r.link_ref)});box.appendChild(a)}
+        else box.appendChild(el('b',null,r.link_label||''));
+      }
+      else if(p)box.appendChild(document.createTextNode(p));
+    });
+  }
+  function render(){
+    var keep=atBottom(), ul=$('fd-list');ul.textContent='';
+    var me=FTV.me||{}, list=rows.filter(function(r){return filter==='all'||r.kind===filter}), last='';
+    $('fd-empty').hidden=list.length>0;
+    list.forEach(function(r){
+      var d=day(r.created_at);if(d!==last){last=d;ul.appendChild(el('li','fd-day',d))}
+      if(r.kind==='app'){
+        var li=el('li','fd-app');li.appendChild(el('span','ic',r.icon||'•'));
+        var tx=el('span','tx');appText(tx,r);li.appendChild(tx);li.appendChild(el('time',null,hm(r.created_at)));
+        if(me.is_admin)delBtn(li,r,true);
+        ul.appendChild(li);return;
+      }
+      var mine=r.posted_by===FTV.uid, can=mine||me.is_admin;
+      var m=el('li','fd-msg'+(mine?' me':'')+(can?' can':''));
+      var meta=el('div','meta');if(!mine)meta.appendChild(who(r.actor_name,r.actor));meta.appendChild(el('time',null,hm(r.created_at)));
+      var bub=el('div','bub',r.body);
+      m.appendChild(meta);m.appendChild(bub);
+      if(can){
+        var row=el('div');row.hidden=armed!==r.id;delBtn(row,r,false);m.appendChild(row);
+        bub.addEventListener('click',function(){armed=armed===r.id?null:r.id;row.hidden=armed!==r.id});
+      }
+      ul.appendChild(m);
+    });
+    if(keep||!render.done){if(onFeed())toBottom();render.done=true}
+  }
+  function delBtn(box,r,small){
+    var x=el('button','del',small?'×':'Delete');x.type='button';x.setAttribute('aria-label','Delete message');
+    if(small){x.className='del';x.style.padding='4px 8px'}
+    x.addEventListener('click',function(e){e.stopPropagation();
+      if(!x.classList.contains('arm')){x.classList.add('arm');x.textContent='Sure?';setTimeout(function(){x.classList.remove('arm');x.textContent=small?'×':'Delete'},4000);return}
+      x.disabled=true;db.from('feed').delete().eq('id',r.id).then(function(){load()})});
+    box.appendChild(x);
+  }
+  function badge(){
+    var s=seen(), uid=FTV.uid, n=0;
+    if(FTV.me&&!onFeed())rows.forEach(function(r){if(r.created_at>s&&!(r.kind==='chat'&&r.posted_by===uid))n++});
+    if(!s&&n)n=Math.min(n,9); // first visit: don't shout about all of history
+    var b=$('more-badge-feed');if(b){b.textContent=n>99?'99+':n?String(n):'';b.hidden=!n}
+    window.FTV_BADGE=window.FTV_BADGE||{};window.FTV_BADGE.feed=n;if(window.ftvMoreBadge)window.ftvMoreBadge();
+  }
+  function markSeen(){if(onFeed()&&rows.length)setSeen(rows[rows.length-1].created_at);badge()}
+
+  /* ----- data ----- */
+  function load(){
+    if(!db||!FTV.me)return;
+    if(loading){again=true;return}
+    loading=true;
+    db.from('feed').select('id,kind,icon,actor,actor_name,body,link_label,link_href,link_ref,posted_by,created_at').order('created_at',{ascending:false}).limit(250).then(function(r){
+      if(r.error){if(/feed|schema|exist/.test(String(r.error.message||'')))$('fd-empty').textContent='The Feed switches on once script 019 runs.';return}
+      rows=(r.data||[]).reverse();render();markSeen();
+    }).then(function(){loading=false;if(again){again=false;load()}},function(){loading=false});
+  }
+  function loadTeams(){
+    db.from('players').select('id,team').then(function(r){(r.data||[]).forEach(function(p){if(p.team)team[p.id]=p.team});if(rows.length)render()});
+  }
+  $('fd-form').addEventListener('submit',function(e){
+    e.preventDefault();var inp=$('fd-in'),b=inp.value.trim(),btn=$('fd-send');if(!b||btn.disabled)return;
+    btn.disabled=true;$('fd-err').hidden=true;
+    db.rpc('ftv_chat',{p_body:b}).then(function(r){btn.disabled=false;
+      if(r.error){$('fd-err').hidden=false;$('fd-err').textContent='Didn’t send. Check your signal and try again.';return}
+      inp.value='';if(filter==='app'){filter='all';syncFilter()}render.done=false;load();
+    },function(){btn.disabled=false;$('fd-err').hidden=false;$('fd-err').textContent='Didn’t send. Check your signal and try again.'});
+  });
+  function syncFilter(){[].slice.call(document.querySelectorAll('#fd-filter [data-f]')).forEach(function(b){b.setAttribute('aria-pressed',b.dataset.f===filter?'true':'false')})}
+  [].slice.call(document.querySelectorAll('#fd-filter [data-f]')).forEach(function(b){b.addEventListener('click',function(){filter=b.dataset.f;syncFilter();render.done=false;render()})});
+  $('fd-gate-btn').addEventListener('click',function(){FTV.open()});
+
+  function page(){if(document.documentElement.dataset.page==='feed'){render.done=false;render();markSeen()}else badge()}
+  function start(m){
+    db=FTV.db;$('fd-gate').hidden=!!m;$('fd-app').hidden=!m;
+    if(!m){rows=[];render();badge();return}
+    if(!db)return;
+    loadTeams();load();
+    if(!started){started=true;
+      try{db.channel('feed-live').on('postgres_changes',{event:'*',schema:'public',table:'feed'},function(){load()}).subscribe()}catch(e){}
+      document.addEventListener('visibilitychange',function(){if(!document.hidden&&FTV.me)load()});
+      window.addEventListener('hashchange',function(){setTimeout(page,0)});
     }
   }
   FTV.on(start);
