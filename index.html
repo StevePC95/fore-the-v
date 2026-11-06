@@ -1174,7 +1174,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <div class="sub-set" data-group="golf"><a href="#courses">Courses</a><a href="#formats">Formats &amp; rules</a></div>
     <div class="sub-set" data-group="nineteenth"><a href="#dops">Log a Fully</a><a href="#photos">Photos</a><a href="#putt">Practice Green</a></div>
     <div class="sub-set" data-group="crew"><a href="#players">The 8</a><a href="#honours">Honours</a></div>
-    <div class="sub-set" data-group="exec"><a href="#fines" class="exec-nav" hidden>Fines &amp; Bets</a><a href="#questions" class="exec-nav" hidden>Planning</a><a href="#desk" class="exec-nav desk-nav" hidden>Desk</a></div>
+    <div class="sub-set" data-group="exec"><a href="#questions" class="exec-nav" hidden>Planning</a><a href="#desk" class="exec-nav desk-nav" hidden>Desk</a></div>
   </div>
 </nav>
 
@@ -1192,10 +1192,11 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   <div class="more-in">
     <div class="more-h"><span class="eyebrow">More</span><button type="button" class="x" id="more-x" aria-label="Close">×</button></div>
     <a href="#feed" data-group="feed"><span class="mi">📣</span><span class="mt"><b>The Feed</b><small>Chat, bets and everything going down</small></span><b class="more-badge" id="more-badge-feed" hidden></b></a>
+    <a href="#fines" data-group="fines"><span class="mi">🍻</span><span class="mt"><b>Fines</b><small>The law · log a fine</small></span></a>
     <a href="#nineteenth" data-group="nineteenth"><span class="mi">🍺</span><span class="mt"><b>The 19th</b><small>Log a Fully · Photos · Practice Green</small></span></a>
     <a href="#crew" data-group="crew"><span class="mi">⛳</span><span class="mt"><b>The Players</b><small>The 8 · Honours</small></span></a>
     <a href="#profile" data-group="profile"><span class="mi">👤</span><span class="mt"><b>Profile</b><small>Your name, photo, PIN and stats</small></span></a>
-    <a href="#exec" data-group="exec" class="exec-nav" hidden><span class="mi">🔒</span><span class="mt"><b>Exec</b><small>Fines &amp; Bets · Planning · Desk</small></span><b class="more-badge" id="more-badge-exec" hidden></b></a>
+    <a href="#exec" data-group="exec" class="exec-nav" hidden><span class="mi">🔒</span><span class="mt"><b>Exec</b><small>Planning · Desk</small></span><b class="more-badge" id="more-badge-exec" hidden></b></a>
   </div>
 </dialog>
 
@@ -1961,21 +1962,21 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 </section>
 
 <!-- FINES -->
-<section data-view="fines" data-exec hidden>
-  <div class="head"><span class="eyebrow">Social committee draft</span><h2>Fines, bets &amp; awards</h2></div>
+<section data-view="fines" hidden>
+  <div class="head"><span class="eyebrow">Fines are final</span><h2>Fines</h2></div>
   <div class="note">
     <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm.9 12.6H9.1V8.6h1.8v5.5Zm0-7.2H9.1V5.1h1.8v1.8Z"/></svg>
-    <p><b>Nothing here is agreed yet.</b> Add ideas as they come. Penalties and Rand amounts get voted on.</p>
+    <p id="xf-note"><b>This is the law.</b> Spotted something fineable? Tap “Log a fine” so nobody “forgets” by fines time. It gets dealt with at the fines session.</p>
   </div>
 
-  <button type="button" class="btn big xb-open" id="xf-open" aria-expanded="false" aria-controls="xf-form">+ Add a fine</button>
+  <button type="button" class="btn big xb-open" id="xf-open" aria-expanded="false" aria-controls="xf-form" hidden>+ Log a fine</button>
   <div class="card xb-form" id="xf-form" hidden>
     <div class="form-step">
       <div class="step-h"><span class="n">1</span><b>What kind of fine?</b></div>
       <div class="picks" id="xf-kind">
-        <button type="button" class="pick neutral" data-k="golf" aria-pressed="false">Golf fine</button>
-        <button type="button" class="pick neutral" data-k="general" aria-pressed="false">General fine</button>
-        <button type="button" class="pick neutral" data-k="random" aria-pressed="false">Random</button>
+        <button type="button" class="pick neutral xf-exec" data-k="golf" aria-pressed="false">Golf fine</button>
+        <button type="button" class="pick neutral xf-exec" data-k="general" aria-pressed="false">General fine</button>
+        <button type="button" class="pick neutral" data-k="random" aria-pressed="false">Log a fine</button>
       </div>
       <p class="fine" id="xf-kind-hint">Golf = on the course. General = a standing rule for the whole weekend. Random = something that just happened, saved for the fines session.</p>
     </div>
@@ -2014,8 +2015,8 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <ul class="lines xb-list" id="xf-general"></ul>
   </div>
   <div class="tab">
-    <div class="tab-h"><h3>Random</h3><span class="eyebrow" id="xf-n-random">For the fines session</span></div>
-    <p class="fine">Spotted something fineable? Log it here so nobody “forgets” by Saturday night. Tick it off once it’s been dealt with.</p>
+    <div class="tab-h"><h3>Logged fines</h3><span class="eyebrow" id="xf-n-random">For the fines session</span></div>
+    <p class="fine">Who did what, logged on the day. The execs tick them off at the fines session.</p>
     <ul class="lines xb-list" id="xf-random"></ul>
   </div>
   <div class="tab">
@@ -2112,7 +2113,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <li class="qgroup">Reminders</li>
     <li><label><input type="checkbox" id="r1"><span><span class="qn">Captains</span><b>Captains: pick the fourballs</b><small>Brandon and Guy, both days.</small></span></label><a class="pl-go" href="#courses">Open Courses →</a></li>
     <li><label><input type="checkbox" id="r2"><span><span class="qn">Guy</span><b>Guy: message Steve about “the neutraliser”</b><small>The last open Wolf question.</small></span></label><a class="pl-go" href="#formats">Open Wolf rules →</a></li>
-    <li><label><input type="checkbox" id="r3"><span><span class="qn">Steve</span><b>Steve: finalise fines, awards and side bets</b><small>The Fines tab is hidden until it’s done.</small></span></label><a class="pl-go" href="#fines">Open Fines draft →</a></li>
+    <li><label><input type="checkbox" id="r3"><span><span class="qn">Steve</span><b>Steve: finalise fines, awards and side bets</b><small>Fines are live for everyone (6 Nov).</small></span></label><a class="pl-go" href="#fines">Open Fines draft →</a></li>
     <li><label><input type="checkbox" id="r4"><span><span class="qn">Execs</span><b>Book Hennie’s for 8 (Saturday rugby)</b><small>Cancel on Saturday morning if we stay at the Jackal Creek clubhouse.</small></span></label><a class="pl-go" href="https://www.google.com/maps/search/?api=1&query=Hennie%27s+Randburg" target="_blank" rel="noopener">Find Hennie’s ↗</a></li>
     <li><label><input type="checkbox" id="r5"><span><span class="qn">Execs</span><b>Book the transport</b><small>Uber or other for every trip. Brandon drives on Saturday only.</small></span></label><a class="pl-go" href="#schedule">See the trips →</a></li>
     <li class="qgroup">Still to sort</li>
@@ -2282,7 +2283,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
      a section hash (#formats) opens that section. Old links all still work. */
   var views=[].slice.call(document.querySelectorAll('section[data-view]'));
   var GROUPS={home:['home'],weekend:['schedule','logistics'],golf:['courses','formats'],live:['live'],bookie:['bookie'],
-    nineteenth:['dops','photos','putt'],crew:['players','honours'],feed:['feed'],profile:['profile'],exec:['fines','questions','desk']};
+    nineteenth:['dops','photos','putt'],crew:['players','honours'],feed:['feed'],profile:['profile'],fines:['fines'],exec:['questions','desk']};
   var GROUP_OF={};Object.keys(GROUPS).forEach(function(g){GROUPS[g].forEach(function(v){GROUP_OF[v]=g})});
   var LAST={};try{LAST=JSON.parse(localStorage.getItem('ftv-last-sub')||'{}')||{}}catch(e){}
   var subnav=document.getElementById('subnav'),more=document.getElementById('more');
@@ -5058,7 +5059,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 (function(){
   var EXEC=['steve','nic','brandon','guy'];
   var PLAYERS=[['Steve','in'],['Nic','in'],['Luke','in'],['Brandon','in'],['Guy','co'],['Mitch','co'],['Jay','co'],['Rich','co']];
-  var LBL={golf:'Golf fines',general:'General fines',random:'Random'};
+  var LBL={golf:'Golf fines',general:'General fines',random:'Logged fines'};var isExec=false;
   var $=function(id){return document.getElementById(id)};
   var db=null,me=null,items=[],live=false,started=false;
   // Fallback (before 007 is run): the draft fines
@@ -5116,7 +5117,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   var HINTS={
     golf:['e.g. Three-putt from inside a metre','Golf fines get dished out on the course.'],
     general:['e.g. Phone out at dinner','General fines apply all weekend, on and off the course.'],
-    random:['','Random: log it now, deal with it at the fines session.']
+    random:['','Pick who did it and say what happened. Dealt with at the fines session.']
   };
   function fstep(){
     var f=$('xf-form');
@@ -5154,6 +5155,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     fstep();
   }
   var fclose=opener('xf-open','xf-form','xf-cancel',freset);
+  $('xf-open').addEventListener('click',function(){if(!isExec&&fk!=='random'){var r=$('xf-kind').querySelector('[data-k="random"]');if(r)r.click()}});
   $('xf-save').addEventListener('click',function(){
     if($('xf-save').disabled)return;
     var row={board:fk};
@@ -5166,7 +5168,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       row.penalty=($('xf-pen').value.trim()||fpen)||null;
     }
     var k=fk;
-    save(row,'xf-msg',k==='random'?'Logged. '+row.who+' will be reminded at the fines session.':'Added to '+LBL[k]+'.',fclose);
+    save(row,'xf-msg',k==='random'?'Logged. '+row.who+' will be dealt with at the fines session.':'Added to '+LBL[k]+'.',fclose);
   });
   fstep();
 
@@ -5207,7 +5209,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         d.appendChild(t);if(x.detail)d.appendChild(el('small',null,x.detail));
         li.appendChild(d);
         li.appendChild(b==='random'?el('span','pen',x.done?'Dealt with':'Pending'):el('span','pen',x.penalty||'TBC'));
-        if(live&&x.id){
+        if(live&&x.id&&isExec){
           var m=el('div','xb-meta');m.appendChild(el('span',null,'Added by '+(x.added_by||'?')+(x.created_at?' · '+when(x.created_at):'')));
           if(b==='random'){var tk=el('button','mini'+(x.done?' on':''),x.done?'✓ Dealt with':'Mark dealt with');tk.type='button';tk.addEventListener('click',function(){tk.disabled=true;update(x.id,{done:!x.done})});m.appendChild(tk)}
           var rm=el('button','mini','Remove');rm.type='button';armBtn(rm,'Remove',function(){remove(x.id)});m.appendChild(rm);
@@ -5248,22 +5250,26 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function load(){
     if(!db)return;
     db.from('exec_items').select('*').order('sort').order('created_at').then(function(r){
-      if(r.error){live=false;renderFines(DRAFT);$('xp-mode').textContent='Ticks only save on this phone. (Shared planning switches on once Steve runs script 007.)';return}
+      if(r.error){live=false;renderFines([]);$('xp-mode').textContent='Ticks only save on this phone. (Shared planning switches on once Steve runs script 007.)';return}
       live=true;items=r.data||[];
       $('xp-mode').textContent='Ticks and new items are shared between the four of you and update live.';
-      renderFines(items);renderPlan(items);
+      renderFines(items);if(isExec)renderPlan(items);
     });
   }
   function start(m){
     me=m;db=window.FTV&&window.FTV.db;
-    if(!(m&&EXEC.indexOf(m.player_id)>-1)||!db){renderFines(DRAFT);return}
+    isExec=!!(m&&EXEC.indexOf(m.player_id)>-1);
+    [].slice.call(document.querySelectorAll('#xf-form .xf-exec')).forEach(function(b){b.hidden=!isExec});
+    $('xf-open').hidden=!(m&&db);
+    if(!m||!db){live=false;signedOut();return}
     load();
     if(!started){started=true;
       try{db.channel('exec-live').on('postgres_changes',{event:'*',schema:'public',table:'exec_items'},function(){load()}).subscribe()}catch(e){}
       document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
     }
   }
-  renderFines(DRAFT);
+  function signedOut(){['golf','general','random'].forEach(function(b){var ul=$('xf-'+b);ul.textContent='';ul.appendChild(el('li','empty','Sign in to see the fines.'))})}
+  signedOut();
   if(window.FTV)window.FTV.on(start);
 })();
 </script>
