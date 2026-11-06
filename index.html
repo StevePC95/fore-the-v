@@ -1073,6 +1073,10 @@ section:not(.exec-locked) > .exec-gate{display:none!important}
 .xb-open{display:flex;align-items:center;justify-content:center}
 .xb-open[aria-expanded="true"]{display:none}
 .xb-form{border-color:var(--flag);box-shadow:inset 0 3px 0 var(--flag)}
+.xl-fines .pick{text-align:left;line-height:1.2}
+.xl-fines .pick small{display:block;font:500 .72rem/1.2 var(--f-mono);opacity:.7;margin-top:3px}
+.xl-sub{font:600 .8rem/1 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:12px 0 8px}
+.xf-rule-btn{margin-top:8px}
 .fld{display:flex;flex-direction:column;gap:6px}
 .fld label{font-weight:700;font-size:.92rem}
 .fld .opt{font:500 .62rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-left:4px}
@@ -1969,16 +1973,33 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     <p id="xf-note"><b>This is the law.</b> Spotted something fineable? Tap “Log a fine” so nobody “forgets” by fines time. It gets dealt with at the fines session.</p>
   </div>
 
-  <button type="button" class="btn big xb-open" id="xf-open" aria-expanded="false" aria-controls="xf-form" hidden>+ Log a fine</button>
+  <button type="button" class="btn big xb-open" id="xl-open" aria-expanded="false" aria-controls="xl-form" hidden>+ Log a fine</button>
+  <div class="card xb-form" id="xl-form" hidden>
+    <div class="form-step">
+      <div class="step-h"><span class="n">1</span><b>Who?</b></div>
+      <div class="picks" id="xl-who"></div>
+    </div>
+    <div class="form-step" id="xl-step2" hidden>
+      <div class="step-h"><span class="n">2</span><b>Which fine?</b></div>
+      <div id="xl-fines"></div>
+      <div class="fld" id="xl-other-wrap" hidden><label for="xl-other">Type the fine</label><input id="xl-other" class="txt-in" maxlength="160" autocomplete="off" placeholder="e.g. Called the Uber to the wrong Abbotsbury"></div>
+    </div>
+    <div class="form-step">
+      <p class="xb-need" id="xl-need" role="status" aria-live="polite"></p>
+      <div class="xb-btns"><button type="button" class="btn ghost" id="xl-cancel">Cancel</button><button type="button" class="btn" id="xl-save" disabled>Log it</button></div>
+    </div>
+  </div>
+  <div class="verdict" id="xl-msg" role="status" aria-live="polite"></div>
+  <button type="button" class="btn ghost xf-rule-btn xb-open" id="xf-open" aria-expanded="false" aria-controls="xf-form" hidden>+ Add a new fine to the list (execs)</button>
   <div class="card xb-form" id="xf-form" hidden>
     <div class="form-step">
       <div class="step-h"><span class="n">1</span><b>What kind of fine?</b></div>
       <div class="picks" id="xf-kind">
         <button type="button" class="pick neutral xf-exec" data-k="golf" aria-pressed="false">Golf fine</button>
         <button type="button" class="pick neutral xf-exec" data-k="general" aria-pressed="false">General fine</button>
-        <button type="button" class="pick neutral" data-k="random" aria-pressed="false">Log a fine</button>
+        
       </div>
-      <p class="fine" id="xf-kind-hint">Golf = on the course. General = a standing rule for the whole weekend. Random = something that just happened, saved for the fines session.</p>
+      <p class="fine" id="xf-kind-hint">Golf = on the course. General = a standing rule for the whole weekend.</p>
     </div>
     <div class="form-step" data-for="rule" hidden>
       <div class="step-h"><span class="n">2</span><b>Name the fine</b></div>
@@ -5124,7 +5145,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     f.querySelector('[data-for="rule"]').hidden=!(fk==='golf'||fk==='general');
     f.querySelector('[data-for="random"]').hidden=fk!=='random';
     f.querySelector('[data-for="save"]').hidden=!fk;
-    $('xf-kind-hint').textContent=fk?HINTS[fk][1]:'Golf = on the course. General = a standing rule for the whole weekend. Random = something that just happened, saved for the fines session.';
+    $('xf-kind-hint').textContent=fk?HINTS[fk][1]:'Golf = on the course. General = a standing rule for the whole weekend.';
     if(fk&&fk!=='random')$('xf-title').placeholder=HINTS[fk][0];
     var need='';
     if(!fk)need='Pick a type to start';
@@ -5155,7 +5176,6 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     fstep();
   }
   var fclose=opener('xf-open','xf-form','xf-cancel',freset);
-  $('xf-open').addEventListener('click',function(){if(!isExec&&fk!=='random'){var r=$('xf-kind').querySelector('[data-k="random"]');if(r)r.click()}});
   $('xf-save').addEventListener('click',function(){
     if($('xf-save').disabled)return;
     var row={board:fk};
@@ -5171,6 +5191,53 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     save(row,'xf-msg',k==='random'?'Logged. '+row.who+' will be dealt with at the fines session.':'Added to '+LBL[k]+'.',fclose);
   });
   fstep();
+
+  /* ----- Log a fine: pick who, pick the fine (or type one) ----- */
+  var lw=null,lf=null,lfines=[];
+  var lwBox=$('xl-who');
+  PLAYERS.forEach(function(p){var b=el('button','pick '+p[1],p[0]);b.type='button';b.setAttribute('data-w',p[0]);b.setAttribute('aria-pressed','false');lwBox.appendChild(b)});
+  function lstep(){
+    $('xl-step2').hidden=!lw;
+    $('xl-other-wrap').hidden=lf!=='?';
+    var need=!lw?'Pick who did it':!lf?'Pick the fine':(lf==='?'&&!$('xl-other').value.trim())?'Type the fine':'';
+    var n=$('xl-need');n.textContent=need||'Ready. Tap “Log it”.';n.classList.toggle('ok',!need);
+    $('xl-save').disabled=!!need;
+  }
+  pickGroup(lwBox,'data-w',function(w){lw=w;lstep();if(w)setTimeout(function(){$('xl-step2').scrollIntoView({behavior:'smooth',block:'nearest'})},50)});
+  function xlFines(list){
+    lfines=list.filter(function(x){return x.board==='golf'||x.board==='general'});
+    var box=$('xl-fines');box.textContent='';lf=null;
+    [['golf','Golf'],['general','General']].forEach(function(g){
+      var rows=lfines.filter(function(x){return x.board===g[0]});if(!rows.length)return;
+      box.appendChild(el('div','xl-sub',g[1]));
+      var w=el('div','picks xl-fines');
+      rows.forEach(function(x,i){var b=el('button','pick neutral');b.type='button';b.setAttribute('aria-pressed','false');b.setAttribute('data-f',String(lfines.indexOf(x)));
+        b.appendChild(document.createTextNode(x.title));if(x.penalty)b.appendChild(el('small',null,x.penalty));w.appendChild(b)});
+      box.appendChild(w);
+    });
+    var w2=el('div','picks xl-fines');w2.style.marginTop='12px';
+    var o=el('button','pick neutral','✏️ Something else');o.type='button';o.setAttribute('aria-pressed','false');o.setAttribute('data-f','?');w2.appendChild(o);box.appendChild(w2);
+    var all=[].slice.call(box.querySelectorAll('.pick'));
+    all.forEach(function(p){p.addEventListener('click',function(){
+      var on=p.getAttribute('aria-pressed')!=='true';
+      all.forEach(function(q){q.setAttribute('aria-pressed','false')});
+      if(on)p.setAttribute('aria-pressed','true');
+      lf=on?p.getAttribute('data-f'):null;lstep();
+      if(lf==='?')setTimeout(function(){$('xl-other').focus()},50);
+    })});
+    lstep();
+  }
+  $('xl-other').addEventListener('input',lstep);
+  function lreset(){lw=null;lf=null;$('xl-other').value='';[].slice.call($('xl-form').querySelectorAll('.pick')).forEach(function(q){q.setAttribute('aria-pressed','false')});lstep()}
+  var lclose=opener('xl-open','xl-form','xl-cancel',lreset);
+  $('xl-save').addEventListener('click',function(){
+    if($('xl-save').disabled)return;
+    var row={board:'random',who:lw};
+    if(lf==='?')row.title=$('xl-other').value.trim();
+    else{var f=lfines[+lf];row.title=f.title;row.penalty=f.penalty||null}
+    save(row,'xl-msg','Logged: '+lw+', '+row.title+'. Sorted at the fines session.',lclose);
+  });
+  lstep();
 
   /* ----- Planning form ----- */
   var ps=null,pw=null;
@@ -5197,6 +5264,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
 
   /* ----- Render ----- */
   function renderFines(list){
+    xlFines(list);
     ['golf','general','random'].forEach(function(b){
       var ul=$('xf-'+b);ul.textContent='';
       var rows=list.filter(function(x){return x.board===b});
@@ -5207,6 +5275,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         var d=el('div');var t=el('b');
         if(b==='random'){t.appendChild(el('span','xb-who',x.who||'Someone'));t.appendChild(document.createTextNode(x.title))}else t.textContent=x.title;
         d.appendChild(t);if(x.detail)d.appendChild(el('small',null,x.detail));
+        if(b==='random'&&x.penalty)d.appendChild(el('small',null,x.penalty));
         li.appendChild(d);
         li.appendChild(b==='random'?el('span','pen',x.done?'Dealt with':'Pending'):el('span','pen',x.penalty||'TBC'));
         if(live&&x.id&&isExec){
@@ -5260,7 +5329,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     me=m;db=window.FTV&&window.FTV.db;
     isExec=!!(m&&EXEC.indexOf(m.player_id)>-1);
     [].slice.call(document.querySelectorAll('#xf-form .xf-exec')).forEach(function(b){b.hidden=!isExec});
-    $('xf-open').hidden=!(m&&db);
+    $('xf-open').hidden=!(isExec&&db);$('xl-open').hidden=!(m&&db);
     if(!m||!db){live=false;signedOut();return}
     load();
     if(!started){started=true;
@@ -5268,7 +5337,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
       document.addEventListener('visibilitychange',function(){if(!document.hidden)load()});
     }
   }
-  function signedOut(){['golf','general','random'].forEach(function(b){var ul=$('xf-'+b);ul.textContent='';ul.appendChild(el('li','empty','Sign in to see the fines.'))})}
+  function signedOut(){xlFines([]);['golf','general','random'].forEach(function(b){var ul=$('xf-'+b);ul.textContent='';ul.appendChild(el('li','empty','Sign in to see the fines.'))})}
   signedOut();
   if(window.FTV)window.FTV.on(start);
 })();
