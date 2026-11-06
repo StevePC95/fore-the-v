@@ -4195,6 +4195,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function par(d,h){return COURSE[d].par[h-1]}
   function si(d,h){return COURSE[d].si[h-1]}
   function recv(id,d,h){var hc=H(id);return Math.floor(hc/18)+((hc%18)>=si(d,h)?1:0)}   // full handicap strokes on this hole
+  function pickShots(id,d,h){return par(d,h)+recv(id,d,h)+2}   // a pick-up counts as net double bogey (the first 0-point score)
   function key(d,h,p){return d+'|'+h+'|'+p}
   function shots(d,h,p){var v=D.shots[key(d,h,p)];return v==null?null:v}
   function pts(d,h,p){var s=shots(d,h,p);if(s==null)return null;if(s===0)return 0;return Math.max(0,2+par(d,h)-(s-recv(p,d,h)))}
@@ -4256,7 +4257,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
   function playerDay(id,d){
     var o={shots:0,pts:0,holes:0,pickups:0,out:[0,0],inn:[0,0]};
     for(var h=1;h<=18;h++){var s=shots(d,h,id);if(s==null)continue;var p=pts(d,h,id);o.holes++;o.pts+=p;
-      if(s===0)o.pickups++;else o.shots+=s;
+      if(s===0){o.pickups++;s=pickShots(id,d,h)}o.shots+=s;
       if(h<=9){o.out[0]+=s;o.out[1]+=p}else{o.inn[0]+=s;o.inn[1]+=p}}
     return o;
   }
@@ -4327,7 +4328,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     if(!me())gate.innerHTML='Watching only. <button type="button" class="linkbtn" id="sc-signin">Sign in</button> with the Tour V code to enter shots.';
     else if(!me().tour_access)gate.textContent='Watching only. Add the Tour V code (tap your name, top right) to enter shots.';
     else if(locked()&&!me().is_admin)gate.textContent='This round is locked. Ask Steve to fix anything.';
-    else gate.textContent='Tap each player’s shots on the hole. P = picked up (0 points). Saves straight away.';
+    else gate.textContent='Tap each player’s shots on the hole. P = picked up (0 points, counts as net double bogey in shot totals). Saves straight away.';
     var si2=$('sc-signin');if(si2)si2.onclick=function(){FTV.open()};
     var wolfBox=$('sc-wolf'),rows=$('sc-rows');wolfBox.textContent='';rows.textContent='';
     if(ids.length<4){$('sc-hole-sub').textContent=info;rows.innerHTML='<p class="empty">The captains haven’t picked this fourball yet (Courses tab).</p>';$('sc-result').className='verdict';renderCard(ids);return}
@@ -4389,7 +4390,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
         body+='<td class="num tot">'+tot+'</td></tr>'});
     }
     t.innerHTML=head+body+'</tbody>';
-    $('sc-card-note').textContent=COURSE[d].name+' · Fourball '+st.fb+'. P = picked up. '+(d==='fri'?'Shaded = that player was Wolf. Team rows are Wolf points.':'Team rows use both fourballs (best 1, 2 or 3).');
+    $('sc-card-note').textContent=COURSE[d].name+' · Fourball '+st.fb+'. P = picked up (counts as net double bogey). '+(d==='fri'?'Shaded = that player was Wolf. Team rows are Wolf points.':'Team rows use both fourballs (best 1, 2 or 3).');
     var m=me(),lk=D.locks[d]||{};
     $('sc-lock-card').hidden=!(m&&m.tour_access&&(m.is_admin||m.is_captain));
     $('sc-lock-state').textContent=lk.locked?('Locked by '+(lk.locked_by||'?')+'. Only Steve can change it now.'):'Open. Lock it once it matches the paper cards.';
@@ -4405,7 +4406,7 @@ footer .wrap{padding-block:22px 34px;display:flex;align-items:center;justify-con
     var id=st.player,wrap=$('sc-p-body');wrap.textContent='';
     var f=playerDay(id,'fri'),s=playerDay(id,'sat');
     var sum=el('div','stats');
-    [['Weekend',f.pts+s.pts,(f.shots+s.shots)+' shots'],['Friday',f.pts,f.holes?(f.shots+' shots'+(f.pickups?' + '+f.pickups+' P':'')):'Not started'],['Saturday',s.pts,s.holes?(s.shots+' shots'+(s.pickups?' + '+s.pickups+' P':'')):'Not started']].forEach(function(x){
+    [['Weekend',f.pts+s.pts,(f.shots+s.shots)+' shots'],['Friday',f.pts,f.holes?(f.shots+' shots'+(f.pickups?' (incl. '+f.pickups+' P)':'')):'Not started'],['Saturday',s.pts,s.holes?(s.shots+' shots'+(s.pickups?' (incl. '+s.pickups+' P)':'')):'Not started']].forEach(function(x){
       var c=el('div','stat');var r=el('span','rec',String(x[1]));r.appendChild(el('small','','pts'));c.appendChild(r);c.appendChild(el('b','',x[0]));c.appendChild(el('p','',x[2]));sum.appendChild(c)});
     wrap.appendChild(sum);
     var ws=wolfStats(id);
